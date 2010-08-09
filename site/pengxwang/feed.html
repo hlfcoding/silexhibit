@@ -1,0 +1,43 @@
+<?php // the markup is quirky, parser is sensitive ?>
+<script id="tpl-feeds-container" type="text/html"><div>
+    <div class="feeds-container bd">
+        <ul class="feeds">
+            ${feeds}
+        </ul>
+    </div>
+</div></script>
+<script id="tpl-posterous-feed" type="text/html"><div>
+    <li class="posterous-feed feed-container">
+        <header>
+            <em class="label">
+                Posterous (<a href="http://log.pengxwang.com" title="see all">link</a>)
+            </em>
+        </header>
+        <ol class="feed mn mnV">
+            {{each(i,p) post}}
+            <li>
+                <a class="compound permalink" href="${p.link}" rel="bookmark" 
+                    target="_blank" data-tooltip="">
+                    <article>
+                        <span class="title faux-link">
+                            ${p.title}</span>
+                            <span class="delim">|</span>
+                        <time datetime="${p.date}" pubdate>
+                            ${p.humanDate}</time>
+                            <span class="delim">|</span>
+                        <abbr class="stat" title="${p.views} views">
+                            ${p.views}</abbr>
+                            <span class="delim">|</span>
+                        <abbr class="truncated tags" title="${p.tags}">
+                            ${p.tags}</abbr>
+                    </article>
+                </a>
+            </li>
+            {{/each}}
+        </ol>
+    </li>
+</div></script>
+
+
+
+

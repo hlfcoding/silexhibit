@@ -1,0 +1,54 @@
+/**
+* CSS
+* 
+* @version 1.0
+* @author Vaska 
+* @author Gregory Cadar
+*/
+html {
+    overflow: hidden;
+}
+
+body {
+    height: 100%;
+    overflow: auto;
+}
+
+#menu {
+    float: left;
+    width: 215px;
+    overflow: auto;
+    top: 0;
+    bottom: 0;
+    position: fixed;
+    height: 100%;
+	background-color: #fff;
+}
+
+#content {
+    height: 100%;
+    margin: 0 0 0 215px;
+    top: 0;
+}
+
+* html div#menu {
+    width: 20%;
+}
+
+* html div#content {
+    height: 100%;
+    width: 80%;
+    overflow: auto;
+    position: absolute;
+    margin: 0;
+}
+
+img.png {
+	background-image: expression(
+		this.runtimeStyle.backgroundImage = "none",
+		this.runtimeStyle.filter =
+		"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.src +
+		"', sizingMethod='image')",
+		this.src = "/path/to/transparent.gif"
+	);
+}

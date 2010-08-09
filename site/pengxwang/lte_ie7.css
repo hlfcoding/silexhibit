@@ -1,0 +1,21 @@
+/** fix > give has_layout */
+#content .rows,
+/* base */
+.inC,
+.inG, .fixC
+{ zoom: 1; }
+
+/* ^ fix > give has_layout **/
+/** fix > inline-block */
+
+#logo a,
+/* utility */
+.fixIB { display: inline; display: block; }
+
+/* ^ fix > inline-block **/
+/** fix > ? */
+
+.foo
+{ position: relative; }
+
+/* ^ fix > ? **/

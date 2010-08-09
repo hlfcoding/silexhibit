@@ -1,0 +1,5 @@
+/** indexhibit */
+
+img.png{ background-image:expression( this.runtimeStyle.backgroundImage = "none", this.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.src + "', sizingMethod='image')", this.src = "/path/to/transparent.gif" )}
+#menu{ position:absolute}.thumb-it{ top:50%}.paAs, .pjpTip .in, .mnV li, .mn a{ zoom:1}.mnH,.inG,.fixC{ display:inline-block; height:1%; display:block}
+.mnV a{ display:inline; display:block}.pjpTipStem{ border-right-color:orange}#html #menu .pjpnaButton{ border-color:orange}.pjpTipStem, #html #menu .pjpnaButton{ filter:chroma(color=orange)}

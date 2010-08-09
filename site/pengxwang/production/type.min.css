@@ -1,0 +1,19 @@
+/**
+ * The Typography styleheet
+ * @see         readme.txt
+ * @author      peng@pengxwang.com
+**/
+
+.pjpTip,#menu,#content{ text-align:left}.null{ text-align:right}.pjpTip, #colophon *,.section-title,h1,h2,h3{ text-transform:lowercase}.copy small{ text-transform:uppercase}
+#html h1, #html h2, #html h3, #html strong{ font-weight:bold}.pjpTip, .caption, #html em{ font-style:italic}.null{ font-style:normal}#html em strong{ font-weight:normal}
+.hd .as, #html em *, #html em{ letter-spacing:normal}.hd .as{ word-spacing:normal}a.compound:hover, #navigation a:hover,a{ text-decoration:none}a:hover{ text-decoration:underline}
+.copy small {font-size: .5em}.copy small {letter-spacing: .125em;word-spacing: .25em}.copy dt small{ line-height:3em}.pjpTip, .slideshow-plugin .meta .caption, #colophon {font-size: .5625em}
+.pjpTip, .slideshow-plugin .meta .caption,#colophon{ line-height:1.555em}#content .as, .slideshow-plugin .meta .title, .container .rows dt, .container dd, .container p, .container li, .prose {font-size: .6875em}
+.container .mnLinked a, .slideshow-plugin .meta .title, .container .rows dt, .container dd, .container .copy li{ line-height:1.455em}.container p,.prose{ line-height:1.636em}
+#content header .label, #content li.label em{ line-height:2.182em}#content dt em {font-size: .75em}#content dt em{ line-height:2em}.null {font-size: .8125em}
+.null {font-size: .875em}.null{ font-size:1em}h3#intro{ line-height:1.25em}.null{ font-size:1.125em}.null{ font-size:1.25em}h2{ font-size:1.5em}.null{ font-size:1.625em}
+h1{ font-size:1.875em}.null{ font-size:2em}.container .mnLinked li,h1,h2,h3,a{ line-height:1em}.copy dd a, .copy li a, .prose a{ line-height:inherit}.slideshow-plugin p.meta, #html .section-title, #html li li{ font-size:1em}
+body.safari,body.chrome{ font-size:16px}#content .as,.container,.mono{ font-family:'Consolas','Monaco','Lucida Console','Andale Mono',monospace!important}
+.pjpTip, .caption, #html em *, #html em,.serif{ font-family:Georgia,'Constantia','Utopian','Palatino','Palatino Linotype',serif}body,.sans{ font-family:Arial,Helvetica,'Helvetica Neue',sans-serif}
+.section-title, #html h1, #html h2, #html h3,.hSans{ font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight:bold;letter-spacing: -.05em;word-spacing: .05em}
+.copy small,.wSans{ font-family:Verdana,'Century Gothic','Geneva',sans-serif}.pSans{ font-family:'Lucida Grande','Lucida Sans Unicode','Helvetica Neue',Helvetica,Arial,sans-serif}
