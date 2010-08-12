@@ -9,7 +9,7 @@
 
 define('FULLURL', str_replace('index.php', '', 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']));
 
-function antispambot($address, $mailto = 0)
+function antispambot ($address, $mailto = 0)
 {
     $safe = '';
     srand((float) microtime() * 1000000);
@@ -31,7 +31,7 @@ function antispambot($address, $mailto = 0)
     return $safe;
 }
 
-function load_xml($filename = 'data', $namespace = 'data') 
+function load_xml ($filename = 'data', $namespace = 'data') 
 {
     global $rs;
     $path = DIRNAME . BASENAME . "/site/xml/$filename.xml";
@@ -49,7 +49,7 @@ function load_xml($filename = 'data', $namespace = 'data')
     }
 }
 
-function add_globals($namespace = 'custom')
+function add_globals ($namespace = 'custom')
 {
     global $rs;
     
@@ -79,7 +79,7 @@ function add_globals($namespace = 'custom')
 /**
  * @link    http://us.php.net/manual/en/function.get-browser.php#86995
  */
-function _get_browser($engine = FALSE) {
+function _get_browser ($engine = FALSE) {
     $SUPERCLASS_NAMES = "gecko,mozilla,mosaic,webkit";
     $SUPERCLASS_REGX  = "(?:" . str_replace(",", ")|(?:", $SUPERCLASS_NAMES) . ")";
     $SUBCLASS_NAMES   = "opera,msie,firefox,chrome,safari";
@@ -126,7 +126,7 @@ function _get_browser($engine = FALSE) {
     );
 }
 
-function truncate($str, $delim = '. ', $html = true, $suffix = '', $length = 150, $start = 0) 
+function truncate ($str, $delim = '. ', $html = true, $suffix = '', $length = 150, $start = 0) 
 {
     if ($html) { // remove cdata and html
         $str = preg_replace('/[\n\t\[\]\{\}\/\/<>]*/i', '', strip_tags($str));
@@ -158,7 +158,7 @@ function truncate($str, $delim = '. ', $html = true, $suffix = '', $length = 150
 
 // html source prettifier
 
-function clean_newlines($output)
+function clean_newlines ($output)
 {
     $pieces = explode("\n", $output);
     foreach ($pieces as $key => $str)
@@ -171,7 +171,7 @@ function clean_newlines($output)
     return implode("\n", $pieces);
 }
 
-function clean_html($output)
+function clean_html ($output)
 {
     //Set wanted indentation
     $indent = str_repeat(" ", 4);

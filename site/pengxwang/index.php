@@ -43,7 +43,7 @@
     <plug:front_dyn_css />
     
     <!-- custom scripts -->
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
     <script type="text/javascript" src="<% baseurl %><% basename %>/site/js/modernizr.js"></script>
     <script type="text/javascript" src="<% baseurl %><% basename %>/site/js/jquery.template.js"></script>
     <script type="text/javascript" src="<% baseurl %><% basename %>/site/js/jquery.hlf.tip.js"></script>
@@ -56,6 +56,7 @@
         Site.serviceUrl = '<% baseurl %><% basename %>/extend/service';
     </script>
     <plug:posterous_feed section_id="<% section_id %>", hostname="pengxwang"/>
+    <plug:twitter_feed section_id="<% section_id %>", screen_name="hlfcoding"/>
     <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
     
     <!-- indexhibit scripts -->

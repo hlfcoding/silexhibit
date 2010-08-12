@@ -34,7 +34,7 @@
         6nvBUJPI8AOryT4Vb8/GeRq8e83ySOxjDkqJGKEASSo=
     </goog_webm_key>
     <site_version>
-        1.03
+        1.04
     </site_version>
     <dreamhost_link>
         http://www.dreamhost.com/r.cgi?493002            
@@ -46,8 +46,12 @@
         Indexhibit is a web application used to build and maintain an archetypal, invisible website format that combines text, image, movie and sound. 
     </ndxz_tip>
     <posterous_num_posts>
-        10
+        6
     </posterous_num_posts>
+    <twitter_count>
+        12
+    </twitter_count>
+    <!--ndxz internal-->
     <feed_section_id>
         8
     </feed_section_id>

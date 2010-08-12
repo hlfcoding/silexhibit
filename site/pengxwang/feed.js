@@ -31,7 +31,7 @@ var buildFeeds = function (cb) {
             feed;
         nToComplete += 1;
         $.getJSON(serviceUrl, function (dao) {
-            dao = createAccessors(dao, name);
+            dao = enhanceData(dao, name);
             feed = $('#tpl-' + name + '-feed').render(dao);
             feeds.push($(feed).html());
             nCompleted += 1;
@@ -46,10 +46,11 @@ var buildFeeds = function (cb) {
 };
 
 
-var createAccessors = function (dao, feed) {
-    switch (feed) {
+var enhanceData = function (dao, name) {
+    switch (name) {
         case 'posterous':
             $.each(dao.post, function () {
+                // create accessors
                 $.extend(this, {
                     humanDate: function () {
                         var d = new Date(this.date);
@@ -59,6 +60,15 @@ var createAccessors = function (dao, feed) {
                         return this.tag.join(', ');
                     }
                 });
+            });
+            break;
+        case 'twitter':
+            $.each(dao.status, function () {
+                // http://twitter.com/
+                // http://search.twitter.com/search?q=%23
+                this.text = this.text
+                    .replace(/(#([^#:\s]+))/g, '<a class="inline" href="http://search.twitter.com/search?q=%23$2">$1</a>')
+                    .replace(/(@([^@:\s]+))/g, '<a class="inline" href="http://twitter.com/$2">$1</a>');
             });
             break;
     }

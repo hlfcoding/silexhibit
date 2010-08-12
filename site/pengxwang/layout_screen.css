@@ -593,20 +593,30 @@ body {
     padding: 0;
     border-bottom-width: 1px;
 }
+    #content .twitter-feed .mnV li,
     #content .posterous-feed .mnV li {
         padding-right: 1.545em;
     }
-#content .feed.mnV a {
+#content .feed.mnV a.permalink {
     padding-top: .545em;
     padding-bottom: .181em;
     padding-left: .545em;
     border-width: 0 0 0 1em;
 }
-    #content .posterous-feed .mnV a {
+    #content .posterous-feed .mnV a.permalink {
         padding-right: 0;
         overflow: hidden;
         white-space: nowrap;
     }
+#content .twitter-feed .mnV article {
+    padding: .545em 0 .181em 1.545em;
+}
+#content .feed.mnV a.inline {
+    display: inline;
+    border: 0;
+    padding: 0;
+    margin: 9;
+}
 
 /* ^ jquery > templates **/
 /* ^ unique **/

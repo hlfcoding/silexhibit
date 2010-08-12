@@ -37,7 +37,21 @@
         </ol>
     </li>
 </div></script>
-
-
-
-
+<script id="tpl-twitter-feed" type="text/html"><div>
+    <li class="twitter-feed feed-container">
+        <header>
+            <em class="label">
+                Twitter (<a href="http://twitter.com/hlfcoding" title="see all">link</a>)
+            </em>
+        </header>
+        <ol class="feed mn mnV">
+            {{each(i,s) status}}
+            <li>
+                <article>
+                    ${s.text}
+                </article>
+            </li>
+            {{/each}}
+        </ol>
+    </li>
+</div></script>

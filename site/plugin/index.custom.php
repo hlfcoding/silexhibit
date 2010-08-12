@@ -14,7 +14,7 @@ add_globals('pxw');
 //---------------------------------------
 // EMAIL
 //---------------------------------------
-function the_email($address, $name = '', $title = '', $class = 'email') 
+function the_email ($address, $name = '', $title = '', $class = 'email') 
 {
     $tag = href(( ! empty($name) ? $name : $address)
         , 'mailto:' . antispambot($address)
@@ -24,13 +24,23 @@ function the_email($address, $name = '', $title = '', $class = 'email')
 //---------------------------------------
 // FEED
 //---------------------------------------
+function include_feed_js () {
+    $output = '';
+    if (!defined('INCLUDED_FEEDJS')) {
+        $path = THEMEURL
+            . ((MODE === DEVELOPMENT) ? '/feed.js' : '/' . PRODUCTION .'/feed.min.js');
+        $output = "<script type=\"text/javascript\" src=\"$path\"></script>";
+        define('INCLUDED_FEEDJS', true);
+    }
+    return $output;
+}
 /**
  * Bridge to the Posterous API
  * @param int $section_id 
  * @param string $hostname 
  * @return string
  */
-function posterous_feed($section_id, $hostname) 
+function posterous_feed ($section_id, $hostname) 
 {
     global $rs;
     if ($section_id != $rs['data_feed_section_id']) {
@@ -38,8 +48,7 @@ function posterous_feed($section_id, $hostname)
     }
     $output = '';
     $output .= "<script type=\"text/javascript\">
-        var Site = Site || {};
-        jQuery.extend(true, Site, {
+        Site = jQuery.extend(true, Site || {}, {
            feedApiData: {
                posterous: {
                    \"hostname\": '$hostname',
@@ -48,12 +57,33 @@ function posterous_feed($section_id, $hostname)
            } 
         });
     </script>";
-    if (!defined('INCLUDED_FEEDJS')) {
-        $path = THEMEURL
-            . ((MODE === DEVELOPMENT) ? '/feed.js' : '/' . PRODUCTION .'/feed.min.js');
-        $output .= "<script type=\"text/javascript\" src=\"$path\"></script>";
-        define('INCLUDED_FEEDJS', true);
+    $output .= include_feed_js();
+    return $output;
+}
+/**
+ * Bridge to the Twitter API
+ * @param int $section_id 
+ * @param string $screen_name 
+ * @return string
+ */
+function twitter_feed ($section_id, $screen_name) 
+{
+    global $rs;
+    if ($section_id != $rs['data_feed_section_id']) {
+        return;
     }
+    $output = '';
+    $output .= "<script type=\"text/javascript\">
+        Site = jQuery.extend(true, Site || {}, {
+           feedApiData: {
+               twitter: {
+                   \"screen_name\": '$screen_name',
+                   \"count\": ${rs['data_twitter_count']} 
+               }
+           } 
+        });
+    </script>";
+    $output .= include_feed_js();
     return $output;
 }
 /**
@@ -62,7 +92,7 @@ function posterous_feed($section_id, $hostname)
  * @param string $template_name 
  * @return string
  */
-function front_template($section_id, $template_name) {
+function front_template ($section_id, $template_name) {
     global $rs;
     $output = '';
     switch ("$section_id : $template_name") {
@@ -76,5 +106,5 @@ function front_template($section_id, $template_name) {
 //---------------------------------------
 // UTILITY
 //---------------------------------------
-function run_antispambot($field) { return antispambot($field); }
-function php_date($format) { return date($format); }
+function run_antispambot ($field) { return antispambot($field); }
+function php_date ($format) { return date($format); }
