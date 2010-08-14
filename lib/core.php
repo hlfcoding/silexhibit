@@ -27,12 +27,11 @@ class Core
     }
     
     /**
-    * Return language and core classes
-    *
-    * @param void
-    * @return array
-    **/
-    public function auto_load ()
+     * Loads a basic set of classes
+     * @todo rename or change how it's called
+     * @return void
+     **/
+    public function auto_load () 
     {
         foreach (array('lang', 'lib.template', 'lib.access') as $val) {
             $this->load_class($class);
