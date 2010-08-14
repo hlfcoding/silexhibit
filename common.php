@@ -107,7 +107,11 @@ function load_module_helper($file, $section)
 
 function show_error($message='')
 {
-    // // we'll use the default language for this
+    echo $message;
+    echo '<pre>';
+    var_export(debug_backtrace());
+    echo '</pre>';
+    // we'll use the default language for this
     // $lang =& load_class('lang', TRUE, 'lib');
     // $lang->setlang(); // get the default strings
     // 

@@ -10,6 +10,7 @@ switch (true) {
     case (strpos($_SERVER['HTTP_HOST'], $indx['prod']) !== false):
         define('MODE', PRODUCTION);
         break;
+    case (strpos($_SERVER['HTTP_HOST'], $indx['dev']) !== false):
     default:
         define('MODE', DEVELOPMENT);
         break;
