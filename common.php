@@ -7,7 +7,8 @@
  **/
 function load_path($name)
 {
-    if (in_array($name, array(LIBPATH, DBPATH, HELPATH, MODPATH, LANGPATH))) {
+    global $core_paths;
+    if (in_array($name, $core_paths)) {
         return $name;
     } else {
         throw new RuntimeException("$name is not a valid path.");
@@ -19,7 +20,7 @@ function load_path($name)
  * @param type optional Description
  * @return void
  **/
-function &get_instance()
+function get_instance()
 {
     global $INDX, $OBJ;
     return is_object($INDX) ? $INDX : $OBJ;
@@ -38,8 +39,7 @@ function &load_class ($class, $instantiate = true, $type, $internal = false)
     global $indx;
     static $objects = array();
     
-    $ds = DIRECTORY_SEPARATOR;
-    $path = $ds . load_path($type) . $ds;
+    $path = DS . load_path($type) . DS;
     $file = $class;
     if ($type == 'db') {
         $file = 'db.' . $indx['sql'];
@@ -47,7 +47,7 @@ function &load_class ($class, $instantiate = true, $type, $internal = false)
     if ($type == 'lang') {
         $file = 'index';
     }
-    $sub_path = $file . $ds;
+    $sub_path = $file . DS;
     $file .= '.php';
     $className = ucfirst($class);
 
@@ -107,20 +107,18 @@ function load_module_helper($file, $section)
 
 function show_error($message='')
 {
-    echo $message;
-    echo '<pre>';
-    var_export(debug_backtrace());
-    echo '</pre>';
+    // echo $message;
+    // echo '<pre>';
+    // var_export(debug_backtrace());
+    // echo '</pre>';
     // we'll use the default language for this
-    // $lang =& load_class('lang', TRUE, 'lib');
-    // $lang->setlang(); // get the default strings
-    // 
-    // $message = $lang->word($message);
-    // 
-    // $error =& load_class('error', TRUE, 'lib');
-    // header('Status: 503 Service Unavailable'); // change to right error note
-    // echo $error->show_error($message);
-    // exit;
+    $lang =& load_class('lang', TRUE, 'lib');
+    $lang->setlang(); // get the default strings
+    $message = $lang->word($message);
+    $error =& load_class('error', TRUE, 'lib');
+    header('Status: 503 Service Unavailable'); // change to right error note
+    echo $error->show_error($message);
+    exit;
 }
 
 
@@ -128,7 +126,7 @@ function show_error($message='')
 function show_login($message='')
 {
     // we'll use the default language for this
-    $lang =& load_class('lang',TRUE,'lib');
+    $lang =& load_class('lang', TRUE, 'lib');
     $lang->setlang(); // get the default strings
     
     $login = "<form method='post' action=''>
@@ -142,14 +140,14 @@ function show_login($message='')
     <p>".$lang->word($message)."&nbsp;</p>
     </form>";
     
-    $error =& load_class('error',TRUE,'lib');
+    $error =& load_class('error', TRUE, 'lib');
     echo $error->show_login($login);
     exit;
 }
 
 
 /* system_redirect("?a=$go[a]&q=note&id=$last"); */
-function system_redirect($params='')
+function system_redirect ($params='')
 {
     // do we need to put some validators on this?
     // don't want the extra slash
@@ -161,7 +159,7 @@ function system_redirect($params='')
 
 
 // revise this later...
-function entry_uri($uri='', $server_uri)
+function entry_uri ($uri='', $server_uri)
 {
     $url = $server_uri;
 
@@ -169,7 +167,7 @@ function entry_uri($uri='', $server_uri)
     // remove non alpha chars (a-zA-Z0-9-/?# only)
     // all urls are lowercase
     $url = preg_replace(
-        array("/[^a-zA-Z0-9?=#-\/]/", '/\/+/'),
+        array("/[^-_a-zA-Z0-9?=#\/]/", '/\/+/'),
         array('','/'), $url);
         
     $url = strtolower($url);
@@ -178,23 +176,19 @@ function entry_uri($uri='', $server_uri)
     $url = preg_replace("/\?(.*)$/", '', $url);
 
     $url = explode('/', $url);
-    if (is_array($url)) array_shift($url);
-
+    if (is_array($url)) {
+        array_shift($url);
+    }
     // if we aren't in the root we need to deal with it
     // allows our site to be more portable
     $uri = preg_replace(array("/^\//","/\/$/"), array('', ''), $uri);
 
-    if ($uri != '')
-    {
+    if ($uri !== '') {
         $delete_dir = explode('/', $uri);
-
         // we need to pop off the default root if it's set
-        if (is_array($delete_dir))
-        {
-            foreach ($delete_dir as $dir)
-            {
-                if ($url[0] == $dir)
-                {
+        if (is_array($delete_dir)) {
+            foreach ($delete_dir as $dir) {
+                if ($url[0] == $dir) {
                     array_shift($url);
                 }
             }
@@ -206,29 +200,31 @@ function entry_uri($uri='', $server_uri)
 
     // ouch, needs thought
     // trailing slash
-    if ((substr($url,-1) != '/') && 
-        (substr($url,-3) != 'php'))
+    if ((substr($url, -1) !== '/') && 
+        (substr($url, -3) !== 'php')) {
         $url = $url . '/';
+    }
 
     return $url;
 }
 
-// fore dealing with mod_rewrite issues
-function ndxz_rewriter($url='')
-{
-    if (MODREWRITE == false)
-    {
-        if ($url == '/')
-        {
+// for dealing with mod_rewrite issues
+function ndxz_rewriter($url='') {
+    if (MODREWRITE === false) {
+        if ($url == '/') {
             return '/';
-        }
-        else
-        {
+        } else {
             return '/index.php?' . $url;
         }
-    }
-    else
-    {
+    } else {
         return $url;
     }
+}
+
+function _log ($data, $label = null) {
+    require_once DIRNAME . BASENAME . DS . TESTPATH . DS . 'test.pcss';
+    $label = isset($label) ? '' : "$label: ";
+    echo '<pre class="log">' . $label;
+    var_export($data); 
+    echo '</pre>';
 }

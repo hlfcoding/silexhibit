@@ -27,7 +27,7 @@ load_helpers(array('html', 'entrance', 'time', 'server'));
 
 // general tools for loading things
 load_class('core', FALSE, 'lib');
-/*
+
 // "I'm digging for fire" - Pixies	
 $OBJ =& load_class('router', TRUE, 'lib');
 
@@ -49,4 +49,3 @@ $OBJ->tunnel($aINDX, $go['a'], $go['q']);
 
 // output
 $INDX->template->output('index');
-*/

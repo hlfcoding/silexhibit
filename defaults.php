@@ -15,6 +15,8 @@ define('LANGUAGE', 'en-us');
 // application development and testing and release lifecycle
 define('DEVELOPMENT', 9999);
 define('PRODUCTION', 'production'); // doubles as subdirectory name
+// util
+define('DS', DIRECTORY_SEPARATOR);
 
 // --------------------------------------------------
 // config
@@ -24,7 +26,7 @@ $default = array(
     'img_quality' => 100, // image quality
     'ignore_ip' => array(), // things you don't want stats to track
     'module' => 'exhibits',
-    'statistics' => true,
+    'statistics' => false,
     'editor' => 'markdown++',
     'cache_time' => 24, // hours
     'first_year' => 1994, // TODO what's this for
@@ -55,6 +57,8 @@ define('MODPATH', 'module');
 define('DBPATH', 'db');
 define('LANGPATH', 'lang');
 define('EXTPATH', 'extend');
+define('PLUGPATH', 'site/plugin');
+$core_paths = array(LIBPATH, DBPATH, HELPATH, MODPATH, LANGPATH, EXTPATH, PLUGPATH);
 
 // cms paths
 define('ASSET', 'asset/');
@@ -62,6 +66,9 @@ define('CSS', ASSET . 'css/');
 define('JS', ASSET . 'js/');
 define('IMG', ASSET . 'img/');
 define('TPLPATH', ASSET . 'tpl/');
+
+// other paths
+define('TESTPATH', 'test');
 
 // app path segments
 define('BASENAME', DIRECTORY_SEPARATOR . 'ndxz-studio');

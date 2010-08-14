@@ -53,7 +53,7 @@
     <script type="text/javascript" src="<% baseurl %><% basename %>/site/pengxwang/site.js"></script>
     <script type="text/javascript"> 
         var path = Site.mediaUrl = '<% baseurl %>/files/gimgs/'; 
-        Site.serviceUrl = '<% baseurl %><% basename %>/extend/service';
+        Site.serviceUrl = '<% baseurl %><% baseurlname %>/extend/service';
     </script>
     <plug:posterous_feed section_id="<% section_id %>", hostname="pengxwang"/>
     <plug:twitter_feed section_id="<% section_id %>", screen_name="hlfcoding"/>

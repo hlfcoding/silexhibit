@@ -42,9 +42,6 @@ function load_xml ($filename = 'data', $namespace = 'data')
     $data = simplexml_load_file($path);
     foreach ($data->children() as $key => $value) 
     {
-        if (method_exists($value, 'count')) {
-            continue;
-        }
         $rs["${namespace}_${key}"] = trim($value, " \n");
     }
 }

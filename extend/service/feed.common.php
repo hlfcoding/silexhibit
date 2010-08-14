@@ -44,7 +44,7 @@ class ApiRequest implements IStaticCaching
     }
     public function buildQuery () 
     {
-        return $this->serviceAddress . '?' . http_build_query($this->parameters); 
+        return $this->serviceAddress . '?' . http_build_query($this->parameters, '', '&'); 
     }
     public function fetchResult () 
     {
