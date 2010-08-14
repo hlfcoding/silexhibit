@@ -28,7 +28,7 @@ function include_feed_js () {
     $output = '';
     if (!defined('INCLUDED_FEEDJS')) {
         $path = THEMEURL
-            . ((MODE === DEVELOPMENT) ? '/feed.js' : '/' . PRODUCTION .'/feed.min.js');
+            . ((MODE === PRODUCTION) ? '/' . PRODUCTION . '/feed.min.js' :  '/feed.js');
         $output = "<script type=\"text/javascript\" src=\"$path\"></script>";
         define('INCLUDED_FEEDJS', true);
     }

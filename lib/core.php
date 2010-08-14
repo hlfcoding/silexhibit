@@ -10,17 +10,20 @@
 */
 class Core
 {
-    var $is_loaded;
+    public $is_loaded;
     
-    /**
-    * Returns loaded database object or error
-    *
-    * @param void
-    * @return array
-    */
-    function Core()
+    public $db;
+    public $lang;
+    public $template;
+    public $access;
+    public $front;
+    public $organize;
+    
+    const DIRECTIVE_DELIMITER = '.';
+    
+    public function __construct()
     {
-        $this->load_db();
+        $this->load_class('db');
     }
     
     /**
@@ -28,68 +31,59 @@ class Core
     *
     * @param void
     * @return array
-    */
-    function auto_load()
+    **/
+    public function auto_load ()
     {
-        $this->load_lang();
-        $this->assign_core();
-    }
-    
-    /**
-    * Returns core classes
-    *
-    * @param void
-    * @return array
-    */
-    function assign_core()
-    {
-        foreach (array('template','access') as $val)
-        {
-            $class = strtolower($val);
-            if (!is_object($class)) $this->$class =& load_class($val, TRUE, 'lib');
-            $this->is_loaded[] = $class;
+        foreach (array('lang', 'lib.template', 'lib.access') as $val) {
+            $this->load_class($class);
         }
     }
     
     /**
-    * Returns language file
-    *
-    * @param void
-    * @return array
-    */
-    function load_lang()
+     * Library loader
+     * @param string Class name
+     * @return class object
+     **/
+    public function lib_class ($class)
     {
-        $class = strtolower('lang');
-        if (!is_object($class)) $this->$class =& load_class($class, TRUE, 'lang');
-        $this->is_loaded[] = $class;
+        if (empty($class)) {
+            throw new RuntimeException('class to load not specified');
+        }
+        $class = "lib.$class";
+        return $this->load_class($class);
     }
     
     /**
-    * Returns loaded database object or error
-    *
-    * @param void
-    * @return array
-    */
-    function load_db()
+     * Base loader method, uses a directive, unlike the global loader function
+     * @param string Class directive as `[class].[type]`
+     * @return class object
+     **/
+    protected function load_class ($class) 
     {
-        $class = strtolower('db');
-        if (!is_object($class)) $this->$class =& load_class($class, TRUE, 'db');
-        $this->is_loaded[] = $class;
-    }
-    
-    /**
-    * Return loaded object
-    *
-    * @param string $class
-    * @return array
-    */
-    function lib_class($class)
-    {
-        if ($class == '') return;
-        
         $class = strtolower($class);
-        if (!is_object($class)) $this->$class =& load_class($class, TRUE, 'lib');
+        $type = null;
+        $_pieces = explode(self::DIRECTIVE_DELIMITER, $class);
+        switch (count($_pieces)) {
+            case 1:
+                $class = $_pieces[0];
+                $type = $class;
+                break;
+            case 2:
+                $class = $_pieces[1];
+                $type = $_pieces[0];
+                break;
+            case 0:
+                throw new RuntimeException('class to load not specified');
+                break;
+            default:
+                throw new RuntimeException('class directive not supported');
+                break;
+        }
+        if (!isset($this->$class)) {
+            $this->$class =& load_class($class, true, $type);
+        }
         $this->is_loaded[] = $class;
+        return $this->$class;
     }
 }
 

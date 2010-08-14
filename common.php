@@ -85,32 +85,43 @@ function load_helper($file)
     }
 }
 
-
-// load multiple helpers
+/**
+ * Load multiple helpers
+ * @param array
+ * @return void
+ **/
 function load_helpers($files)
 {
-    if (!is_array($files)) return;
-    
-    foreach ($files as $file) load_helper($file);
+    if (!is_array($files)) {
+        return;
+    }
+    foreach ($files as $file) {
+        load_helper($file);
+    }
 }
 
-
-// loading helpers for a module (located in module folder)
+/**
+ * Load helpers in module folder
+ * @param string 
+ * @param string 
+ * @return void
+ **/
 function load_module_helper($file, $section)
 {
-    if ($file == '') return;
-    
-    if (file_exists(DIRNAME . BASENAME . '/' . MODPATH . '/' . $section . '/' . $file . '.php'))
+    if (empty($file)) {
+        return;
+    }
+    if (file_exists(DIRNAME . BASENAME . '/' . MODPATH . '/' . $section . '/' . $file . '.php')) {
         require_once(DIRNAME . BASENAME . '/' . MODPATH . '/' . $section . '/' . $file . '.php');
+    }
 }
 
 
-function show_error($message='')
+function show_error($message = '', $backtrace = false)
 {
-    // echo $message;
-    // echo '<pre>';
-    // var_export(debug_backtrace());
-    // echo '</pre>';
+    if (MODE === DEVELOPMENT || $backtrace) {
+        _log(debug_backtrace(), 'stack trace');
+    }
     // we'll use the default language for this
     $lang =& load_class('lang', TRUE, 'lib');
     $lang->setlang(); // get the default strings
