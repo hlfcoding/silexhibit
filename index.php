@@ -15,25 +15,19 @@
 //  Thank you for shopping at indexhibit.org
 // -----------------------------------------------------------
 
-// turn this on if you want to check things
-// error_reporting(E_ALL);
-error_reporting(0);
-
-// the basics
-if (file_exists('config/config.php')) require_once 'config/config.php';
-
+require_once 'bootstrap.php';
 require_once 'defaults.php';
+if (file_exists('config/config.php')) {
+    require_once 'config/config.php';
+}
 require_once 'common.php';
-
-// make sure we have our connection array
-shutDownCheck();
 	
 // preloading things
 load_helpers(array('html', 'entrance', 'time', 'server'));
 
 // general tools for loading things
 load_class('core', FALSE, 'lib');
-
+/*
 // "I'm digging for fire" - Pixies	
 $OBJ =& load_class('router', TRUE, 'lib');
 
@@ -55,3 +49,4 @@ $OBJ->tunnel($aINDX, $go['a'], $go['q']);
 
 // output
 $INDX->template->output('index');
+*/

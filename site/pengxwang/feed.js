@@ -67,8 +67,9 @@ var enhanceData = function (dao, name) {
                 // http://twitter.com/
                 // http://search.twitter.com/search?q=%23
                 this.text = this.text
-                    .replace(/(#([^#:\s]+))/g, '<a class="inline" href="http://search.twitter.com/search?q=%23$2">$1</a>')
-                    .replace(/(@([^@:\s]+))/g, '<a class="inline" href="http://twitter.com/$2">$1</a>');
+                    .replace(/([a-z]+:\/\/[-_.\w\/]+)/g, '<a class="inline" href="$1">$1</a>')
+                    .replace(/(#([-_\w]{2,}))/ig, '<a class="inline" href="http://search.twitter.com/search?q=%23$2">$1</a>')
+                    .replace(/(@([-_\w]+))/ig, '<a class="inline" href="http://twitter.com/$2">$1</a>');
             });
             break;
     }
@@ -92,7 +93,7 @@ $(document).ready(function () {
         feedInit = function () {
             buildFeeds(function (html) {
                 $feed = $(html).appendTo($container);
-                console.log($feed);
+                // console.log($feed);
                 feedOn();
             });
         };

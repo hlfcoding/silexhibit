@@ -1,101 +1,72 @@
 <?php if (!defined('SITE')) exit('No direct script access allowed');
 
-// this is a little redundant
-function load_path($type)
+/**
+ * TODO description
+ * @param type optional Description
+ * @return void
+ **/
+function load_path($name)
 {
-    switch ($type) {
-        case 'lib':
-            return LIBPATH;
-            break;
-        case 'db':
-            return DBPATH;
-            break;
-        case 'help':
-            return HELPATH;
-            break;
-        case 'mod':
-            return MODPATH;
-            break;
-        case 'lang':
-            return LANGPATH;
-            break;  
+    if (in_array($name, array(LIBPATH, DBPATH, HELPATH, MODPATH, LANGPATH))) {
+        return $name;
+    } else {
+        throw new RuntimeException("$name is not a valid path.");
     }
 }
 
-// can't return direct references (weird bug)
+/**
+ * TODO description
+ * @param type optional Description
+ * @return void
+ **/
 function &get_instance()
 {
-    global $OBJ, $INDX;
-    
-    if (is_object($INDX))
-    {
-        $reference = $INDX;
-        return $reference;
-    }
-    else
-    {
-        $reference = $OBJ;
-        return $reference;
-    }
+    global $INDX, $OBJ;
+    return is_object($INDX) ? $INDX : $OBJ;
 }
-
-
-// this is a little ugly but it works
-function &load_class($class, $instantiate = TRUE, $type, $internal = FALSE)
+ 
+/**
+ * Autoloader
+ * @param string
+ * @param bool optional
+ * @param string
+ * @param bool optional
+ * @return object
+ **/
+function &load_class ($class, $instantiate = true, $type, $internal = false)
 {
     global $indx;
-    
     static $objects = array();
     
-    $path = load_path($type);
+    $ds = DIRECTORY_SEPARATOR;
+    $path = $ds . load_path($type) . $ds;
     $file = $class;
-    
-    // exceptions
-    if ($type == 'db') $file = 'db.' . $indx['sql'];
-    if ($type == 'lang') $file = 'index';
+    if ($type == 'db') {
+        $file = 'db.' . $indx['sql'];
+    }
+    if ($type == 'lang') {
+        $file = 'index';
+    }
+    $sub_path = $file . $ds;
+    $file .= '.php';
+    $className = ucfirst($class);
 
-    
-    if (!isset($objects[$class]))
-    {
-        if ($internal == FALSE)
-        {
-            if (file_exists(DIRNAME . BASENAME . '/' . $path . '/' . $file . '.php'))
-            {
-                require_once(DIRNAME . BASENAME . '/' . $path . '/' . $file . '.php');
-            }
-            else
-            {
-                show_error('class not found');
-            }
-    
-            if ($instantiate == TRUE)
-            {
-                $objects[$class] =& new $class();
-            }
-            else
-            {
-                $objects[$class] = TRUE;
-            }
+    if (!isset($objects[$class])) {
+        if ($internal === false) {
+            $file = DIRNAME . BASENAME . $path . $file;
+        } else {
+            $file = 'index.php';
+            $file = DIRNAME . BASENAME . $path . $subpath . $file;
         }
-        else // TRUE
-        {
-            if (file_exists(DIRNAME . BASENAME . '/' . $path . '/' . $file . '/index.php'))
-            {
-                require_once(DIRNAME . BASENAME . '/' . $path . '/' . $file . '/index.php');
-            }
-            else
-            {
-                show_error('class not found');
-            }   
-
-            if ($instantiate == TRUE)
-            {
-                $objects[$class] =& new $class();
-            }
-            else
-            {
-                $objects[$class] = TRUE;
-            }
+        if (file_exists($file)) {
+            require_once $file;
+        } else {
+            show_error('class not found');
+        }
+        if ($instantiate == TRUE) {
+            $objects[$class] = new $className();
+        } else {
+            $objects[$class] = TRUE;
         }
     }
     
@@ -136,16 +107,16 @@ function load_module_helper($file, $section)
 
 function show_error($message='')
 {
-    // we'll use the default language for this
-    $lang =& load_class('lang', TRUE, 'lib');
-    $lang->setlang(); // get the default strings
-    
-    $message = $lang->word($message);
-    
-    $error =& load_class('error', TRUE, 'lib');
-    header('Status: 503 Service Unavailable'); // change to right error note
-    echo $error->show_error($message);
-    exit;
+    // // we'll use the default language for this
+    // $lang =& load_class('lang', TRUE, 'lib');
+    // $lang->setlang(); // get the default strings
+    // 
+    // $message = $lang->word($message);
+    // 
+    // $error =& load_class('error', TRUE, 'lib');
+    // header('Status: 503 Service Unavailable'); // change to right error note
+    // echo $error->show_error($message);
+    // exit;
 }
 
 
@@ -257,14 +228,3 @@ function ndxz_rewriter($url='')
         return $url;
     }
 }
-
-
-function shutDownCheck()
-{
-    global $indx;
-    
-    if (!isset($indx['db'])) { echo "Database is not installed."; exit; }
-}
-
-
-?>

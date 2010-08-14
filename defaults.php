@@ -1,30 +1,54 @@
 <?php if (!defined('SITE')) exit('No direct script access allowed');
 
-// mod_rewrite is being used?
-// in case the server does not have mod_rewrite
+// --------------------------------------------------
+// constants
+// modify as needed if you know what you're doing
+// --------------------------------------------------
+// assume modrewrite is being used
 define('MODREWRITE', TRUE);
-
-// image quality
-$default['img_quality'] = 100;
-
-// things you don't want stats to track
-$default['ignore_ip'] = array();
-
-//////////// you won't normally need to edit anything below this line ////////////
-
-// darn quotes
-set_magic_quotes_runtime(0);
-
 // database prefix
 define('PX', 'ndxz_');
-
 // version
-define('VERSION', '0.70x');
-
-// language default in case of error
+define('VERSION', '0.71');
+// language to default to in case of error
 define('LANGUAGE', 'en-us');
-	
-// Paths/definitions of things (relative to index file)
+// application development and testing and release lifecycle
+define('DEVELOPMENT', 9999);
+define('PRODUCTION', 'production'); // doubles as subdirectory name
+
+// --------------------------------------------------
+// config
+// modify as needed if you know what you're doing
+// --------------------------------------------------
+$default = array(
+    'img_quality' => 100, // image quality
+    'ignore_ip' => array(), // things you don't want stats to track
+    'module' => 'exhibits',
+    'statistics' => true,
+    'editor' => 'markdown++',
+    'cache_time' => 24, // hours
+    'first_year' => 1994, // TODO what's this for
+    'encoding' => 'UTF-8',
+    'thumbsize' => array(100 =>100, 150 => 150, 200 => 200), // basic sizes for images and thumbnails uploading
+    'imagesize' => array(200 => 200, 400 => 400, 600 => 600, 'full' => 9999),
+    'exhibit_imgs' => 6, // max exhibit images upload
+    'standard_formats' => array('grow', 'grow_no_title', 'over_and_over', 'no_thumbs_w_captions'),
+    'color_picker' => true,
+    'sql' => 'mysql',
+    'helpers' => array('time')
+);
+$uploads = array(
+    'images' => array('jpg', 'gif', 'png'),
+    'media' => array('mov', 'mp3', 'jar'),
+    'files' => array('txt', 'pdf', 'doc', 'xls'),
+    'flash' => array('swf')
+);
+
+// --------------------------------------------------
+// paths
+// modify as needed if you know what you're doing
+// --------------------------------------------------
+// core paths
 define('LIBPATH', 'lib');
 define('HELPATH', 'helper');
 define('MODPATH', 'module');
@@ -32,69 +56,22 @@ define('DBPATH', 'db');
 define('LANGPATH', 'lang');
 define('EXTPATH', 'extend');
 
-// paths to internal parts
+// cms paths
 define('ASSET', 'asset/');
 define('CSS', ASSET . 'css/');
 define('JS', ASSET . 'js/');
 define('IMG', ASSET . 'img/');
 define('TPLPATH', ASSET . 'tpl/');
 
-// improve this later
-$adjust = realpath(dirname(__FILE__));
+// app path segments
+define('BASENAME', DIRECTORY_SEPARATOR . 'ndxz-studio');
+define('DIRNAME', str_replace(BASENAME, '', realpath(dirname(__FILE__))));
 
-define('BASENAME', '/ndxz-studio');
-define('DIRNAME', str_replace(BASENAME, '', $adjust));
+// app url segments
+$self = (dirname($_SERVER['PHP_SELF']) === '/') ? '' : dirname($_SERVER['PHP_SELF']);
+$base = str_replace(BASENAME, '', "http://{$_SERVER['HTTP_HOST']}$self/");
+define('BASEURL', preg_replace("/\/$/i", '', $base));
 
-$self = (dirname($_SERVER['PHP_SELF']) == '/') ? '' : dirname($_SERVER['PHP_SELF']);
-$base = 'http://' . $_SERVER['HTTP_HOST'] . $self . '/';
-$base = str_replace(BASENAME, '', $base);
-define('BASEURL', preg_replace("/\/$/i", '', $base)); // no trailing slashes
-
-
-// default module
-$default['module'] = 'exhibits';
-
-// do we want to use the internal stats?
-$default['statistics'] = TRUE;
-
-// for paths to files/images
+// media paths
 define('BASEFILES', '/files');
 define('GIMGS', BASEFILES . '/gimgs');
-
-// use an editor, i guess...
-$default['tinymce'] = FALSE; // not yet
-	
-// cache time
-$default['cache_time'] = '30'; // not yet
-
-// report to Indexhibit
-$default['reporting'] = FALSE; // not yet
-
-// first year
-$default['first_year'] = 1994;
-
-// Add default types for files, images and movies upload
-// if we add new 'media' we need to update modedit.js
-$uploads['images'] 	= array('jpg', 'gif', 'png');
-$uploads['media']	= array('mov', 'mp3', 'jar');
-$uploads['files']	= array('txt', 'pdf', 'doc', 'xls');
-$uploads['flash'] 	= array('swf');
-	
-// define the default encoding
-$default['encoding'] = 'UTF-8';
-
-// basic sizes for images and thumbnails uploading
-$default['thumbsize'] = array(100 =>100, 150 => 150, 200 => 200);
-$default['imagesize'] = array(200 => 200, 400 => 400, 600 => 600, 'full' => 9999);
-
-// max exhibit images upload
-$default['exhibit_imgs'] = 6;
-
-// 'standard' formats
-$default['standard_formats'] = array('grow', 'grow_no_title', 'over_and_over', 'no_thumbs_w_captions');
-
-// many requests for this
-// have a box for background colors instead of picker
-$default['color_picker'] = true;
-
-?>
