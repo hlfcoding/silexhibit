@@ -1,6 +1,16 @@
 <?php if (!defined('SITE')) exit('No direct script access allowed');
 
-
+/**
+ * Template class
+ * Helps us get from url to the correct class and method
+ * @version 1.1
+ * @package Indexhibit
+ * @subpackage Indexhibit CMS
+ * @author Vaska 
+ * @author Peng Wang <peng@pengxwang.com>
+ * @todo remove views
+ **/
+ 
 class Exhibits extends Router
 {
     var $publishing = FALSE;
@@ -10,9 +20,9 @@ class Exhibits extends Router
     var $page_id;
     var $object     = array();
     
-    function Exhibits()
+    function __construct()
     {
-        parent::Router();
+        parent::__construct();
         
         // which object are we accessing?
         define('OBJECT', 'exhibit');

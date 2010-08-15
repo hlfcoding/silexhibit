@@ -1,15 +1,16 @@
 <?php if (!defined('SITE')) exit('No direct script access allowed');
 
 /**
- * TODO description
- * @param type optional Description
- * @return void
+ * Check if a path exists and returns the mapped value
+ * @global array<string>
+ * @param string
+ * @return string
  **/
 function load_path($name)
 {
     global $core_paths;
-    if (in_array($name, $core_paths)) {
-        return $name;
+    if (array_key_exists($name, $core_paths)) {
+        return $core_paths[$name];
     } else {
         throw new RuntimeException("$name is not a valid path.");
     }
@@ -17,8 +18,9 @@ function load_path($name)
 
 /**
  * TODO description
- * @param type optional Description
- * @return void
+ * @global Core
+ * @global Core
+ * @return Core
  **/
 function get_instance()
 {
@@ -28,6 +30,8 @@ function get_instance()
  
 /**
  * Autoloader
+ * @global array Config
+ * @static array<object>
  * @param string
  * @param bool optional
  * @param string
@@ -56,7 +60,7 @@ function &load_class ($class, $instantiate = true, $type, $internal = false)
             $file = DIRNAME . BASENAME . $path . $file;
         } else {
             $file = 'index.php';
-            $file = DIRNAME . BASENAME . $path . $subpath . $file;
+            $file = DIRNAME . BASENAME . $path . $sub_path . $file;
         }
         if (file_exists($file)) {
             require_once $file;
@@ -73,26 +77,30 @@ function &load_class ($class, $instantiate = true, $type, $internal = false)
     return $objects[$class];
 }
 
-
-// from the helper folder
+/**
+ * Load helper
+ * @param string
+ **/
 function load_helper($file)
 {
-    if ($file == '') return;
-    
-    if (file_exists(DIRNAME . BASENAME . '/' . HELPATH . '/' . $file . '.php'))
-    {
-        require_once(DIRNAME . BASENAME . '/' . HELPATH . '/' . $file . '.php');
+    if (empty($file)) {
+        throw new RuntimeException('what helper file?');
+        return;
+    }
+    $file = DIRNAME . BASENAME . DS . HELPATH . DS . "$file.php";
+    if (file_exists($file)) {
+        require_once $file;
     }
 }
 
 /**
  * Load multiple helpers
- * @param array
- * @return void
+ * @param array<string>
  **/
 function load_helpers($files)
 {
-    if (!is_array($files)) {
+    if (empty($files)) {
+        throw new RuntimeException('what helper files?');
         return;
     }
     foreach ($files as $file) {
@@ -101,25 +109,31 @@ function load_helpers($files)
 }
 
 /**
- * Load helpers in module folder
+ * Load helper in module folder
  * @param string 
  * @param string 
- * @return void
  **/
 function load_module_helper($file, $section)
 {
     if (empty($file)) {
+        throw new RuntimeException('what module helper file?');
         return;
     }
-    if (file_exists(DIRNAME . BASENAME . '/' . MODPATH . '/' . $section . '/' . $file . '.php')) {
-        require_once(DIRNAME . BASENAME . '/' . MODPATH . '/' . $section . '/' . $file . '.php');
+    $ds = DS;
+    $file = DIRNAME . BASENAME . DS . MODPATH . DS . "${section}${ds}${file}.php";
+    if (file_exists($file)) {
+        require_once $file;
     }
 }
 
-
-function show_error($message = '', $backtrace = false)
+/**
+ * Show templated error and stop app
+ * @param string
+ * @param bool Show stack trace
+ **/
+function show_error($message = '', $trace = false)
 {
-    if (MODE === DEVELOPMENT || $backtrace) {
+    if (MODE === DEVELOPMENT || $trace) {
         _log(debug_backtrace(), 'stack trace');
     }
     // we'll use the default language for this
@@ -156,20 +170,26 @@ function show_login($message='')
     exit;
 }
 
-
-/* system_redirect("?a=$go[a]&q=note&id=$last"); */
-function system_redirect ($params='')
+/**
+ * Redirect function
+ * @param string Query vars segment like `?a=action&q=note&id=0`
+ * @todo do we need to put some validators on this?
+ **/
+function system_redirect ($params = '')
 {
-    // do we need to put some validators on this?
     // don't want the extra slash
-    $self = (dirname($_SERVER['PHP_SELF']) == '/') ? '' : dirname($_SERVER['PHP_SELF']);
-    
-    header('Location: http://' . $_SERVER['HTTP_HOST'] . $self . '/' .  $params);
+    $self = (dirname($_SERVER['PHP_SELF']) === '/') ? '' : dirname($_SERVER['PHP_SELF']);    
+    header("Location: http://{$_SERVER['HTTP_HOST']}$self/$params");
     return;
 }
 
-
-// revise this later...
+/**
+ * Frontend route parser
+ * @param string
+ * @param string
+ * @return string
+ * @todo refine
+ **/
 function entry_uri ($uri='', $server_uri)
 {
     $url = $server_uri;
@@ -219,8 +239,12 @@ function entry_uri ($uri='', $server_uri)
     return $url;
 }
 
-// for dealing with mod_rewrite issues
-function ndxz_rewriter($url='') {
+/**
+ * For dealing with modrewrite issues
+ * @param string
+ * @return string
+ **/
+function ndxz_rewriter ($url = '') {
     if (MODREWRITE === false) {
         if ($url == '/') {
             return '/';
@@ -232,10 +256,19 @@ function ndxz_rewriter($url='') {
     }
 }
 
-function _log ($data, $label = null) {
+/**
+ * Display a simple log message. Useful for debugging.
+ * @param mixed
+ * @param string
+ * @param bool
+ **/
+function _log ($data, $label = null, $trace = false) {
     require_once DIRNAME . BASENAME . DS . TESTPATH . DS . 'test.pcss';
     $label = isset($label) ? '' : "$label: ";
     echo '<pre class="log">' . $label;
     var_export($data); 
     echo '</pre>';
+    if ($trace) {
+        _log(debug_backtrace(), 'stack trace');
+    }
 }

@@ -22,6 +22,7 @@ define('DS', DIRECTORY_SEPARATOR);
 // config
 // modify as needed if you know what you're doing
 // --------------------------------------------------
+// note: `default` not `defaults`
 $default = array(
     'img_quality' => 100, // image quality
     'ignore_ip' => array(), // things you don't want stats to track
@@ -37,7 +38,8 @@ $default = array(
     'standard_formats' => array('grow', 'grow_no_title', 'over_and_over', 'no_thumbs_w_captions'),
     'color_picker' => true,
     'sql' => 'mysql',
-    'helpers' => array('time')
+    'helpers' => array('time'),
+    'reporting' => false
 );
 $uploads = array(
     'images' => array('jpg', 'gif', 'png'),
@@ -58,7 +60,17 @@ define('DBPATH', 'db');
 define('LANGPATH', 'lang');
 define('EXTPATH', 'extend');
 define('PLUGPATH', 'site/plugin');
-$core_paths = array(LIBPATH, DBPATH, HELPATH, MODPATH, LANGPATH, EXTPATH, PLUGPATH);
+define('CMSPATH', 'module');
+$core_paths = array(
+    LIBPATH => LIBPATH, 
+    DBPATH => DBPATH, 
+    HELPATH => HELPATH, 
+    MODPATH => MODPATH, 
+    LANGPATH => LANGPATH, 
+    EXTPATH => EXTPATH, 
+    PLUGPATH => PLUGPATH, 
+    'mod' => CMSPATH
+);
 
 // cms paths
 define('ASSET', 'asset/');

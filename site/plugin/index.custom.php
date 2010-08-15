@@ -24,7 +24,8 @@ function the_email ($address, $name = '', $title = '', $class = 'email')
 //---------------------------------------
 // FEED
 //---------------------------------------
-function include_feed_js () {
+function include_feed_js () 
+{
     $output = '';
     if (!defined('INCLUDED_FEEDJS')) {
         $path = THEMEURL
@@ -92,7 +93,8 @@ function twitter_feed ($section_id, $screen_name)
  * @param string $template_name 
  * @return string
  */
-function front_template ($section_id, $template_name) {
+function front_template ($section_id, $template_name) 
+{
     global $rs;
     $output = '';
     switch ("$section_id : $template_name") {

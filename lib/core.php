@@ -1,17 +1,21 @@
 <?php if (!defined('SITE')) exit('No direct script access allowed');
 
 /**
-* Core class
-*
-* Loading tools
-* 
-* @version 1.0
-* @author Vaska 
-*/
+ * Core class
+ * Implements global function load_class() and stores the results
+ * @version 1.1
+ * @package Indexhibit
+ * @author Vaska
+ * @author Peng Wang <peng@pengxwang.com>
+ **/
+ 
 class Core
 {
     public $is_loaded;
-    
+    // Declarations are added to clarify all classes that get loaded by 
+    // core instances throughout the project, since its design specification vaguely
+    // doesn't drawly where it stands between a small class and a god class,
+    // and certainly there's no need to contain all the classes in the framework.
     public $db;
     public $lang;
     public $template;
@@ -27,13 +31,13 @@ class Core
     }
     
     /**
-     * Loads a basic set of classes
-     * @todo rename or change how it's called
+     * Loads many classes
+     * @param array
      * @return void
      **/
-    public function auto_load () 
+    public function load_classes ($classes) 
     {
-        foreach (array('lang', 'lib.template', 'lib.access') as $val) {
+        foreach ($classes as $class) {
             $this->load_class($class);
         }
     }

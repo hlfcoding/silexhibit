@@ -120,17 +120,14 @@ function getOrganize($state, $name, $attr)
 
 function getThemes($path, $default)
 {
-    // let's get the folders and info...
     $modules = array();
-
-    if (is_dir($path))
-    {
-        if ($fp = opendir($path)) 
-        {
-            while (($module = readdir($fp)) !== false) 
-            {
-                if ((!eregi("^_", $module)) && (!eregi("^CVS$", $module)) && (!eregi(".php$", $module)) && (!eregi(".html$", $module)) && (!eregi(".DS_Store", $module)) && (!eregi("\.", $module)) && (!eregi("plugin", $module)) && (!eregi("css", $module)) && (!eregi("js", $module)) && (!eregi("img", $module)))
-                {      
+    if (is_dir($path)) {
+        if ($fp = opendir($path)) {
+            while (($module = readdir($fp)) !== false) {
+                if (preg_match('/^(_|CVS$)/i', $module) === 0 &&
+                    preg_match('/\.(php|html)$/i', $module) === 0 &&
+                    preg_match('/\.(|DS_Store)$/i', $module) === 0 &&
+                    preg_match('/plugin|css|js|img/', $module) === 0) {
                     $modules[] = $module;
                 }
             } 
