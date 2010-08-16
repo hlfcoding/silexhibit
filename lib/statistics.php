@@ -48,7 +48,7 @@ class Statistics
         $stat['agent']      = $_SERVER['HTTP_USER_AGENT'];
         $stat['browser']    = $this->stat_getAgent($stat['agent']);
         $stat['keywords']   = $this->stat_getKeywords($stat['url']);
-        $stat['ref']        = ($stat['ref'] == null) ? '' : $stat['ref'];
+        $stat['ref']        = ($stat['ref'] === null) ? '' : $stat['ref'];
         return $stat;
     }
 
@@ -174,9 +174,13 @@ class Statistics
         $OBJ =& get_instance();
         $stat = $this->stat_doStats();
         // ignore ip's listed in the config file
-        if ($this->stat_ignore_hit($stat['ip']) == true) return;
+        if ($this->stat_ignore_hit($stat['ip']) === true) {
+            return;
+        }
         // it needs to end with a '/' for it to be a stat
-        if ((substr($stat['uri'], -1) != '/')) return;
+        if ((substr($stat['uri'], -1) !== '/')) {
+            return;
+        }
         // we don't refer to ourselves
         $found = strpos($this->stat_reduceURL($stat['ref']), $this->stat_reduceURL(BASEURL));
         $stat['ref'] = ($found === false) ? $stat['ref'] : '';

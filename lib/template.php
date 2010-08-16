@@ -28,8 +28,8 @@ class Template
     public $action;
     public $action_error;
     public $action_update;
-    public $form_type      = FALSE;
-    public $form_onsubmit  = FALSE;
+    public $form_type      = false;
+    public $form_onsubmit  = false;
     public $notifier       = array();
     public $special_js;
     
@@ -235,8 +235,8 @@ class Template
         $out .= "<ul id='nav'>\n";
         
         foreach ($nav as $key => $doit) {
-            $active = ($go['a'] == $doit) ? TRUE : FALSE;
-            $onoff = ($active == TRUE) ? "class='on'" : "class='off'";
+            $active = ($go['a'] === $doit);
+            $onoff = ($active === true) ? "class='on'" : "class='off'";
             $out .= li(href(ucwords($OBJ->lang->word($doit)), "?a=$doit"), $onoff);
         }
         
@@ -342,10 +342,10 @@ class Template
     public function tpl_action ()
     {
         $OBJ =& get_instance();        
-        if ($this->action_update != '') {
+        if ($this->action_update !== '') {
             return " <span class='action'>" . $OBJ->lang->word($this->action_update) . "</span>";
         }
-        if ($this->action_error != '') {
+        if ($this->action_error !== '') {
             return " <span class='action-error'>" . $OBJ->lang->word($this->action_error) . "</span>";
         }
         return '';
@@ -379,7 +379,7 @@ class Template
      **/
     public function tpl_form_type ()
     {
-        return ($this->form_type == TRUE) ? " enctype='multipart/form-data'" : '';
+        return ($this->form_type === true) ? " enctype='multipart/form-data'" : '';
     }
     
     /**
@@ -390,7 +390,7 @@ class Template
      **/
     public function tpl_form_onsubmit ()
     {
-        return ($this->form_type != FALSE) ? " onsubmit=\"$this->form_onsubmit\"" : '';
+        return ($this->form_type !== false) ? " onsubmit=\"$this->form_onsubmit\"" : '';
     }    
     
     /**
@@ -415,8 +415,8 @@ class Template
         $out = '';
         foreach ($this->toggler as $key => $tab) {
             $attr = (!isset($tab[2])) ? 'left' : 'right';
-            $float = ($attr == 'right') ? "float:right;" : "float:left;";
-            $show = ($key == 0) ? " class='tabOn'" : " class='tabOff'";
+            $float = ($attr === 'right') ? "float:right;" : "float:left;";
+            $show = ($key === 0) ? " class='tabOn'" : " class='tabOff'";
             $out .= li(href($tab[0],"#"),"id='a$tab[0]' style='$float' onclick=\"editTab('$tab[0]');\"$show");
         }
         return ul($out,"class='tabs'").div('<!-- -->',"class='cl'");
@@ -439,15 +439,15 @@ class Template
         $rs = $OBJ->db->fetchArray($query);
         $num = count($rs);
         $var = $row - $lim;
-        if (($row != 0) && (($row - $lim) >= 0) && ($row != "")) {
-            $back = href('&laquo; '.$OBJ->lang->word('previous'), $string."&amp;page=$var");
+        if (($row !== 0) && (($row - $lim) >= 0) && ($ro !== '')) {
+            $back = href('&laquo; ' . $OBJ->lang->word('previous'), $string . "&amp;page=$var");
         } 
         else { 
             $back = "&nbsp;";   
         }
         if (($row + $lim) < $num) { 
             $var = $row + $lim;
-            $next = href(" ".$OBJ->lang->word('next')." &raquo;", $string."&amp;page=$var");    
+            $next = href(' ' . $OBJ->lang->word('next') . " &raquo;", $string . "&amp;page=$var");    
         } else {
             $next = '';
         }

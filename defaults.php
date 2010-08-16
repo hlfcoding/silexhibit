@@ -5,7 +5,7 @@
 // modify as needed if you know what you're doing
 // --------------------------------------------------
 // assume modrewrite is being used
-define('MODREWRITE', TRUE);
+define('MODREWRITE', true);
 // database prefix
 define('PX', 'ndxz_');
 // version
@@ -88,7 +88,7 @@ define('DIRNAME', str_replace(BASENAME, '', realpath(dirname(__FILE__))));
 
 // app url segments
 $self = (dirname($_SERVER['PHP_SELF']) === '/') ? '' : dirname($_SERVER['PHP_SELF']);
-$base = str_replace(BASENAME, '', "http://{$_SERVER['HTTP_HOST']}$self/");
+$base = str_replace('/ndxz-studio', '', "http://{$_SERVER['HTTP_HOST']}$self/");
 define('BASEURL', preg_replace("/\/$/i", '', $base));
 
 // media paths

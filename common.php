@@ -45,10 +45,10 @@ function &load_class ($class, $instantiate = true, $type, $internal = false)
     
     $path = DS . load_path($type) . DS;
     $file = $class;
-    if ($type == 'db') {
+    if ($type === 'db') {
         $file = 'db.' . $indx['sql'];
     }
-    if ($type == 'lang') {
+    if ($type === 'lang') {
         $file = 'index';
     }
     $sub_path = $file . DS;
@@ -67,10 +67,10 @@ function &load_class ($class, $instantiate = true, $type, $internal = false)
         } else {
             show_error('class not found');
         }
-        if ($instantiate == TRUE) {
+        if ($instantiate === true) {
             $objects[$class] = new $className();
         } else {
-            $objects[$class] = TRUE;
+            $objects[$class] = true;
         }
     }
     
@@ -137,10 +137,10 @@ function show_error($message = '', $trace = false)
         _log(debug_backtrace(), 'stack trace');
     }
     // we'll use the default language for this
-    $lang =& load_class('lang', TRUE, 'lib');
+    $lang =& load_class('lang', true, 'lib');
     $lang->setlang(); // get the default strings
     $message = $lang->word($message);
-    $error =& load_class('error', TRUE, 'lib');
+    $error =& load_class('error', true, 'lib');
     header('Status: 503 Service Unavailable'); // change to right error note
     echo $error->show_error($message);
     exit;
@@ -151,7 +151,7 @@ function show_error($message = '', $trace = false)
 function show_login($message = '')
 {
     // we'll use the default language for this
-    $lang =& load_class('lang', TRUE, 'lib');
+    $lang =& load_class('lang', true, 'lib');
     $lang->setlang(); // get the default strings
     
     $login = "<form method='post' action=''>
@@ -165,7 +165,7 @@ function show_login($message = '')
     <p>".$lang->word($message)."&nbsp;</p>
     </form>";
     
-    $error =& load_class('error', TRUE, 'lib');
+    $error =& load_class('error', true, 'lib');
     echo $error->show_login($login);
     exit;
 }
@@ -219,7 +219,7 @@ function entry_uri ($uri = '', $server_uri)
         // we need to pop off the default root if it's set
         if (is_array($delete_dir)) {
             foreach ($delete_dir as $dir) {
-                if ($url[0] == $dir) {
+                if ($url[0] === $dir) {
                     array_shift($url);
                 }
             }
@@ -246,7 +246,7 @@ function entry_uri ($uri = '', $server_uri)
  **/
 function ndxz_rewriter ($url = '') {
     if (MODREWRITE === false) {
-        if ($url == '/') {
+        if ($url === '/') {
             return '/';
         } else {
             return '/index.php?' . $url;

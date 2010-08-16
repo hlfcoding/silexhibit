@@ -6,7 +6,7 @@
 // for nicer placement in our textareas - but are we using this really?
 function stripForForm($text='', $process='')
 {
-    if (($process == 0) || ($process == '')) 
+    if (($process === 0) || ($process === '')) 
     {
         // have we checked this yet
         if (function_exists('mb_decode_numericentity'))
@@ -91,7 +91,7 @@ function UTF8EntConvert($out='')
         191, 191, 0, $f
         );
 
-    if ($out == '1') 
+    if ($out === '1') 
     {
         $insert = array(38, 38, 0, $f, 60, 60, 0, $f, 62, 62, 0, $f);
         return $convmap = array_merge($insert,$convmap);
@@ -112,7 +112,7 @@ function utf8Romanize($string)
 {
     if (utf8_isASCII($string)) return $string; //nothing to do
 
-    $romanize = romanizeFile(NULL);
+    $romanize = romanizeFile(null);
 
     return strtr($string,$romanize);
 }

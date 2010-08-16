@@ -11,7 +11,7 @@
 
 function textProcess($text='', $override)
 {
-    if ($text != '')
+    if ($text !== '')
     {
         return ($override == 1) ? block($text) : $text;
     }   
@@ -99,7 +99,7 @@ function glyphs($text)
             if (preg_match('/<(' . $offtags . ')>/i', $line)) $codepre = true;
             if (preg_match('/<\/(' . $offtags . ')>/i', $line)) $codepre = false;
 
-            if ($codepre == true) 
+            if ($codepre === true) 
             {
                 $line = htmlspecialchars($line, ENT_NOQUOTES, "UTF-8");
                 $line = preg_replace('/&lt;(\/?' . $offtags . ')&gt;/', "<$1>", $line);

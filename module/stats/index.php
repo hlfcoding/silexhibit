@@ -12,7 +12,7 @@
 
 class Stats extends Router
 {
-    var $error      = FALSE;
+    var $error      = false;
     var $error_msg;
     
     function __construct()
@@ -72,7 +72,7 @@ class Stats extends Router
         // ++++++++++++++++++++++++++++++++++++++++++++
         
         // dailies
-        $days = getDailyHits(NULL);
+        $days = getDailyHits(null);
         $body .= "<table class='table380' cellpadding='0' cellspacing='0' border='0'>\n";
         $body .= "<tr>\n";
         $body .= th($this->lang->word('this week'), "class='toptext' width='40%'");
@@ -95,7 +95,7 @@ class Stats extends Router
         
         // ++++++++++++++++++++++++++++++++++++++++++++
         
-        $week = getWeekHits(NULL);
+        $week = getWeekHits(null);
         $body .= "<table class='table380' cellpadding='0' cellspacing='0' border='0'>\n";
         $body .= "<tr>\n";
         $body .= th($this->lang->word('this month'), "class='toptext' width='40%'");
@@ -118,7 +118,7 @@ class Stats extends Router
         
         // ++++++++++++++++++++++++++++++++++++++++++++
         
-        $months = getMonthlyHits(NULL);
+        $months = getMonthlyHits(null);
         $body .= "<table class='table380' cellpadding='0' cellspacing='0' border='0'>\n";
         $body .= "<tr>\n";
         $body .= th($this->lang->word('year'), "class='toptext' width='40%'");
@@ -188,7 +188,7 @@ class Stats extends Router
         $i = 1;
         foreach ($terms as $out) {
             $body .= "<tr".row_color(" class='color'").">\n";
-            $keyword = ($out['hit_keyword'] == '') ? 'Unknown' : $out['hit_keyword'];
+            $keyword = ($out['hit_keyword'] === '') ? 'Unknown' : $out['hit_keyword'];
             $body .= td($keyword,"class='cell-doc'");
             $body .= td($out['keywords'],"class='cell-middle'");
             $body .= "</tr>\n";
@@ -214,7 +214,7 @@ class Stats extends Router
         
         foreach ($cntry as $out) {
             $body .= "<tr".row_color(" class='color'").">\n";
-            $country = ($out['hit_country'] == '') ? 'Unknown' : $out['hit_country'];
+            $country = ($out['hit_country'] === '') ? 'Unknown' : $out['hit_country'];
             $body .= td($country,"class='cell-doc'");
             $body .= td($out['total'],"class='cell-middle'");
             $body .= "</tr>\n";
@@ -313,7 +313,7 @@ class Stats extends Router
             "SELECT hit_id FROM ".PX."stats WHERE hit_referrer != ''",
             "?a=$go[a]&q=refer");
 
-        $num = ($paginate['total'] == 0) ? '&nbsp;': $paginate['total'].' '.$this->lang->word('total pages');
+        $num = ($paginate['total'] === 0) ? '&nbsp;': $paginate['total'].' '.$this->lang->word('total pages');
             
         $body .=
             div(div($num,"class='col'").

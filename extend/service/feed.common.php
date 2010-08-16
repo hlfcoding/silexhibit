@@ -65,7 +65,7 @@ class ApiRequest implements IStaticCaching
     {
         foreach (array_merge($_GET, $_POST) as $name => $value) {
             $value = trim($value);
-            if (isset($name) && !empty($name)) {
+            if (!empty($name)) {
                 $this->parameters[$name] = $value;
                 if (!isset($this->parameters[$name])) {
                     unset($this->parameters[$name]);

@@ -13,7 +13,7 @@ function getSection($section='', $name, $attr='')
 
     foreach ($rs as $a) 
     {
-        //($section == $a['secid']) ? $sl = "selected ": $sl = "";
+        //($section === $a['secid']) ? $sl = "selected ": $sl = "";
         $s .= option($a['secid'], $a['sec_desc'], $a['sec_proj'], 1);
     }
 
@@ -51,10 +51,10 @@ function getSections()
     
     $s .= p(href($OBJ->lang->word('create new section'), '#', "onclick=\"toggle('add-sec'); return false;\""));
     
-    $input = label($OBJ->lang->word('section name') . ' ' . span($OBJ->lang->word('required'), "class='small-txt'")) . input('sec_desc', 'text', "maxlength='25'", NULL);
-    $input .= label($OBJ->lang->word('folder name') . ' ' . span($OBJ->lang->word('required'), "class='small-txt'")) . input('section', 'text', "maxlength='15'", NULL);
-    $input .= input('hsec_ord', 'hidden', NULL, $quantity['sec_ord']);
-    $input .= div(input('add_sec', 'submit', NULL, $OBJ->lang->word('add section')), "style='text-align: right;'");
+    $input = label($OBJ->lang->word('section name') . ' ' . span($OBJ->lang->word('required'), "class='small-txt'")) . input('sec_desc', 'text', "maxlength='25'", null);
+    $input .= label($OBJ->lang->word('folder name') . ' ' . span($OBJ->lang->word('required'), "class='small-txt'")) . input('section', 'text', "maxlength='15'", null);
+    $input .= input('hsec_ord', 'hidden', null, $quantity['sec_ord']);
+    $input .= div(input('add_sec', 'submit', null, $OBJ->lang->word('add section')), "style='text-align: right;'");
     
     $s .= div($input, "style='display:none; margin-top: 9px;' id='add-sec'");
 
@@ -83,7 +83,7 @@ function getProcessing($state, $name, $attr)
 {
     $OBJ =& get_instance();
     
-    if ($state == '') $state = 0;
+    if ($state === '') $state = 0;
     
     $s = option(1, $OBJ->lang->word('on'), $state, 1);
     $s .= option(0, $OBJ->lang->word('off'), $state, 0);
@@ -96,7 +96,7 @@ function getGeneric($state, $name, $attr)
 {
     $OBJ =& get_instance();
     
-    if ($state == '') $state = 0;
+    if ($state === '') $state = 0;
     
     $s = option(1, $OBJ->lang->word('on'), $state, 1);
     $s .= option(0, $OBJ->lang->word('off'), $state, 0);
@@ -109,7 +109,7 @@ function getOrganize($state, $name, $attr)
 {
     $OBJ =& get_instance();
     
-    if ($state == '') $state = 1;
+    if ($state === '') $state = 1;
     
     $s = option(1, $OBJ->lang->word('chronological'), $state, 1);
     $s .= option(2, $OBJ->lang->word('sectional'), $state, 2);
@@ -144,7 +144,7 @@ function getThemes($path, $default)
         $s .= option($module, ucwords($module), $module, $default);
     }
     
-    return select('obj_theme', NULL, $s);
+    return select('obj_theme', null, $s);
 }
 
 
@@ -212,8 +212,8 @@ function createFileBox($num)
     {
         ($i > 0) ? $style = " style='display:none'" : $style = '';
         
-        $s .= div(input("media_title[$i]", 'text', NULL, NULL).'&nbsp;'.
-            input("filename[]", 'file', NULL, NULL),
+        $s .= div(input("media_title[$i]", 'text', null, null).'&nbsp;'.
+            input("filename[]", 'file', null, null),
             "class='attachFiles' id='fileInput$i'$style");
     }   
     
@@ -263,12 +263,12 @@ function getOnOff($input='', $attr='')
     $onoff = array('on' => 1, 'off' => 0);
     
     $li = '';
-    $input = ($input == '') ? 'off' : $input;
+    $input = ($input === '') ? 'off' : $input;
     
     foreach($onoff as $key => $val)
     {
-        $active = ($input == $val) ? "class='active'" : '';
-        $extra = ($val == 0) ? "id='off'" : '';
+        $active = ($input === $val) ? "class='active'" : '';
+        $extra = ($val === 0) ? "id='off'" : '';
         $li .= li($OBJ->lang->word($key), "$active title='$val' $extra");
     }
     
@@ -282,11 +282,11 @@ function getThumbSize($input='', $attr='')
     global $default;
     
     $li = '';
-    $input = ($input == '') ? 100 : $input;
+    $input = ($input === '') ? 100 : $input;
     
     foreach($default['thumbsize'] as $key => $size)
     {
-        $active = ($input == $size) ? "class='active'" : '';
+        $active = ($input === $size) ? "class='active'" : '';
         $li .= li($OBJ->lang->word($key) . 'px', "$active title='$size'");
     }
     
@@ -299,13 +299,13 @@ function getImageSizes($input='', $attr='')
     global $default;
     
     $li = '';
-    $input = ($input == '') ? 300 : $input;
+    $input = ($input === '') ? 300 : $input;
     
     foreach($default['imagesize'] as $key => $size)
     {
         $title = $key . 'px';
         
-        $active = ($input == $size) ? "class='active'" : '';
+        $active = ($input === $size) ? "class='active'" : '';
         $li .= li($title, "$active title='$size'");
     }
     
@@ -334,7 +334,7 @@ function deleteImage($file, $ext='')
 {
     if ($file)
     {
-        $file = ($ext == '') ? $file : $ext .'-' . $file;
+        $file = ($ext === '') ? $file : $ext .'-' . $file;
 
         if (file_exists(DIRNAME . GIMGS . '/' . $file))
         {
@@ -364,7 +364,7 @@ function getYear($init)
     
     $this_year = date('Y');
     
-    if ($init == '') $init = $this_year; // default is this year
+    if ($init === '') $init = $this_year; // default is this year
     
     $current = $this_year + 1; // we want to add one year in the future
     

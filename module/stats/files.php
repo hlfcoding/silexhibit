@@ -28,7 +28,7 @@ function getDailyHits()
 function getWeekHits()
 {
     // create week beginning on sunday
-    $timestamp = (date("w") == 0) ? 6 : date("w") - 1; 
+    $timestamp = (date("w") === 0) ? 6 : date("w") - 1; 
     $timestamp = date("Ymd", strtotime("-" .$timestamp. " days"));
     
     $day        = substr($timestamp,6,2);

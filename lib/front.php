@@ -1,195 +1,154 @@
 <?php if (!defined('SITE')) exit('No direct script access allowed');
 
-
 /**
-* Frontend template class
-*
-* Used for generating frontend template
-* (This really needs some work still - but it's functional for now)
-* 
-* @version 1.0
-* @author Vaska 
-*/
+ * Frontend template class
+ * Used for generating frontend template
+ * @version 1.1
+ * @package Indexhibit
+ * @author Vaska 
+ * @author Peng Wang <peng@pengxwang.com>
+ * @todo this really needs some work still
+ **/
 class Front
 {
-    var $result = array();
-    var $exhibit = array();
-    var $lib_js_add;
+    public $result = array();
+    public $exhibit = array();
+    public $lib_js_add;
     
     /**
-    * Returns results array and exhibition plugin
-    *
-    * @param void
-    * @return mixed
-    */
-    function Front()
+     * Returns results array and exhibition plugin
+     **/
+    public function __construct ()
     {
         global $rs;
-        
         $this->result = $rs;
         $this->init_front();
     }
     
     /**
-    * Returns exhibition format parameters
-    *
-    * @param void
-    * @return string
-    */
-    function init_front()
+     * Returns exhibition format parameters
+     * @return bool
+     **/
+    public function init_front ()
     {
-        if (file_exists(DIRNAME.BASENAME.'/site/plugin/exhibit.'.$this->result['format'].'.php'))
-        {
-            include DIRNAME.BASENAME.'/site/plugin/exhibit.'.$this->result['format'].'.php';
-        }
-        else
-        {
+        if (file_exists(DIRNAME . BASENAME . '/site/plugin/exhibit.' . $this->result['format'] . '.php')) {
+            include DIRNAME . BASENAME . '/site/plugin/exhibit.' . $this->result['format'] . '.php';
+        } else {
             // thie default format
-            include DIRNAME.BASENAME.'/site/plugin/exhibit.grow.php';
+            include DIRNAME . BASENAME . '/site/plugin/exhibit.grow.php';
         }
-        
         return $this->exhibit = $exhibit;
     }
     
     /**
-    * Returns index
-    *
-    * @param string $function
-    * @return string
-    */
-    function front_index($function='')
+     * Returns index
+     * @param string
+     * @return string
+     **/
+    public function front_index ($function = '')
     {
-        return (function_exists($function)) ? $function() : getNavigation();
+        return (function_exists($function)) 
+            ? $function() 
+            : getNavigation();
     }
     
     /**
-    * Returns exhibition
-    *
-    * @param void
-    * @return string
-    */
-    function front_exhibit()
+     * Returns exhibition
+     * @return string
+     * @todo showImages() is a default method - but we don't use it anymore
+     **/
+    public function front_exhibit ()
     {
-        if ($this->exhibit['exhibit'] == '')
-        {
+        if (empty($this->exhibit['exhibit'])) {
             return;
+        } else {
+            return (empty($this->exhibit['exhibit'])) 
+                ? showImages($this->result['id']) 
+                : $this->exhibit['exhibit'];
         }
-        else
-        {
-            // showImages() is a default method - but we don't use it anymore
-            return ($this->exhibit['exhibit'] == '') ? showImages($this->result['id']) : $this->exhibit['exhibit'];
-        }
-    
     }
     
     /**
-    * Returns ccs file info
-    *
-    * @param void
-    * @return string
-    */
-    function front_lib_css()
+     * Returns css file info
+     * @return string
+     **/
+    public function front_lib_css ()
     {
         $out = '';
-        
-        if (!isset($this->exhibit['lib_css'])) return;
-        
-        if ($this->exhibit['lib_css'] != '')
-        {
-            if (is_array($this->exhibit['lib_css']))
-            {
-                foreach ($this->exhibit['lib_css'] as $css)
-                {
-                    $out .= "<style type='text/css'> @import url(".BASEURL.BASENAME."/site/css/$css); </style>\n";
+        if (!isset($this->exhibit['lib_css'])) {
+            return;
+        }
+        if ($this->exhibit['lib_css'] !== '') {
+            if (is_array($this->exhibit['lib_css'])) {
+                foreach ($this->exhibit['lib_css'] as $css) {
+                    $out .= "<style type='text/css'> @import url(" . BASEURL . BASENAME . "/site/css/$css); </style>\n";
                 }
-            }
-            else
-            {
-                $out .= "<style type='text/css'> @import url(".BASEURL.BASENAME."/site/css/".$this->exhibit['lib_css']."); </style>\n";
+            } else {
+                $out .= "<style type='text/css'> @import url(" . BASEURL . BASENAME . "/site/css/" . $this->exhibit['lib_css'] . "); </style>\n";
             }
         }
-        
         return $out;
     }
     
     /**
-    * Returns js file info
-    * Modified
-    * @param void
-    * @return string
-    */
-    function front_lib_js()
+     * Returns js file info
+     * @return string
+     **/
+    public function front_lib_js ()
     {
         $out = '';
-        
-        if (!isset($this->exhibit['lib_js'])) return;
-        
-        if ($this->exhibit['lib_js'] != '')
-        {
-            if (is_array($this->exhibit['lib_js']))
-            {
-                foreach ($this->exhibit['lib_js'] as $js)
-                {
-                    $out .= "<script type='text/javascript' src='".BASEURL.BASENAME."/site/js/".((MODE === DEVELOPMENT) ? "":PRODUCTION."/")
-                        .str_replace('.js', '.min.js', $js)."'></script>\n";
+        if (!isset($this->exhibit['lib_js'])) {
+            return;
+        }
+        if ($this->exhibit['lib_js'] !== '') {
+            if (is_array($this->exhibit['lib_js'])) {
+                foreach ($this->exhibit['lib_js'] as $js) {
+                    $out .= "<script type='text/javascript' src='" . BASEURL . BASENAME . "/site/js/" 
+                        . ((MODE === DEVELOPMENT) ? "" : PRODUCTION . "/")
+                        . str_replace('.js', '.min.js', $js) . "'></script>\n";
                 }
-            }
-            else
-            {
-                $out .= "<script type='text/javascript' href='".BASEURL.BASENAME."/site/js/".((MODE === DEVELOPMENT) ? "":PRODUCTION."/")
-                    .str_replace('.js', '.min.js', $this->exhibit['lib_js'])."'></script>\n";
+            } else {
+                $out .= "<script type='text/javascript' href='" . BASEURL . BASENAME . "/site/js/" 
+                    . ((MODE === DEVELOPMENT) ? "" : PRODUCTION . "/")
+                    . str_replace('.js', '.min.js', $this->exhibit['lib_js']) . "'></script>\n";
             }
         }
-        
         return $out;        
     }
-
     
     /**
-    * Returns css - dynamically generated
-    *
-    * @param void
-    * @return string
-    */
-    function front_dyn_css()
+     * Returns css - dynamically generated
+     * @return string
+     **/
+    public function front_dyn_css ()
     {
-        if (isset($this->exhibit['dyn_css']))
-        {
+        if (isset($this->exhibit['dyn_css'])) {
             return "<style type='text/css'>\n" . $this->exhibit['dyn_css'] . "\n</style>\n";
-        } 
-        else
-        {
+        } else {
             return '';
         }
     }
     
     /**
-    * Returns js - dynamically generated
-    *
-    * @param void
-    * @return string
-    */
-    function front_dyn_js()
+     * Returns js - dynamically generated
+     * @return string
+     **/
+    public function front_dyn_js ()
     {
-        if (isset($this->exhibit['dyn_js'])) 
-        {
+        if (isset($this->exhibit['dyn_js'])) {
             return "<script type='text/javascript'>\n" . $this->exhibit['dyn_js'] . "\n</script>\n";
-        } 
-        else
-        {
+        } else {
             return '';
         }
     }
     
     
     /**
-    * Default template 'Eatock'
-    * EDIT AT YOUR OWN RISK
-    *
-    * @param void
-    * @return string
-    */
-    function front_eatock()
+     * Default template 'Eatock'
+     * EDIT AT YOUR OWN RISK
+     * @return string
+     **/
+    public function front_eatock ()
     {
         return "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN'
             'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>

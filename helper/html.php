@@ -24,7 +24,7 @@ function ips($title, $function, $name, $value='', $attr='', $type='', $subtitle=
     } 
     else 
     {
-        $msg = NULL;
+        $msg = null;
     }
     
     ($subtitle) ? $subtitle = span($subtitle,"class='small-txt'") : $subtitle = '';
@@ -37,14 +37,14 @@ function ips($title, $function, $name, $value='', $attr='', $type='', $subtitle=
     ($extra) ? $add = $extra : $add = '';
 
     
-    if ($function == 'input') 
+    if ($function === 'input') 
     {
         $function = input($name,$type,attr($attr),$value);
     } 
     else 
     {
         ($function) ? $function = $function($value,$name,attr($attr),$add):
-        $function = NULL;
+        $function = null;
     }
     
     return $title ."\n" . $function;
@@ -53,16 +53,16 @@ function ips($title, $function, $name, $value='', $attr='', $type='', $subtitle=
 
 function row_color($style)
 {
-    static $color = FALSE;
+    static $color = false;
     
-    if ($color == FALSE)
+    if ($color === false)
     {
-        $color = TRUE;
+        $color = true;
         return;
     } 
     else
     {
-        $color = FALSE;
+        $color = false;
         return $style;
     }
 }
@@ -184,7 +184,7 @@ function textarea($insert='', $attr='', $name='')
 
 function radio($name, $attr='', $value, $check='') 
 {
-    ($value == $check) ? $checked = ' checked ': $checked = '';
+    ($value === $check) ? $checked = ' checked ': $checked = '';
     return input($name,'radio',attr($attr).$checked,$value);
 }
 
@@ -205,14 +205,14 @@ function inputHelper($str)
 
 function checkbox($name, $attr='', $value, $checked) 
 {   
-    ($checked == '1') ? $check = ' checked': $check = '';
+    ($checked === '1') ? $check = ' checked': $check = '';
     return "<input type='checkbox' name='$name' value='$value'".attr($attr)."$check />\n";
 }
 
 
 function option($value='', $insert, $s1='', $s2='') 
 {
-    ($s1 == $s2) ? $sl = " selected": $sl = '';
+    ($s1 === $s2) ? $sl = " selected": $sl = '';
     return "<option value=\"$value\" $sl>$insert</option>\n";
 }
 
@@ -297,7 +297,7 @@ function showvalue($value, $name='')
     } 
     else 
     {
-        return NULL;
+        return null;
     }
 }
 

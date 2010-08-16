@@ -1,13 +1,13 @@
 <?php if (!defined('SITE')) exit('No direct script access allowed');
 
 // ai caramba, to be revised in the future
-function editorTools($content='', $advanced=FALSE, $additional='', $process='')
+function editorTools($content='', $advanced=false, $additional='', $process='')
 {
     global $go, $default;
     
     $OBJ =& get_instance();
     
-    if ($OBJ->access->prefs['writing'] != 1) {
+    if ($OBJ->access->prefs['writing'] !== 1) {
         
         $s = "<div class='col' style='margin-top:18px;'>\n";
         
@@ -21,8 +21,7 @@ function editorTools($content='', $advanced=FALSE, $additional='', $process='')
 
         $s .= href("<img src='asset/img/link.gif' alt'[]' />",'#',"title='".$OBJ->lang->word('links manager')."' class='btn btn-off' onmouseover=\"this.className='btn btn-over'\" onmouseout=\"this.className='btn btn-off'\" onClick=\"OpenWindow('?a=system&amp;q=links','popup','325','350','yes');return false;\"");
         
-        if ($advanced == 1)
-        {
+        if ($advanced == 1) {
             $s .= href("<img src='asset/img/files.gif' alt'[]' />",'#',"title='".$OBJ->lang->word('files manager')."' class='btn btn-off' onmouseover=\"this.className='btn btn-over'\" onmouseout=\"this.className='btn btn-off'\" onClick=\"OpenWindow('?a=system&amp;q=files','popup','700','465','yes');return false;\"");
         }
 
@@ -100,7 +99,7 @@ function editorButtons($published='')
     $s .= "<input name='save' type='image' src='asset/img/save.gif' title='".$OBJ->lang->word('save preview')."'  class='btn btn-off' onmouseover=\"this.className='btn btn-over'\" onmouseout=\"this.className='btn btn-off'\" style='margin-bottom:0;' onclick=\"updateText($go[id]); return false;\" />\n";
 
     // delete things
-    if ($go['id'] != 1)
+    if ($go['id'] !== 1)
     {
         $s .= "<input name='delete' type='image' src='asset/img/delete.gif' title='".$OBJ->lang->word('delete')."' onClick=\"javascript:return confirm('".$OBJ->lang->word('are you sure')."');return false;\" class='btn btn-off' onmouseover=\"this.className='btn btn-over'\" onmouseout=\"this.className='btn btn-off'\" style='margin-bottom:0;' />\n";
     }

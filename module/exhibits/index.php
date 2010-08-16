@@ -12,8 +12,8 @@
  
 class Exhibits extends Router
 {
-    var $publishing = FALSE;
-    var $error      = FALSE;
+    var $publishing = false;
+    var $error      = false;
     var $error_msg;
     var $pub_status = 0;
     var $page_id;
@@ -110,23 +110,23 @@ class Exhibits extends Router
         $body .= "<div class='c3'>\n";
         
         $body .= "<div class='col'>\n";
-        $body .= ips($this->lang->word('page title'), 'input', 'title', NULL, "maxlength='50'", 'text', $this->lang->word('required'),'req');
+        $body .= ips($this->lang->word('page title'), 'input', 'title', null, "maxlength='50'", 'text', $this->lang->word('required'),'req');
         $body .= input('add_page', 'submit', $attr='', $this->lang->word('add page'));
         $body .= "</div>\n";
         
         $body .= "<div class='col'>\n";
-        $body .= ips($this->lang->word('section'), 'getSection', 'section_id', NULL, NULL, NULL, $this->lang->word('required'),'req');
+        $body .= ips($this->lang->word('section'), 'getSection', 'section_id', null, null, null, $this->lang->word('required'),'req');
         $body .= "</div>\n";
         
         //if ($this->object['obj_org'] == 1)
         //{
             $body .= "<div class='col'>\n";
-            $body .= ips($this->lang->word('project year'), 'getYear', 'year', NULL, NULL, NULL, NULL,'req');
+            $body .= ips($this->lang->word('project year'), 'getYear', 'year', null, null, null, null,'req');
             $body .= "</div>\n";    
         //}
         //else
         //{
-            //$body .= input('year', 'hidden', NULL, date('Y'));
+            //$body .= input('year', 'hidden', null, date('Y'));
         //}
         
         $body .= "<div class='cl'><!-- --></div>\n</div>\n";
@@ -161,7 +161,7 @@ class Exhibits extends Router
             WHERE obj_ref_type = '".OBJECT."'");
             
         
-        $body = ($this->error == TRUE) ?
+        $body = ($this->error === true) ?
             div($this->error_msg,"id='show-error'").br() : '';
         
         load_module_helper('files', $go['a']);
@@ -188,18 +188,6 @@ class Exhibits extends Router
         }
         
         //$body .= ips($this->lang->word('use editor'), 'getGeneric', 'writing', $rs['writing']);
-        
-        if ($default['reporting'] == TRUE)
-        {
-            $body .= p('<strong>'.$this->lang->word('below required').'</strong>', "class='red-text'").br();
-            $body .= ips($this->lang->word('email address'), 'input', 'obj_email', $rs['obj_email'],
-                "maxlength='100'", 'text', $this->lang->word('from registration'));
-            $body .= ips($this->lang->word('api key'), 'input', 'obj_apikey', $rs['obj_apikey'],
-                "maxlength='32'", 'text');
-
-            if (($rs['obj_email'] == '') || ($rs['obj_email'] == ''))
-                $body .= p($this->lang->word('register at') .' ' . href('indexhibit', 'http://www.indexhibit.org/register/', "target='_blank'"));
-        }
             
         $body .= "</div>\n";
         
@@ -215,7 +203,7 @@ class Exhibits extends Router
         $body .= label($this->lang->word('post nav text').' '.span($this->lang->word('html allowed')));
         $body .= textarea(stripForForm($rs['obj_ibot'], 1), "style='height:99px;'", 'obj_ibot');
         
-        $body .= div(input('upd_settings', 'submit', NULL, $this->lang->word('update')), "style='text-align: right;'");
+        $body .= div(input('upd_settings', 'submit', null, $this->lang->word('update')), "style='text-align: right;'");
         $body .= "</div>\n";
         
         if ($rs['obj_mode'] == 1)
@@ -250,7 +238,7 @@ class Exhibits extends Router
         $this->template->add_js('toolman.dragdrop.js');
         $this->template->add_js('ndxz.exhibit-edit.js');
         
-        if ($default['color_picker'] == TRUE)
+        if ($default['color_picker'] === true)
         {
             $this->template->add_js('plugin.js');
         }
@@ -278,12 +266,12 @@ class Exhibits extends Router
         load_helpers(array('editortools', 'output'));
             
         // we need this for a bunch of things
-        $bgcolor = ($rs['color'] == '') ? 'ffffff' : $rs['color'];
+        $bgcolor = ($rs['color'] === '') ? 'ffffff' : $rs['color'];
         
         // ++++++++++++++++++++++++++++++++++++++++++++++++++++
         
             
-        $body = ($this->error == TRUE) ?
+        $body = ($this->error === true) ?
             div($this->error_msg,"id='show-error'").br() : '';
         
         $body .= "<div id='tab'>\n";
@@ -346,7 +334,7 @@ class Exhibits extends Router
         // background color - this is a mess
         $body .= "<label>".$this->lang->word('background color')."</label>\n";
             
-        if ($default['color_picker'] == TRUE)
+        if ($default['color_picker'] === true)
         {
             $body .= getColorPicker($bgcolor);
         }
@@ -396,8 +384,8 @@ class Exhibits extends Router
         // end advanced
 
         // hidden fields
-        $body .= input('hord', 'hidden', NULL, $rs['ord']);
-        $body .= input('hsection_id', 'hidden', NULL, $rs['section_id']);
+        $body .= input('hord', 'hidden', null, $rs['ord']);
+        $body .= input('hsection_id', 'hidden', null, $rs['section_id']);
         
         $body .= "</div>\n";
         $body .= "</div>\n";
@@ -410,7 +398,7 @@ class Exhibits extends Router
         
         
         // the script for colors
-        if ($default['color_picker'] == TRUE)
+        if ($default['color_picker'] === true)
         {
             $body .= "<script type='text/javascript'>
             function mkColor(v) { \$S('plugID').background='#'+v; }
@@ -441,7 +429,7 @@ class Exhibits extends Router
             WHERE secid = '$go[id]'");
             
         
-        $body = ($this->error == TRUE) ?
+        $body = ($this->error === true) ?
             div($this->error_msg,"id='show-error'").br() : '';
         
         load_module_helper('files', $go['a']);
@@ -465,26 +453,21 @@ class Exhibits extends Router
             $rs['section'], "maxlength='50'", 'text', $this->lang->word('required'),'req');
         
         $body .= "<label>" . $this->lang->word('section order') . "</label>";
-        $body .= getSectionOrd($rs['sec_ord'], 'sec_ord', NULL);
+        $body .= getSectionOrd($rs['sec_ord'], 'sec_ord', null);
         
         $body .= ips($this->lang->word('projects section'), 'getGeneric', 'sec_proj', $rs['sec_proj']);
         
         $body .= ips($this->lang->word('section display'), 'getGeneric', 'sec_disp', $rs['sec_disp']);
-        
-        if ($default['reporting'] == TRUE)
-        {
-            $body .= ips($this->lang->word('reporting'), 'getGeneric', 'sec_report', $rs['sec_report']);
-        }
-        
-        if ($rs['secid'] != 1)
+                
+        if ($rs['secid'] !== 1)
         {
             $body .= input('del_sec', 'submit', "onclick=\"javascript:return confirm('" . $this->lang->word('sure delete section') . "');return false;\"", $this->lang->word('delete'));
         }
         
-        $body .= input('edit_sec', 'submit', NULL, $this->lang->word('update'));
+        $body .= input('edit_sec', 'submit', null, $this->lang->word('update'));
         
-        $body .= input('hsecid', 'hidden', NULL, $rs['secid']);
-        $body .= input('hsec_ord', 'hidden', NULL, $rs['sec_ord']);
+        $body .= input('hsecid', 'hidden', null, $rs['secid']);
+        $body .= input('hsec_ord', 'hidden', null, $rs['sec_ord']);
             
         $body .= "</div>\n";
         
@@ -692,7 +675,7 @@ class Exhibits extends Router
             FROM ".PX."objects   
             WHERE id = '$go[id]'");
             
-        if ($rs['bgimg'] != '')
+        if ($rs['bgimg'] !== '')
         {
             $body = "<form action='?a=$go[a]&q=jxbg&id=$go[id]' method='post' name='iform' id='iform'>\n";      
             $body .= "<div>\n";
@@ -730,11 +713,11 @@ class Exhibits extends Router
     // we need a way to protect these page from outside access
     function sbmt_add_page()
     {
-        $OBJ->template->errors = TRUE;
+        $OBJ->template->errors = true;
         global $go;
         
         // can we do this better?
-        $processor =& load_class('processor', TRUE, 'lib');
+        $processor =& load_class('processor', true, 'lib');
     
         $clean['title'] = $processor->process('title',array('notags', 'reqNotEmpty'));
         $clean['section_id'] = $processor->process('section_id',array('notags', 'reqNotEmpty'));
@@ -744,7 +727,7 @@ class Exhibits extends Router
         {
             // get our error messages
             $error_msg = $processor->get_errors();
-            $this->errors = TRUE;
+            $this->errors = true;
             $GLOBALS['error_msg'] = $error_msg;
             $this->template->special_js = "toggle('add-page');";
             return;
@@ -775,11 +758,11 @@ class Exhibits extends Router
     // we need a way to protect these page from outside access
     function sbmt_add_sec()
     {
-        $OBJ->template->errors = TRUE;
+        $OBJ->template->errors = true;
         global $go;
         
         // can we do this better?
-        $processor =& load_class('processor', TRUE, 'lib');
+        $processor =& load_class('processor', true, 'lib');
     
         $clean['sec_desc'] = $processor->process('sec_desc',array('notags','reqNotEmpty'));
         $clean['section'] = $processor->process('section',array('notags','reqNotEmpty'));
@@ -789,7 +772,7 @@ class Exhibits extends Router
         {
             // get our error messages
             $error_msg = $processor->get_errors();
-            $this->errors = TRUE;
+            $this->errors = true;
             $GLOBALS['error_msg'] = $error_msg;
             $this->template->special_js = "toggle('add-sec');";
             return;
@@ -802,7 +785,7 @@ class Exhibits extends Router
             
             // we need to romanize the path based upon 'section'
             load_helpers( array('output', 'romanize') );
-            $folder_name = load_class('publish', TRUE, 'lib');
+            $folder_name = load_class('publish', true, 'lib');
             $folder_name->title = trim($clean['section']);
             $clean['section'] = $folder_name->processTitle();
             $clean['sec_path'] = '/' . $clean['section'];
@@ -820,7 +803,7 @@ class Exhibits extends Router
     {
         global $go;
         
-        $processor =& load_class('processor', TRUE, 'lib');
+        $processor =& load_class('processor', true, 'lib');
         
         $temp['hsec_ord'] = $processor->process('hsec_ord',array('digit'));
         $temp['hsecid'] = $processor->process('hsecid',array('digit'));
@@ -837,7 +820,7 @@ class Exhibits extends Router
         {
             // get our error messages
             $error_msg = $processor->get_errors();
-            $this->errors = TRUE;
+            $this->errors = true;
             $GLOBALS['error_msg'] = $error_msg;
             return;
         }
@@ -850,7 +833,7 @@ class Exhibits extends Router
             }
             
             // so nice and messy!
-            if ($clean['sec_ord'] != $temp['hsec_ord'])
+            if ($clean['sec_ord'] !== $temp['hsec_ord'])
             {
                 // we need to reorder things
                 if ($clean['sec_ord'] > $temp['hsec_ord']) {
@@ -876,11 +859,11 @@ class Exhibits extends Router
 
             // we need to romanize the path based upon 'section'
             load_helpers( array('output', 'romanize') );
-            $folder_name = load_class('publish', TRUE, 'lib');
+            $folder_name = load_class('publish', true, 'lib');
             $folder_name->title = trim($clean['section']);
             $clean['section'] = $folder_name->processTitle();
 
-            if ($go['id'] != 1)
+            if ($go['id'] !== 1)
             {
                 // you can update the sec_path
                 $clean['sec_path'] = '/' . $clean['section'];
@@ -899,7 +882,7 @@ class Exhibits extends Router
     {
         global $go;
         
-        $processor =& load_class('processor', TRUE, 'lib');
+        $processor =& load_class('processor', true, 'lib');
         
         $temp['hsec_ord'] = $processor->process('hsec_ord',array('digit'));
         
@@ -923,7 +906,7 @@ class Exhibits extends Router
     {
         global $default;
         
-        $this->publishing = TRUE;
+        $this->publishing = true;
         
         // get record
         $rs = $this->db->fetchRecord("SELECT id, title, secid, sec_path, status, report, 
@@ -939,7 +922,7 @@ class Exhibits extends Router
             
         load_helper('output');
         load_helper('romanize');
-        $URL =& load_class('publish', TRUE, 'lib');
+        $URL =& load_class('publish', true, 'lib');
 
         // make the url
         $URL->title = $rs['title'];
@@ -965,26 +948,6 @@ class Exhibits extends Router
         
         $clean['url']       = $check_url . $previous;
         
-        
-        // report to system
-        // we need to be sure this is a project
-        if ($default['reporting'] == TRUE)
-        {
-            if (($rs['report'] != 1) && ($rs['obj_apikey'] != '') 
-                && ($rs['obj_email'] != '') && ($rs['sec_report'] == 1))
-            {
-                $REST =& load_class('rest', TRUE, 'lib');
-                $REST->apikey       = $rs['obj_apikey'];
-                $REST->email        = $rs['obj_email'];
-                $REST->id           = $rs['id'];
-                $REST->title        = $rs['title'];
-                $REST->url          = BASEURL . $clean['url'];
-                $var = $REST->report_to_indexhibit();
-            
-                if ($var == TRUE) $clean['report'] = 1;
-            }
-        }
-
         // need to update table
         $clean['status']    = 1;
         $clean['udate']     = getNow();
@@ -1019,7 +982,7 @@ class Exhibits extends Router
             return;
         }
         
-        $processor =& load_class('processor', TRUE, 'lib');
+        $processor =& load_class('processor', true, 'lib');
     
         $clean['hsection_id'] = $processor->process('hsection_id',array('notags','digit'));
         $clean['hord'] = $processor->process('hord',array('notags','digit'));
@@ -1062,7 +1025,7 @@ class Exhibits extends Router
     {
         global $go;
         
-        $processor =& load_class('processor', TRUE, 'lib');
+        $processor =& load_class('processor', true, 'lib');
     
         $clean['media_title'] = $processor->process('media_title', array('notags'));
         $clean['media_caption'] = $processor->process('media_caption', array('nophp'));
@@ -1072,7 +1035,7 @@ class Exhibits extends Router
         {
             // get our error messages
             $error_msg = $processor->get_errors();
-            $this->errors = TRUE;
+            $this->errors = true;
             $GLOBALS['error_msg'] = $error_msg;
             return;
         }
@@ -1173,7 +1136,7 @@ class Exhibits extends Router
     
     function sbmt_upd_section()
     {
-        if ($_POST['update_value'] == '') { echo 'Error'; exit; }
+        if ($_POST['update_value'] === '') { echo 'Error'; exit; }
         
         $clean['sec_desc'] = $_POST['update_value'];
         $clean['secid'] = str_replace('s', '', $_POST['element_id']);
@@ -1194,7 +1157,7 @@ class Exhibits extends Router
         $dir = DIRNAME . BASEFILES . '/';
         $types = $uploads['images'];
         
-        $IMG =& load_class('media', TRUE, 'lib');
+        $IMG =& load_class('media', true, 'lib');
         
         $thetype = explode('.', strtolower($_FILES['jxbg']['name']));
         $thetype = array_pop($thetype);
@@ -1263,7 +1226,7 @@ class Exhibits extends Router
     {
         global $go, $default;
         
-        $processor =& load_class('processor', TRUE, 'lib');
+        $processor =& load_class('processor', true, 'lib');
         load_helper('textprocess');
     
         $clean['obj_name'] = $processor->process('obj_name',array('notags','reqNotEmpty'));
@@ -1274,16 +1237,10 @@ class Exhibits extends Router
         $clean['obj_mode']  = $processor->process('obj_mode', array('notags', 'boolean'));
         //$user['writing']  = $processor->process('writing', array('digit'));
         
-        if ($default['reporting'] == TRUE)
-        {
-            $clean['obj_apikey']    = $processor->process('obj_apikey', array('notags'));
-            $clean['obj_email']     = $processor->process('obj_email', array('notags'));
-        }
-        
         // defaults!
         $clean['obj_org'] = ($clean['obj_mode'] == 1) ? $clean['obj_org'] : 1;
         
-        $theme = ($clean['obj_theme'] == '') ? 'eatock' : $clean['obj_theme'];
+        $theme = ($clean['obj_theme'] === '') ? 'eatock' : $clean['obj_theme'];
         $clean['obj_theme'] = ($clean['obj_mode'] == 1) ? $theme : 'eatock';
         
         // process the text...
@@ -1295,7 +1252,7 @@ class Exhibits extends Router
         {
             // get our error messages
             $error_msg = $processor->get_errors();
-            $this->errors = TRUE;
+            $this->errors = true;
             $GLOBALS['error_msg'] = $error_msg;
             return;
         }
@@ -1304,7 +1261,7 @@ class Exhibits extends Router
             // redundant...but we need it.
             $user['user_mode'] = $clean['obj_mode'];
 
-            if ($user['user_mode'] != 1)
+            if ($user['user_mode'] !== 1)
             {
                 // language?
                 // but what if this file was deleted?
@@ -1313,7 +1270,7 @@ class Exhibits extends Router
             }
             else
             {
-                if ($clean['obj_itop'] == '')
+                if ($clean['obj_itop'] === '')
                 {
                     $clean['obj_itop'] = "<p><%obj_name%><br />
 <a href=\'<%baseurl%><plug:ndxz_rewriter url=\'/about-this-site/\' />\'>" . $this->lang->word('about this site') . "</a></p>";
@@ -1335,10 +1292,10 @@ class Exhibits extends Router
     {
         global $go, $uploads, $default;
         
-        $OBJ->template->errors = TRUE;
+        $OBJ->template->errors = true;
         
         load_module_helper('files', $go['a']);
-        $IMG =& load_class('media', TRUE, 'lib');
+        $IMG =& load_class('media', true, 'lib');
         
         // we'll query for all our defaults first...
         $rs = $this->db->fetchRecord("SELECT thumbs, images  
@@ -1348,14 +1305,14 @@ class Exhibits extends Router
             
             
         // we need to get these from some defaults someplace
-        $IMG->thumbsize = ($rs['thumbs'] != '') ? $rs['thumbs'] : 200;
-        $IMG->maxsize = ($rs['images'] != '') ? $rs['images'] : 9999;
+        $IMG->thumbsize = ($rs['thumbs'] !== '') ? $rs['thumbs'] : 200;
+        $IMG->maxsize = ($rs['images'] !== '') ? $rs['images'] : 9999;
         $IMG->quality = $default['img_quality'];
-        $IMG->makethumb = TRUE;
+        $IMG->makethumb = true;
         $IMG->path = DIRNAME . GIMGS . '/';
 
         load_helper('output');
-        $URL =& load_class('publish', TRUE, 'lib');
+        $URL =& load_class('publish', true, 'lib');
             
         // +++++++++++++++++++++++++++++++++++++++++++++++++++
         
@@ -1372,7 +1329,9 @@ class Exhibits extends Router
                 'size'=>$_FILES['filename']['size'][$key]);
         }
         
-        if (empty($new_images)) return;
+        if (empty($new_images)) {
+            return;
+        }
         
         // reverse the array
         rsort($new_images);
@@ -1405,7 +1364,7 @@ class Exhibits extends Router
                         $IMG->image = $IMG->path . '/' . $IMG->filename;
                         $IMG->uploader();
 
-                        $clean['media_id'] = 'NULL';
+                        $clean['media_id'] = 'null';
                         $clean['media_order'] = $x;
                         $clean['media_ref_id'] = $go['id'];
                         $clean['media_file'] = $IMG->filename;
@@ -1457,8 +1416,8 @@ class Exhibits extends Router
         header ('Content-type: text/html; charset=utf-8');
         
         $clean['media_id'] = (int) $_POST['id'];
-        $clean['media_title'] = ($_POST['v'] == '') ? '' : utf8Urldecode($_POST['v']);
-        $clean['media_caption'] = ($_POST['x'] == '') ? '' : utf8Urldecode($_POST['x']);
+        $clean['media_title'] = ($_POST['v'] === '') ? '' : utf8Urldecode($_POST['v']);
+        $clean['media_caption'] = ($_POST['x'] === '') ? '' : utf8Urldecode($_POST['x']);
         
         $this->db->updateArray(PX.'media', $clean, "media_id=$clean[media_id]");
         
@@ -1477,9 +1436,9 @@ class Exhibits extends Router
         load_module_helper('files', $go['a']);
         
         $clean['id'] = (int) $_POST['id'];
-        $_POST['content'] = ($_POST['v'] == '') ? '' : utf8Urldecode($_POST['v']);
+        $_POST['content'] = ($_POST['v'] === '') ? '' : utf8Urldecode($_POST['v']);
         
-        //$_POST['content'] = ($_POST['v'] == '') ? '' : $_POST['v'];
+        //$_POST['content'] = ($_POST['v'] === '') ? '' : $_POST['v'];
         
         //echo $_POST['content']; exit;
         
@@ -1488,7 +1447,7 @@ class Exhibits extends Router
             FROM ".PX."objects    
             WHERE id = '$clean[id]'");
         
-        $processor =& load_class('processor', TRUE, 'lib');
+        $processor =& load_class('processor', true, 'lib');
         load_helper('textprocess');
         
         $clean['content'] = $processor->process('content', array('nophp'));
@@ -1565,7 +1524,7 @@ class Exhibits extends Router
             $clean['break'] = (int) $_POST['v'];
             break;
         case 'title':
-            if ($_POST['update_value'] == '') { echo 'Error'; exit; }
+            if ($_POST['update_value'] === '') { echo 'Error'; exit; }
             $clean['title'] = $_POST['update_value'];
             $this->db->updateArray(PX.'objects', $clean, "id='$clean[id]'");
             

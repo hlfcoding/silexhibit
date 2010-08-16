@@ -42,15 +42,15 @@ class System extends Router
         $body .= "<div class='col'>\n";
         
         $body .= ips($this->lang->word('login'), 'input', 'userid', $rs['userid'], "maxlength='12'", 'text', $this->lang->word('required').' '.$this->lang->word('number chars'), 'req');
-        $body .= ips($this->lang->word('change password'), 'input', 'password', NULL, "maxlength='12'", 'password', $this->lang->word('required').' '.$this->lang->word('number chars'), 'req');
-        $body .= ips($this->lang->word('confirm password'), 'input', 'cpassword', NULL, "maxlength='12'", 'password', $this->lang->word('if change'),'req');
+        $body .= ips($this->lang->word('change password'), 'input', 'password', null, "maxlength='12'", 'password', $this->lang->word('required').' '.$this->lang->word('number chars'), 'req');
+        $body .= ips($this->lang->word('confirm password'), 'input', 'cpassword', null, "maxlength='12'", 'password', $this->lang->word('if change'),'req');
         $body .= ips($this->lang->word('time now'), 'getTimeOffset', 'user_offset', $rs['user_offset']);
         $body .= ips($this->lang->word('time format'), 'getTimeFormat', 'user_format', $rs['user_format']);
-        $body .= ips($this->lang->word('your language'), 'getLanguage', 'user_lang', $rs['user_lang'], NULL, 'text');
+        $body .= ips($this->lang->word('your language'), 'getLanguage', 'user_lang', $rs['user_lang'], null, 'text');
         
-        $body .= input('huser_lang', 'hidden', NULL, $rs['user_lang']);
+        $body .= input('huser_lang', 'hidden', null, $rs['user_lang']);
         
-        $body .= input('upd_user', 'submit', NULL, $this->lang->word('update'));
+        $body .= input('upd_user', 'submit', null, $this->lang->word('update'));
         $body .= "</div>";
         $body .= "<div class='cl'><!-- --></div>";
         $body .= "</div>";
@@ -168,9 +168,9 @@ class System extends Router
             $body .= ips($this->lang->word('description'), 'input', 'media_title', $rs['media_title'], "maxlength='35'", 'text');
             $body .= ips($this->lang->word('width'), 'input', 'media_x', $rs['media_x'], "maxlength='4'", 'text', $this->lang->word('if applicable'));
             $body .= ips($this->lang->word('height'), 'input', 'media_y', $rs['media_y'], "maxlength='4'", 'text', $this->lang->word('if applicable'));
-            $body .= input('upd_editfile', 'submit', NULL, $this->lang->word('update'));
+            $body .= input('upd_editfile', 'submit', null, $this->lang->word('update'));
             $body .= input('upd_delfile','submit', "onclick=\"javascript:return confirm('".$this->lang->word('are you sure')."');return false;\"", $this->lang->word('delete'));
-            $body .= input('upd_file', 'hidden', NULL, $this->lang->word('update'));
+            $body .= input('upd_file', 'hidden', null, $this->lang->word('update'));
         }
         
         $this->template->body = $body;
@@ -191,12 +191,12 @@ class System extends Router
         
         $this->template->pop_links[] = array($this->lang->word('files manager'), "?a=$go[a]&amp;q=files");
         
-        $this->template->form_type = TRUE;
+        $this->template->form_type = true;
         
         // ++++++++++++++++++++++++++++++++++++++
         
         $body = createFileBox(5);
-        $body .= input('upd_files', 'submit', NULL, $this->lang->word('submit'));
+        $body .= input('upd_files', 'submit', null, $this->lang->word('submit'));
         
         // list of allowed filetypes
         $allowed = array_merge($uploads['images'], $uploads['media'], $uploads['files'], $uploads['flash']);
@@ -260,7 +260,7 @@ class System extends Router
         }
 
         // parse it
-        $PARSE =& load_class('parse', TRUE, 'lib');
+        $PARSE =& load_class('parse', true, 'lib');
         $PARSE->vars = $rs;
         $PARSE->code = $contents;
         echo $PARSE->parsing();
@@ -272,7 +272,7 @@ class System extends Router
     function sbmt_upd_user()
     {
         global $go;
-        $processor =& load_class('processor', TRUE, 'lib');
+        $processor =& load_class('processor', true, 'lib');
 
         $clean['user_offset'] = $processor->process('user_offset', array('digit'));
         $clean['user_format'] = $processor->process('user_format', array('notags'));
@@ -284,9 +284,9 @@ class System extends Router
         $check['cpassword'] = $processor->process('cpassword',array('pchars', 'length12', 'notags'));
         
         // need to check for change in password...
-        if ($check['password'] != '')
+        if ($check['password'] !== '')
         {
-            if ($check['password'] == $check['cpassword'])
+            if ($check['password'] === $check['cpassword'])
             {
                 $clean['password'] = md5($check['password']);
                 
@@ -305,7 +305,7 @@ class System extends Router
         {
             // get our error messages
             $error_msg = $processor->get_errors();
-            $this->errors = TRUE;
+            $this->errors = true;
             $GLOBALS['error_msg'] = $error_msg;
             return;
         }
@@ -315,7 +315,7 @@ class System extends Router
         }
         
         // if change in language we need to refresh
-        if ($clean['user_lang'] != $temp['huser_lang']) system_redirect("?a=$go[a]");
+        if ($clean['user_lang'] !== $temp['huser_lang']) system_redirect("?a=$go[a]");
 
         // send an update notice
         $this->template->action_update = 'updated';
@@ -346,7 +346,7 @@ class System extends Router
         }
         else
         {
-            $processor =& load_class('processor', TRUE, 'lib');
+            $processor =& load_class('processor', true, 'lib');
             
             $clean['media_title'] = $processor->process('media_title',array('notags'));
             $clean['media_x'] = $processor->process('media_x',array('digit'));
@@ -357,7 +357,7 @@ class System extends Router
             {
                 // get our error messages
                 $error_msg = $processor->get_errors();
-                $this->errors = TRUE;
+                $this->errors = true;
                 $GLOBALS['error_msg'] = $error_msg;
                 return;
             }
@@ -374,10 +374,10 @@ class System extends Router
     // upload files
     function sbmt_upd_files()
     {
-        $OBJ->template->errors = TRUE;
+        $OBJ->template->errors = true;
         global $go, $uploads;
 
-        $IMG =& load_class('media', TRUE, 'lib');
+        $IMG =& load_class('media', true, 'lib');
             
         // +++++++++++++++++++++++++++++++++++++++++++++++++++
         
@@ -401,7 +401,7 @@ class System extends Router
                     $thetype = array_pop($test);
                     
                     load_helper('output');
-                    $URL =& load_class('publish', TRUE, 'lib');
+                    $URL =& load_class('publish', true, 'lib');
 
                     $URL->title = implode('_', $test);
                     $name = $URL->processTitle();
@@ -417,7 +417,7 @@ class System extends Router
                         // if uploaded we can work with it
                         if (move_uploaded_file($_FILES['filename']['tmp_name'][$i], $IMG->path.'/'.$IMG->filename)) 
                         {
-                            $clean['media_id']  = 'NULL';
+                            $clean['media_id']  = 'null';
                             $clean['media_file'] = $IMG->filename;
                             $clean['media_uploaded'] = getNow();
                             $clean['media_udate'] = getNow();

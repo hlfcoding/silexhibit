@@ -52,7 +52,7 @@ function getURI($var, $default, $validate, $length, $upper=false)
         check_chars($default, $_GET[$var], $validate, $length) :
         $default;
 
-    return ($upper == false) ? strtolower($uri) : $uri;
+    return ($upper === false) ? strtolower($uri) : $uri;
 }
 
 

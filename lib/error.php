@@ -1,24 +1,26 @@
 <?php if (!defined('SITE')) exit('No direct script access allowed');
 
 /**
-* Error output class
-* 
-* @version 1.0
-* @author Vaska 
-*/
+ * Error output class
+ * @version 1.1
+ * @package Indexhibit
+ * @author Vaska 
+ * @author Peng Wang <peng@pengxwang.com>
+ **/
+
 class Error
 {
+    public function __construct () {}
+    
     /**
-    * Returns error page
-    *
-    * @param string $message
-    * @param string $template
-    * @return string
-    */
-    function show_error($message, $template = 'error')
+     * Returns error page
+     * @param string $message
+     * @param string $template
+     * @return string
+     **/
+    public function show_error ($message, $template = 'error')
     {
         $message = "<p>$message</p>";
-        
         ob_start();
         include_once TPLPATH . $template . '.php';
         $buffer = ob_get_contents();
@@ -27,16 +29,14 @@ class Error
     }
     
     /**
-    * Returns login page
-    *
-    * @param string $message
-    * @param string $template
-    * @return string
-    */
-    function show_login($message, $template = 'login')
+     * Returns login page
+     * @param string $message
+     * @param string $template
+     * @return string
+     **/
+    public function show_login ($message, $template = 'login')
     {
         $login = $message;
-        
         ob_start();
         include_once TPLPATH . $template . '.php';
         $buffer = ob_get_contents();

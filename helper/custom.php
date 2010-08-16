@@ -76,7 +76,7 @@ function add_globals ($namespace = 'custom')
 /**
  * @link    http://us.php.net/manual/en/function.get-browser.php#86995
  */
-function _get_browser ($engine = FALSE) {
+function _get_browser ($engine = false) {
     $SUPERCLASS_NAMES = "gecko,mozilla,mosaic,webkit";
     $SUPERCLASS_REGX  = "(?:" . str_replace(",", ")|(?:", $SUPERCLASS_NAMES) . ")";
     $SUBCLASS_NAMES   = "opera,msie,firefox,chrome,safari";
@@ -99,7 +99,7 @@ function _get_browser ($engine = FALSE) {
         $majorVersion = $matches["majorVersion"];
         $minorVersion = $matches["minorVersion"];
         $fullVersion  = $matches["majorVersion"] . $matches["minorVersion"];
-        if ($browser == "safari") {
+        if ($browser === "safari") {
             if (preg_match("/version\/(?P<majorVersion>\d*)(?P<minorVersion>(?:\.\d*)*)/i", $userAgent, $matches)) {
                 $majorVersion = $matches["majorVersion"];
                 $minorVersion = $matches["minorVersion"];
@@ -128,9 +128,9 @@ function truncate ($str, $delim = '. ', $html = true, $suffix = '', $length = 15
     if ($html) { // remove cdata and html
         $str = preg_replace('/[\n\t\[\]\{\}\/\/<>]*/i', '', strip_tags($str));
     }
-    if ($delim == '. ') { // flag fake sentences, abbreviations, etc.
+    if ($delim === '. ') { // flag fake sentences, abbreviations, etc.
         $str = preg_replace('/(\b[A-Z][A-Za-z0-9]+)(\.\s)/', '$1%period%', $str);
-    } else if ($delim == ' ' AND strlen($str) < $length) { // nothing to trim
+    } else if ($delim === ' ' AND strlen($str) < $length) { // nothing to trim
         return $str;
     }
     // try
@@ -140,17 +140,17 @@ function truncate ($str, $delim = '. ', $html = true, $suffix = '', $length = 15
     if ($pos === false) { // nothing to trim
         $pos = strpos($str, $delim, $start);
         $substr = substr($str, $start, $pos + 1);
-        if (strlen($substr) == 1) { // string is one unit
+        if (strlen($substr) === 1) { // string is one unit
             $substr = $str;
         }
     } else {
         $substr = substr($substr, 0, $pos + 1);
     }
-    if ($delim == '. ') { // revert fake sentences
+    if ($delim === '. ') { // revert fake sentences
         $substr = str_replace('%period%', '. ', $substr);
     }
     return rtrim($substr) 
-            . ((!empty($suffix) && $substr == $str) ? '' : ' ' . $suffix);
+            . ((!empty($suffix) && $substr === $str) ? '' : ' ' . $suffix);
 }
 
 // html source prettifier

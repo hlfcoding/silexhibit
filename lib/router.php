@@ -101,7 +101,7 @@ class Router extends Core
      **/
     function tunnel(&$INDX, $class, $method) {
         if (method_exists($INDX, 'page_' . $method)) {
-            call_user_func(array(&$INDX, 'page_' . $method), NULL);
+            call_user_func(array(&$INDX, 'page_' . $method), null);
         } else {
             show_error('router err 1');
         }

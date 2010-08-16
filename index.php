@@ -26,10 +26,10 @@ require_once 'common.php';
 load_helpers(array('html', 'entrance', 'time', 'server'));
 
 // general tools for loading things
-load_class('core', FALSE, 'lib');
+load_class('core', false, 'lib');
 
 // "I'm digging for fire" - Pixies	
-$OBJ =& load_class('router', TRUE, 'lib');
+$OBJ =& load_class('router', true, 'lib');
 
 // are we logged in?
 $OBJ->access->checkLogin();
@@ -38,7 +38,7 @@ $OBJ->access->checkLogin();
 $OBJ->lang->setlang($OBJ->access->prefs['user_lang']);
 
 // loading our module object
-$INDX =& load_class($go['a'], TRUE, 'mod', TRUE);
+$INDX =& load_class($go['a'], true, 'mod', true);
 
 // referencing wonkiness
 // review when there is time

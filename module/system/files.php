@@ -146,8 +146,8 @@ function createFileBox($num)
     {
         ($i > 0) ? $style = " style='display:none'" : $style = '';
         
-        $s .= div(input("media_title[$i]",'text',"size='20' maxlength='35'",NULL).'&nbsp;'.
-            input("filename[$i]",'file',"size='20'",NULL),
+        $s .= div(input("media_title[$i]",'text',"size='20' maxlength='35'",null).'&nbsp;'.
+            input("filename[$i]",'file',"size='20'",null),
             "class='attachFiles' id='fileInput$i'$style");
     }   
     
@@ -162,7 +162,7 @@ function createFileBox($num)
 function getTimeOffset($default='', $name, $attr='')
 {
     $s = '';
-    $default = ($default == '') ? 0 : $default;
+    $default = ($default === '') ? 0 : $default;
     $timestamp = getNow();
 
     $offset = array(13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0,
@@ -183,7 +183,7 @@ function getTimeOffset($default='', $name, $attr='')
         
         $newdate = strftime("%A, %R %p", strtotime($hello));
         
-        ($default == $a) ? $sl = "selected ": $sl = "";
+        ($default === $a) ? $sl = "selected ": $sl = "";
         $s .= option($a, $newdate, $default, $a);
     }
 
@@ -194,7 +194,7 @@ function getTimeOffset($default='', $name, $attr='')
 function getTimeFormat($default='', $name, $attr='')
 {
     $s = '';
-    $default = ($default == '') ? '%Y-%m-%d %T' : $default;
+    $default = ($default === '') ? '%Y-%m-%d %T' : $default;
     $timestamp = getNow();
 
     $formats = array('%d %B %Y', '%A, %H:%M %p', '%Y-%m-%d %T');
@@ -214,7 +214,7 @@ function getTimeFormat($default='', $name, $attr='')
         
         $newdate = strftime($format, strtotime($hello));
         
-        ($default == $format) ? $sl = "selected ": $sl = "";
+        ($default === $format) ? $sl = "selected ": $sl = "";
         $s .= option($format, $newdate, $default, $format);
     }
 
@@ -230,7 +230,7 @@ function getLanguage($default='', $name, $attr='')
 
     $rs = $OBJ->lang->lang_options();
 
-    if ($default == '')
+    if ($default === '')
     {
         $s .= option('', $OBJ->lang->word('make selection'), 0, 0);
     }
@@ -242,7 +242,7 @@ function getLanguage($default='', $name, $attr='')
         // check to see if the lang folder exists
         if (is_dir(DIRNAME . BASENAME . '/' . LANGPATH . '/' . $key))
         {
-            ($default == $a) ? $sl = "selected ": $sl = "";
+            ($default === $a) ? $sl = "selected ": $sl = "";
             $s .= option($key, $OBJ->lang->word($language), $default, $key);
         }
     }
@@ -256,7 +256,7 @@ function getGeneric($state, $name, $attr)
 {
     $OBJ =& get_instance();
     
-    if ($state == '') $state = 0;
+    if ($state === '') $state = 0;
     
     $s = option(1, $OBJ->lang->word('on'), $state, 1);
     $s .= option(0, $OBJ->lang->word('off'), $state, 0);

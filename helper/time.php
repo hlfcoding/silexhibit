@@ -4,11 +4,11 @@
 // helpers for time things
 
 // time function for right now
-function getNow($now=TRUE)
+function getNow($now=true)
 {
     $OBJ =& get_instance();
     
-    return ($now == TRUE) ?
+    return ($now === TRUE) ?
         date("Y-m-d H:i:s",time()) :
         date("Y-m-d",time());
 }
@@ -22,9 +22,9 @@ function convertToStamp($timestamp)
 
 function convertDate($date='', $offset='', $format='')
 {
-    $date = ($date == '') ? getNow() : $date;
-    $offset = ($offset == '') ? 0 : $offset;
-    $format = ($format == '') ? '%d %B %Y' : $format;
+    $date = ($date === '') ? getNow() : $date;
+    $offset = ($offset === '') ? 0 : $offset;
+    $format = ($format === '') ? '%d %B %Y' : $format;
     
     // messy
     $timestamp = str_replace(array('-', ':', ' '), array('', '', ''), $date);
