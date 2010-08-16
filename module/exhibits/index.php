@@ -1,8 +1,7 @@
 <?php if (!defined('SITE')) exit('No direct script access allowed');
 
 /**
- * Template class
- * Helps us get from url to the correct class and method
+ * Exhibit CMS Section
  * @version 1.1
  * @package Indexhibit
  * @subpackage Indexhibit CMS

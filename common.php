@@ -148,7 +148,7 @@ function show_error($message = '', $trace = false)
 
 
 // could use refinement - rethink
-function show_login($message='')
+function show_login($message = '')
 {
     // we'll use the default language for this
     $lang =& load_class('lang', TRUE, 'lib');
@@ -190,7 +190,7 @@ function system_redirect ($params = '')
  * @return string
  * @todo refine
  **/
-function entry_uri ($uri='', $server_uri)
+function entry_uri ($uri = '', $server_uri)
 {
     $url = $server_uri;
 

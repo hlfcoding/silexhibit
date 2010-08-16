@@ -154,27 +154,18 @@ function getPresent($path, $default)
     
     if ($OBJ->object['obj_mode'] == 1)
     {
-        // advanced...
-        // let's get the folders and info...
         $modules = array();
-
-        if (is_dir($path))
-        {
-            if ($fp = opendir($path)) 
-            {
-                while (($module = readdir($fp)) !== false) 
-                {
-                    if (eregi("^exhibit", $module))
-                    {
+        if (is_dir($path)) {
+            if ($fp = opendir($path)) {
+                while (($module = readdir($fp)) !== false) {
+                    if (preg_match('/^exhibit/i', $module) === 0) {
                         $modules[] = $module;
                     }
                 } 
             }
             closedir($fp);
         }
- 
         sort($modules);
-        
         $s = '';
         foreach ($modules as $module)
         {

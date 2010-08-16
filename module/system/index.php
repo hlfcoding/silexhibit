@@ -3,9 +3,9 @@
 
 class System extends Router
 {
-    function System()
+    function __construct()
     {
-        parent::Router();
+        parent::__construct();
         
         // library of $_POST options
         $submits = array('upd_files', 'upd_file', 'upd_user');

@@ -1,14 +1,23 @@
 <?php if (!defined('SITE')) exit('No direct script access allowed');
 
+/**
+ * Statistics CMS Section
+ * @version 1.1
+ * @package Indexhibit
+ * @subpackage Indexhibit CMS
+ * @author Vaska 
+ * @author Peng Wang <peng@pengxwang.com>
+ * @todo remove views
+ **/
 
 class Stats extends Router
 {
     var $error      = FALSE;
     var $error_msg;
     
-    function Stats()
+    function __construct()
     {
-        parent::Router();
+        parent::__construct();
     }
     
     function page_index()
