@@ -66,10 +66,8 @@ class Media
     {
         $upload_max_filesize = ini_get('upload_max_filesize');
         $upload_max_filesize = preg_replace('/M/', '000000', $upload_max_filesize);
-        
         $post_max_size = ini_get('post_max_size');
         $post_max_size = preg_replace('/M/', '000000', $post_max_size);
-        
         $this->upload_max_size = ($post_max_size >= $upload_max_filesize) ? $upload_max_filesize : $post_max_size;
     }
     
@@ -81,19 +79,15 @@ class Media
         $this->getFileType();
         $this->get_input();
         $this->size = getimagesize($this->image);
-        
         // first image
         $this->upload_image($this->maxsize);
         $this->file_size();
-        
         // system thumbnail
         $this->sys_thumb($this->sys_thumb);
-        
         // we'll need to distinguish this for only images
         if (($this->makethumb === true) && (in_array($this->filemime, $this->allowThumbs()))) {
             $this->upload_image($this->thumbsize, true);
         }
-        
         imagedestroy($this->input_image);
     }
 

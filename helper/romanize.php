@@ -1,7 +1,6 @@
 <?php if (!defined('SITE')) exit('No direct script access allowed');
 
-
-function romanizeFile()
+function romanizeFile ()
 {
     
     /**

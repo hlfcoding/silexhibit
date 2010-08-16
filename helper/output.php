@@ -1,61 +1,56 @@
 <?php if (!defined('SITE')) exit('No direct script access allowed');
 
+/**
+ * Data functions
+ * @author edited by Peng Wang <peng@pengxwang.com>
+ * @version 1.1
+ * @package Indexhibit
+ **/
 
-// functions used when getting data out of database
-
-// for nicer placement in our textareas - but are we using this really?
-function stripForForm($text='', $process='')
+/**
+ * For nicer placement in our textareas - but are we using this really?
+ * @param string $text 
+ * @param string $process 
+ * @return string
+ */
+function stripForForm ($text = '', $process = '')
 {
-    if (($process === 0) || ($process === '')) 
-    {
+    if (empty($process)) {
         // have we checked this yet
-        if (function_exists('mb_decode_numericentity'))
-        {
+        if (function_exists('mb_decode_numericentity')) {
             return mb_decode_numericentity($text, UTF8EntConvert('1'), 'utf-8');
-        }
-        else
-        {
+        } else {
             $text = htmlspecialchars($text);
-            return str_replace(array("&gt;","&lt;"), array(">","<"), $text);
+            return str_replace(array("&gt;", "&lt;"), array(">", "<"), $text);
         }
-    }
-    
-    if ($text) 
-    {
-        $out = str_replace("<p>", "", $text);
-        $out = str_replace(array("<br />","<br>"),array("",""), $out);
-        $out = str_replace("</p>", "", $out);
-        
-        if (function_exists('mb_decode_numericentity'))
-        {
-            $out = mb_decode_numericentity($out, UTF8EntConvert('1'), 'utf-8');
-        }
-        else
-        {
-            $out = htmlspecialchars($out);
-            $out = str_replace(array("&gt;","&lt;"), array(">","<"), $out);
-        }
-        
-        return $out;
     } 
-    else 
-    {
+    if ($text) {
+        $out = str_replace("<p>", "", $text);
+        $out = str_replace(array("<br />", "<br>"), array("", ""), $out);
+        $out = str_replace("</p>", "", $out);
+        if (function_exists('mb_decode_numericentity')) {
+            $out = mb_decode_numericentity($out, UTF8EntConvert('1'), 'utf-8');
+        } else {
+            $out = htmlspecialchars($out);
+            $out = str_replace(array("&gt;", "&lt;"), array(">", "<"), $out);
+        }
+        return $out;
+    } else {
         return '';
     }
 }
-
-
-// this does allow ", &, < and > so be sure to be aware of them
-// http://php.belnet.be/manual/en/function.mb-encode-numericentity.php
-function UTF8EntConvert($out='')
+/**
+ * This does allow ", &, < and > so be sure to be aware of them
+ * @link http://php.belnet.be/manual/en/function.mb-encode-numericentity.php
+ * @param string $out 
+ * @return array
+ */
+function UTF8EntConvert ($out = '')
 {
     $f = 0xffff;
-
     $convmap = array(
-
         // %HTMLlat1;
         160,  255, 0, $f,
-
         // %HTMLsymbol;
         402,  402, 0, $f,  913,  929, 0, $f,  931,  937, 0, $f,
         945,  969, 0, $f,  977,  978, 0, $f,  982,  982, 0, $f,
@@ -74,7 +69,6 @@ function UTF8EntConvert($out='')
         8901, 8901, 0, $f, 8968, 8971, 0, $f, 9001, 9002, 0, $f,
         9674, 9674, 0, $f, 9824, 9824, 0, $f, 9827, 9827, 0, $f,
         9829, 9830, 0, $f,
-
         // %HTMLspecial;
         // These ones are excluded to enable HTML: 34, 38, 60, 62
         // but we enable 38, 60, 62 when displaying in textarea (see below)
@@ -84,56 +78,44 @@ function UTF8EntConvert($out='')
         8216, 8218, 0, $f, 8218, 8218, 0, $f, 8220, 8222, 0, $f,
         8224, 8225, 0, $f, 8240, 8240, 0, $f, 8249, 8250, 0, $f,
         8364, 8364, 0, $f,
-
         // basic foreign chars
-
         // other symbols
         191, 191, 0, $f
         );
-
-    if ($out === '1') 
-    {
+    if ($out === '1') {
         $insert = array(38, 38, 0, $f, 60, 60, 0, $f, 62, 62, 0, $f);
-        return $convmap = array_merge($insert,$convmap);
-    } 
-    else 
-    {
+        return $convmap = array_merge($insert, $convmap);
+    } else {
         return $convmap;
     }
 }
-
-
 /**
  * Romanize a non-latin string
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function utf8Romanize($string)
+function utf8Romanize ($string)
 {
-    if (utf8_isASCII($string)) return $string; //nothing to do
-
+    if (utf8_isASCII($string)) {
+        return $string; //nothing to do
+    }
     $romanize = romanizeFile(null);
-
-    return strtr($string,$romanize);
+    return strtr($string, $romanize);
 }
-
-
 /**
  * Checks if a string contains 7bit ASCII only
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function utf8_isASCII($str)
+function utf8_isASCII ($str)
 {
-    for ($i=0; $i<strlen($str); $i++) 
-    {
-        if (ord($str{$i}) >127) return false;
+    for ($i = 0; $i<strlen($str); $i++) {
+        if (ord($str{$i}) > 127) {
+            return false;
+        }
     }
-
     return true;
 }
-
-    
 /**
  * Replace accented UTF-8 characters by unaccented ASCII-7 equivalents
  *
@@ -142,31 +124,24 @@ function utf8_isASCII($str)
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function utf8Deaccent($string, $case=0)
+function utf8Deaccent ($string, $case = 0)
 {
     $accents = accentsFile();
-
-    if ($case <= 0) 
-    {
+    if ($case <= 0) {
         $string = str_replace(
             array_keys($accents['lower']),
             array_values($accents['lower']),
             $string);
     }
-
-    if ($case >= 0)
-    {
+    if ($case >= 0) {
         $string = str_replace(
             array_keys($accents['upper']),
             array_values($accents['upper']),
             $string);
     }
-
     return $string;
 }
-
-
-function accentsFile()
+function accentsFile ()
 {
     $UTF8['lower'] = array(
       'à' => 'a', 'ô' => 'o', 'ď' => 'd', 'ḟ' => 'f', 'ë' => 'e', 'š' => 's', 'ơ' => 'o', 
@@ -185,7 +160,6 @@ function accentsFile()
       'ṁ' => 'm', 'ō' => 'o', 'ĩ' => 'i', 'ù' => 'u', 'į' => 'i', 'ź' => 'z', 'á' => 'a', 
       'û' => 'u', 'þ' => 'th', 'ð' => 'dh', 'æ' => 'ae', 'µ' => 'u'
     );
-
     $UTF8['upper'] = array(
       'À' => 'A', 'Ô' => 'O', 'Ď' => 'D', 'Ḟ' => 'F', 'Ë' => 'E', 'Š' => 'S', 'Ơ' => 'O', 
       'Ă' => 'A', 'Ř' => 'R', 'Ț' => 'T', 'Ň' => 'N', 'Ā' => 'A', 'Ķ' => 'K', 
@@ -203,7 +177,5 @@ function accentsFile()
       'Ṁ' => 'M', 'Ō' => 'O', 'Ĩ' => 'I', 'Ù' => 'U', 'Į' => 'I', 'Ź' => 'Z', 'Á' => 'A', 
       'Û' => 'U', 'Þ' => 'Th', 'Ð' => 'Dh', 'Æ' => 'Ae'
     );
-
     return $UTF8;
 }
-

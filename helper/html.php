@@ -1,327 +1,243 @@
 <?php if (!defined('SITE')) exit('No direct script access allowed');
 
+/**
+ * Html functions
+ * @author edited by Peng Wang <peng@pengxwang.com>
+ * @version 1.1
+ * @package Indexhibit
+ **/
 
-// rudimentary functions for making html with less handling
-
-// widget function
-// works for select menus and some input fields
-function ips($title, $function, $name, $value='', $attr='', $type='', $subtitle='', $req='', $tag='', $tag_attr='', $extra='', $afterwards='')
+/**
+ * widget function
+ * works for select menus and some input fields
+ * @param string $title 
+ * @param string $function 
+ * @param string $name 
+ * @param string $value 
+ * @param string $attr 
+ * @param string $type 
+ * @param string $subtitle 
+ * @param string $req 
+ * @param string $tag 
+ * @param string $tag_attr 
+ * @param string $extra 
+ * @param string $afterwards 
+ * @return string
+ * @author edited by Peng Wang <peng@pengxwang.com>
+ */
+function ips ($title, $function, $name, $value = '', $attr = '', $type = '', $subtitle = '', $req = '', $tag = '', $tag_attr = '', $extra = '', $afterwards = '')
 {
     $OBJ =& get_instance();
-    
     global $error_msg, $go;
-    
     // set a default
     // we might want div later
-    if (!$tag) $tag = 'label';
+    if (!$tag) {
+        $tag = 'label';
+    }
     ($tag_attr) ? $tag_attr = "$tag_attr" : $tag_attr = '';
     ($OBJ->access->prefs['user_help'] == 1) ? $help = showHelp($title) : $help = '';
     ($afterwards) ? $afterwards = $afterwards : $afterwards = '';
-    
-    if (isset($error_msg[$name]))
-    {
+    if (isset($error_msg[$name])) {
         $msg = span($error_msg[$name], "class='error'");
-    } 
-    else 
-    {
+    } else {
         $msg = null;
     }
-    
-    ($subtitle) ? $subtitle = span($subtitle,"class='small-txt'") : $subtitle = '';
+    ($subtitle) ? $subtitle = span($subtitle, "class='small-txt'") : $subtitle = '';
     ($title) ? $title = label($title . ' ' . $subtitle . ' ' . $help . $msg) : $title = '';
-    
-    
     ($req) ? $req = showerror($msg) : $req = '';
-    $value = showvalue($name,$value);
-    
     ($extra) ? $add = $extra : $add = '';
-
-    
-    if ($function === 'input') 
-    {
-        $function = input($name,$type,attr($attr),$value);
-    } 
-    else 
-    {
-        ($function) ? $function = $function($value,$name,attr($attr),$add):
+    $value = showvalue($name, $value);
+    if ($function === 'input') {
+        $function = input($name, $type, attr($attr), $value);
+    } else {
+        ($function) ? $function = $function($value, $name, attr($attr), $add):
         $function = null;
     }
-    
     return $title ."\n" . $function;
 }
-
-
-function row_color($style)
+function row_color ($style)
 {
     static $color = false;
-    
-    if ($color === false)
-    {
+    if ($color === false) {
         $color = true;
         return;
-    } 
-    else
-    {
+    } else {
         $color = false;
         return $style;
     }
 }
-
-
-function attr($attr='')
+function attr ($attr = '')
 {
-    return ($attr) ? $attr = ' '.$attr : $attr = '';
+    return ($attr) ? $attr = ' ' . $attr : $attr = '';
 }
-
-
-function href($insert, $url, $attr='')
+function href ($insert, $url, $attr = '')
 {
     $s = "<a href=\"$url\"";
     $s .= attr($attr).">$insert</a>";
-    
     return $s;
 }
-
-
-function popup($insert, $url, $size='')
+function popup ($insert, $url, $size = '')
 {
-    $s = "<a href=\"$url\" onClick=\"OpenWindow(this.href,'popup',$size,'yes');return false;\"";
+    $s = "<a href=\"$url\" onClick=\"OpenWindow(this.href, 'popup', $size, 'yes');return false;\"";
     $s .= ">$insert</a>";
-    
     return $s;
 }   
-
-
-function div($insert='', $attr='')
+function div ($insert = '', $attr = '')
 {
-    return tag($insert,'div',$attr);
+    return tag($insert, 'div', $attr);
 }
-
-
-function label($insert='', $attr='')
+function label ($insert = '', $attr = '')
 {   
-    return softag($insert,'label',$attr);
+    return softag($insert, 'label', $attr);
 }
-
-
-function p($insert='', $attr='')
+function p ($insert = '', $attr = '')
 {   
-    return ptag($insert,'p',$attr);
+    return ptag($insert, 'p', $attr);
 }
-
-
-function ul($insert='', $attr='')
+function ul ($insert = '', $attr = '')
 {   
-    return ptag($insert,'ul',$attr);
+    return ptag($insert, 'ul', $attr);
 }
-
-
-function ol($insert='', $attr='')
+function ol ($insert = '', $attr = '')
 {   
-    return tag($insert,'ol',$attr);
+    return tag($insert, 'ol', $attr);
 }
-
-
-function li($insert='', $attr='')
+function li ($insert = '', $attr = '')
 {   
-    return xtag($insert,'li',$attr);
+    return xtag($insert, 'li', $attr);
 }
-
-
-function code($insert='', $attr='')
+function code ($insert = '', $attr = '')
 {   
-    return softag($insert,'code',$attr);
+    return softag($insert, 'code', $attr);
 }
-
-
-function table($insert='', $attr='')
+function table ($insert = '', $attr = '')
 {   
-    return xtag($insert,'table',$attr);
+    return xtag($insert, 'table', $attr);
 }
-
-
-function th($insert='', $attr='')
+function th ($insert = '', $attr = '')
 {   
-    return xtag($insert,'th',$attr);
+    return xtag($insert, 'th', $attr);
 }
-
-
-function tr($insert='', $attr='')
+function tr ($insert = '', $attr = '')
 {   
-    return xtag($insert,'tr',$attr);
+    return xtag($insert, 'tr', $attr);
 }
-
-
-function td($insert='', $attr='')
+function td ($insert = '', $attr = '')
 {   
-    return xtag($insert,'td',$attr);
+    return xtag($insert, 'td', $attr);
 }
-
-
-function span($insert, $attr='') 
+function span ($insert, $attr = '') 
 {   
-    return softag($insert,'span',$attr);
+    return softag($insert, 'span', $attr);
 }
-
-
-function strong($insert='', $attr='') 
+function strong ($insert = '', $attr = '') 
 {   
-    return softag($insert,'strong',$attr);
+    return softag($insert, 'strong', $attr);
 }
-
-
-function form($insert, $attr='') 
+function form ($insert, $attr = '') 
 {   
-    return tag($insert,'form',$attr);
+    return tag($insert, 'form', $attr);
 }
-
-
-function textarea($insert='', $attr='', $name='') 
+function textarea ($insert = '', $attr = '', $name = '') 
 {
-    return softag($insert,'textarea',"name='$name'".attr($attr));
+    return softag($insert, 'textarea', "name='$name'".attr($attr));
 }
-
-
-function radio($name, $attr='', $value, $check='') 
+function radio ($name, $attr = '', $value, $check = '') 
 {
     ($value === $check) ? $checked = ' checked ': $checked = '';
-    return input($name,'radio',attr($attr).$checked,$value);
+    return input($name, 'radio', attr($attr).$checked, $value);
 }
-
-
-function input($name, $type, $attr='', $value) 
+function input ($name, $type, $attr = '', $value) 
 {
-    return '<input type="'.$type.'" name="'.$name.'" value="'.inputHelper($value).'" '.attr($attr)." />\n";
+    return '<input type="' . $type . '" name="' . $name . '" value="'.inputHelper($value).'" '.attr($attr)." />\n";
 }
-
-
 // deals with double quotes in input/text
-function inputHelper($str)
+function inputHelper ($str)
 {
-    if (!$str) return;
-    return str_replace('"','&#34;',$str);
+    if (!$str) {
+        return;
+    }
+    return str_replace('"', '&#34;', $str);
 }
-
-
-function checkbox($name, $attr='', $value, $checked) 
+function checkbox ($name, $attr = '', $value, $checked) 
 {   
     ($checked === '1') ? $check = ' checked': $check = '';
     return "<input type='checkbox' name='$name' value='$value'".attr($attr)."$check />\n";
 }
-
-
-function option($value='', $insert, $s1='', $s2='') 
+function option ($value = '', $insert, $s1 = '', $s2 = '') 
 {
     ($s1 === $s2) ? $sl = " selected": $sl = '';
     return "<option value=\"$value\" $sl>$insert</option>\n";
 }
-
-
-function select($name, $attr, $insert) 
+function select ($name, $attr, $insert) 
 {
     $s = "<select name='$name'".attr($attr).">\n";
     $s .= $insert;
     $s .= "</select>\n";
     return $s;
 }
-
-
-function br($repeat='1', $attr='') 
+function br ($repeat = '1', $attr = '') 
 {
     $br = '';
-    
-    for ($i = 1; $i <= $repeat; $i++) $br .= "<br" . attr($attr) . " />\n";
+    for ($i = 1; $i <= $repeat; $i++) {
+        $br .= "<br" . attr($attr) . " />\n";
+    }
     return $br;
 }
-
-
-function tag($insert='', $tag, $attr='') 
+function tag ($insert = '', $tag, $attr = '') 
 {
     return "<$tag".attr($attr).">\n$insert\n</$tag>\n";
 }
-
-
-function ptag($insert='', $tag, $attr='') 
+function ptag ($insert = '', $tag, $attr = '') 
 {
     return "<$tag".attr($attr).">$insert</$tag>\n\n";
 }
-
-
-function xtag($insert, $tag, $attr='') 
+function xtag ($insert, $tag, $attr = '') 
 {
     return "<$tag".attr($attr).">$insert</$tag>\n";
 }
-
-
 // for things like <span>
-function softag($insert, $tag, $attr='') 
+function softag ($insert, $tag, $attr = '') 
 {
     return "<$tag".attr($attr).">$insert</$tag>";
 }
-
-
-function showerror($string='')
+function showerror ($string = '')
 {
-    if ($string)
-    {
+    if ($string) {
         return " <span class='error'>$string</span>";
-    } 
-    else 
-    {
+    } else {
         return '';
     }
 }
-
-
-function errorAlert($err='')
+function errorAlert ($err = '')
 {
-    if ($err) 
-    {
+    if ($err) {
         return div('There was an error - please check your coordinates', "class='alert'");
     }
 }
-
-
-function showvalue($value, $name='')
+function showvalue ($value, $name = '')
 {
     global $error_msg;  
-    
-    if (isset($error_msg)) 
-    {
+    if (isset($error_msg)) {
         // review
         return stripslashes($_POST[$value]);
-    } 
-    elseif ($name) 
-    {
+    } elseif ($name) {
         return $name;
-    } 
-    else 
-    {
+    } else {
         return null;
     }
 }
-
-
-// not being used, yet
-function helpurl($subject)
+function helpurl ($subject)
 {
     global $go;
-        
     return "?a=$go[a]&q=help&lookup=" . htmlspecialchars($subject);
 }
-
-
-// not being used
-function showHelp($title='')
+function showHelp ($title = '')
 {
     $OBJ =& get_instance();
-    
-    if ($OBJ->access->prefs['user_help'] == 1) 
-    {
-        return span(href('?', helpurl($title), "alt='Help: $title' title='Help: $title' onClick=\"OpenWindow(this.href,'popup','375','425','yes');return false;\""),"class='help'");
-    } 
-    else 
-    {
+    if ($OBJ->access->prefs['user_help'] == 1) {
+        return span(href('?', helpurl($title), "alt='Help: $title' title='Help: $title' onClick=\"OpenWindow(this.href, 'popup', '375', '425', 'yes');return false;\""), "class='help'");
+    } else {
         return;
     }
 }
