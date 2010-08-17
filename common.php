@@ -257,12 +257,17 @@ function ndxz_rewriter ($url = '') {
 }
 
 /**
- * Display a simple log message. Useful for debugging.
+ * Display a simple log message. Useful for debugging. 
+ * Can be inserted anywhere.
  * @param mixed
  * @param string
  * @param bool
+ * @return mixed
  **/
 function _log ($data, $label = null, $trace = false) {
+    if ($GLOBALS['default']['run_traces'] === false) {
+        return $data;
+    }
     require_once DIRNAME . BASENAME . DS . TESTPATH . DS . 'test.pcss';
     $label = isset($label) ? '' : "$label: ";
     echo '<pre class="log">' . $label;
@@ -271,4 +276,5 @@ function _log ($data, $label = null, $trace = false) {
     if ($trace) {
         _log(debug_backtrace(), 'stack trace');
     }
+    return $data;
 }

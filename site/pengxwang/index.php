@@ -22,21 +22,21 @@
     <link rel="author" href="<% baseurl %>" />
     <link rel="license content-license" href="<% data_content_license_link %>" />
     <link rel="license source-license" href="<% data_source_license_link %>" />
-    <link rel="shortcut icon" href="<% baseurl %><% basename %>/site/<% obj_theme %>/favicon.ico" />
+    <link rel="shortcut icon" href="<% baseurl %><% baseurlname %>/site/<% obj_theme %>/favicon.ico" />
     <link rel="apple-touch-icon" href="<% baseurl %>/favicon.png" />
 
     <!-- custom styles -->
-    <link rel="stylesheet" href="<% baseurl %><% basename %>/site/<% obj_theme %>/style.css" media="all" />
+    <link rel="stylesheet" href="<% baseurl %><% baseurlname %>/site/<% obj_theme %>/style.css" media="all" />
 <!--[if lte IE 8]>
-    <link href="<% baseurl %><% basename %>/site/<% obj_theme %>/layout_mobile.css" rel="stylesheet" media="handheld" id="layout_mobile-css" />
-    <link href="<% baseurl %><% basename %>/site/<% obj_theme %>/layout_print.css" rel="stylesheet" media="print" id="layout_print-css" />
-    <link href="<% baseurl %><% basename %>/site/<% obj_theme %>/layout_screen.css" rel="stylesheet" media="screen" id="layout_screen-css" />
+    <link href="<% baseurl %><% baseurlname %>/site/<% obj_theme %>/layout_mobile.css" rel="stylesheet" media="handheld" id="layout_mobile-css" />
+    <link href="<% baseurl %><% baseurlname %>/site/<% obj_theme %>/layout_print.css" rel="stylesheet" media="print" id="layout_print-css" />
+    <link href="<% baseurl %><% baseurlname %>/site/<% obj_theme %>/layout_screen.css" rel="stylesheet" media="screen" id="layout_screen-css" />
 <![endif]-->
-    <link rel="stylesheet" href="<% baseurl %><% basename %>/site/<% obj_theme %>/color.css" media="all" />
-    <link rel="stylesheet" href="<% baseurl %><% basename %>/site/<% obj_theme %>/type.css" media="all" />
-<!--[if lte IE 8]><link href="<% baseurl %><% basename %>/site/<% obj_theme %>/lte_ie8.css" rel="stylesheet" media="all" id="lte_ie8-css" /><![endif]-->
-<!--[if lte IE 7]><link href="<% baseurl %><% basename %>/site/<% obj_theme %>/lte_ie7.css" rel="stylesheet" media="all" id="lte_ie7-css" /><![endif]-->
-<!--[if lte IE 6]><link href="<% baseurl %><% basename %>/site/<% obj_theme %>/lte_ie6.css" rel="stylesheet" media="all" id="lte_ie6-css" /><![endif]-->
+    <link rel="stylesheet" href="<% baseurl %><% baseurlname %>/site/<% obj_theme %>/color.css" media="all" />
+    <link rel="stylesheet" href="<% baseurl %><% baseurlname %>/site/<% obj_theme %>/type.css" media="all" />
+<!--[if lte IE 8]><link href="<% baseurl %><% baseurlname %>/site/<% obj_theme %>/lte_ie8.css" rel="stylesheet" media="all" id="lte_ie8-css" /><![endif]-->
+<!--[if lte IE 7]><link href="<% baseurl %><% baseurlname %>/site/<% obj_theme %>/lte_ie7.css" rel="stylesheet" media="all" id="lte_ie7-css" /><![endif]-->
+<!--[if lte IE 6]><link href="<% baseurl %><% baseurlname %>/site/<% obj_theme %>/lte_ie6.css" rel="stylesheet" media="all" id="lte_ie6-css" /><![endif]-->
 
     <!-- indexhibit styles -->
     <plug:front_lib_css />
@@ -44,19 +44,16 @@
     
     <!-- custom scripts -->
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
-    <script type="text/javascript" src="<% baseurl %><% basename %>/site/js/modernizr.js"></script>
-    <script type="text/javascript" src="<% baseurl %><% basename %>/site/js/jquery.template.js"></script>
-    <script type="text/javascript" src="<% baseurl %><% basename %>/site/js/jquery.hlf.tip.js"></script>
-    <script type="text/javascript" src="<% baseurl %><% basename %>/site/js/ndxz.accordion-menu.js"></script>
-    <script type="text/javascript" src="<% baseurl %><% basename %>/site/js/cookie.js"></script>
-    <script type="text/javascript" src="<% baseurl %><% basename %>/site/js/swfobject.js"></script>
-    <script type="text/javascript" src="<% baseurl %><% basename %>/site/pengxwang/site.js"></script>
-    <script type="text/javascript"> 
-        var path = Site.mediaUrl = '<% baseurl %>/files/gimgs/'; 
-        Site.serviceUrl = '<% baseurl %><% baseurlname %>/extend/service';
-    </script>
-    <plug:posterous_feed section_id="<% section_id %>", hostname="pengxwang"/>
-    <plug:twitter_feed section_id="<% section_id %>", screen_name="hlfcoding"/>
+    <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/modernizr.js"></script>
+    <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/jquery.template.js"></script>
+    <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/jquery.hlf.tip.js"></script>
+    <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/ndxz.accordion-menu.js"></script>
+    <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/cookie.js"></script>
+    <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/swfobject.js"></script>
+    <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/pengxwang/site.js"></script>
+    <plug:api_urls />
+    <plug:news_feed section_id="<% section_id %>", feeds="github_posterous_twitter" />
     <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
     
     <!-- indexhibit scripts -->

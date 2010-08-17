@@ -573,6 +573,11 @@ body {
 }
 
 /* ^ jquery > accordion **/
+/** jquery > feed */
+#content .jFeedRemember {
+    right: 100px;
+}
+/* ^ jquery > feed **/
 /** jquery > templates */
 
 #content .feeds-container {
@@ -589,15 +594,18 @@ body {
     #content .feed-container .label {
         display: block;
     }
-#content .feed.mnV li {
+#content .mnV.feed li {
     padding: 0;
     border-bottom-width: 1px;
 }
+    #content .mnV.feed li li {
+        border: 0;
+    }
     #content .twitter-feed .mnV li,
     #content .posterous-feed .mnV li {
         padding-right: 1.545em;
     }
-#content .feed.mnV a.permalink {
+#content .mnV.feed a.permalink {
     padding-top: .545em;
     padding-bottom: .181em;
     padding-left: .545em;
@@ -608,14 +616,20 @@ body {
         overflow: hidden;
         white-space: nowrap;
     }
+#content .github-feed .mnV article,
 #content .twitter-feed .mnV article {
     padding: .545em 0 .181em 1.545em;
 }
-#content .feed.mnV a.inline {
+#content .github-feed .mnV blockquote,
+#content .github-feed .mnV code {
+    font-style: italic;
+}
+
+#content .mnV.feed .inline {
     display: inline;
     border: 0;
     padding: 0;
-    margin: 9;
+    margin: 0;
 }
 
 /* ^ jquery > templates **/

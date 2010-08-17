@@ -21,13 +21,13 @@
                     <article>
                         <span class="title faux-link">
                             ${p.title}</span>
-                            <span class="delim">|</span>
+                        <span class="delim">|</span>
                         <time datetime="${p.date}" pubdate>
                             ${p.humanDate}</time>
-                            <span class="delim">|</span>
+                        <span class="delim">|</span>
                         <abbr class="stat" title="${p.views} views">
                             ${p.views}</abbr>
-                            <span class="delim">|</span>
+                        <span class="delim">|</span>
                         <abbr class="truncated tags" title="${p.tags}">
                             ${p.tags}</abbr>
                     </article>
@@ -49,6 +49,30 @@
             <li>
                 <article>
                     ${s.text}
+                </article>
+            </li>
+            {{/each}}
+        </ol>
+    </li>
+</div></script>
+<script id="tpl-github-feed" type="text/html"><div>
+    <li class="github-feed feed-container">
+        <header>
+            <em class="label">
+                Github (<a href="http://github.com/hlfcoding" title="see all">link</a>)
+            </em>
+        </header>
+        <ol class="feed mn mnV">
+            {{each(i,e) entry}}
+            <li>
+                <article>
+                    <div class="title inline">
+                        ${e.title}</span>
+                    </div>
+                    <div class="delim inline">|</div>
+                    <div class="content inline">
+                        ${e.content}
+                    </div>
                 </article>
             </li>
             {{/each}}

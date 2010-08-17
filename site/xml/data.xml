@@ -1,58 +1,26 @@
 <?xml version='1.0' ?>
 <data>
-    <name>
-        Peng Xiao Wang
-    </name>
-    <email>
-        peng@pengxwang.com
-    </email>
-    <email_tip>
-        Email me
-    </email_tip>
-    <keywords>
-        Peng Wang, Peng, Wang, Xiao, Indexhibit, WordPress, CodeIgniter, Processing, Actionscript, Fluidesign, UCLA, D+MA, D|MA, Los Angeles, China, artist, designer, coder, portfolio, resume, creative, design, media arts, web design, graphic design, motion, video, drawing, painting, illustration, freelance, processing
-    </keywords>
-    <description>
-        Personal website of Peng Wang. Features: portfolio, sketches, bio, resume, and more.
-    </description>
-    <copyright_start>
-        2008
-    </copyright_start>
-    <copyright_meta>
-        Content is under a Attribution-Noncommercial-No Derivative Works 3.0 Unported Creative Commons License. Code is under an Attribution-Share Alike 3.0 Unported Creative Commons License.
-    </copyright_meta>
-    <copyright_tip>
-        Creative Commons licensed. Code is under an Attribution-Share Alike 3.0 Unported Creative Commons License.
-    </copyright_tip>
-    <content_license_link>
-        http://creativecommons.org/licenses/by-nc-nd/3.0/
-    </content_license_link>
-    <source_license_link>
-        http://creativecommons.org/licenses/by-sa/3.0/
-    </source_license_link>
-    <goog_webm_key>
-        6nvBUJPI8AOryT4Vb8/GeRq8e83ySOxjDkqJGKEASSo=
-    </goog_webm_key>
-    <site_version>
-        1.04
-    </site_version>
-    <dreamhost_link>
-        http://www.dreamhost.com/r.cgi?493002            
-    </dreamhost_link>
-    <dreamhost_tip>
-        DreamHost Web Hosting - Providing scalable Linux-based web hosting and FREE domain registration.
-    </dreamhost_tip>
-    <ndxz_tip>
-        Indexhibit is a web application used to build and maintain an archetypal, invisible website format that combines text, image, movie and sound. 
-    </ndxz_tip>
-    <posterous_num_posts>
-        6
-    </posterous_num_posts>
-    <twitter_count>
-        12
-    </twitter_count>
-    <!--ndxz internal-->
-    <feed_section_id>
-        8
-    </feed_section_id>
+    <name>Peng Xiao Wang</name>
+    <email>peng@pengxwang.com</email>
+    <email_tip>Email me</email_tip>
+    <keywords>Peng Wang, Peng, Wang, Xiao, Indexhibit, WordPress, CodeIgniter, Processing, Actionscript, Fluidesign, UCLA, D+MA, D|MA, Los Angeles, China, artist, designer, coder, portfolio, resume, creative, design, media arts, web design, graphic design, motion, video, drawing, painting, illustration, freelance, processing</keywords>
+    <description>Personal website of Peng Wang. Features: portfolio, sketches, bio, resume, and more.</description>
+    <copyright_start>2008</copyright_start>
+    <copyright_meta>Content is under a Attribution-Noncommercial-No Derivative Works 3.0 Unported Creative Commons License. Code is under an Attribution-Share Alike 3.0 Unported Creative Commons License.</copyright_meta>
+    <copyright_tip>Creative Commons licensed. Code is under an Attribution-Share Alike 3.0 Unported Creative Commons License.</copyright_tip>
+    <content_license_link>http://creativecommons.org/licenses/by-nc-nd/3.0/</content_license_link>
+    <source_license_link>http://creativecommons.org/licenses/by-sa/3.0/</source_license_link>
+    <goog_webm_key>6nvBUJPI8AOryT4Vb8/GeRq8e83ySOxjDkqJGKEASSo=</goog_webm_key>
+    <site_version>1.04</site_version>
+    <dreamhost_link>http://www.dreamhost.com/r.cgi?493002</dreamhost_link>
+    <dreamhost_tip>DreamHost Web Hosting - Providing scalable Linux-based web hosting and FREE domain registration.</dreamhost_tip>
+    <ndxz_tip>Indexhibit is a web application used to build and maintain an archetypal, invisible website format that combines text, image, movie and sound. </ndxz_tip>
+    <!-- news feed plugin -->
+    <nf_feed_section_id>8</nf_feed_section_id>
+    <!-- individual feed settings, convention is [namespace]_[feed]_[request_var_name] -->
+    <nf_posterous_hostname>pengxwang</nf_posterous_hostname>
+    <nf_posterous_num_posts>6</nf_posterous_num_posts>
+    <nf_twitter_screen_name>hlfcoding</nf_twitter_screen_name>
+    <nf_twitter_count>12</nf_twitter_count>
+    <nf_github_custom_count>4</nf_github_custom_count>
 </data>

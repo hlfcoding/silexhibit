@@ -39,7 +39,11 @@ $default = array(
     'color_picker' => true,
     'sql' => 'mysql',
     'helpers' => array('time'),
-    'reporting' => false
+    'reporting' => false,
+    'content_xml_filename' => 'data',
+    'content_xml_namespace' => 'data',
+    'run_tests' => false,
+    'run_traces' => false,
 );
 $uploads = array(
     'images' => array('jpg', 'gif', 'png'),
@@ -59,7 +63,9 @@ define('MODPATH', 'module');
 define('DBPATH', 'db');
 define('LANGPATH', 'lang');
 define('EXTPATH', 'extend');
-define('PLUGPATH', 'site/plugin');
+define('SERVPATH', EXTPATH . '/service');
+define('SITEPATH', 'site');
+define('PLUGPATH', SITEPATH . '/plugin');
 define('CMSPATH', 'module');
 $core_paths = array(
     LIBPATH => LIBPATH, 
@@ -83,7 +89,7 @@ define('TPLPATH', ASSET . 'tpl/');
 define('TESTPATH', 'test');
 
 // app path segments
-define('BASENAME', DIRECTORY_SEPARATOR . 'ndxz-studio');
+define('BASENAME', DS . 'ndxz-studio');
 define('DIRNAME', str_replace(BASENAME, '', realpath(dirname(__FILE__))));
 
 // app url segments

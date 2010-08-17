@@ -7,8 +7,6 @@
  * @version 1
  */
 
-define('FULLURL', str_replace('index.php', '', 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']));
-
 function antispambot ($address, $mailto = 0)
 {
     $safe = '';
@@ -31,7 +29,7 @@ function antispambot ($address, $mailto = 0)
     return $safe;
 }
 
-function load_xml ($filename = 'data', $namespace = 'data') 
+function load_xml ($filename = '', $namespace = '') 
 {
     global $rs;
     $path = DIRNAME . BASENAME . "/site/xml/$filename.xml";
@@ -50,9 +48,6 @@ function add_globals ($namespace = 'custom')
 {
     global $rs;
     
-    define('THEMEDIR', DIRNAME . BASENAME . '/site/' . $rs['obj_theme']);
-    define('THEMEURL', BASEURL . BASENAME . '/site/' . $rs['obj_theme']);
-
     $rs["${namespace}_html_validation"] = 'http://validator.w3.org/check/referer';
     $rs["${namespace}_css_validation"] = 'http://jigsaw.w3.org/css-validator/validator?'
          . htmlentities(
