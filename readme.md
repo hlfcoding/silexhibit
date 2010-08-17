@@ -6,19 +6,19 @@ Continues where Indexhibit leaves off: 1) cleans up and finishes the existing co
 
 *   automated build process for frontend assets
 *   news feed and integration with posterous api
-
+*   integration with twitter 
+*   integration with github
+*   caching of dynamic feed content
+*   better organization by storing short template content in xml
 
 ##Indexhibit++ Roadmap
 
 *   caching of dynamic content
-*   integration with twitter 
-*   integration with github
-
-
-##Indexhibit++ Todo
-
-*   move `deploy` into `ndxz-studio/extend`
-*   add github repo for indexhibit++
+*   improved admin interface with better separation of concerns and javascript
+*   improved exhibit plugins, with support for newer javascript modules like masonry
+*   section based styling
+*   sensitive content obfuscator
+*   using pdo for database requests
 
 (cc) 2010 Peng Wang
 
