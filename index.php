@@ -15,11 +15,11 @@
 //  Thank you for shopping at indexhibit.org
 // -----------------------------------------------------------
 
-require_once 'bootstrap.php';
-require_once 'defaults.php';
 if (file_exists('config/config.php')) {
     require_once 'config/config.php';
 }
+require_once 'defaults.php';
+require_once 'bootstrap.php';
 require_once 'common.php';
 	
 // preloading things

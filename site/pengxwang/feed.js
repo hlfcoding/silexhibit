@@ -163,7 +163,7 @@ $(document).ready(function () {
     $remember.bind('click', function (evt) {
         evt.preventDefault();
         cookieValue = $.cookie(cookieName);
-        $.cookie(cookieName, (cookieValue === 'true') ? false : true);
+        $.cookie(cookieName, (cookieValue === 'true') ? false : true, cookieOptions);
         $remember
             .find('.jOn')[(cookieValue === 'true') ? 'show' : 'hide']().end() // back on
             .find('.jOff')[(cookieValue === 'true') ? 'hide' : 'show'](); // back off
