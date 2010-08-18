@@ -43,7 +43,7 @@ $default = array(
     'content_xml_filename' => 'data',
     'content_xml_namespace' => 'data',
     'run_tests' => false,
-    'run_traces' => false,
+    'run_traces' => true,
 );
 $uploads = array(
     'images' => array('jpg', 'gif', 'png'),

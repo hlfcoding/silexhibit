@@ -104,6 +104,7 @@ body {
 time {
     display: inline;
 }
+figure,
 footer,
 header {
     display: block;
@@ -117,7 +118,14 @@ header {
     overflow: hidden;
 }
 
-.hide { display: none; }
+#html .inline {
+    display: inline;
+}
+
+.hide { 
+    display: none; 
+}
+
 /* ^ util **/
 /** extend util */
 
@@ -624,12 +632,30 @@ body {
 #content .github-feed .mnV code {
     font-style: italic;
 }
-
-#content .mnV.feed .inline {
-    display: inline;
+#content .feed .inline {
     border: 0;
     padding: 0;
     margin: 0;
+}
+#content .mnG.feed li {
+    float: left;
+    width: 33%;
+    display: block;
+    
+}
+#content .mnG.feed figure {
+    height: 170px;
+    padding: 10px 0;
+}
+#content .mnG.feed figure img {
+    display: block;
+    margin: 0 auto;
+    box-shadow: 0 0 3px rgba(0,0,0, .5); -moz-box-shadow: 0 0 3px rgba(0,0,0, .5); -webkit-box-shadow: 0 0 3px rgba(0,0,0, .5);
+}
+#content .mnG.feed figcaption {
+    display: block;
+    text-align: center;
+    padding: 10px 0 0 0;
 }
 
 /* ^ jquery > templates **/

@@ -1,6 +1,6 @@
 <?php 
 /*
-    Stand-alone script that interacts with Twitter API. It is called with an  
+    Stand-alone script that interacts with Github Atom. It is called with an  
     XHR and does not reside in the Indexhibit context.
 */
 // process XHR

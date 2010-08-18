@@ -19,6 +19,7 @@
                 <a class="compound permalink" href="${p.link}" rel="bookmark" 
                     target="_blank" data-tooltip="">
                     <article>
+                    <!-- weird indentation due to parsing bugs -->
                         <span class="title faux-link">
                             ${p.title}</span>
                         <span class="delim">|</span>
@@ -67,15 +68,38 @@
             <li>
                 <article>
                     <div class="title inline">
-                        ${e.title}</span>
-                    </div>
+                        ${e.title}</div>
                     <div class="delim inline">|</div>
                     <div class="content inline">
-                        ${e.content}
-                    </div>
+                        ${e.content}</div>
                 </article>
             </li>
             {{/each}}
         </ol>
     </li>
+</div></script>
+<script id="tpl-deviantart-feed" type="text/html"><div>
+    <li class="deviantart-feed feed-container">
+        <header>
+            <em class="label">
+                DeviantArt (<a href="http://destrado04.deviantart.com/gallery/" title="see all">link</a>)
+            </em>
+        </header>
+    </li>
+    <ol class="feed mn mnG fixC">
+        {{each(i,it) item}}
+        <li>
+            <figure>
+                <img class="thumb" src="${it.thumb.url}" width="${it.thumb.width}" height="${it.thumb.height}" />
+                <figcaption>
+                    <a class="title inline" href="${it.permalink}" title="permalink" target="_blank" rel="bookmark" >
+                        ${it.title}</a>
+                    <span class="delim inline">|</span>
+                    <time datetime="${it.date.pub}" pubdate>
+                        ${it.date.human}</time>
+                </figcaption>
+            </figure>
+        </li>
+        {{/each}}
+    </ol>
 </div></script>

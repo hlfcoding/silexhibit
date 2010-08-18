@@ -53,7 +53,7 @@
     <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/swfobject.js"></script>
     <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/pengxwang/site.js"></script>
     <plug:api_urls />
-    <plug:news_feed section_id="<% section_id %>", feeds="github_posterous_twitter" />
+    <plug:news_feed section_id="<% section_id %>", feeds="github_posterous_twitter_deviantart" />
     <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
     
     <!-- indexhibit scripts -->

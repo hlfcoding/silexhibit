@@ -17,9 +17,11 @@ define('FULLURL', str_replace('index.php', '', 'http://' . $_SERVER['HTTP_HOST']
 // GLOBAL RESOURCES
 //---------------------------------------
 require THEMEDIR . '/header.php';
-load_xml($default['content_xml_filename'], $default['content_xml_namespace']);
+load_xml(
+    SITEPATH . DS . $rs['obj_theme'] . DS . $default['content_xml_filename'], 
+    $default['content_xml_namespace']
+);
 add_globals($indx['theme_namespace']);
-define('NEWSFEED', 'nf'); // namespace
 
 // functions
 //---------------------------------------
@@ -52,6 +54,7 @@ function api_urls ()
 //---------------------------------------
 // FEED
 //---------------------------------------
+define('NEWSFEED', 'nf'); // namespace
 /**
  * @return string html
  **/
@@ -134,7 +137,7 @@ function front_template ($section_id, $template_name)
     $output = '';
     $ns = $default['content_xml_namespace'] . '_';
     
-    switch (_log("$section_id : $template_name")) {
+    switch ("$section_id : $template_name") {
         // 'news feed'
         case $rs[$ns . NEWSFEED . '_feed_section_id'] . ' : feed' : 
             $output .= file_get_contents(THEMEDIR . '/feed.html');

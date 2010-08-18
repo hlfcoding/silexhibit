@@ -29,10 +29,10 @@ function antispambot ($address, $mailto = 0)
     return $safe;
 }
 
-function load_xml ($filename = '', $namespace = '') 
+function load_xml ($path = '', $namespace = '') 
 {
     global $rs;
-    $path = DIRNAME . BASENAME . "/site/xml/$filename.xml";
+    $path = DIRNAME . BASENAME . DS . "$path.xml";
     if (!file_exists($path)) {
         throw new RuntimeException("Failed to open xml file: $filename");
         return;

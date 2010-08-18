@@ -1,5 +1,11 @@
 <?php if (!defined('SERVICE')) exit('No direct script access allowed');
 
+/**
+ * API functionality is serverside and not client side because 
+ * of this, we can cache results.
+ * @package Indexhibit++
+ * @author Peng Wang <peng@pengxwang.com>
+ */
 interface IStaticCaching 
 {    
     const DEFAULT_CACHE_PATH = 'cache/';
@@ -24,6 +30,7 @@ class ApiRequest implements IStaticCaching
     public $parameters;
     public $cachePath;
     public $cacheTimeout;
+    public $returnJson;
     //---------------------------------------
     // PROTECTED VARIABLES
     //---------------------------------------
@@ -32,7 +39,11 @@ class ApiRequest implements IStaticCaching
     //---------------------------------------
     // PUBLIC METHODS
     //---------------------------------------
-    public function __construct ($serviceAddress, $defaultParameters, $cacheParameters = array('path' => null, 'timeout' => null)) 
+    public function __construct ($serviceAddress, 
+                                 $defaultParameters, 
+                                 $cacheParameters = array('path' => null, 'timeout' => null),
+                                 $returnJson = true) 
+                                 // something with json_encode makes it drop elements like `media:image`
     {
         $this->serviceAddress = $serviceAddress;
         $this->parameters = $defaultParameters;
@@ -41,6 +52,7 @@ class ApiRequest implements IStaticCaching
         $this->generateCacheFileName($this->query);
         $this->establishCachePath(isset($cacheParameters['path']) ? $cacheParameters['path'] : self::DEFAULT_CACHE_PATH);
         $this->cacheTimeout = isset($cacheParameters['timeout']) ? $cacheParameters['timeout'] : self::DEFAULT_CACHE_TIMEOUT;
+        $this->returnJson = $returnJson;
     }
     public function buildQuery () 
     {
@@ -49,7 +61,11 @@ class ApiRequest implements IStaticCaching
     public function fetchResult () 
     {
         if (!$result = $this->readCache()) {
-            $result = json_encode(simplexml_load_file($this->query));
+            if ($this->returnJson) {
+                $result = json_encode(simplexml_load_file($this->query));
+            } else { // xml string
+                $result = file_get_contents($this->query);
+            }
             try {
                 $this->updateCache($result);
             } catch (RuntimeException $e) {
