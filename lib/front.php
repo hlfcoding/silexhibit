@@ -31,11 +31,11 @@ class Front
      **/
     public function init_front ()
     {
-        if (file_exists(DIRNAME . BASENAME . '/site/plugin/exhibit.' . $this->result['format'] . '.php')) {
-            include DIRNAME . BASENAME . '/site/plugin/exhibit.' . $this->result['format'] . '.php';
+        if (file_exists(DIRNAME . BASENAME . DS . PLUGPATH . DS . 'exhibit.' . $this->result['format'] . '.php')) {
+            include DIRNAME . BASENAME . DS . PLUGPATH . DS . 'exhibit.' . $this->result['format'] . '.php';
         } else {
             // thie default format
-            include DIRNAME . BASENAME . '/site/plugin/exhibit.grow.php';
+            include DIRNAME . BASENAME . DS . PLUGPATH . DS . 'exhibit.grow.php';
         }
         return $this->exhibit = $exhibit;
     }
@@ -81,10 +81,10 @@ class Front
         if ($this->exhibit['lib_css'] !== '') {
             if (is_array($this->exhibit['lib_css'])) {
                 foreach ($this->exhibit['lib_css'] as $css) {
-                    $out .= "<style type='text/css'> @import url(" . BASEURL . BASENAME . "/site/css/$css); </style>\n";
+                    $out .= "<style type='text/css'> @import url(" . BASEURL . BASEURLNAME . "/site/css/$css); </style>\n";
                 }
             } else {
-                $out .= "<style type='text/css'> @import url(" . BASEURL . BASENAME . "/site/css/" . $this->exhibit['lib_css'] . "); </style>\n";
+                $out .= "<style type='text/css'> @import url(" . BASEURL . BASEURLNAME . "/site/css/" . $this->exhibit['lib_css'] . "); </style>\n";
             }
         }
         return $out;
@@ -103,14 +103,16 @@ class Front
         if ($this->exhibit['lib_js'] !== '') {
             if (is_array($this->exhibit['lib_js'])) {
                 foreach ($this->exhibit['lib_js'] as $js) {
-                    $out .= "<script type='text/javascript' src='" . BASEURL . BASENAME . "/site/js/" 
-                        . ((MODE === DEVELOPMENT) ? "" : PRODUCTION . "/")
-                        . str_replace('.js', '.min.js', $js) . "'></script>\n";
+                    $out .= "<script type='text/javascript' src='" . BASEURL . BASEURLNAME . "/site/js/" 
+                        . ((MODE === DEVELOPMENT) ? $js
+                            : PRODUCTION . "/" . str_replace('.js', '.min.js', $js))
+                        . "'></script>\n";
                 }
             } else {
-                $out .= "<script type='text/javascript' href='" . BASEURL . BASENAME . "/site/js/" 
-                    . ((MODE === DEVELOPMENT) ? "" : PRODUCTION . "/")
-                    . str_replace('.js', '.min.js', $this->exhibit['lib_js']) . "'></script>\n";
+                $out .= "<script type='text/javascript' href='" . BASEURL . BASEURLNAME . "/site/js/" 
+                    . ((MODE === DEVELOPMENT) ? $this->exhibit['lib_js'] 
+                        : PRODUCTION . "/" . str_replace('.js', '.min.js', $this->exhibit['lib_js'])) 
+                    . "'></script>\n";
             }
         }
         return $out;        

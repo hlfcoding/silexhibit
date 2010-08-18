@@ -240,7 +240,7 @@ function getLanguage($default='', $name, $attr='')
         $language = array_pop($a);
         
         // check to see if the lang folder exists
-        if (is_dir(DIRNAME . BASENAME . '/' . LANGPATH . '/' . $key))
+        if (is_dir(DIRNAME . BASENAME . DS . LANGPATH . DS . $key))
         {
             ($default === $a) ? $sl = "selected ": $sl = "";
             $s .= option($key, $OBJ->lang->word($language), $default, $key);

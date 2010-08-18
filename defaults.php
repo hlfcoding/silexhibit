@@ -90,6 +90,7 @@ define('TESTPATH', 'test');
 
 // app path segments
 define('BASENAME', DS . 'ndxz-studio');
+define('BASEURLNAME', str_replace("\\", '/', BASENAME));
 define('DIRNAME', str_replace(BASENAME, '', realpath(dirname(__FILE__))));
 
 // app url segments

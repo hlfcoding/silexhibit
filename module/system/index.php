@@ -231,7 +231,7 @@ class System extends Router
         if (!$rs) show_error('no results');
         
         // get plugins (all of them)
-        include DIRNAME . BASENAME . '/site/plugin/index.php';
+        include DIRNAME . BASENAME . DS . PLUGPATH . DS . 'index.php';
         
         // additional parts
         $rs['baseurl'] = BASEURL;
@@ -253,7 +253,7 @@ class System extends Router
         }
         else
         {
-            $filename = DIRNAME . BASENAME . '/site/' . $rs['obj_theme'] . '/index.php';
+            $filename = DIRNAME . BASENAME . DS . SITEPATH . DS . $rs['obj_theme'] . '/index.php';
             $fp = @fopen($filename, 'r');
             $contents = fread($fp, filesize($filename));
             fclose($fp);

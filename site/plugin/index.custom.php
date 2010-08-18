@@ -11,7 +11,7 @@
 // CONSTANTS
 //---------------------------------------
 define('THEMEDIR', DIRNAME . BASENAME . DS . SITEPATH . DS . $rs['obj_theme']);
-define('THEMEURL', BASEURL . $rs['baseurlname'] . '/site/' . $rs['obj_theme']);
+define('THEMEURL', BASEURL . BASEURLNAME . '/site/' . $rs['obj_theme']);
 define('FULLURL', str_replace('index.php', '', 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']));
 //---------------------------------------
 // GLOBAL RESOURCES
@@ -47,7 +47,7 @@ function api_urls ()
     return implode("\n", array(
         '<script type="text/javascript">',
         "var path = Site.mediaUrl = '" . BASEURL . GIMGS . "/';",
-        "Site.serviceUrl = '" . BASEURL . $rs['baseurlname'] . "/" . SERVPATH . "';",
+        "Site.serviceUrl = '" . BASEURL . BASEURLNAME . "/" . SERVPATH . "';",
         '</script>'
         ));
 }
