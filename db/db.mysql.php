@@ -9,8 +9,9 @@
  **/
 class Db
 {
-    public $theQuery;
+    public $query;
     public $link;
+    public $pdo;
 
     public function __construct ()
     {
@@ -24,25 +25,32 @@ class Db
         if (!isset($indx['host']) || empty($indx['host'])) {
             $this->db_out_of_order();
         }
-        $this->link = @mysql_connect($indx['host'], $indx['user'], $indx['pass']);
-        if (!isset($this->link) || empty($this->link)) { 
-            $this->db_out_of_order();
+        // $this->link = @mysql_connect($indx['host'], $indx['user'], $indx['pass']);
+        // if (!isset($this->link) || empty($this->link)) { 
+        //     $this->db_out_of_order();
+        // }
+        // mysql_select_db($indx['db']);
+        // register_shutdown_function(array(&$this, 'close'));
+        try {
+            $this->pdo = new PDO("mysql:host={$indx['host']};dbname={$indx['db']}", $indx['user'], $indx['pass']);
+        } catch (PDOException $e) {
+            print "Error!: " . $e->getMessage() . "<br/>";
+            die ();
         }
-        mysql_select_db($indx['db']);
-        register_shutdown_function(array(&$this, 'close'));
     }
     
     /**
-     * @param string $query
-     * @return mixed
+     * @param string
+     * @return PDOStatment
      **/
     public function query ($query = '')
     {
-        $this->theQuery = $query;
-        if (empty($this->theQuery)) {
+        $this->query = $query;
+        if (empty($this->query)) {
             return false; 
         }
-        return mysql_query($this->theQuery, $this->link);
+        $this->pdo->prepare($this->query);
+        return $this->pdo->query($this->query);
     }
     
     /**
@@ -55,7 +63,7 @@ class Db
     }
     
     /**
-     * @param string $query
+     * @param string
      * @return integer
      **/
     public function getCount ($query = '')
@@ -69,19 +77,14 @@ class Db
     }
     
     /**
-     * @param string $query
+     * @param string
      * @return array records
      **/
     public function fetchArray ($query = '')
     {
-        $rs = $this->query($query);
-        if ($rs) {
-            if (mysql_num_rows($rs) > 0) {
-                while ($arr = mysql_fetch_assoc($rs)) $out[] = $arr;
-                return $out;
-            }
-        }
-        return false;
+        $statement = $this->pdo->prepare($query);
+        $statement->execute();
+        return $statement->fetchAll();
     }
     
     /**
@@ -90,18 +93,13 @@ class Db
      **/
     public function fetchRecord ($query = '')
     {   
-        $rs = $this->query($query);
-        if ($rs) {
-            if (mysql_num_rows($rs) > 0) {
-                $arr = mysql_fetch_assoc($rs);          
-                return $arr;
-            }
-        }
-        return false;
+        $statement = $this->pdo->prepare($query);
+        $statement->execute();
+        return $statement->fetch();
     }
     
     /**
-     * @param string $query
+     * @param string
      * @return int id of inserted record
      **/
     public function insertRecord ($query)
@@ -116,11 +114,11 @@ class Db
     }
     
     /**
-     * @param string $table
-     * @param array $array
-     * @param string $type
-     * @param string $cols
-     * @return array records
+     * @param string
+     * @param array
+     * @param string
+     * @param string
+     * @return array
      **/
     public function selectArray ($table, $array, $type = 'array', $cols = '')
     {
