@@ -25,16 +25,10 @@ class Db
         if (!isset($indx['host']) || empty($indx['host'])) {
             $this->db_out_of_order();
         }
-        // $this->link = @mysql_connect($indx['host'], $indx['user'], $indx['pass']);
-        // if (!isset($this->link) || empty($this->link)) { 
-        //     $this->db_out_of_order();
-        // }
-        // mysql_select_db($indx['db']);
-        // register_shutdown_function(array(&$this, 'close'));
         try {
             $this->pdo = new PDO("mysql:host={$indx['host']};dbname={$indx['db']}", $indx['user'], $indx['pass']);
         } catch (PDOException $e) {
-            print "Error!: " . $e->getMessage() . "<br/>";
+            show_error('Database is unavailable');
             die ();
         }
     }
@@ -252,14 +246,4 @@ class Db
         return false;
     }
     
-    public function close ()
-    {
-        mysql_close($this->link);
-    }
-    
-    public function db_out_of_order () 
-    {
-        show_error('Database is unavailable');
-        exit;
-    }
 }

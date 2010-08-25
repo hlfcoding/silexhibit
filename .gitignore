@@ -1,5 +1,5 @@
 .svn/
 .backup/
 config/config.php
-extend/services/cache/
+extend/service/cache/
 production/
