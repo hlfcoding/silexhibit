@@ -5,8 +5,9 @@
 <pre class="tests">
 
 <?php
-    include 'config.php';
-    include 'helpers.php';
+    // include 'config.php';
+    // include 'helpers.php';
+    include 'db.php';
 ?>
 
 </pre>

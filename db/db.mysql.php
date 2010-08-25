@@ -1,6 +1,7 @@
 <?php if (!defined('SITE')) exit('No direct script access allowed');
 /**
  * Database Class
+ * Very basic wrapper for PDO
  * @version 1.1
  * @package Indexhibit
  * @author Vaska
@@ -19,11 +20,15 @@ class Db
         $this->setNames();
     }
 
+    /**
+     * TODO description
+     * @global array config
+     **/
     public function initialize ()
     {
         global $indx;
         if (!isset($indx['host']) || empty($indx['host'])) {
-            $this->db_out_of_order();
+            show_error('Database is unavailable');
         }
         try {
             $this->pdo = new PDO("mysql:host={$indx['host']};dbname={$indx['db']}", $indx['user'], $indx['pass']);
@@ -35,7 +40,7 @@ class Db
     
     /**
      * @param string
-     * @return PDOStatment
+     * @return PDOStatement
      **/
     public function query ($query = '')
     {
@@ -43,12 +48,14 @@ class Db
         if (empty($this->query)) {
             return false; 
         }
-        $this->pdo->prepare($this->query);
-        return $this->pdo->query($this->query);
+        $statement = $this->pdo->prepare($this->query);
+        $statement->execute();
+        return $statement;
     }
     
     /**
      * Sets the database to be utf-8 
+     * @todo this seems basic
      **/
     public function setNames ()
     {
@@ -62,12 +69,8 @@ class Db
      **/
     public function getCount ($query = '')
     {
-        if ($rs = $this->query($query)) {
-            $num = (mysql_num_rows($rs) != 0) ? mysql_result($rs,0) : '';
-            mysql_free_result($rs);
-            return $num;
-        }
-        return 0;
+        $statement = $this->query($query);
+        return $statement ? $statement->rowCount() : 0;
     }
     
     /**
@@ -94,15 +97,14 @@ class Db
     
     /**
      * @param string
-     * @return int id of inserted record
+     * @return string id of inserted record
      **/
     public function insertRecord ($query)
     {
-        if ($rs = $this->query($query)) {
-            $lastid = mysql_insert_id($this->link);
-            if ($lastid) {
-                return $lastid;
-            }
+        $statement = $this->pdo->prepare($query);
+        $statement->execute();
+        if ($this->pdo->lastInsertId) {
+            return $this->pdo->lastInsertId;
         }
         return false;
     }
@@ -113,21 +115,16 @@ class Db
      * @param string
      * @param string
      * @return array
+     * @todo default $type as constant
      **/
-    public function selectArray ($table, $array, $type = 'array', $cols = '')
+    public function selectArray ($table, $params, $type = 'array', $cols = '')
     {
-        $cols = ($cols == '') ? '*' : $cols;
-        if (is_array($array)) {
-            foreach ($array as $key => $value) {
-                $select[] = "$key = " . $this->escape($value) . " ";
-            }
-            $query = "SELECT $cols FROM $table WHERE " 
-                . implode(' AND ', $select) . "";
-            if ($type === 'array') {
-                return $this->fetchArray($query);
-            } else {
-                return $this->fetchRecord($query);
-            }
+        $cols = empty($cols) ? '*' : $cols;
+        if (is_array($params)) {
+            $query = "SELECT $cols FROM $table WHERE " . implode(' AND ', $params);
+            $statement = $this->pdo->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+            $statement->execute($params);
+            return ($type === 'array') ? $statement->fetchAll() : $statement->fetch();
         }
         return false;
     }

@@ -22,6 +22,17 @@ define('DS', DIRECTORY_SEPARATOR);
 // config
 // modify as needed if you know what you're doing
 // --------------------------------------------------
+$tables = array(
+    'object' => 'objects',
+    'object_meta' => 'objects_prefs',
+    'section' => 'sections',
+    'setting' => 'settings',
+    'statistic' => 'stats',
+    'user' => 'users'
+);
+foreach ($tables as &$table) { 
+    $table = PX . $table; 
+}
 // note: `default` not `defaults`
 $default = array(
     'img_quality' => 100, // image quality
@@ -42,7 +53,7 @@ $default = array(
     'reporting' => false,
     'content_xml_filename' => 'data',
     'content_xml_namespace' => 'data',
-    'run_tests' => false,
+    'run_tests' => true,
     'run_traces' => true,
 );
 $uploads = array(
