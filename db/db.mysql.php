@@ -39,18 +39,36 @@ class Db
     }
     
     /**
+     * Also saves the query
      * @param string
-     * @return PDOStatement
+     * @param array
+     * @param array
+     * @return int affected rows for INSERT or UPDATE or DELETE statements
+     * @return PDOStatement|false result for SELECT statements
      **/
-    public function query ($query = '')
+    protected function query ($query = '', $params = array(), $driver_options = array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY))
     {
-        $this->query = $query;
-        if (empty($this->query)) {
-            return false; 
+        $this->query = trim($query);
+        if (empty($params)) {
+            return (strpos($this->query, 'SELECT') === 0) ? $this->pdo->query($query) : $this->pdo->exec($query);
+        } else {
+            $statement = $this->pdo->prepare($query, $driver_options);
+            $statement->execute($params);
+            return (strpos($this->query, 'SELECT') === 0) ? $statement : $statement->rowCount();
         }
-        $statement = $this->pdo->prepare($this->query);
-        $statement->execute();
-        return $statement;
+    }
+    
+    /**
+     * TODO description
+     * @param array
+     * @return array
+     **/
+    protected function querySegments ($params) {
+        $querySegments = array();
+        foreach (array_keys($params) as $field) {
+            $querySegments[] = "$field = :$field";
+        }
+        return $querySegments;
     }
     
     /**
@@ -65,7 +83,7 @@ class Db
     
     /**
      * @param string
-     * @return integer
+     * @return int
      **/
     public function getCount ($query = '')
     {
@@ -79,8 +97,7 @@ class Db
      **/
     public function fetchArray ($query = '')
     {
-        $statement = $this->pdo->prepare($query);
-        $statement->execute();
+        $statement = $this->query($query);
         return $statement->fetchAll();
     }
     
@@ -90,25 +107,10 @@ class Db
      **/
     public function fetchRecord ($query = '')
     {   
-        $statement = $this->pdo->prepare($query);
-        $statement->execute();
+        $statement = $this->query($query);
         return $statement->fetch();
     }
-    
-    /**
-     * @param string
-     * @return string id of inserted record
-     **/
-    public function insertRecord ($query)
-    {
-        $statement = $this->pdo->prepare($query);
-        $statement->execute();
-        if ($this->pdo->lastInsertId) {
-            return $this->pdo->lastInsertId;
-        }
-        return false;
-    }
-    
+        
     /**
      * @param string
      * @param array
@@ -119,34 +121,30 @@ class Db
      **/
     public function selectArray ($table, $params, $type = 'array', $cols = '')
     {
-        $cols = empty($cols) ? '*' : $cols;
-        if (is_array($params)) {
-            $query = "SELECT $cols FROM $table WHERE " . implode(' AND ', $params);
-            $statement = $this->pdo->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-            $statement->execute($params);
-            return ($type === 'array') ? $statement->fetchAll() : $statement->fetch();
+        if (!is_array($params)) {
+            throw new PDOException('no conditions to match');
+            return false;
         }
-        return false;
+        $cols = empty($cols) ? '*' : $cols;
+        $query = "SELECT $cols FROM $table WHERE " . implode(' AND ', $this->querySegments($params));
+        $statement = $this->query($query, $params);
+        return ($type === 'array') ? $statement->fetchAll() : $statement->fetch();
     }
     
     /**
-     * @param string $table
-     * @param array $array
-     * @return mixed
+     * @param string
+     * @param array
+     * @return int|FALSE
      **/
-    public function insertArray ($table, $array)
+    public function insertArray ($table, $params)
     {
-        if (is_array($array)) {
-            foreach ($array as $key => $value) {
-                $fields[] = $key;
-                $values[] = $this->escape($value); 
-            }
-            $query = "INSERT INTO $table (" 
-                . implode(', ', $fields) . ") VALUES (" 
-                . implode(', ', $values) . ")";
-            return $this->insertRecord($query);
+        if (!is_array($params)) {
+            throw new PDOException('nothing to insert');
+            return false;
         }
-        return false;
+        $query = "INSERT INTO $table (" . implode(', ', array_keys($params)) 
+            . ") VALUES (" . implode(', ', array_values($params)) . ")";
+        return $this->query($query, $params);
     }
     
     /**
@@ -155,18 +153,14 @@ class Db
      * @param string $id
      * @return bool
      **/
-    public function updateArray ($table, $array, $id)
+    public function updateArray ($table, $params, $id)
     {
-        if (is_array($array)) {
-            foreach ($array as $key => $value) {
-                $updates[] = "$key = " . $this->escape($value) . " ";
-            }
-            $query = "UPDATE $table SET " 
-                . implode(', ', $updates) 
-                . " WHERE $id";
-            return $this->updateRecord($query);
+        if (!is_array($params)) {
+            throw new PDOException('nothing to update to');
+            return false;
         }
-        return false;
+        $query = "UPDATE $table SET " . implode(', ', $this->querySegments($params)) . " WHERE $id";
+        return $this->query($query) > 0;
     }
     
     /**
@@ -177,70 +171,7 @@ class Db
     public function deleteArray ($table, $id)
     {
         $query = "DELETE FROM $table WHERE $id";
-        return $this->deleteRecord($query);
-    }
-    
-    /**
-     * @param string $str
-     * @return string
-     * @todo review
-     **/
-    public function escape ($str)
-    {   
-        switch (gettype($str)) {
-            case 'string':
-                $str = "'" . $this->escape_str($str) . "'";
-                break;
-            case 'boolean':
-                $str = ($str === FALSE) ? 0 : 1;
-                break;
-            default:
-                $str = (($str == NULL) || ($str == ''))  ? "''" : "'" . $this->escape_str($str) . "'";
-                break;
-        }       
-        return $str;
-    }
-    
-    /**
-     * @param string $str
-     * @return string
-     **/
-    public function escape_str ($str)   
-    {   
-        if (get_magic_quotes_gpc()) {
-            return $str;
-        }
-        if (function_exists('mysql_real_escape_string')) {
-            return mysql_real_escape_string($str, $this->link);
-        } elseif (function_exists('mysql_escape_string')) {
-            return mysql_escape_string($str);
-        } else {
-            return addslashes($str);
-        }
-    }
-    
-    /**
-     * @param string $query
-     * @return bool
-     **/
-    public function deleteRecord ($query)
-    {
-        if ($rs = $this->query($query)) {
-            return true;
-        }
-        return false;
-    }
-    
-    /**
-     * @param string $query
-     * @return bool
-     **/
-    public function updateRecord ($query = '')
-    {
-        if ($rs = $this->query($query)) {
-            return true;
-        }
-        return false;
+        return $this->query($query) > 0;
     }
     
 }
