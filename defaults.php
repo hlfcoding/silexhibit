@@ -7,7 +7,7 @@
 // assume modrewrite is being used
 define('MODREWRITE', true);
 // database prefix
-define('PX', 'ndxz_');
+define('PX', 'ndxz_'); // @todo deprecated
 // version
 define('VERSION', '0.71');
 // language to default to in case of error
@@ -28,7 +28,8 @@ $tables = array(
     'section' => 'sections',
     'setting' => 'settings',
     'statistic' => 'stats',
-    'user' => 'users'
+    'user' => 'users',
+    'media' => 'media'
 );
 foreach ($tables as &$table) { 
     $table = PX . $table; 

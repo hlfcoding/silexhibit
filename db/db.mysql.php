@@ -6,18 +6,36 @@
  * @package Indexhibit
  * @author Vaska
  * @author Peng Wang <peng@pengxwang.com>
- * @todo use PDO
+ * @todo loosen tight coupling to indexhibit
  **/
 class Db
 {
     public $query;
     public $link;
     public $pdo;
+    
+    protected $tables;
+    protected $info;
+    
     const FETCH_ARRAY = 0;
     const FETCH_RECORD = 1;
 
-    public function __construct ()
+    public function __construct ($info = null, $tables = null)
     {
+        if (!isset($info)) {
+            global $indx;
+            $info = array(
+                'host' => $indx['host'],
+                'db' => $indx['db'],
+                'user' => $indx['user'],
+                'pass' => $indx['pass']
+            );
+        }
+        $this->info = $info;
+        if (!isset($tables)) {
+            global $tables;
+        }
+        $this->tables = $tables;
         $this->initialize();
         $this->setNames();
     }
@@ -26,14 +44,14 @@ class Db
      * TODO description
      * @global array config
      **/
-    public function initialize ()
+    protected function initialize ()
     {
-        global $indx;
-        if (!isset($indx['host']) || empty($indx['host'])) {
+        if (!isset($this->info['host']) || empty($this->info['host'])) {
             show_error('Database is unavailable');
         }
         try {
-            $this->pdo = new PDO("mysql:host={$indx['host']};dbname={$indx['db']}", $indx['user'], $indx['pass']);
+            $this->pdo = new PDO("mysql:host={$this->info['host']};dbname={$this->info['db']}", 
+                $this->info['user'], $this->info['pass']);
         } catch (PDOException $e) {
             show_error('Database is unavailable');
             die ();
@@ -98,10 +116,22 @@ class Db
      * Sets the database to be utf-8 
      * @todo this seems basic
      **/
-    public function setNames ()
-    {
+    protected function setNames () {
         $this->query("SET NAMES 'utf8'");
-        return;
+    }
+    
+    /**
+     * @param string key
+     * @return string name
+     * @todo check for prefix
+     **/
+    protected function table ($key) {
+        if (array_key_exists($key, $this->tables)) {
+            return $this->tables[$key];
+        } else {
+            throw new PDOException("table name at `$key` does not exist");
+            return false;
+        }
     }
     
     /**
@@ -148,6 +178,7 @@ class Db
             throw new PDOException('no conditions to match');
             return false;
         }
+        $table = $this->table($table);
         $type = empty($type) ? self::FETCH_ARRAY : $type;
         $cols = empty($cols) ? '*' : $cols;
         $query = "SELECT $cols FROM $table WHERE " . implode(' AND ', $this->querySegments($params));
@@ -167,6 +198,7 @@ class Db
             throw new PDOException('nothing to insert');
             return false;
         }
+        $table = $this->table($table);
         $query = "INSERT INTO $table (" . implode(', ', array_keys($params)) 
             . ") VALUES (" . implode(', ', array_values($params)) . ")";
         return $this->query($query, $params);
@@ -184,6 +216,7 @@ class Db
             throw new PDOException('nothing to update to');
             return false;
         }
+        $table = $this->table($table);
         $query = "UPDATE $table SET " . implode(', ', $this->querySegments($params)) . " WHERE $id";
         return $this->query($query, $params) > 0;
     }
@@ -195,6 +228,7 @@ class Db
      **/
     public function deleteArray ($table, $id)
     {
+        $table = $this->table($table);
         $query = "DELETE FROM $table WHERE $id";
         return $this->query($query) > 0;
     }

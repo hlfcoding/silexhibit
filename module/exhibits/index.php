@@ -27,7 +27,7 @@ class Exhibits extends Router
         define('OBJECT', 'exhibit');
         
         $find['obj_ref_type'] = OBJECT;
-        $this->object = $this->db->selectArray(PX.'objects_prefs', $find, 'record');
+        $this->object = $this->db->selectArray('object_meta', $find, Db::FETCH_RECORD);
         
         // library of $_POST options
         $submits = array('upd_view','img_upload','publish_x',
@@ -629,7 +629,7 @@ class Exhibits extends Router
             {
                 load_module_helper('files', $go['a']);
                 $clean['bgimg'] = '';
-                $this->db->updateArray(PX.'objects', $clean, "id='$go[id]'");
+                $this->db->updateArray('object', $clean, "id='{$go[id]}'");
                 
                 $filename = $_POST['filename'];
 
@@ -746,7 +746,7 @@ class Exhibits extends Router
             $clean['ord']       = 1;
             $clean['creator']   = $this->access->prefs['ID'];
             
-            $last = $this->db->insertArray(PX.'objects', $clean);
+            $last = $this->db->insertArray('object', $clean);
             
             system_redirect("?a=$go[a]&q=edit&id=$last");
         }
@@ -790,7 +790,7 @@ class Exhibits extends Router
             $clean['section'] = $folder_name->processTitle();
             $clean['sec_path'] = '/' . $clean['section'];
             
-            $last = $this->db->insertArray(PX.'sections', $clean);
+            $last = $this->db->insertArray('section', $clean);
             
             system_redirect("?a=$go[a]&q=section&id=$last");
         }
@@ -870,7 +870,7 @@ class Exhibits extends Router
             }
             
             
-            $this->db->updateArray(PX.'sections', $clean, "secid='$go[id]'"); 
+            $this->db->updateArray('section', $clean, "secid='$go[id]'"); 
             
             // send an update notice
             $this->template->action_update = 'updated';
@@ -887,7 +887,7 @@ class Exhibits extends Router
         $temp['hsec_ord'] = $processor->process('hsec_ord',array('digit'));
         
         // delete section
-        $this->db->deleteArray(PX.'sections', "secid = $go[id]");
+        $this->db->deleteArray('section', "secid = $go[id]");
         
         // delete pages
         $this->db->deleteRecord("DELETE FROM ".PX."objects WHERE section_id = '$go[id]'");
@@ -955,7 +955,7 @@ class Exhibits extends Router
         $clean['url']       = $clean['url'];
         $clean['object']    = OBJECT;
 
-        $this->db->updateArray(PX.'objects', $clean, "id='".$this->page_id."'");
+        $this->db->updateArray('object', $clean, "id='".$this->page_id."'");
 
     }
     
@@ -968,7 +968,7 @@ class Exhibits extends Router
         $clean['pdate']     = '0000-00-00 00:00:00';
         $clean['url']       = '';
 
-        $this->db->updateArray(PX.'objects', $clean, "id='".$this->page_id."'");
+        $this->db->updateArray('object', $clean, "id='".$this->page_id."'");
     }
     
     
@@ -987,7 +987,7 @@ class Exhibits extends Router
         $clean['hsection_id'] = $processor->process('hsection_id',array('notags','digit'));
         $clean['hord'] = $processor->process('hord',array('notags','digit'));
         
-        $this->db->deleteArray(PX.'objects', "id='$go[id]'");
+        $this->db->deleteArray('object', "id='$go[id]'");
         
         // we need to deal with the order of things...
         $this->db->updateRecord("UPDATE ".PX."objects SET
@@ -1013,7 +1013,7 @@ class Exhibits extends Router
             if (file_exists(DIRNAME . GIMGS . '/' . $file['media_file']))
             {
                 unlink(DIRNAME . GIMGS . '/' . $file['media_file']);
-                $this->db->deleteArray(PX.'media', "media_id='$file[media_id]'");
+                $this->db->deleteArray('media', "media_id='$file[media_id]'");
             }
         }
         
@@ -1043,7 +1043,7 @@ class Exhibits extends Router
         {
             $clean['media_udate'] = getNow();
 
-            $this->db->updateArray(PX.'media', $clean, "media_id='$go[id]'"); 
+            $this->db->updateArray('media', $clean, "media_id='$go[id]'"); 
             
             system_redirect("?a=$go[a]&q=view&id=$go[id]");
         }
@@ -1117,7 +1117,7 @@ class Exhibits extends Router
         $clean['sec_disp'] = $_POST['checked'];
         $cleaned['secid'] = str_replace('b', '', $_POST['element_id']);
         
-        $this->db->updateArray(PX.'sections', $clean, "secid = '$cleaned[secid]'");
+        $this->db->updateArray('section', $clean, "secid = '$cleaned[secid]'");
         
         if ($clean['sec_disp'] == 1)
         {
@@ -1141,7 +1141,7 @@ class Exhibits extends Router
         $clean['sec_desc'] = $_POST['update_value'];
         $clean['secid'] = str_replace('s', '', $_POST['element_id']);
         
-        $this->db->updateArray(PX.'sections', $clean, "secid=$clean[secid]");
+        $this->db->updateArray('section', $clean, "secid=$clean[secid]");
         
         // back to our page
         header ('Content-type: text/html; charset=utf-8');
@@ -1173,7 +1173,7 @@ class Exhibits extends Router
                 {
                     $clean['bgimg']     = $name;
 
-                    $this->db->updateArray(PX.'objects', $clean, "id='$go[id]'");
+                    $this->db->updateArray('object', $clean, "id='$go[id]'");
                     @chmod($dir . '/' . $name, 0755);
                     return;
                 }
@@ -1278,8 +1278,8 @@ class Exhibits extends Router
             }
 
             
-            $this->db->updateArray(PX.'objects_prefs', $clean, "obj_ref_type='".OBJECT."'");
-            $this->db->updateArray(PX.'users', $user, "ID='".$this->access->prefs['ID']."'");
+            $this->db->updateArray('objects_meta', $clean, "obj_ref_type='".OBJECT."'");
+            $this->db->updateArray('user', $user, "ID={$this->access->prefs['ID']}");
             
             // send an update notice
             $this->template->action_update = 'updated';
@@ -1419,7 +1419,7 @@ class Exhibits extends Router
         $clean['media_title'] = ($_POST['v'] === '') ? '' : utf8Urldecode($_POST['v']);
         $clean['media_caption'] = ($_POST['x'] === '') ? '' : utf8Urldecode($_POST['x']);
         
-        $this->db->updateArray(PX.'media', $clean, "media_id=$clean[media_id]");
+        $this->db->updateArray('media', $clean, "media_id={$clean[media_id]}");
         
         header ('Content-type: text/html; charset=utf-8');
         echo "<span class='notify'>" . $this->lang->word('updating') . "</span>";
@@ -1456,7 +1456,7 @@ class Exhibits extends Router
         $clean['udate']     = getNow();
         $clean['object']    = OBJECT;
 
-        $this->db->updateArray(PX.'objects', $clean, "id='$clean[id]'");
+        $this->db->updateArray('object', $clean, "id={$clean[id]}");
         
         header ('Content-type: text/html; charset=utf-8');
         echo "<span class='notify'>" . $this->lang->word('updating') . "</span>";
@@ -1472,7 +1472,7 @@ class Exhibits extends Router
         // id here really is the name of the file
         $clean['media_id'] = $_POST['id'];
         
-        $this->db->deleteArray(PX.'media', "media_file='$clean[media_id]'");
+        $this->db->deleteArray('media', "media_file='{$clean[media_id]}'");
         
         deleteImage($clean['media_id']); // image
         deleteImage($clean['media_id'], 'th'); // thumbnail
@@ -1526,7 +1526,7 @@ class Exhibits extends Router
         case 'title':
             if ($_POST['update_value'] === '') { echo 'Error'; exit; }
             $clean['title'] = $_POST['update_value'];
-            $this->db->updateArray(PX.'objects', $clean, "id='$clean[id]'");
+            $this->db->updateArray('object', $clean, "id={$clean[id]}");
             
             header ('Content-type: text/html; charset=utf-8');
             echo $clean['title'];
@@ -1534,7 +1534,7 @@ class Exhibits extends Router
             break;
         }
         
-        if ($clean['id'] > 0) $this->db->updateArray(PX.'objects', $clean, "id='$clean[id]'");
+        if ($clean['id'] > 0) $this->db->updateArray('object', $clean, "id='{$clean[id]}'");
         
         header ('Content-type: text/html; charset=utf-8');
         echo "<span class='notify'>" . $this->lang->word('updating') . "</span>";

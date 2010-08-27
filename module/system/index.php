@@ -311,7 +311,7 @@ class System extends Router
         }
         else
         {
-            $this->db->updateArray(PX.'users', $clean, "ID='".$this->access->prefs['ID']."'");
+            $this->db->updateArray('user', $clean, "ID='".$this->access->prefs['ID']."'");
         }
         
         // if change in language we need to refresh
@@ -335,11 +335,11 @@ class System extends Router
             if ($file)
             {
                 // let's at least force it out of the database
-                $this->db->deleteArray(PX.'media', "media_id='$go[id]'");
+                $this->db->deleteArray('media', "media_id='$go[id]'");
             
                 if (file_exists(DIRNAME . '/files/' . $file['media_file']))
                 {
-                    //$this->db->deleteArray(PX.'media', "media_id='$go[id]'");
+                    //$this->db->deleteArray('media', "media_id='$go[id]'");
                     unlink(DIRNAME . '/files/' . $file['media_file']);
                 }
             }
@@ -363,7 +363,7 @@ class System extends Router
             }
             else
             {
-                $this->db->updateArray(PX.'media', $clean, "media_id='$go[id]'"); 
+                $this->db->updateArray('media', $clean, "media_id='$go[id]'"); 
             }
         }
         
@@ -433,7 +433,7 @@ class System extends Router
                                 $clean['media_y'] = $size[1];
                             }
                             
-                            $this->db->insertArray(PX.'media', $clean);
+                            $this->db->insertArray('media', $clean);
                             
                             @chmod($IMG->path . '/' . $IMG->filename, 0755);
                         }

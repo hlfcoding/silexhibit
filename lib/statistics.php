@@ -195,7 +195,7 @@ class Statistics
         $clean['hit_os']        = $stat['browser']['platform'];
         $clean['hit_browser']   = $stat['browser']['browser'];
         $clean['hit_time']      = getNow();
-        $OBJ->db->insertArray(PX."stats", $clean);
+        $OBJ->db->insertArray('statistic', $clean);
         return;
     }
 }
