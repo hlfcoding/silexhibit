@@ -248,7 +248,7 @@ class Exhibits extends Router
         $script = "<script type='text/javascript'>
         <!--
         var action = '$go[a]';
-        var ide = '$go[id]';
+        var ide = '{$go['id']}';
         //-->
         </script>";
         
@@ -257,7 +257,7 @@ class Exhibits extends Router
         // the record
         $rs = $this->db->fetchRecord("SELECT * 
             FROM ".PX."objects, ".PX."objects_prefs, ".PX."sections   
-            WHERE id = '$go[id]' 
+            WHERE id = '{$go['id']}' 
             AND object = '".OBJECT."' 
             AND section_id = secid 
             AND object = obj_ref_type");
@@ -299,7 +299,7 @@ class Exhibits extends Router
         $body .= "</div>\n";
 
         // the uploader part
-        $body .= "<div id='iframe'><iframe src='?a=$go[a]&q=jxload&id=$go[id]' frameborder='0' scrolling='auto' width='625' height='100'></iframe></div>\n";
+        $body .= "<div id='iframe'><iframe src='?a=$go[a]&q=jxload&id={$go['id']}' frameborder='0' scrolling='auto' width='625' height='100'></iframe></div>\n";
         // end uploader part
         
         $body .= "<div id='img-container'>";
@@ -357,7 +357,7 @@ class Exhibits extends Router
         
         // background image
         $body .= "<label>".$this->lang->word('background image')." <span class='small-txt'>" . getLimit() . " max</span></label>\n";
-        $body .= "<div id='iframe'><iframe src='?a=$go[a]&q=jxbg&id=$go[id]' frameborder='0' scrolling='no' width='200' height='55'></iframe></div>\n";
+        $body .= "<div id='iframe'><iframe src='?a=$go[a]&q=jxbg&id={$go['id']}' frameborder='0' scrolling='no' width='200' height='55'></iframe></div>\n";
         
         
         // aditional options
@@ -426,7 +426,7 @@ class Exhibits extends Router
         // the record
         $rs = $this->db->fetchRecord("SELECT * 
             FROM ".PX."sections 
-            WHERE secid = '$go[id]'");
+            WHERE secid = '{$go['id']}'");
             
         
         $body = ($this->error === true) ?
@@ -487,7 +487,7 @@ class Exhibits extends Router
         // the record
         $rs = $this->db->fetchRecord("SELECT * 
             FROM ".PX."media 
-            WHERE media_id = '$go[id]' 
+            WHERE media_id = '{$go['id']}' 
             AND media_obj_type = '".OBJECT."'");
         
         // ++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -527,18 +527,18 @@ class Exhibits extends Router
         // the record
         $rs = $this->db->fetchRecord("SELECT title, sec_desc  
             FROM ".PX."objects, ".PX."sections  
-            WHERE id = '$go[id]' 
+            WHERE id = '{$go['id']}' 
             AND object = '".OBJECT."'
             AND section_id = secid");
         
         // ++++++++++++++++++++++++++++++++++++++++++++++++++++
         
         $title_area = div(div("<h3><span class='sec-title'>$rs[sec_desc]</span> $rs[title]</h3><br />\n","class='col'").
-            div(href($this->lang->word('edit'), "?a=$go[a]&amp;q=edit&amp;id=$go[id]"), "class='col txt-right'").
+            div(href($this->lang->word('edit'), "?a=$go[a]&amp;q=edit&amp;id={$go['id']}"), "class='col txt-right'").
             "<div class='cl'><!-- --></div>","class='c2'");
         
         $body = div($title_area.
-            "<iframe class='prv-text' src='?a=system&amp;q=prv&amp;id=$go[id]'></iframe>\n".
+            "<iframe class='prv-text' src='?a=system&amp;q=prv&amp;id={$go['id']}'></iframe>\n".
             "<div class='cl'><!-- --></div>","class='c1 bg-grey'");
         
         
@@ -590,7 +590,7 @@ class Exhibits extends Router
         $this->template->add_script = $script;
         
         $body = "<div style='text-align:left;' id='uploader'>\n";
-        $body .= "<form enctype='multipart/form-data' action='?a=$go[a]&q=jxload&id=$go[id]' method='post'>\n";
+        $body .= "<form enctype='multipart/form-data' action='?a=$go[a]&q=jxload&id={$go['id']}' method='post'>\n";
         
         $body .= "<div style='float:left; width:200px;'>\n";
         $body .= "<input id='my_file_element' type='file' name='filename[]' >\n";
@@ -629,7 +629,7 @@ class Exhibits extends Router
             {
                 load_module_helper('files', $go['a']);
                 $clean['bgimg'] = '';
-                $this->db->updateArray('object', $clean, "id='{$go[id]}'");
+                $this->db->updateArray('object', $clean, "id='{{$go['id']}}'");
                 
                 $filename = $_POST['filename'];
 
@@ -673,11 +673,11 @@ class Exhibits extends Router
         // the record
         $rs = $this->db->fetchRecord("SELECT bgimg  
             FROM ".PX."objects   
-            WHERE id = '$go[id]'");
+            WHERE id = '{$go['id']}'");
             
         if ($rs['bgimg'] !== '')
         {
-            $body = "<form action='?a=$go[a]&q=jxbg&id=$go[id]' method='post' name='iform' id='iform'>\n";      
+            $body = "<form action='?a=$go[a]&q=jxbg&id={$go['id']}' method='post' name='iform' id='iform'>\n";      
             $body .= "<div>\n";
             $body .= "<a href='" . BASEURL . BASEFILES . "/$rs[bgimg]' target='_new'><img src='" . BASEURL . BASEFILES . "/$rs[bgimg]' width='25' style='padding-top:2px;' valign='center' border='0' /></a>";
             $body .= " <input type='button' name='delete' id='delete' value='" . $this->lang->word('delete') . "' style='padding-top:0;' />\n";
@@ -689,7 +689,7 @@ class Exhibits extends Router
         }
         else
         {
-            $body = "<form enctype='multipart/form-data' action='?a=$go[a]&q=jxbg&id=$go[id]' method='post' name='iform' id='iform'>\n";        
+            $body = "<form enctype='multipart/form-data' action='?a=$go[a]&q=jxbg&id={$go['id']}' method='post' name='iform' id='iform'>\n";        
             $body .= "<div>\n";
             $body .= "<input type='file' id='jxbg' name='jxbg' />\n";
             $body .= "<input type='hidden' name='upload' value='1' />\n";
@@ -870,7 +870,7 @@ class Exhibits extends Router
             }
             
             
-            $this->db->updateArray('section', $clean, "secid='$go[id]'"); 
+            $this->db->updateArray('section', $clean, "secid='{$go['id']}'"); 
             
             // send an update notice
             $this->template->action_update = 'updated';
@@ -887,10 +887,10 @@ class Exhibits extends Router
         $temp['hsec_ord'] = $processor->process('hsec_ord',array('digit'));
         
         // delete section
-        $this->db->deleteArray('section', "secid = $go[id]");
+        $this->db->deleteArray('section', "secid = {$go['id']}");
         
         // delete pages
-        $this->db->deleteRecord("DELETE FROM ".PX."objects WHERE section_id = '$go[id]'");
+        $this->db->deleteRecord("DELETE FROM ".PX."objects WHERE section_id = '{$go['id']}'");
         
         // so nice and messy!
         $this->db->updateRecord("UPDATE ".PX."sections SET 
@@ -987,7 +987,7 @@ class Exhibits extends Router
         $clean['hsection_id'] = $processor->process('hsection_id',array('notags','digit'));
         $clean['hord'] = $processor->process('hord',array('notags','digit'));
         
-        $this->db->deleteArray('object', "id='$go[id]'");
+        $this->db->deleteArray('object', "id='{$go['id']}'");
         
         // we need to deal with the order of things...
         $this->db->updateRecord("UPDATE ".PX."objects SET
@@ -1006,7 +1006,7 @@ class Exhibits extends Router
         
         $file = $this->db->fetchRecord("SELECT media_id,media_ref_id,media_file 
             FROM ".PX."media 
-            WHERE media_id='$go[id]'");
+            WHERE media_id='{$go['id']}'");
         
         if ($file)
         {
@@ -1043,9 +1043,9 @@ class Exhibits extends Router
         {
             $clean['media_udate'] = getNow();
 
-            $this->db->updateArray('media', $clean, "media_id='$go[id]'"); 
+            $this->db->updateArray('media', $clean, "media_id='{$go['id']}'"); 
             
-            system_redirect("?a=$go[a]&q=view&id=$go[id]");
+            system_redirect("?a=$go[a]&q=view&id={$go['id']}");
         }
     }
     
@@ -1173,7 +1173,7 @@ class Exhibits extends Router
                 {
                     $clean['bgimg']     = $name;
 
-                    $this->db->updateArray('object', $clean, "id='$go[id]'");
+                    $this->db->updateArray('object', $clean, "id='{$go['id']}'");
                     @chmod($dir . '/' . $name, 0755);
                     return;
                 }
@@ -1300,7 +1300,7 @@ class Exhibits extends Router
         // we'll query for all our defaults first...
         $rs = $this->db->fetchRecord("SELECT thumbs, images  
             FROM ".PX."objects    
-            WHERE id = '$go[id]' 
+            WHERE id = '{$go['id']}' 
             AND object = '".OBJECT."'");
             
             
@@ -1402,7 +1402,7 @@ class Exhibits extends Router
                 media_order = media_order + $x 
                 WHERE 
                 (media_id NOT IN (" .implode(',', $added_x). ")) 
-                AND media_ref_id = '$go[id]'");
+                AND media_ref_id = '{$go['id']}'");
         }
     }
     
@@ -1442,7 +1442,7 @@ class Exhibits extends Router
         
         //echo $_POST['content']; exit;
         
-        // we need preference on processing
+        // we need $clean['id'] on processing
         $rs = $this->db->fetchRecord("SELECT process  
             FROM ".PX."objects    
             WHERE id = '$clean[id]'");
@@ -1456,7 +1456,7 @@ class Exhibits extends Router
         $clean['udate']     = getNow();
         $clean['object']    = OBJECT;
 
-        $this->db->updateArray('object', $clean, "id={$clean[id]}");
+        $this->db->updateArray('object', $clean, "id={$clean['id']}");
         
         header ('Content-type: text/html; charset=utf-8');
         echo "<span class='notify'>" . $this->lang->word('updating') . "</span>";
@@ -1526,7 +1526,7 @@ class Exhibits extends Router
         case 'title':
             if ($_POST['update_value'] === '') { echo 'Error'; exit; }
             $clean['title'] = $_POST['update_value'];
-            $this->db->updateArray('object', $clean, "id={$clean[id]}");
+            $this->db->updateArray('object', $clean, "id={$clean['id']}");
             
             header ('Content-type: text/html; charset=utf-8');
             echo $clean['title'];
@@ -1534,7 +1534,7 @@ class Exhibits extends Router
             break;
         }
         
-        if ($clean['id'] > 0) $this->db->updateArray('object', $clean, "id='{$clean[id]}'");
+        if ($clean['id'] > 0) $this->db->updateArray('object', $clean, "id='{$clean['id']}'");
         
         header ('Content-type: text/html; charset=utf-8');
         echo "<span class='notify'>" . $this->lang->word('updating') . "</span>";

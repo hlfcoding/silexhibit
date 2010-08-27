@@ -91,7 +91,8 @@ class Db
      * @param array
      * @return array
      **/
-    protected function querySegments ($params) {
+    protected function querySegments ($params) 
+    {
         $querySegments = array();
         foreach (array_keys($params) as $field) {
             $querySegments[] = "$field = :$field";
@@ -104,7 +105,8 @@ class Db
      * @param array
      * @return array
      **/
-    protected function queryParams ($params) {
+    protected function queryParams ($params) 
+    {
         $queryParams = array();
         foreach ($params as $field => $value) {
             $queryParams[":$field"] = $value;
@@ -116,7 +118,8 @@ class Db
      * Sets the database to be utf-8 
      * @todo this seems basic
      **/
-    protected function setNames () {
+    protected function setNames () 
+    {
         $this->query("SET NAMES 'utf8'");
     }
     
@@ -125,7 +128,8 @@ class Db
      * @return string name
      * @todo check for prefix
      **/
-    protected function table ($key) {
+    protected function table ($key) 
+    {
         if (array_key_exists($key, $this->tables)) {
             return $this->tables[$key];
         } else {
