@@ -13,6 +13,8 @@ class Db
     public $query;
     public $link;
     public $pdo;
+    const FETCH_ARRAY = 0;
+    const FETCH_RECORD = 1;
 
     public function __construct ()
     {
@@ -39,6 +41,7 @@ class Db
     }
     
     /**
+     * Tailored workhorse for all queries
      * Also saves the query
      * @param string
      * @param array
@@ -46,20 +49,27 @@ class Db
      * @return int affected rows for INSERT or UPDATE or DELETE statements
      * @return PDOStatement|false result for SELECT statements
      **/
-    protected function query ($query = '', $params = array(), $driver_options = array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY))
+    protected function query ($query = '', $params = array(), $driver_options = array())
     {
         $this->query = trim($query);
         if (empty($params)) {
-            return (strpos($this->query, 'SELECT') === 0) ? $this->pdo->query($query) : $this->pdo->exec($query);
-        } else {
+            return (strpos($this->query, 'SELECT') === 0) 
+                ? $this->pdo->query($query) // result set
+                : $this->pdo->exec($query); // affected rows
+        } else { // parameter binding
             $statement = $this->pdo->prepare($query, $driver_options);
-            $statement->execute($params);
-            return (strpos($this->query, 'SELECT') === 0) ? $statement : $statement->rowCount();
+            $statement->execute($this->queryParams($params));
+            if (strpos($this->query, 'SELECT') === 0) {
+                $statement->setFetchMode(PDO::FETCH_ASSOC);
+                return $statement; // result set
+            } else { 
+                return $statement->rowCount(); // affected rows 
+            }
         }
     }
     
     /**
-     * TODO description
+     * Makes query template for parameter binding
      * @param array
      * @return array
      **/
@@ -69,6 +79,19 @@ class Db
             $querySegments[] = "$field = :$field";
         }
         return $querySegments;
+    }
+    
+    /**
+     * Updates the keys for parameter binding
+     * @param array
+     * @return array
+     **/
+    protected function queryParams ($params) {
+        $queryParams = array();
+        foreach ($params as $field => $value) {
+            $queryParams[":$field"] = $value;
+        }
+        return $queryParams;
     }
     
     /**
@@ -95,20 +118,20 @@ class Db
      * @param string
      * @return array records
      **/
-    public function fetchArray ($query = '')
+    public function fetchArray ($query = '', $params = array())
     {
-        $statement = $this->query($query);
-        return $statement->fetchAll();
+        return $this->query($query, $params)
+            ->fetchAll();
     }
     
     /**
      * @param string
      * @return array records
      **/
-    public function fetchRecord ($query = '')
+    public function fetchRecord ($query = '', $params = array())
     {   
-        $statement = $this->query($query);
-        return $statement->fetch();
+        return $this->query($query, $params)
+            ->fetch();
     }
         
     /**
@@ -119,16 +142,18 @@ class Db
      * @return array
      * @todo default $type as constant
      **/
-    public function selectArray ($table, $params, $type = 'array', $cols = '')
+    public function selectArray ($table, $params, $type = '', $cols = '')
     {
         if (!is_array($params)) {
             throw new PDOException('no conditions to match');
             return false;
         }
+        $type = empty($type) ? self::FETCH_ARRAY : $type;
         $cols = empty($cols) ? '*' : $cols;
         $query = "SELECT $cols FROM $table WHERE " . implode(' AND ', $this->querySegments($params));
-        $statement = $this->query($query, $params);
-        return ($type === 'array') ? $statement->fetchAll() : $statement->fetch();
+        return ($type === self::FETCH_ARRAY) 
+            ? $this->fetchArray($query, $params) 
+            : $this->fetchRecord($query, $params);
     }
     
     /**
@@ -160,7 +185,7 @@ class Db
             return false;
         }
         $query = "UPDATE $table SET " . implode(', ', $this->querySegments($params)) . " WHERE $id";
-        return $this->query($query) > 0;
+        return $this->query($query, $params) > 0;
     }
     
     /**
