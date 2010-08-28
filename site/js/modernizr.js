@@ -47,6 +47,16 @@ window.Modernizr = (function(window,doc,undefined){
      */
     enableHTML5 = true,
     
+    /**
+     * enableNoClasses is a private property that, when enabled, will
+     * add classnames to the <html> element at all times, but prefixes
+     * failed groups with "no-", e.g. "no-cssanimations".
+     * This allows for very easy IF / ELSE style rules in your CSS. It
+     * can be disabled if these "no-classes" are not needed or desired.
+     * 
+     * enableNoClasses is ON by default.
+     */
+    enableNoClasses = true,
     
     docElement = doc.documentElement,
 
@@ -797,11 +807,25 @@ window.Modernizr = (function(window,doc,undefined){
         // iepp v1.5.1 MIT @jon_neal  http://code.google.com/p/ie-print-protector/
         (function(p,e){function q(a,b){if(g[a])g[a].styleSheet.cssText+=b;else{var c=r[l],d=e[j]("style");d.media=a;c.insertBefore(d,c[l]);g[a]=d;q(a,b)}}function s(a,b){for(var c=new RegExp("\\b("+m+")\\b(?!.*[;}])","gi"),d=function(k){return".iepp_"+k},h=-1;++h<a.length;){b=a[h].media||b;s(a[h].imports,b);q(b,a[h].cssText.replace(c,d))}}function t(){for(var a,b=e.getElementsByTagName("*"),c,d,h=new RegExp("^"+m+"$","i"),k=-1;++k<b.length;)if((a=b[k])&&(d=a.nodeName.match(h))){c=new RegExp("^\\s*<"+d+"(.*)\\/"+d+">\\s*$","i");i.innerHTML=a.outerHTML.replace(/\r|\n/g," ").replace(c,a.currentStyle.display=="block"?"<div$1/div>":"<span$1/span>");c=i.childNodes[0];c.className+=" iepp_"+d;c=f[f.length]=[a,c];a.parentNode.replaceChild(c[1],c[0])}s(e.styleSheets,"all")}function u(){for(var a=-1,b;++a<f.length;)f[a][1].parentNode.replaceChild(f[a][0],f[a][1]);for(b in g)r[l].removeChild(g[b]);g={};f=[]}for(var r=e.documentElement,i=e.createDocumentFragment(),g={},m="abbr|article|aside|audio|canvas|command|datalist|details|figure|figcaption|footer|header|hgroup|keygen|mark|meter|nav|output|progress|section|source|summary|time|video",n=m.split("|"),f=[],o=-1,l="firstChild",j="createElement";++o<n.length;){e[j](n[o]);i[j](n[o])}i=i.appendChild(e[j]("div"));p.attachEvent("onbeforeprint",t);p.attachEvent("onafterprint",u)})(this,doc);
     }
+    function run_tests () {
+        // Run through all tests and detect their support in the current UA.
+        for ( feature in tests ) {
+            if ( tests.hasOwnProperty( feature ) ) {
+                classes.push( ( !( ret[ feature ] = tests[ feature ]() ) && enableNoClasses ? 'no-' : '' ) + feature );
+            }
+        }
+        // Remove "no-js" class from <html> element, if it exists:
+        (function(H,C){H[C]=H[C].replace(/\bno-js\b/,'js')})(docElement,'className');
+
+        // Add the new classes to the <html> element.
+        docElement.className += ' ' + classes.join( ' ' );
+    }
 
     // Assign private properties to the return object with prefix
     ret._enableHTML5     = enableHTML5;
+    ret._enableNoClasses = enableNoClasses;
     ret._version         = version;
-
+    ret.run_tests        = run_tests;
     // Remove "no-js" class from <html> element, if it exists:
     docElement.className=docElement.className.replace(/\bno-js\b/,'') + ' js';
 
