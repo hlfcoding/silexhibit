@@ -137,7 +137,7 @@ class Db
      * @return string name
      * @todo check for prefix
      **/
-    protected function table ($key) 
+    public function table ($key) 
     {
         if (array_key_exists($key, $this->tables)) {
             return $this->tables[$key];
@@ -222,15 +222,18 @@ class Db
      * @param array $array
      * @param string $id
      * @return bool
+     * @todo prepare where clause
      **/
-    public function updateArray ($table, $params, $id)
+    public function updateArray ($table, $params, $id = null)
     {
         if (!is_array($params)) {
             throw new PDOException('nothing to update to');
             return false;
         }
         $table = $this->table($table);
-        $query = "UPDATE $table SET " . implode(', ', $this->querySegments($params)) . " WHERE $id";
+        $id = addslashes($id);
+        $query = "UPDATE $table SET " . implode(', ', $this->querySegments($params)) 
+            . (is_null($id) ? '' : " WHERE $id");
         return $this->query($query, $params) > 0;
     }
     
@@ -238,10 +241,12 @@ class Db
      * @param string $table
      * @param string $id
      * @return bool
+     * @todo prepare where clause
      **/
     public function deleteArray ($table, $id)
     {
         $table = $this->table($table);
+        $id = addslashes($id);
         $query = "DELETE FROM $table WHERE $id";
         return $this->query($query) > 0;
     }
