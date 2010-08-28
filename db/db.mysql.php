@@ -22,17 +22,26 @@ class Db
 
     public function __construct ($info = null, $tables = null)
     {
-        if (!isset($info)) {
+        if (is_null($info)) {
             global $indx;
-            $info = array(
-                'host' => $indx['host'],
-                'db' => $indx['db'],
-                'user' => $indx['user'],
-                'pass' => $indx['pass']
-            );
+            if (MODE === DEVELOPMENT) {
+                $info = array(
+                    'host' => $indx['dev_host'],
+                    'user' => $indx['dev_user'],
+                    'pass' => $indx['dev_pass'],
+                    'db' => $indx['db']
+                );
+            } else if (MODE === PRODUCTION) {
+                $info = array(
+                    'host' => $indx['host'],
+                    'user' => $indx['user'],
+                    'pass' => $indx['pass'],
+                    'db' => $indx['db']
+                );            
+            }
         }
         $this->info = $info;
-        if (!isset($tables)) {
+        if (is_null($tables)) {
             global $tables;
         }
         $this->tables = $tables;
