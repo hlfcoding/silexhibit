@@ -158,7 +158,7 @@ function getPresent($path, $default)
         if (is_dir($path)) {
             if ($fp = opendir($path)) {
                 while (($module = readdir($fp)) !== false) {
-                    if (preg_match('/^exhibit/i', $module) === 0) {
+                    if (strpos($module, 'exhibit') === 0) {
                         $modules[] = $module;
                     }
                 } 
