@@ -1,3 +1,5 @@
+/** START   Indexhibit */
+
 * { margin: 0; padding: 0; }
 
 body { text-align: center; font-family: Arial, sans-serif; font-size: 10px; color: #333; }
@@ -228,3 +230,13 @@ ul.listed li.active#off { display: inline; padding: 2px 4px; background: #c00; c
 /* sections management */
 .sections { margin-top: 5px; padding: 0 0 6px 0; }
 .section { border-bottom: 1px solid #ccc; padding: 3px 0; margin-bottom: 4px; }
+
+/* END      Indexhibit **/
+/** START   Indexhibit++ */
+
+.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+.clearfix { display: inline-block; }
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+
+/* END      Indexhibit++ **/
