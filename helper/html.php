@@ -5,6 +5,7 @@
  * @author edited by Peng Wang <peng@pengxwang.com>
  * @version 1.1
  * @package Indexhibit
+ * @todo purge most of these view helpers
  **/
 
 /**

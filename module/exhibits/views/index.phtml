@@ -1,0 +1,54 @@
+<?php
+/**
+ * Create exhibit form
+ * @var object $lang available by default
+ * @var array $sections
+ * @var int $current_year the selected default
+ * @var int $last_year max
+ * @var int $first_year min
+ * @var string $sortable_sections_grid
+ * @author Peng Wang <peng@pengxwang.com>
+ */
+?>
+<div id="tab">
+    <div id="add-page" class="bg-grey">
+        <div class="c3 clearfix">
+            <div class="col">
+                <label for="add-page-title">
+                    <?php echo $lang->word('page title') ?>
+                    <span class="small-txt"><?php echo $lang->word('required') ?></span>
+                </label>
+                <input type="text" name="title" id="add-page-title" maxlength="50" value="" placeholder=""/>
+                <input type="submit" name="add_page" value="<?php echo $lang->word('add page') ?>">
+            </div>
+            <div class="col">
+                <label for="add-page-section">
+                    <?php echo $lang->word('section') ?>
+                    <span class="small-txt"><?php echo $lang->word('required') ?></span>
+                </label>
+                <select name="section_id" id="add-page-section">
+                    <?php foreach ($sections as $s) : ?>
+                        <option value="<?php echo $s['secid'] ?>"
+                            <?php echo ($s['sec_proj'] == 1) ? 'selected' : '' ?>>
+                            <?php echo $s['sec_desc'] ?>
+                        </option>
+                    <?php endforeach ?>
+                </select>
+            </div>
+            <div class="col">
+                <label for="add-page-year">
+                    <?php echo $lang->word('project year') ?>
+                    <select name="year" id="add-page-year" class="ajax-year">
+                    <?php for ($i = $last_year; $i >= $first_year; $i--) : ?>
+                        <option value="<?php echo $i ?>"
+                            <?php echo ($i == $current_year) ? 'selected' : '' ?>>
+                            <?php echo $i ?></option>
+                    <?php endfor ?>
+                    </select>
+                </label>
+            </div>
+        </div>
+    </div><!-- add-page -->
+    <?php echo $sortable_exhibits_grid ?>
+    <div id="dhtml"><p></p></div>
+</div><!-- tab -->

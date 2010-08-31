@@ -1,4 +1,4 @@
-<?php define('SITE', 'Bonjour!');
+<?php define('SITE', 9999);
 
 /* Indexhibit BackEnd Execution Process */
 

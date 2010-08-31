@@ -30,7 +30,6 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
         
         // which object are we accessing?
         define('OBJECT', 'exhibit');
-        
         $find['obj_ref_type'] = OBJECT;
         $this->object = $this->db->selectArray('object_meta', $find, Db::FETCH_RECORD);
         
@@ -50,25 +49,32 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
     //---------------------------------------
     
     public function load_pjs ($name, $vars = array()) {
-        $path = $this->view_bin_path . DS . "$name.pjs";
-        if (!file_exists($path)) {
-            throw new RuntimeException("no php-javascript file at $path");
-        }
-        extract($vars);
-        ob_start();
-        echo '<script type="text/javascript">';
-        require $path;
-        echo '</script>';
-        $script = ob_get_contents();
-        ob_end_clean();
-        return $script;
+        return $this->load_template('pjs', $name, $vars, '<script type="text/javascript">%s</script>');
     }
     
     public function load_phtml ($name, $vars = array()) {
-        
+        return $this->load_template('phtml', $name, $vars);
     }
     
-    public function page_index()
+    protected function load_template ($type, $name, $vars = array(), 
+                                      $wrapper = '%s') {
+        $path = $this->view_bin_path . DS . "$name.$type";
+        if (!file_exists($path)) {
+            throw new RuntimeException("no php-$type file at $path");
+        }
+        // populate template environment
+        extract($vars);
+        $lang = $this->lang;
+        // run template
+        ob_start();
+        require $path;
+        $contents = ob_get_contents();
+        ob_end_clean();
+        // process template results
+        return sprintf($wrapper, $contents);
+    }
+    
+    public function page_index ()
     {
         global $go, $default;
         
@@ -92,54 +98,23 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
         
         load_module_helper('files', $go['a']);
         
-        $this->template->add_script = $this->load_pjs('index', array(
+        $this->lib_class('organize');
+        $this->organize->obj_org = $this->object['obj_org'];
+        
+        $this->template->add_script = $this->load_pjs('index', array( 
+            // template vars 
             'action' => $go['a'],
-            'saving' => $this->lang->word('saving'),
             'special_js' => $this->template->get_special_js()
         ));
         
-        // ++++++++++++++++++++++++++++++++++++++++++++++++++++
-        
-        $body = '';
-
-        $body .= "<div id='tab'>\n";
-
-        $body .= "<div id='add-page' style='display: none;' class='bg-grey'>\n";
-        $body .= "<div class='c3'>\n";
-        
-        $body .= "<div class='col'>\n";
-        $body .= ips($this->lang->word('page title'), 'input', 'title', null, "maxlength='50'", 'text', $this->lang->word('required'),'req');
-        $body .= input('add_page', 'submit', $attr='', $this->lang->word('add page'));
-        $body .= "</div>\n";
-        
-        $body .= "<div class='col'>\n";
-        $body .= ips($this->lang->word('section'), 'getSection', 'section_id', null, null, null, $this->lang->word('required'),'req');
-        $body .= "</div>\n";
-        
-        //if ($this->object['obj_org'] == 1)
-        //{
-            $body .= "<div class='col'>\n";
-            $body .= ips($this->lang->word('project year'), 'getYear', 'year', null, null, null, null,'req');
-            $body .= "</div>\n";    
-        //}
-        //else
-        //{
-            //$body .= input('year', 'hidden', null, date('Y'));
-        //}
-        
-        $body .= "<div class='cl'><!-- --></div>\n</div>\n";
-        $body .= "</div>\n\n";
-        
-        $this->lib_class('organize');
-        $this->organize->obj_org = $this->object['obj_org'];
-        $body .= $this->organize->order();
-        
-        $body .= div(p('&nbsp;'),"id='dhtml'");
-
-        // 'tab' div
-        $body .= "</div>\n";
-                
-        $this->template->body = $body;
+        $this->template->body = $this->load_phtml('index', array(
+            // template vars
+            'sections' => $this->db->get_sections(),
+            'sortable_exhibits_grid' => $this->organize->order(),
+            'current_year' => date('Y'),
+            'last_year' => date('Y') + 1,
+            'first_year' => $default['first_year']
+        ));
         
         return;
     }
@@ -1479,4 +1454,5 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
         echo "<span class='notify'>" . $this->lang->word('updating') . "</span>";
         exit;
     }
+
 }

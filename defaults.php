@@ -113,3 +113,24 @@ define('BASEURL', preg_replace("/\/$/i", '', $base));
 // media paths
 define('BASEFILES', '/files');
 define('GIMGS', BASEFILES . '/gimgs');
+
+// --------------------------------------------------
+// database array-to-table mapping
+// modify as needed if you know what you're doing
+// --------------------------------------------------
+$columns = array(
+    'object' => array(
+    ),
+    'object_meta' => array(
+    ),
+    'section' => array(
+    ),
+    'setting' => array(
+    ),
+    'statistic' => array(
+    ),
+    'user' => array(
+    ),
+    'media' => array(
+    )
+);

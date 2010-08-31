@@ -1,14 +1,21 @@
 <?php if (!defined('SITE')) exit('No direct script access allowed');
 
-interface ICMSController {
+interface ICMSController 
+{
+    /**
+     * javascript files are not necessarily views in what they do
+     * but from the standpoint of a php mvc app, that's exactly what they are
+     */
     const DEFAULT_VIEW_BIN_PATH = 'views';
 }
 
-interface ICMSPageController extends ICMSController {
+interface ICMSPageController extends ICMSController 
+{
     function load_pjs ($name, $vars = array());
     function load_phtml ($name, $vars = array());
 }
 
-interface ICMSAjaxController extends ICMSController {
+interface ICMSAjaxController extends ICMSController 
+{
     
 }
