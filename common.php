@@ -38,6 +38,7 @@ function get_instance()
  * @param bool optional
  * @return object
  * @todo allow instantiation with parameters
+ * @todo allow only driver to be database software specific
  **/
 function &load_class ($class, $instantiate = true, $type, $internal = false)
 {
@@ -47,7 +48,8 @@ function &load_class ($class, $instantiate = true, $type, $internal = false)
     $path = DS . load_path($type) . DS;
     $file = $class;
     if ($type === 'db') {
-        $file = 'db.' . $indx['sql'];
+        require_once DIRNAME . BASENAME . $path . "driver.{$indx['sql']}.php";
+        $file = "db.{$indx['sql']}";
     }
     if ($type === 'lang') {
         $file = 'index';
