@@ -21,6 +21,7 @@ if (file_exists('config/config.php')) {
 require_once 'defaults.php';
 require_once 'bootstrap.php';
 require_once 'common.php';
+require_once CMSPATH . DS . 'interfaces.php';
 	
 // preloading things
 load_helpers(array('html', 'entrance', 'time', 'server'));

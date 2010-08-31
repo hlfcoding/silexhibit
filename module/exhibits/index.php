@@ -10,18 +10,23 @@
  * @todo remove views
  **/
  
-class Exhibits extends Router
+class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
 {
-    var $publishing = false;
-    var $error      = false;
-    var $error_msg;
-    var $pub_status = 0;
-    var $page_id;
-    var $object     = array();
+    public $publishing = false;
+    public $error      = false;
+    public $error_msg;
+    public $pub_status = 0;
+    public $page_id;
+    public $object     = array();
+    public $view_bin_path;
     
-    function __construct()
+    public function __construct ($view_bin_path = null)
     {
         parent::__construct();
+        
+        $this->view_bin_path = is_null($view_bin_path) 
+            ? dirname(__FILE__) . DS . self::DEFAULT_VIEW_BIN_PATH
+            : $view_bin_path;
         
         // which object are we accessing?
         define('OBJECT', 'exhibit');
@@ -40,8 +45,30 @@ class Exhibits extends Router
         $this->posted($this, $submits);
     }
     
+    //---------------------------------------
+    // INTERFACE METHODS
+    //---------------------------------------
     
-    function page_index()
+    public function load_pjs ($name, $vars = array()) {
+        $path = $this->view_bin_path . DS . "$name.pjs";
+        if (!file_exists($path)) {
+            throw new RuntimeException("no php-javascript file at $path");
+        }
+        extract($vars);
+        ob_start();
+        echo '<script type="text/javascript">';
+        require $path;
+        echo '</script>';
+        $script = ob_get_contents();
+        ob_end_clean();
+        return $script;
+    }
+    
+    public function load_phtml ($name, $vars = array()) {
+        
+    }
+    
+    public function page_index()
     {
         global $go, $default;
         
@@ -65,40 +92,11 @@ class Exhibits extends Router
         
         load_module_helper('files', $go['a']);
         
-        $script = "<script type='text/javascript'>
-    function serialize(s)
-    {
-        serial = $.SortSerialize(s);
-        $.post('?a=$go[a]', { name : serial.hash, upd_ord : 'true' }, 
-            function(html) { $('div#dhtml').html(html); }
-        );
-        setTimeout(fader, 3000);
-    }
-        
-    $(document).ready(function()
-    {
-        $('ul').Sortable(
-        {
-            accept :        'sortableitem',
-            activeclass :   'sortableactive',
-            hoverclass :    'sortablehover',
-            helperclass :   'sorthelper',
-            opacity :       0.8,
-            revert :        true,
-            tolerance :     'intersect',
-            onStop :        serialize
-        })
-        $('.inplace1').editInPlace({ params: 'upd_section=true',
-            saving_text: '".$this->lang->word('saving')."',
-            url: '?a=$go[a]' });
-        $('.switchBox').toggleCheckboxes({ params: 'upd_cbox=true',
-            saving_text: '".$this->lang->word('saving')."',
-            url: '?a=$go[a]' });
-        " . $this->template->get_special_js() . "
-    });
-    </script>";
-        
-        $this->template->add_script = $script;
+        $this->template->add_script = $this->load_pjs('index', array(
+            'action' => $go['a'],
+            'saving' => $this->lang->word('saving'),
+            'special_js' => $this->template->get_special_js()
+        ));
         
         // ++++++++++++++++++++++++++++++++++++++++++++++++++++
         
@@ -1064,7 +1062,7 @@ class Exhibits extends Router
                     // need the section id
                     $params['section_id'] = $key;
                 }
-                $this->updateArray('object', $params, "id = $it");
+                $this->db->updateArray('object', $params, "id = $it");
                 $i++;
             }
         }

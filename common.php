@@ -37,6 +37,7 @@ function get_instance()
  * @param string
  * @param bool optional
  * @return object
+ * @todo allow instantiation with parameters
  **/
 function &load_class ($class, $instantiate = true, $type, $internal = false)
 {

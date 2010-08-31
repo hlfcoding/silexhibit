@@ -1,0 +1,29 @@
+(function ($) {
+    function serialize(s) {
+        serial = $.SortSerialize(s);
+        $.post('?a=<?php echo $action ?>', { name : serial.hash, upd_ord : 'true' }, 
+            function(html) { $('div#dhtml').html(html); }
+        );
+        setTimeout(fader, 3000);
+    }
+    $(document).ready(function () {
+        $('ul').Sortable(
+        {
+            accept :        'sortableitem',
+            activeclass :   'sortableactive',
+            hoverclass :    'sortablehover',
+            helperclass :   'sorthelper',
+            opacity :       0.8,
+            revert :        true,
+            tolerance :     'intersect',
+            onStop :        serialize
+        })
+        $('.inplace1').editInPlace({ params: 'upd_section=true',
+            saving_text: '<?php echo $saving ?>',
+            url: '?a=<?php echo $action ?>' });
+        $('.switchBox').toggleCheckboxes({ params: 'upd_cbox=true',
+            saving_text: '<?php $saving ?>',
+            url: '?a=<?php echo $action ?>' });
+        <?php echo $special_js ?>
+    });
+})(jQuery);
