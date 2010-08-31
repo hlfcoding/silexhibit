@@ -735,10 +735,9 @@ class Exhibits extends Router
         else
         {
             // we need to deal with the order of things...
-            $this->db->updateRecord("UPDATE ".PX."objects SET
-                ord         = ord + 1 
-                WHERE 
-                section_id  = ".$this->db->escape($clean['section_id'])."");
+            $this->db->updateArray('object', 
+                array('ord' => 'ord + 1'), 
+                "section_id = {$clean['section_id']}");
             
             // a few more things
             $clean['udate']     = getNow();
@@ -826,32 +825,20 @@ class Exhibits extends Router
         }
         else
         {
-            if ($clean['sec_proj'] == 1)
-            {
+            if ($clean['sec_proj'] === 1) {
                 // update all sections with sec_proj = 0
-                $this->db->updateRecord("UPDATE ".PX."sections SET sec_proj = '0'");
+                $this->db->updateArray('section', array('sec_proj' => 0));
             }
             
             // so nice and messy!
-            if ($clean['sec_ord'] !== $temp['hsec_ord'])
-            {
+            if ($clean['sec_ord'] !== $temp['hsec_ord']) {
                 // we need to reorder things
                 if ($clean['sec_ord'] > $temp['hsec_ord']) {
-
-                    $this->db->updateRecord("UPDATE ".PX."sections SET 
-                        sec_ord = sec_ord-1
-                        WHERE 
-                        (sec_ord > '$temp[hsec_ord]') 
-                        AND (sec_ord <= '$clean[sec_ord]')");
-
+                    $this->db->updateArray('section', array('sec_ord' => 'sec_ord - 1'),
+                        "(sec_ord > '{$temp['hsec_ord']}') AND (sec_ord <= '{$clean['sec_ord']}')");
                 } elseif ($clean['sec_ord'] < $temp['hsec_ord']) {
-
-                    $this->db->updateRecord("UPDATE ".PX."sections SET
-                        sec_ord = sec_ord+1
-                        WHERE 
-                        (sec_ord < '$temp[hsec_ord]') 
-                        AND (sec_ord >= '$clean[sec_ord]')");
-
+                    $this->db->updateArray('section', array('sec_ord' => 'sec_ord + 1'),
+                        "(sec_ord < '{$temp['hsec_ord']}') AND (sec_ord >= '{$clean['sec_ord']}')");
                 } else { 
                     // do nothing here 
                 }
@@ -890,13 +877,11 @@ class Exhibits extends Router
         $this->db->deleteArray('section', "secid = {$go['id']}");
         
         // delete pages
-        $this->db->deleteRecord("DELETE FROM ".PX."objects WHERE section_id = '{$go['id']}'");
+        $this->db->deleteArray('object', "section_id = {$go['id']}");
         
         // so nice and messy!
-        $this->db->updateRecord("UPDATE ".PX."sections SET 
-            sec_ord = sec_ord-1
-            WHERE 
-            (sec_ord > '$temp[hsec_ord]')");
+        $this->db->updateArray('section', array('sec_ord' => 'sec_ord - 1'), 
+            "(sec_ord > {$temp['hsec_ord']})");
         
         system_redirect("?a=$go[a]&q=settings");
     }
@@ -930,10 +915,8 @@ class Exhibits extends Router
         $check_url = $URL->makeURL();
         
         // check for dupe
-        $check = $this->db->fetchArray("SELECT id 
-            FROM ".PX."objects 
-            WHERE url = '$check_url'");
-            
+        $check = $this->db->selectArray('object', array('url' => $check_url), Db::FETCH_RECORD, 'id');
+        
         // if dupe alert
         if ($check)
         {
@@ -955,7 +938,7 @@ class Exhibits extends Router
         $clean['url']       = $clean['url'];
         $clean['object']    = OBJECT;
 
-        $this->db->updateArray('object', $clean, "id='".$this->page_id."'");
+        $this->db->updateArray('object', $clean, "id={$this->page_id}");
 
     }
     
@@ -990,11 +973,9 @@ class Exhibits extends Router
         $this->db->deleteArray('object', "id='{$go['id']}'");
         
         // we need to deal with the order of things...
-        $this->db->updateRecord("UPDATE ".PX."objects SET
-            ord         = ord - 1 
-            WHERE 
-            section_id  = ".$this->db->escape($clean['hsection_id'])." 
-            AND ord     >= ".$this->db->escape($clean['hord'])."");
+        $this->db->updateArray('object', 
+            array('ord' => 'ord - 1'), 
+            "section_id = {$clean['hsection_id']} AND ord >= " . $this->db->escape($clean['hord'])."");
         
         system_redirect("?a=$go[a]");       
     }
@@ -1049,58 +1030,42 @@ class Exhibits extends Router
         }
     }
     
-    
+    /**
+     * @todo update year logic
+     **/
     function sbmt_upd_ord()
     {
         $vars = explode('&', $_POST['name']);
 
-        foreach ($vars as $next)
-        {
+        foreach ($vars as $next) {
             $var[] = explode('=', $next);
         }
 
-        foreach ($var as $out)
-        {
+        foreach ($var as $out) {
             // perhaps this preg can be better...
             $out[0] = preg_replace('/[^[:digit:]]/', '', $out[0]);
             $out[1] = preg_replace('/[^[:digit:]]/', '', $out[1]);
-
             $blah[$out[0]][] = $out[1];
         }
         
-        foreach ($blah as $key => $do)
-        {
+        foreach ($blah as $key => $do) {
             $i = 1;
-            foreach ($do as $it)
-            {
+            foreach ($do as $it) {
                 // it must be a year
                 // unless you have 1001 or more pages
-                if (strlen($key) > 4)
-                {
+                $params = array('ord' => $i);
+                if (strlen($key) > 4) {
                     // get the year - it's at the end
-                    $yeara = substr($key, -4);
-                    $year = "year = ".$this->db->escape($yeara).",";
-                    
+                    $params['year'] = substr($key, -4);
                     // get the section_id...everything but the year
-                    $section_id = preg_replace("/$yeara$/", '', $key);
-                }
-                else
-                {
+                    $params['section_id'] = preg_replace("/{$params['year']}$/", '', $key);
+                } else {
                     // no year
-                    $year = '';
-                    
                     // need the section id
-                    $section_id = $key;
+                    $params['section_id'] = $key;
                 }
-                
-                $this->db->updateRecord("UPDATE ".PX."objects SET
-                    ord         = ".$this->db->escape($i).",
-                    $year 
-                    section_id  = ".$this->db->escape($section_id)."
-                    WHERE 
-                    id          = ".$this->db->escape($it)."");
-                
-            $i++;
+                $this->updateArray('object', $params, "id = $it");
+                $i++;
             }
         }
         
@@ -1117,15 +1082,12 @@ class Exhibits extends Router
         $clean['sec_disp'] = $_POST['checked'];
         $cleaned['secid'] = str_replace('b', '', $_POST['element_id']);
         
-        $this->db->updateArray('section', $clean, "secid = '$cleaned[secid]'");
+        $this->db->updateArray('section', $clean, "secid = {$cleaned['secid']}");
         
-        if ($clean['sec_disp'] == 1)
-        {
+        if ($clean['sec_disp'] == 1) {
             header ('Content-type: text/html; charset=utf-8');
             echo input('boxy', 'checkbox', "checked='checked' id='b$cleaned[secid]'", 1);
-        }
-        else
-        {
+        } else {
             header ('Content-type: text/html; charset=utf-8');
             echo input('boxy', 'checkbox', "id='b$cleaned[secid]'", 0);
         }
@@ -1136,7 +1098,9 @@ class Exhibits extends Router
     
     function sbmt_upd_section()
     {
-        if ($_POST['update_value'] === '') { echo 'Error'; exit; }
+        if ($_POST['update_value'] === '') { 
+            echo 'Error'; exit; 
+        }
         
         $clean['sec_desc'] = $_POST['update_value'];
         $clean['secid'] = str_replace('s', '', $_POST['element_id']);
@@ -1164,26 +1128,18 @@ class Exhibits extends Router
         
         $name = $go['id'] . '_background' . '.' . $thetype;
         
-        if (in_array($thetype, $types))
-        {
-            if ($_FILES['jxbg']['size'] < $IMG->upload_max_size)
-            {
+        if (in_array($thetype, $types)) {
+            if ($_FILES['jxbg']['size'] < $IMG->upload_max_size) {
                 // if uploaded we can work with it
-                if (move_uploaded_file($_FILES['jxbg']['tmp_name'], $dir . '/' . $name)) 
-                {
+                if (move_uploaded_file($_FILES['jxbg']['tmp_name'], $dir . '/' . $name)) {
                     $clean['bgimg']     = $name;
-
                     $this->db->updateArray('object', $clean, "id='{$go['id']}'");
                     @chmod($dir . '/' . $name, 0755);
                     return;
-                }
-                else
-                {
+                } else {
                     // error on upload
                 }
-            }
-            else
-            {
+            } else {
                 // too big
             }
         }
@@ -1196,21 +1152,15 @@ class Exhibits extends Router
         // make this more safe
         $vars = explode(',', $_POST['order']);
 
-        foreach ($vars as $out)
-        {
+        foreach ($vars as $out) {
             $out = preg_replace('/[^[:digit:]]/', '', $out);
             $order[] = $out;
         }
         
-        if (is_array($order))
-        {
+        if (is_array($order)) {
             $i = 1;
-            foreach ($order as $do)
-            {
-                $this->db->updateRecord("UPDATE ".PX."media SET
-                    media_order     = ".$this->db->escape($i)." 
-                    WHERE 
-                    media_id        = ".$this->db->escape($do)."");
+            foreach ($order as $do) {
+                $this->db->updateArray('media', array('media_order' => $i), "media_id = $do");
                 $i++;
             }
         }
@@ -1248,35 +1198,26 @@ class Exhibits extends Router
         $clean['obj_ibot'] = textProcess($clean['obj_ibot'], 1);
 
 
-        if ($processor->check_errors())
-        {
+        if ($processor->check_errors()) {
             // get our error messages
             $error_msg = $processor->get_errors();
             $this->errors = true;
             $GLOBALS['error_msg'] = $error_msg;
             return;
-        }
-        else
-        {
+        } else {
             // redundant...but we need it.
             $user['user_mode'] = $clean['obj_mode'];
-
-            if ($user['user_mode'] !== 1)
-            {
+            if ($user['user_mode'] !== 1) {
                 // language?
                 // but what if this file was deleted?
                 $clean['obj_itop'] = "<p><%obj_name%><br />
 <a href=\'<%baseurl%><plug:ndxz_rewriter url=\'/about-this-site/\' />\'>" . $this->lang->word('about this site') . "</a></p>";
-            }
-            else
-            {
-                if ($clean['obj_itop'] === '')
-                {
+            } else {
+                if ($clean['obj_itop'] === '') {
                     $clean['obj_itop'] = "<p><%obj_name%><br />
 <a href=\'<%baseurl%><plug:ndxz_rewriter url=\'/about-this-site/\' />\'>" . $this->lang->word('about this site') . "</a></p>";
                 }
             }
-
             
             $this->db->updateArray('objects_meta', $clean, "obj_ref_type='".OBJECT."'");
             $this->db->updateArray('user', $user, "ID={$this->access->prefs['ID']}");

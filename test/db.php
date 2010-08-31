@@ -14,8 +14,8 @@
 
 
 // selectArray($query) 
-// $OBJ->db->selectArray($tables['section'], array('secid' => 8), 'array', 'section, sec_desc')
--- <?php var_export($OBJ->db->selectArray($tables['section'], array('secid' => 8), 'array', 'secid, section, sec_desc')) ?>
+// $OBJ->db->selectArray('section', array('secid' => 8), 'array', 'section, sec_desc')
+-- <?php var_export($OBJ->db->selectArray('section', array('secid' => 8), 'array', 'secid, section, sec_desc')) ?>
 
 
 // getCount($query)
