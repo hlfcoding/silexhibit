@@ -6,6 +6,7 @@
  * @package Indexhibit
  * @author Vaska 
  * @author Peng Wang <peng@pengxwang.com>
+ * @todo add validation functionality and make this a core delegate
  **/
 
 class Error

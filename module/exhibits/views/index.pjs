@@ -1,5 +1,13 @@
+<?php if (!defined('SITE')) exit('No direct script access allowed');
+/**
+ * Exhibits index page behaviors
+ * @var object $lang available by default
+ * @var string $action
+ * @var string $special_js
+ */
+?>
 (function ($) {
-    function serialize(s) {
+    function serialize (s) {
         serial = $.SortSerialize(s);
         $.post('?a=<?php echo $action ?>', { name : serial.hash, upd_ord : 'true' }, 
             function(html) { $('div#dhtml').html(html); }

@@ -6,6 +6,7 @@
  * @version 1.1
  * @package Indexhibit
  * @todo purge most of these view helpers
+ * @todo add global error handling and display
  **/
 
 /**
@@ -50,7 +51,7 @@ function ips ($title, $function, $name, $value = '', $attr = '', $type = '', $su
     $value = showvalue($name, $value);
     if ($function === 'input') {
         $function = input($name, $type, attr($attr), $value);
-    } else {
+    } else { // get some crazy convoluted php partial
         ($function) ? $function = $function($value, $name, attr($attr), $add):
         $function = null;
     }

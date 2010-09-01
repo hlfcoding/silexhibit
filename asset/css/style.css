@@ -239,4 +239,12 @@ ul.listed li.active#off { display: inline; padding: 2px 4px; background: #c00; c
 * html .clearfix { height: 1%; }
 .clearfix { display: block; }
 
+.hidden { display: none; }
+
+#settings-form {}
+    #pre-nav, 
+    #post-nav { height: 100px; }
+    #add-section-form { margin-top: 9px; }
+        #add-section-submit-wrapper { text-align: right; }
+
 /* END      Indexhibit++ **/

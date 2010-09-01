@@ -13,6 +13,8 @@ interface ICMSPageController extends ICMSController
 {
     function load_pjs ($name, $vars = array());
     function load_phtml ($name, $vars = array());
+    function deserialize_html ($html);
+    function serialize_html ($html);
 }
 
 interface ICMSAjaxController extends ICMSController 

@@ -12,26 +12,31 @@
  
 class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
 {
-    public $publishing = false;
-    public $error      = false;
+    public $publishing;
+    public $error;
     public $error_msg;
-    public $pub_status = 0;
+    public $pub_status;
     public $page_id;
-    public $object     = array();
+    
+    public $settings;
     public $view_bin_path;
     
     public function __construct ($view_bin_path = null)
     {
         parent::__construct();
         
+        $this->publishing = false;
+        $this->error = false;
+        $this->pub_status = 0;
+        
+        define('OBJECT', 'exhibit');
+        
         $this->view_bin_path = is_null($view_bin_path) 
             ? dirname(__FILE__) . DS . self::DEFAULT_VIEW_BIN_PATH
             : $view_bin_path;
         
         // which object are we accessing?
-        define('OBJECT', 'exhibit');
-        $find['obj_ref_type'] = OBJECT;
-        $this->object = $this->db->selectArray('object_meta', $find, Db::FETCH_RECORD);
+        $this->settings = $this->db->get_site_settings();
         
         // library of $_POST options
         $submits = array('upd_view','img_upload','publish_x',
@@ -48,16 +53,26 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
     // INTERFACE METHODS
     //---------------------------------------
     
-    public function load_pjs ($name, $vars = array()) {
+    public function load_pjs ($name, $vars = array()) 
+    {
         return $this->load_template('pjs', $name, $vars, '<script type="text/javascript">%s</script>');
     }
     
-    public function load_phtml ($name, $vars = array()) {
+    public function load_phtml ($name, $vars = array()) 
+    {
         return $this->load_template('phtml', $name, $vars);
     }
     
+    /**
+     * @param string
+     * @param string
+     * @param array view model
+     * @param string
+     * @return string
+     **/
     protected function load_template ($type, $name, $vars = array(), 
-                                      $wrapper = '%s') {
+                                      $wrapper = '%s') 
+    {
         $path = $this->view_bin_path . DS . "$name.$type";
         if (!file_exists($path)) {
             throw new RuntimeException("no php-$type file at $path");
@@ -74,6 +89,23 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
         return sprintf($wrapper, $contents);
     }
     
+    public function deserialize_html ($html) 
+    {
+        $html = preg_replace('/<\/?(p|br)\s?\/?>/', '', $html);
+        $html = htmlspecialchars($html);
+        $html = mb_decode_numericentity($html, UTF8EntConvert('1'), 'utf-8');
+        $html = str_replace(array('&gt;', '&lt;'), array('>', '<'), $html);
+        return $html;
+    }
+    
+    public function serialize_html ($html) {
+        
+    }
+    
+    //---------------------------------------
+    // PAGE ACTIONS
+    //---------------------------------------
+
     public function page_index ()
     {
         global $go, $default;
@@ -99,7 +131,7 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
         load_module_helper('files', $go['a']);
         
         $this->lib_class('organize');
-        $this->organize->obj_org = $this->object['obj_org'];
+        $this->organize->obj_org = $this->settings['obj_org'];
         
         $this->template->add_script = $this->load_pjs('index', array( 
             // template vars 
@@ -119,20 +151,12 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
         return;
     }
     
-    function page_settings()
+    public function page_settings()
     {
         global $go, $default;
 
         $this->template->location = $this->lang->word('settings');
-        
-        // sub-locations
         $this->template->sub_location[] = array($this->lang->word('main'),"?a=$go[a]");
-        
-        // the record
-        $rs = $this->db->fetchRecord("SELECT * 
-            FROM ".PX."objects_prefs 
-            WHERE obj_ref_type = '".OBJECT."'");
-            
         
         $body = ($this->error === true) ?
             div($this->error_msg,"id='show-error'").br() : '';
@@ -140,63 +164,42 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
         load_module_helper('files', $go['a']);
         load_helpers(array('editortools', 'output'));
         
-        // ++++++++++++++++++++++++++++++++++++++++++++++++++++
-        
-        $body .= "<div class='bg-grey'>\n";
-        $body .= "<div class='c3'>\n";
-        
-        // First column
-        $body .= "<div class='col'>\n";
-        $body .= ips($this->lang->word('exhibition name'), 'input', 'obj_name', 
-            $rs['obj_name'], "maxlength='50'", 'text', $this->lang->word('required'),'req');
-        
-        $body .= ips($this->lang->word('advanced mode'), 'getGeneric', 'obj_mode', $rs['obj_mode']);
-        
-        if ($rs['obj_mode'] == 1)
-        {
-            $body .= "<label>".$this->lang->word('theme')."</label>\n";
-            $body .= getThemes(DIRNAME . BASENAME . '/site/', $rs['obj_theme']);
-            
-            $body .= ips($this->lang->word('organize'), 'getOrganize', 'obj_org', $rs['obj_org']);
+        $sections = $this->db->get_sections();
+        foreach ($sections as &$s) {
+            $s['edit_url'] = "?a=exhibits&q=section&id={$s['secid']}";
+            $s['is_project'] = ($s['sec_proj'] == 1);
         }
         
-        //$body .= ips($this->lang->word('use editor'), 'getGeneric', 'writing', $rs['writing']);
-            
-        $body .= "</div>\n";
-        
-        // second column
-        $body .= "<div class='col'>\n";
-        
-        if ($rs['obj_mode'] == 1)
-        {
-            $body .= label($this->lang->word('pre nav text').' '.span($this->lang->word('html allowed')));
-            $body .= textarea(stripForForm($rs['obj_itop'], 1), "style='height:99px;'", 'obj_itop');
-        }
-            
-        $body .= label($this->lang->word('post nav text').' '.span($this->lang->word('html allowed')));
-        $body .= textarea(stripForForm($rs['obj_ibot'], 1), "style='height:99px;'", 'obj_ibot');
-        
-        $body .= div(input('upd_settings', 'submit', null, $this->lang->word('update')), "style='text-align: right;'");
-        $body .= "</div>\n";
-        
-        if ($rs['obj_mode'] == 1)
-        {
-            // third column
-            $body .= "<div class='col'>\n";
-            $body .= label($this->lang->word('sections')) . br();
-            $body .= getSections();
-            $body .= "</div>\n";
-        }
-        
-        $body .= "<div class='cl'><!-- --></div>\n";
-        $body .= "</div>";
-        
-        $this->template->body = $body;
+        $this->template->body = $this->load_phtml('settings', array(
+            // view model
+            'name' => $this->settings['obj_name'],
+            'cms_mode' => $this->settings['obj_mode'],
+            'show_advanced' => ($this->settings['obj_mode'] == 1),
+            'theme' => $this->settings['obj_theme'],
+            'nav_method' => $this->settings['obj_org'],
+            'pre_nav' => $this->deserialize_html($this->settings['obj_itop']),
+            'post_nav' => $this->deserialize_html($this->settings['obj_ibot']),
+            'cms_modes' => $this->db->get_cms_modes(),
+            'nav_methods' => $this->db->get_site_nav_methods(),
+            'themes' => $this->get_themes(),
+            'sections' => $sections,
+            'last_position' => $sections[count($sections) - 1]['sec_ord'],
+            'form_keys' => array(
+                'name' => 'obj_name',
+                'cms_mode' => 'obj_mode',
+                'theme' => 'obj_theme',
+                'nav_method' => 'obj_org',
+                'pre_nav' => 'obj_itop',
+                'post_nav' => 'obj_ibot',
+                'section_name' => 'sec_desc',
+                'section_folder' => 'section',
+                'last_position' => 'hsec_ord'
+            )
+        ));
         
         return;
     }
-    
-    
+        
     function page_edit()
     {
         global $go, $default;
@@ -385,7 +388,6 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
         return;
     }
 
-
     function page_section()
     {
         global $go, $default;
@@ -451,8 +453,7 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
         
         return;
     }   
-    
-    
+        
     function page_view()
     {
         global $go;
@@ -487,7 +488,6 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
         exit;
     }
     
-    
     function page_prv()
     {
         global $go;
@@ -518,8 +518,6 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
         $this->template->body = $body;
     }
     
-
-
     function page_jximg()
     {
         global $go;
@@ -529,7 +527,6 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
         echo getExhibitImages($go['id']);
         exit;
     }
-    
     
     function page_jxload()
     {
@@ -591,7 +588,6 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
         exit;
     }
     
-
     function page_jxbg()
     {
         global $go;
@@ -676,12 +672,14 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
         exit;
     }
     
-    
     function publisher()
     {
         ($this->pub_status == 1) ? $this->sbmt_publish_x() : $this->sbmt_unpublish_x();
     }
 
+    //---------------------------------------
+    // AJAX ACTIONS
+    //---------------------------------------
     
     // we need a way to protect these page from outside access
     function sbmt_add_page()
@@ -1454,5 +1452,21 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
         echo "<span class='notify'>" . $this->lang->word('updating') . "</span>";
         exit;
     }
-
+    
+    protected function get_themes () 
+    {
+        $themes = array();
+        if ($fp = opendir(DIRNAME . BASENAME . DS . SITEPATH)) {
+            while (($theme = readdir($fp)) !== false) {
+                if (preg_match('/^(_|CVS$)/i', $theme) === 0 &&
+                    preg_match('/\.(php|html)$/i', $theme) === 0 &&
+                    preg_match('/\.(|DS_Store|svn|git|backup)$/i', $theme) === 0 &&
+                    preg_match('/plugin|css|js|img/', $theme) === 0) {
+                    $themes[] = $theme;
+                }
+            } 
+        }
+        closedir($fp);
+        return $themes;
+    }
 }

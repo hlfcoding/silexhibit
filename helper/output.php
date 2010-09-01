@@ -8,7 +8,7 @@
  **/
 
 /**
- * For nicer placement in our textareas - but are we using this really?
+ * For nicer placement in our textareas
  * @param string $text 
  * @param string $process 
  * @return string
