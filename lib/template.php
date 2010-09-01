@@ -319,7 +319,7 @@ class Template
      **/
     public function tpl_foot_right ()
     {
-        return "<a href='http://www.indexhibit.org/'>Indexhibit v" . VERSION . "</a>";
+        return '<a href="http://www.indexhibit.org/">Indexhibit</a><a href="http://github.com/hlfcoding/hlf-ndxz">++ v' . VERSION . '</a>';
     }
     
     /**
