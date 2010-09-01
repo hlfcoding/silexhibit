@@ -88,7 +88,7 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
         // process template results
         return sprintf($wrapper, $contents);
     }
-    
+    // temp location until an html filter object is created
     public function deserialize_html ($html) 
     {
         $html = preg_replace('/<\/?(p|br)\s?\/?>/', '', $html);
