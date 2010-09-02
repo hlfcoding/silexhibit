@@ -26,7 +26,6 @@
  * @var bool $process_html
  * @var bool $hide_page
  * @var array $form_keys
- * @var
  * @todo colorpicker to jquery
  * @todo toggling to jquery
  */
@@ -36,7 +35,7 @@
 <?php endif ?>
 <div id="tab" class="clearfix">
 <div id="edit-form" class="c5 clearfix">
-    <div id="editor" class="colA">
+    <div id="content-editor" class="colA">
         <div class="bg-grey clearfix">
             <div class="clearfix">
                 <div class="col">
@@ -81,7 +80,7 @@
             <script type="text/javascript">
                 var edCanvas = document.getElementById('jxcontent');
             </script>
-            <div class="clearfix">
+            <div id="image-uploader" class="clearfix">
                 <div class="col">
                     <label><?php echo $lang->word('images') ?></label>
                 </div>
@@ -99,7 +98,7 @@
             </div>
         </div>
     </div>
-    <div class="colB">
+    <div id="meta-editor" class="colB">
         <div class="colB-set">
             <div class="colB-pad">
                 <label for="exhibit-status">
@@ -175,6 +174,7 @@
                     </div>
             <?php endif ?>
                 </div><!-- bg-color-picker -->
+                
                 <label for="bg-image">
                     <?php echo $lang->word('background image') ?>
                     <span class="small-txt">128 MB max</span>
@@ -236,6 +236,6 @@
 <script type="text/javascript">
     function mkColor(v) { $S('plugID').background='#'+v; }
     loadSV(); updateH('<?php echo $bg_color ?>');
-</script><!-- BODY END -->
+</script>
 <?php endif ?>
 </div><!-- tab -->
