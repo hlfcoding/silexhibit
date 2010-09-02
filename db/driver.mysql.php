@@ -49,6 +49,9 @@ class MySQLDriver
         $this->tables = $tables;
         $this->initialize();
         $this->setNames();
+        if (MODE === DEVELOPMENT) {
+            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        }
     }
 
     /**
@@ -80,13 +83,14 @@ class MySQLDriver
      **/
     protected function query ($query = '', $params = array(), $driver_options = array())
     {
+        // _log($query);
         $this->query = trim($query);
         if (empty($params)) {
             return (strpos($this->query, 'SELECT') === 0) 
-                ? $this->pdo->query($query) // result set
-                : $this->pdo->exec($query); // affected rows
+                ? $this->pdo->query($this->query) // result set
+                : $this->pdo->exec($this->query); // affected rows
         } else { // parameter binding
-            $statement = $this->pdo->prepare($query, $driver_options);
+            $statement = $this->pdo->prepare($this->query, $driver_options);
             $statement->execute($this->queryParams($params));
             if (strpos($this->query, 'SELECT') === 0) {
                 $statement->setFetchMode(PDO::FETCH_ASSOC);
@@ -193,7 +197,12 @@ class MySQLDriver
             throw new PDOException('no conditions to match');
             return false;
         }
-        $table = $this->table($table);
+        $tables = is_array($table) ? $table : array($table);
+        $a = array();
+        foreach ($tables as $t) {
+            $a[] = $this->table($t);
+        }
+        $table = implode(', ', $a);
         $type = is_null($type) ? self::FETCH_ARRAY : $type;
         $cols = is_array($cols) ? implode(', ', $cols) : $cols;
         $cols = empty($cols) ? '*' : $cols;

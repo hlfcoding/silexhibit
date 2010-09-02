@@ -239,6 +239,7 @@ ul.listed li.active#off { display: inline; padding: 2px 4px; background: #c00; c
 * html .clearfix { height: 1%; }
 .clearfix { display: block; }
 
+#all .hidden,
 .hidden { display: none; }
 
 #settings-form {}
@@ -246,5 +247,20 @@ ul.listed li.active#off { display: inline; padding: 2px 4px; background: #c00; c
     #post-nav { height: 100px; }
     #add-section-form { margin-top: 9px; }
         #add-section-submit-wrapper { text-align: right; }
+
+#edit-form {}
+    #editor-tools-right,
+    #editor-tools-left { margin-top: 18px; }
+        #editor-tools-right .btn { margin-bottom: 0; }
+    #extra-options-container { margin: 3px 0 5px 0; }
+    #extra-options-label { cursor: pointer; }
+    #extra-options { padding-top:12px; }
+    #bg-color-picker { margin: 3px 0 5px 0; }
+        #bg-color-picker .edit-link-container { margin-bottom: 12px; }
+        #plugID { cursor: pointer; }
+        #SV { background-color: rgb(255, 0, 0); }
+        #SVslide { top: -4px; left: 0px; }
+        #Hslide { top: -7px; left: -8px; }
+    #jxcontent { width:625px; }
 
 /* END      Indexhibit++ **/

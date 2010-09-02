@@ -136,8 +136,14 @@ class Template
      **/
     public function add_js ($js)
     {
+        if (is_array($js) && !empty($js)) {
+            foreach ($js as $i) {
+                $this->add_js($i);
+            }
+            return;
+        }
         if (!isset($this->js[$js])) {
-            $this->js[$js] = $js;
+            $this->js[$js] = ((MODE === DEVELOPMENT) ? 'dev/' : '') . $js;
         }
     }
     

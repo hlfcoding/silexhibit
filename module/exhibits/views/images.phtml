@@ -1,0 +1,19 @@
+<?php if (!defined('SITE')) exit('No direct script access allowed');
+/**
+ * Exhibit images list
+ * @var object $lang available by default
+ * @var array $images
+ */
+?>
+<ul id="boxes">
+<?php if ($images) : ?>
+    <?php foreach ($images as $i) : ?>
+    <li class="box" id="box<?php echo $i['media_id'] ?>">
+        <img src="<?php echo $i['media_file_path'] ?>" width="75" title="<?php echo $i['media_title'] ?>"/>
+        <br/><a class="edit-image-link" href="#"><?php echo $lang->word('edit') ?></a>
+    </li>
+    <?php endforeach ?>
+<?php else : ?>
+    <li><?php echo $lang->word('no images') ?></li>
+<?php endif ?>
+</ul>

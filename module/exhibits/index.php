@@ -8,6 +8,7 @@
  * @author Vaska 
  * @author Peng Wang <peng@pengxwang.com>
  * @todo remove views
+ * @todo convention over configuration
  **/
  
 class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
@@ -113,22 +114,19 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
         $go['page'] = getURI('page', 0, 'digit', 5);
 
         $this->template->location = $this->lang->word('main');
-        
-        // sub-locations
         $this->template->sub_location[] =
             array($this->lang->word('settings'), "?a=$go[a]&amp;q=settings");
         $this->template->sub_location[] = array($this->lang->word('new'),
             '#', "onclick=\"toggle('add-page'); return false;\"");
         
-        // javascript stuff
-        $this->template->add_js('jquery.js');
-        $this->template->add_js('iutil.js');
-        $this->template->add_js('idrag.js');
-        $this->template->add_js('idrop.js');
-        $this->template->add_js('isortables.js');
-        $this->template->add_js('jquery.inplace.js');
-        
-        load_module_helper('files', $go['a']);
+        $this->template->add_js(array(
+            'jquery.js',
+            'iutil.js',
+            'idrag.js',
+            'idrop.js',
+            'isortables.js',
+            'jquery.inplace.js'
+        ));        
         
         $this->lib_class('organize');
         $this->organize->obj_org = $this->settings['obj_org'];
@@ -154,15 +152,14 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
     public function page_settings()
     {
         global $go, $default;
+        
+        load_helpers(array('output'));
 
         $this->template->location = $this->lang->word('settings');
         $this->template->sub_location[] = array($this->lang->word('main'),"?a=$go[a]");
         
         $body = ($this->error === true) ?
             div($this->error_msg,"id='show-error'").br() : '';
-        
-        load_module_helper('files', $go['a']);
-        load_helpers(array('editortools', 'output'));
         
         $sections = $this->db->get_sections();
         foreach ($sections as &$s) {
@@ -200,190 +197,68 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
         return;
     }
         
-    function page_edit()
+    public function page_edit()
     {
         global $go, $default;
 
+        load_helpers(array('output'));
+
         $this->template->location = $this->lang->word('edit');
-        
-        // sub-locations
-        $this->template->sub_location[] = array($this->lang->word('main'), "?a=$go[a]");
-        
-        $this->template->add_js('jquery.js');
-        $this->template->add_js('jquery.inplace.js');
-        $this->template->add_js('toolman.dragdrop.js');
-        $this->template->add_js('ndxz.exhibit-edit.js');
-        
-        if ($default['color_picker'] === true)
-        {
+        $this->template->sub_location[] = array($this->lang->word('main'), "?a=$go[a]");            
+        $this->template->add_css('plugin.css');
+        $this->template->add_js(array(
+            'jquery.js', 
+            'jquery.inplace.js', 
+            'toolman.dragdrop.js', 
+            'alexking.quicktags.js', 
+            'ndxz.exhibit-edit.js'
+        ));
+        if ($default['color_picker'] === true) {
             $this->template->add_js('plugin.js');
         }
-        
-        $this->template->add_css('plugin.css');
-        
-        $script = "<script type='text/javascript'>
-        <!--
-        var action = '$go[a]';
-        var ide = '{$go['id']}';
-        //-->
+        $this->template->add_script = "<script type='text/javascript'>
+            var action = '{$go['a']}';
+            var ide = '{$go['id']}';
         </script>";
-        
-        $this->template->add_script = $script;
-        
-        // the record
-        $rs = $this->db->fetchRecord("SELECT * 
-            FROM ".PX."objects, ".PX."objects_prefs, ".PX."sections   
-            WHERE id = '{$go['id']}' 
-            AND object = '".OBJECT."' 
-            AND section_id = secid 
-            AND object = obj_ref_type");
-            
-        load_module_helper('files', $go['a']);
-        load_helpers(array('editortools', 'output'));
-            
-        // we need this for a bunch of things
-        $bgcolor = ($rs['color'] === '') ? 'ffffff' : $rs['color'];
-        
-        // ++++++++++++++++++++++++++++++++++++++++++++++++++++
-        
-            
-        $body = ($this->error === true) ?
-            div($this->error_msg,"id='show-error'").br() : '';
-        
-        $body .= "<div id='tab'>\n";
-        
-        $body .= "<div class='c5'>\n";
-        
-        // left column
-        $body .= "<div class='colA'>\n";
-        $body .= "<div class='bg-grey'>\n";
-        
-        $body .= "<div>\n";
-        
-        // rewrite this so we can save texts...
-        $body .= div("<h3><span class='sec-title'>$rs[sec_desc]</span> <span class='inplace1'>$rs[title]</span></h3>", "class='col'");
-        $body .= div(p("&nbsp;", "id='ajaxhold'"), "class='col txt-right'");
-        $body .= "<div class='cl'><!-- --></div>\n";
-        $body .= "</div>\n";
-        
-        $body .= editorTools($rs['content'], $this->access->prefs['user_mode'], editorButtons($rs['status']), $rs['process']);
-        
-        $body .= "<div>\n";
-        $body .= div(label($this->lang->word('images')), "class='col'");
-        $body .= div(p("&nbsp;", "id='imgshold'"), "class='col txt-right'");
-        $body .= "<div class='cl'><!-- --></div>\n";
-        $body .= "</div>\n";
 
-        // the uploader part
-        $body .= "<div id='iframe'><iframe src='?a=$go[a]&q=jxload&id={$go['id']}' frameborder='0' scrolling='auto' width='625' height='100'></iframe></div>\n";
-        // end uploader part
-        
-        $body .= "<div id='img-container'>";
-        $body .= getExhibitImages($go['id']);
-        $body .= "</div>\n";
-        // end images part
-        
-        $body .= "</div>\n";
-        $body .= "</div>\n";
-        // end left colum
-        
-        // right column
-        $body .= "<div class='colB'>\n";
-        $body .= "<div class='colB-set'>\n";
-        $body .= "<div class='colB-pad'>\n";
-        
-        $body .= label($this->lang->word('publish')).br();
-        $body .= getOnOff($rs['status'], "class='listed' id='ajx-status'");
-        
-        $body .= "<label>".$this->lang->word('exhibition format')."</label>\n";
-        $body .= getPresent(DIRNAME . BASENAME . '/site/plugin/', $rs['format']);
-        
-        if ($this->access->prefs['user_mode'] == 1)
-        {
-            $body .= label($this->lang->word('thumb max') . showHelp($this->lang->word('thumb max'))).br();
-            $body .= getThumbSize($rs['thumbs'], "class='listed' id='ajx-thumbs'");
-        
-            $body .= label($this->lang->word('image max')).br();
-            $body .= getImageSizes($rs['images'], "class='listed' id='ajx-images'");
+        $exhibit = $this->db->get_exhibit_by_id($go['id']);
+        $exhibit_images = $this->db->get_exhibit_images_by_id($go['id']);
+        foreach ($exhibit_images as &$i) {
+            $i['media_file_path'] = BASEURL . GIMGS . "/sys-{$i['media_file']}";
         }
         
-        // background color - this is a mess
-        $body .= "<label>".$this->lang->word('background color')."</label>\n";
-            
-        if ($default['color_picker'] === true)
-        {
-            $body .= getColorPicker($bgcolor);
-        }
-        else
-        {
-            $body .= "<div style='margin: 3px 0 5px 0;' onclick=\"toggle('plugin2'); return false;\"><span id='plugID' style='background: #$bgcolor; cursor: pointer;'>&nbsp;</span> ";
-            $body .= span('#'.$bgcolor, "id='colorTest2'");
-            $body .= "</div>\n";
-            
-            $body .= "<div id='plugin2' style='display:none;'>\n";
-            
-            $body .= "<input type='text' id='colorBox' name='color' value='$bgcolor' style='margin-bottom: 0;' maxlength='7' />\n";
-            $body .= "<input type='button' onclick=\"updateColor();\" value='Update' />\n";
-            
-            $body .= "</div>\n";
-        }
-    
-        $body .= p("<small>".$this->lang->word('edit color')."</small>","style='margin-bottom: 12px;'");
-        // end background color
-        
-        // background image
-        $body .= "<label>".$this->lang->word('background image')." <span class='small-txt'>" . getLimit() . " max</span></label>\n";
-        $body .= "<div id='iframe'><iframe src='?a=$go[a]&q=jxbg&id={$go['id']}' frameborder='0' scrolling='no' width='200' height='55'></iframe></div>\n";
-        
-        
-        // aditional options
-        $body .= "<div style='margin: 3px 0 5px 0;' onclick=\"toggle('adt-options'); return false;\"><label style='cursor:pointer;'>".$this->lang->word('additional options')."</label> ";
-        
-        $body .= "<div id='adt-options' style='display:none; padding-top:12px;'>\n";
-        
-            $body .= label($this->lang->word('background tiling')).br();
-            $body .= getOnOff($rs['tiling'], "class='listed' id='ajx-tiling'");
-            
-        if ($this->access->prefs['user_mode'] == 1)
-        {   
-            $body .= label($this->lang->word('page process')).br();
-            $body .= getOnOff($rs['process'], "class='listed' id='ajx-process'");
-        
-            $body .= label($this->lang->word('hide page')).br();
-            $body .= getOnOff($rs['hidden'], "class='listed' id='ajx-hidden'");
-        }
-
-            $body .= "</div>\n";
-            
-        $body .= "</div>\n";
-        
-        // end advanced
-
-        // hidden fields
-        $body .= input('hord', 'hidden', null, $rs['ord']);
-        $body .= input('hsection_id', 'hidden', null, $rs['section_id']);
-        
-        $body .= "</div>\n";
-        $body .= "</div>\n";
-        $body .= "</div>\n";
-        // end right column
-        
-        $body .= "<div class='cl'><!-- --></div>\n";
-
-        $body .= "</div>\n";
-        
-        
-        // the script for colors
-        if ($default['color_picker'] === true)
-        {
-            $body .= "<script type='text/javascript'>
-            function mkColor(v) { \$S('plugID').background='#'+v; }
-            loadSV(); updateH('$bgcolor');
-            </script>";
-        }
-    
-        
-        $this->template->body = $body;
+        $this->template->body = $this->load_phtml('edit', array(
+            'error' => (($this->error === true) ? $this->error_msg : ''),
+            'action' => $go['a'],
+            'id' => $go['id'],
+            'show_advanced' => ($this->settings['obj_mode'] == 1),
+            'show_default_picker' => ($default['color_picker'] === true),
+            'order_placement' => $exhibit['ord'],
+            'section_id' => $exhibit['section_id'],
+            'section_name' => $exhibit['sec_desc'],
+            'title' => $exhibit['title'],
+            'status' => $exhibit['status'],
+            'format' => $exhibit['format'],
+            'thumb_size' => $exhibit['thumbs'],
+            'image_size' => $exhibit['images'],
+            'bg_tiling' => $exhibit['tiling'],
+            'process_html' => $exhibit['process'],
+            'hide_page' => $exhibit['hidden'],
+            'content' => $this->deserialize_html($exhibit['content']),
+            'bg_color' => (empty($exhibit['color']) ? 'ffffff' : $exhibit['color']),
+            'user_mode' => $this->access->prefs['user_mode'],
+            'statuses' => $this->db->get_exhibit_statuses(), 
+            'formats' => $this->get_plugins(),
+            'thumb_sizes' => $default['thumbsize'],
+            'image_sizes' => $default['imagesize'],
+            'on_off' => $this->db->get_on_off(),
+            'exhibit_images_list' => $this->load_phtml('images', array(
+                'images' => $exhibit_images
+            )),
+            'form_keys' => array(
+                'format' => 'obj_present'
+            )
+        ));
         
         return;
     }
@@ -522,9 +397,14 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
     {
         global $go;
         load_module_helper('files', $go['a']);
-        
+        $exhibit_images = $this->db->get_exhibit_images_by_id($go['id']);
+        foreach ($exhibit_images as &$i) {
+            $i['media_file_path'] = BASEURL . GIMGS . "/sys-{$i['media_file']}";
+        }        
         header ('Content-type: text/html; charset=utf-8');
-        echo getExhibitImages($go['id']);
+        echo $this->load_phtml('images', array(
+            'images' => $exhibit_images
+        ));
         exit;
     }
     
@@ -1455,18 +1335,47 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
     
     protected function get_themes () 
     {
+        $path = DIRNAME . BASENAME . DS . SITEPATH;
         $themes = array();
-        if ($fp = opendir(DIRNAME . BASENAME . DS . SITEPATH)) {
-            while (($theme = readdir($fp)) !== false) {
-                if (preg_match('/^(_|CVS$)/i', $theme) === 0 &&
-                    preg_match('/\.(php|html)$/i', $theme) === 0 &&
-                    preg_match('/\.(|DS_Store|svn|git|backup)$/i', $theme) === 0 &&
-                    preg_match('/plugin|css|js|img/', $theme) === 0) {
-                    $themes[] = $theme;
+        if ($fp = opendir($path)) {
+            while (($t = readdir($fp)) !== false) {
+                if (preg_match('/^(_|CVS$)/i', $t) === 0 &&
+                    preg_match('/\.(php|html)$/i', $t) === 0 &&
+                    preg_match('/\.(|DS_Store|svn|git|backup)$/i', $t) === 0 &&
+                    preg_match('/plugin|css|js|img/', $t) === 0) {
+                    $themes[] = $t;
                 }
             } 
         }
         closedir($fp);
         return $themes;
+    }
+    
+    protected function get_plugins ()
+    {
+        $path = DIRNAME . BASENAME . DS . PLUGPATH;
+        if ($this->settings['obj_mode'] === 1) {
+            $plugins = array();
+            if (is_dir($path)) {
+                if ($fp = opendir($path)) {
+                    while (($p = readdir($fp)) !== false) {
+                        if (strpos($p, 'exhibit') === 0) {
+                            $plugins[] = str_replace(array('exhibit.', '.php'), '', $p);
+                        }
+                    } 
+                }
+                closedir($fp);
+            }
+            sort($plugins);
+        } else {
+            global $default;
+            $plugins = $default['standard_formats'];
+            foreach ($plugins as $k => $p) {
+                if (!file_exists($path . DS . "exhibit.$p.php")) {
+                    unset($plugins[$k]);
+                }
+            }
+        }
+        return $plugins;
     }
 }

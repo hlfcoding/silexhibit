@@ -44,7 +44,7 @@ $default = array(
     'cache_time' => 24, // hours
     'first_year' => 1994, // TODO what's this for
     'encoding' => 'UTF-8',
-    'thumbsize' => array(100 =>100, 150 => 150, 200 => 200), // basic sizes for images and thumbnails uploading
+    'thumbsize' => array(100 => 100, 150 => 150, 200 => 200), // basic sizes for images and thumbnails uploading
     'imagesize' => array(200 => 200, 400 => 400, 600 => 600, 'full' => 9999),
     'exhibit_imgs' => 6, // max exhibit images upload
     'standard_formats' => array('grow', 'grow_no_title', 'over_and_over', 'no_thumbs_w_captions'),

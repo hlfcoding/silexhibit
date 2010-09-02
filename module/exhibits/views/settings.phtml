@@ -1,0 +1,144 @@
+<?php if (!defined('SITE')) exit('No direct script access allowed');
+/**
+ * Manage settings form
+ * @var object $lang available by default
+ * @var string $name 
+ * @var int $cms_mode 
+ * @var string $theme
+ * @var int $last_position
+ * @var array $cms_modes
+ * @var array $nav_methods
+ * @var array $themes
+ * @var array $sections
+ * @var bool $show_advanced 
+ * @var array $form_keys 
+ * @todo toggle add section form
+ */
+?>
+<div id="settings-form" class="bg-grey">
+    <div class="c3 clearfix">
+        <div class="col">
+            
+            <label for="site-name">
+                <?php echo $lang->word('exhibition name') ?>
+                <span class="small-txt"><?php echo $lang->word('required') ?></span>
+            </label>
+            <input type="text" name="<?php echo $form_keys['name'] ?>" id="site-name" 
+                axlength="50" value="<?php echo $name ?>" placeholder="" />
+            
+            <label for="cms-mode">
+                <?php echo $lang->word('advanced mode') ?>
+            </label>
+            <select name="<?php echo $form_keys['cms_mode'] ?>" id="cms-mode">
+            <?php foreach ($cms_modes as $k => $v) : ?>
+                <option value="<?php echo $v ?>"
+                    <?php echo ($v == $cms_mode) ? 'selected' : '' ?>>
+                    <?php echo $lang->word($k) ?>
+                </option>
+            <?php endforeach ?>
+            </select>
+        
+        <?php if ($show_advanced) : ?>
+            
+            <label for="site-theme">
+                <?php echo $lang->word('theme') ?>
+            </label>
+            <select name="<?php echo $form_keys['theme'] ?>" id="site-theme">
+            <?php foreach ($themes as $t) : ?>
+                <option value="<?php echo $t ?>"
+                    <?php echo ($t == $theme) ? 'selected' : '' ?>>
+                    <?php echo $t ?>
+                </option>
+            <?php endforeach ?>
+            </select>
+            
+            <label for="site-nav-method">
+                <?php echo $lang->word('organize') ?>
+            </label>
+            <select name="<?php echo $form_keys['nav_method'] ?>" id="site-nav-method">
+            <?php foreach ($nav_methods as $k => $v) : ?>
+                <option value="<?php echo $v ?>"
+                    <?php echo ($k == $nav_method) ? 'selected' : '' ?>>
+                    <?php echo $lang->word($k) ?>
+                </option>
+            <?php endforeach ?>
+            </select>
+        
+        <?php endif ?>
+        
+        </div>
+        <div class="col">
+        
+        <?php if ($show_advanced) : ?>
+            
+            <label for="pre-nav">
+                <?php echo $lang->word('pre nav text') ?>
+                <span><?php echo $lang->word('html allowed') ?></span>
+            </label>
+            <textarea name="<?php echo $form_keys['pre-nav'] ?>" id="pre-nav"><?php echo $pre_nav ?></textarea>
+            
+        <?php endif ?>
+            
+            <label for="post_nav">
+                <?php echo $lang->word('post nav text') ?>
+                <span><?php echo $lang->word('html allowed') ?></span>
+            </label>
+            <textarea name="<?php echo $form_keys['post-nav'] ?>" id="post-nav"><?php echo $post_nav ?></textarea>
+            
+        </div>
+        
+    <?php if ($show_advanced) : ?>
+        
+        <div class="col">
+            <label>
+                <?php echo $lang->word('sections') ?>
+            </label>
+            <div class="sections">
+                
+        <?php if (!$sections) : ?>
+                <p>None</p>
+        <?php else : foreach ($sections as $s) : ?>
+                <div class="section">
+                    <a href="<?php echo $s['edit_url'] ?>">
+                        <?php echo $lang->word('edit') ?></a>&nbsp;&nbsp;
+                    <?php echo $s['sec_desc'] ?>
+                <?php if ($s['is_project']) : ?>
+                    &nbsp;&nbsp;XX
+                <?php endif ?>
+                </div>
+        <?php endforeach; endif ?>
+            
+                <p>
+                    <a href="#" id="add-section-button">
+                        <?php echo $lang->word('create new section') ?>
+                    </a>
+                </p>
+                <div class="hidden" id="add-section-form">
+                    
+                    <label for="section-name">
+                        <?php echo $lang->word('section name') ?>
+                        <span class="small-txt"><?php echo $lang->word('required') ?></span>
+                    </label>
+                    <input type="text" name="<?php echo $form_keys['section_name'] ?>" id="section-name" 
+                        maxlength="25" value="" placeholder="" />
+                    
+                    <label for="section-folder">
+                        <?php echo $lang->word('folder name') ?>
+                        <span class="small-txt"><?php echo $lang->word('required') ?></span>
+                    </label>
+                    <input type="text" name="<?php echo $form_keys['section_folder'] ?>" id="section-folder" 
+                        maxlength="15" value="" placeholder="" />
+                    
+                    <input type="hidden" name="<?php echo $form_keys['last_position'] ?>" 
+                        value="<?php echo $last_position ?>" />
+                    <div id="add-section-submit-wrapper">
+                        <input type="submit" name="<?php echo $form_keys['section_submit'] ?>" 
+                            value="<?php echo $lang->word('add section') ?>"/>
+                    </div>
+                    
+                </div><!-- add-section-form -->
+            </div><!-- sections -->
+        </div>
+    <?php endif ?>
+    </div>
+</div><!-- settings-form -->
