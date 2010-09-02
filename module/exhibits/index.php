@@ -1354,7 +1354,7 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
     protected function get_plugins ()
     {
         $path = DIRNAME . BASENAME . DS . PLUGPATH;
-        if ($this->settings['obj_mode'] === 1) {
+        if ($this->settings['obj_mode'] == 1) {
             $plugins = array();
             if (is_dir($path)) {
                 if ($fp = opendir($path)) {
