@@ -103,6 +103,13 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
         
     }
     
+    public function load_master_js () {
+        $this->template->add_js(array(
+            'jquery.js',
+            'module.js'
+        ));
+    }
+    
     //---------------------------------------
     // PAGE ACTIONS
     //---------------------------------------
@@ -119,8 +126,8 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
         $this->template->sub_location[] = array($this->lang->word('new'),
             '#', "onclick=\"toggle('add-page'); return false;\"");
         
+        $this->load_master_js();
         $this->template->add_js(array(
-            'jquery.js',
             'iutil.js',
             'idrag.js',
             'idrop.js',
@@ -157,6 +164,8 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
 
         $this->template->location = $this->lang->word('settings');
         $this->template->sub_location[] = array($this->lang->word('main'),"?a=$go[a]");
+        
+        $this->load_master_js();
         
         $body = ($this->error === true) ?
             div($this->error_msg,"id='show-error'").br() : '';
@@ -210,8 +219,9 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
         $this->template->location = $this->lang->word('edit');
         $this->template->sub_location[] = array($this->lang->word('main'), "?a=$go[a]");            
         $this->template->add_css('plugin.css');
+
+        $this->load_master_js();
         $this->template->add_js(array(
-            'jquery.js', 
             'jquery.inplace.js', 
             'toolman.dragdrop.js', 
             'alexking.quicktags.js', 
@@ -432,7 +442,7 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
         
         $more = (!isset($more)) ? '' : $more;
         
-        $this->template->add_js('jquery.js');
+        $this->load_master_js();
         $this->template->add_js('jquery.multifile.js');
 
         $script = "<style type='text/css'>

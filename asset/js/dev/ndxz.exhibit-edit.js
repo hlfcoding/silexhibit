@@ -4,11 +4,7 @@
  * @todo move button id to link tag
  * @todo class inheritance
  */
-if (window.jQuery) { 
-    window.org = jQuery.extend(true, window.org || {}, {
-        'indexhibit': { 'classes': {}, 'pages': {}, 'options': {}, 'globals': {} }
-    });
-(function ($, nsC, nsP, nsO, nsG) { // jQuery, namespaced: classes, pages, options
+if (window.jQuery) { (function ($, nsC, nsP, nsO, nsG) { // jQuery, namespaced: classes, pages, options
     // ----------------------------------------
     // Text Editor
     // ----------------------------------------
@@ -22,43 +18,41 @@ if (window.jQuery) {
         }
     };
     var TextEditor = nsC.TextEditor = function () {
-        this.$self;
-        this.$toolButtons;
-        this.opt;
-        this.init(arguments);
-    };
-    TextEditor.prototype = {
-        init: function (args) {
-            this.$self = args[0];
-            this.opt = args[1];
-            this.tools();
-        },
-        tools: function () {
-            var o = this.opt,
-                $toolButtons = $(o.s.button);
-            $toolButtons.each(function () {
-                var $button = $(this),
-                    id = $button.find('img').attr('id');
-                $button.bind({
-                    mouseover: function (evt) { $button.removeClass(o.c.buttonOut).addClass(o.c.buttonOver); },
-                    mouseout: function (evt) { $button.removeClass(o.c.buttonOver).addClass(o.c.buttonOut); },
-                    click: function (evt) { evt.preventDefault(); }
-                });
-                switch (id) { case 'ed_bold':
-                    $button.bind('click', function () { edInsertTag(edCanvas, 0); });
-                break; case 'ed_italic':
-                    $button.bind('click', function () { edInsertTag(edCanvas, 1); });
-                break; case 'ed_underline':
-                    $button.bind('click', function () { edInsertTag(edCanvas, 2); });
-                break; case 'ed_files': case 'ed_links':
-                    $button.bind('click', function () {
-                        OpenWindow($button.attr('href'), 'popup', $button.attr('data-popup-width'), 
-                            $button.attr('data-popup-width'), 'yes');
+        var _s = this, _o = this.opt;
+        _s.$self; _s.$toolButtons;
+        $.extend(_s, {
+            init: function () {
+                _s.$self = arguments[0];
+                _o = arguments[1];
+                _s.tools();
+            },
+            tools: function () {
+                _s.$toolButtons = $(_o.s.button).each(function () {
+                    var $button = $(this),
+                        id = $button.find('img').attr('id');
+                    $button.bind({
+                        mouseover: function (evt) { $button.removeClass(_o.c.buttonOut).addClass(_o.c.buttonOver); },
+                        mouseout: function (evt) { $button.removeClass(_o.c.buttonOver).addClass(_o.c.buttonOut); },
+                        click: function (evt) { evt.preventDefault(); }
                     });
-                break; }
-            });
-        }
+                    switch (id) { case 'ed_bold':
+                        $button.bind('click', function () { edInsertTag(edCanvas, 0); });
+                    break; case 'ed_italic':
+                        $button.bind('click', function () { edInsertTag(edCanvas, 1); });
+                    break; case 'ed_underline':
+                        $button.bind('click', function () { edInsertTag(edCanvas, 2); });
+                    break; case 'ed_files': case 'ed_links':
+                        $button.bind('click', function () {
+                            OpenWindow($button.attr('href'), 'popup', $button.attr('data-popup-width'), 
+                                $button.attr('data-popup-width'), 'yes');
+                        });
+                    break; }
+                });
+            }
+        });
+        return _s;
     };
+    $.module('textEditor'); // create a jQuery plugin
     // ----------------------------------------
     // Image Manager
     // ----------------------------------------
@@ -72,70 +66,50 @@ if (window.jQuery) {
         }
     }; 
     var ImageManager = nsC.ImageManager = function () {
-        this.$self;
-        this.$gallery;
-        this.$galleryItems;
-        this.opt;
-        this.init(arguments);
-    };
-    ImageManager.prototype = {
-        init: function (args) {
-            this.$elem = args[0];
-            this.opt = args[1];
-            this.gallery();
-        },
-        gallery: function () {
-            var o = this.opt, self = this;
-            self.$gallery = $(o.s.previewGallery);
-            self.$galleryItems = $(o.s.previewItem, self.$gallery)
-                .each(function () {
-                    var $item = $(this),
-                        id = $item.attr('data-id');
-                    $(o.s.previewEdit, $item).bind('click', function (evt) {
-                        evt.preventDefault();
-                        self.getPreview(id)
+        var _s = this, _o = this.opt;
+        _s.$self; _s.$gallery; _s.$galleryItems;
+        $.extend(_s, {
+            init: function () {
+                _s.$self = arguments[0];
+                _o = arguments[1];
+                _s.gallery();
+            },
+            gallery: function () {
+                _s.$gallery = $(_o.s.previewGallery);
+                _s.$galleryItems = $(_o.s.previewItem, _s.$gallery)
+                    .each(function () {
+                        var $item = $(this),
+                            id = $item.attr('data-id');
+                        $(_o.s.previewEdit, $item).bind('click', function (evt) {
+                            evt.preventDefault();
+                            _s.getPreview(id)
+                        });
                     });
-                });
-        },
-        getPreview: function (id) {
-            var o = this.opt, self = this;
-            self.$gallery.load('?' + $.param({
-                'q': 'view',
-                'action': nsG.action, 
-                'id': id 
-            }));
-        },
-        preview: function () {
-            
-        },
-    }
-    // ----------------------------------------
-    // jQuery Plugins
-    // ----------------------------------------
-    if (!nsC.JQueryPluginFactory) {
-        var jQueryPluginFactory = nsC.JQueryPluginFactory = function () {};
-        jQueryPluginFactory.prototype = {
-            make: function (name) {
-                $.fn[name] = function (opt) {
-                    var instance = this.data(name),
-                        className = name[0].toUpperCase() + name.slice(1);
-                    if (instance) { return instance; }
-                    opt = $.extend({}, nsO[name], opt);
-                    instance = new nsC[className](this, opt);
-                    return this;
-                };
+            },
+            getPreview: function (id) {
+                _s.$gallery.load('?' + $.param({
+                    'q': 'view',
+                    'action': nsG.action, 
+                    'id': id 
+                }));
+            },
+            preview: function () {
+                alert('foo');
             }
-        };
-    }
-    var f = new jQueryPluginFactory();
-    f.make('textEditor');
-    f.make('imageManager');
+        });
+        return _s;       
+    };
+    $.module('imageManager'); // create a jQuery plugin
+
     // ----------------------------------------
     // Page Procedures
     // ----------------------------------------
     var editExhibitPrc = nsP.editExhibit = function () {
-        $('#primary-editor-group #content-editor').textEditor();
-        $('#primary-editor-group #image-manager').imageManager();
+        var $elT = $('#primary-editor-group #content-editor').textEditor(),
+            $elI = $('#primary-editor-group #image-manager').imageManager(),
+            modT = $elT.module(),
+            modI = $elI.module();
+        // modI.preview();
     };
     $(document).ready(function () {
         editExhibitPrc();
