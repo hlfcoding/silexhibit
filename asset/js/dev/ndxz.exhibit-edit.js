@@ -2,13 +2,17 @@
  * @todo use modals
  * @todo native editor behavior
  * @todo move button id to link tag
+ * @todo class inheritance
  */
 if (window.jQuery) { 
     window.org = jQuery.extend(true, window.org || {}, {
-        'indexhibit': { 'classes': {}, 'pages': {}, 'options': {} }
+        'indexhibit': { 'classes': {}, 'pages': {}, 'options': {}, 'globals': {} }
     });
-(function ($, nsC, nsP, nsO) {
-    var defaults = nsO.editor = {
+(function ($, nsC, nsP, nsO, nsG) { // jQuery, namespaced: classes, pages, options
+    // ----------------------------------------
+    // Text Editor
+    // ----------------------------------------
+    var textEditorDefaults = nsO.textEditor = {
         's': { // selectors
             'button': 'a.btn:has(img), input.btn[type="image"]'
         },
@@ -17,70 +21,126 @@ if (window.jQuery) {
             'buttonOut': 'btn-off'
         }
     };
-    var Editor = nsC.Editor = function () {
-        this.elem;
+    var TextEditor = nsC.TextEditor = function () {
+        this.$self;
+        this.$toolButtons;
         this.opt;
         this.init(arguments);
     };
-    Editor.prototype = {
+    TextEditor.prototype = {
         init: function (args) {
-            this.elem = args[0];
+            this.$self = args[0];
             this.opt = args[1];
             this.tools();
         },
         tools: function () {
-            var o = this.opt;
-            $(o.s.button).each(function () {
-                var $button = $(this);
+            var o = this.opt,
+                $toolButtons = $(o.s.button);
+            $toolButtons.each(function () {
+                var $button = $(this),
+                    id = $button.find('img').attr('id');
                 $button.bind({
-                    mouseover: function (evt) {
-                        $button.removeClass(o.c.buttonOut)
-                            .addClass(o.c.buttonOver);
-                    },
-                    mouseout: function (evt) {
-                        $button.removeClass(o.c.buttonOver)
-                            .addClass(o.c.buttonOut);
-                    },
-                    click: function (evt) {
-                        var id = $button.find('img').attr('id');
-                        switch (id) {
-                            case 'ed_bold':
-                                edInsertTag(edCanvas, 0);
-                                break;
-                            case 'ed_italic':
-                                edInsertTag(edCanvas, 1);
-                                break;
-                            case 'ed_underline':
-                                edInsertTag(edCanvas, 2);
-                                break;
-                            case 'ed_files':
-                            case 'ed_links':
-                                OpenWindow($button.attr('href'), 'popup', 
-                                    $button.attr('data-popup-width'), 
-                                    $button.attr('data-popup-width'), 
-                                    'yes');
-                                break;
-                        }
-                        evt.preventDefault();
-                    }
+                    mouseover: function (evt) { $button.removeClass(o.c.buttonOut).addClass(o.c.buttonOver); },
+                    mouseout: function (evt) { $button.removeClass(o.c.buttonOver).addClass(o.c.buttonOut); },
+                    click: function (evt) { evt.preventDefault(); }
                 });
+                switch (id) { case 'ed_bold':
+                    $button.bind('click', function () { edInsertTag(edCanvas, 0); });
+                break; case 'ed_italic':
+                    $button.bind('click', function () { edInsertTag(edCanvas, 1); });
+                break; case 'ed_underline':
+                    $button.bind('click', function () { edInsertTag(edCanvas, 2); });
+                break; case 'ed_files': case 'ed_links':
+                    $button.bind('click', function () {
+                        OpenWindow($button.attr('href'), 'popup', $button.attr('data-popup-width'), 
+                            $button.attr('data-popup-width'), 'yes');
+                    });
+                break; }
             });
         }
     };
-    $.fn.editor = function (opt) {
-        var instance = this.data('editor');
-        if (instance) {
-            return instance;
+    // ----------------------------------------
+    // Image Manager
+    // ----------------------------------------
+    var imageManagerDefaults = nsO.imageManager = {
+        's': { // selectors
+            'previewGallery': '#img-container',
+            'previewItem': '.box',
+            'previewEdit': '.edit-image-link'
+        },
+        'c': { // classes
         }
-        opt = $.extend({}, defaults, opt);
-        instance = new Editor(this, opt);
-        return this;
+    }; 
+    var ImageManager = nsC.ImageManager = function () {
+        this.$self;
+        this.$gallery;
+        this.$galleryItems;
+        this.opt;
+        this.init(arguments);
     };
-    
+    ImageManager.prototype = {
+        init: function (args) {
+            this.$elem = args[0];
+            this.opt = args[1];
+            this.gallery();
+        },
+        gallery: function () {
+            var o = this.opt, self = this;
+            self.$gallery = $(o.s.previewGallery);
+            self.$galleryItems = $(o.s.previewItem, self.$gallery)
+                .each(function () {
+                    var $item = $(this),
+                        id = $item.attr('data-id');
+                    $(o.s.previewEdit, $item).bind('click', function (evt) {
+                        evt.preventDefault();
+                        self.getPreview(id)
+                    });
+                });
+        },
+        getPreview: function (id) {
+            var o = this.opt, self = this;
+            self.$gallery.load('?' + $.param({
+                'q': 'view',
+                'action': nsG.action, 
+                'id': id 
+            }));
+        },
+        preview: function () {
+            
+        },
+    }
+    // ----------------------------------------
+    // jQuery Plugins
+    // ----------------------------------------
+    if (!nsC.JQueryPluginFactory) {
+        var jQueryPluginFactory = nsC.JQueryPluginFactory = function () {};
+        jQueryPluginFactory.prototype = {
+            make: function (name) {
+                $.fn[name] = function (opt) {
+                    var instance = this.data(name),
+                        className = name[0].toUpperCase() + name.slice(1);
+                    if (instance) { return instance; }
+                    opt = $.extend({}, nsO[name], opt);
+                    instance = new nsC[className](this, opt);
+                    return this;
+                };
+            }
+        };
+    }
+    var f = new jQueryPluginFactory();
+    f.make('textEditor');
+    f.make('imageManager');
+    // ----------------------------------------
+    // Page Procedures
+    // ----------------------------------------
+    var editExhibitPrc = nsP.editExhibit = function () {
+        $('#primary-editor-group #content-editor').textEditor();
+        $('#primary-editor-group #image-manager').imageManager();
+    };
     $(document).ready(function () {
-        $('#editor').editor();
+        editExhibitPrc();
     });
-})(jQuery, org.indexhibit.classes, org.indexhibit.pages, org.indexhibit.options); }
+})(jQuery, org.indexhibit.classes, org.indexhibit.pages, org.indexhibit.options, org.indexhibit.globals); }
 
 function delbg(filename)
 {
@@ -162,10 +222,6 @@ function deleteImage(ida)
                 getExhibit();
         });
     }
-}
-function getImgPreview(ida)
-{
-    $('#img-container').load('?a='+action+'&q=view&id='+ida);
 }
 $(document).ready(function()
 {

@@ -35,8 +35,8 @@
 <?php endif ?>
 <div id="tab" class="clearfix">
 <div id="edit-form" class="c5 clearfix">
-    <div id="content-editor" class="colA">
-        <div class="bg-grey clearfix">
+    <div id="primary-editor-group" class="colA">
+        <div id="content-editor" class="bg-grey clearfix">
             <div class="clearfix">
                 <div class="col">
                     <h3>
@@ -80,6 +80,8 @@
             <script type="text/javascript">
                 var edCanvas = document.getElementById('jxcontent');
             </script>
+        </div><!-- content-editor -->
+        <div id="image-manager" class="bg-grey">
             <div id="image-uploader" class="clearfix">
                 <div class="col">
                     <label><?php echo $lang->word('images') ?></label>
@@ -96,9 +98,9 @@
             <div id="img-container" class="clearfix">
                 <?php echo $exhibit_images_list ?>
             </div>
-        </div>
-    </div>
-    <div id="meta-editor" class="colB">
+        </div><!-- image-manager -->
+    </div><!-- primary-editor-group -->
+    <div id="secondary-editor-group" class="colB">
         <div class="colB-set">
             <div class="colB-pad">
                 <label for="exhibit-status">
@@ -230,7 +232,7 @@
                 <input type="hidden" name="hsection_id" value="<?php echo $section_id ?>" />
             </div>
         </div>
-    </div>
+    </div><!-- secondary-editor-group -->
 </div><!-- edit-form -->
 <?php if ($show_default_picker) : ?>
 <script type="text/javascript">

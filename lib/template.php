@@ -37,7 +37,13 @@ class Template
     public $pop_location;
     public $pop_links      = array();
     public $pref_nav;
-        
+    
+    public $cache_expires;
+    public $js_globals_ns;
+    
+    const DEFAULT_JS_ROOT_NS = 'org.indexhibit';
+    const DEFAULT_JS_GLOBALS_NS = 'globals';
+    
     public function __construct ()
     {
         // default settings
@@ -145,6 +151,26 @@ class Template
         if (!isset($this->js[$js])) {
             $this->js[$js] = ((MODE === DEVELOPMENT) ? 'dev/' : '') . $js;
         }
+    }
+    
+    public function add_js_globals ($vars, $legacy = false, $ns = null) 
+    {
+        $ns = is_null($ns) ? self::DEFAULT_JS_ROOT_NS . '.' . self::DEFAULT_JS_GLOBALS_NS : $ns;
+        $ns = explode('.', $ns);
+        $out = array();
+        $out[] = '<script type="text/javascript">';
+        $out[] = "window.{$ns[0]} = jQuery.extend(true, window.{$ns[0]} || {}, {";
+        $out[] = "'" . implode("': { '", $ns) . "': {";
+        $out[] = substr(str_replace('"', '\'', json_encode($vars)), 1, -1);
+        $out[] = str_repeat('}', count($ns)) . '});';
+        if ($legacy) {
+            foreach ($vars as $k => $v) {
+                $v = (preg_match('/^\d+|true|false$/i', $v) === 0) ? "'$v'" : $v;
+                $out[] = "var $k = $v;";
+            }
+        }
+        $out[] = '</script>';
+        $this->add_script = implode(PHP_EOL, $out);
     }
     
     /**

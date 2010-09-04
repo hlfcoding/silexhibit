@@ -149,7 +149,7 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
         return;
     }
     
-    public function page_settings()
+    public function page_settings ()
     {
         global $go, $default;
         
@@ -196,8 +196,12 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
         
         return;
     }
-        
-    public function page_edit()
+    
+    /**
+     * @todo global `ide` -> `id`
+     * @return void
+     **/
+    public function page_edit ()
     {
         global $go, $default;
 
@@ -216,10 +220,10 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
         if ($default['color_picker'] === true) {
             $this->template->add_js('plugin.js');
         }
-        $this->template->add_script = "<script type='text/javascript'>
-            var action = '{$go['a']}';
-            var ide = '{$go['id']}';
-        </script>";
+        $this->template->add_js_globals(array(
+            'action' => $go['a'],
+            'ide' => (int)$go['id']
+        ), true); 
 
         $exhibit = $this->db->get_exhibit_by_id($go['id']);
         $exhibit_images = $this->db->get_exhibit_images_by_id($go['id']);

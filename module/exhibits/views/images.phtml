@@ -8,7 +8,7 @@
 <ul id="boxes">
 <?php if ($images) : ?>
     <?php foreach ($images as $i) : ?>
-    <li class="box" id="box<?php echo $i['media_id'] ?>">
+    <li class="box" id="box<?php echo $i['media_id'] ?>" data-id="<?php echo $i['media_id'] ?>">
         <img src="<?php echo $i['media_file_path'] ?>" width="75" title="<?php echo $i['media_title'] ?>"/>
         <br/><a class="edit-image-link" href="#"><?php echo $lang->word('edit') ?></a>
     </li>

@@ -39,7 +39,7 @@ class MySQLDriver
                     'user' => $indx['user'],
                     'pass' => $indx['pass'],
                     'db' => $indx['db']
-                );            
+                );
             }
         }
         $this->info = $info;
