@@ -1,0 +1,119 @@
+<?php if (!defined('SITE')) exit('No direct script access allowed');
+/**
+ * Edit exhibit section form.
+ * @var object $lang Available by default.
+ * @var string $error Available by default.
+ * @var bool $is_root
+ * @var string $path 
+ * @var string $name 
+ * @var string $folder 
+ * @var int $order 
+ * @var int $id 
+ * @var bool $show_projects 
+ * @var bool $show_title 
+ * @var array $orders
+ * @var array $on_off
+ * @var array $form_keys
+ * @todo Toggle behavior
+ */
+?>
+<?php if (!empty($error)) : ?>
+<div id="show-error"><?php echo $error ?></div>
+<?php endif ?>
+<div id="section-form" class="bg-grey">
+  <div class="c3 clearfix">
+    <div class="col">
+      
+      <label for="section-path">
+        <?php echo $lang->word('path') ?>
+      </label>
+      <h2 id="section-path">
+        <?php echo $path ?>
+      </h2><br/>
+      
+      <label for="section-name">
+        <?php echo $lang->word('section name') ?>
+        <span class="small-txt">Required</span>
+      </label>
+      <input type="text" name="<?php echo $form_keys['name'] ?>" id="section-name" 
+          value="<?php echo $name ?>" maxlength="50"/>
+      
+      <label for="section-folder">
+        <?php echo $lang->word('folder name') ?>
+        <span class="small-txt">Required</span>
+      </label>
+      <input type="text" name="<?php echo $form_keys['folder'] ?>" id="section-folder" 
+          value="<?php echo $folder ?>" maxlength="50"/>
+      
+      <label for="section-order">
+        <?php echo $lang->word('section order') ?>
+      </label>
+      <select name="<?php echo $form_keys['order'] ?>" id="section-order">
+      <?php foreach ($orders as $o) : ?>
+        <option value="<?php echo $o ?>"
+            <?php echo ($o == $order) ? 'selected' : '' ?>>
+          <?php echo $o ?>
+        </option>
+      <?php endforeach ?>
+      </select>
+      
+      <label for="show-projects-section">
+        <?php echo $lang->word('projects section') ?>
+      </label><br/>
+      <ul class="listed" id="show-projects-section-ui">
+      <?php foreach ($on_off as $k => $v) : ?>
+        <li title="<?php echo $v ?>" data-value="<?php echo $k ?>"
+            <?php echo ($v == $show_projects) ? 'class="active"' : '' ?>>
+          <?php echo $lang->word($k) ?>
+        </li>
+      <?php endforeach ?>
+      </ul>
+      <select name="<?php echo $form_keys['show_projects'] ?>" class="hidden" 
+          id="show-projects-section">
+      <?php foreach ($on_off as $k => $v) : ?>
+        <option value="<?php echo $v ?>"
+            <?php echo ($v == $show_projects) ? 'selected' : '' ?>>
+          <?php echo $lang->word($k) ?>
+        </option>
+      <?php endforeach ?>
+      </select>
+      
+      <label for="show-section-title">
+        <?php echo $lang->word('section display') ?>
+      </label><br/>
+      <ul class="listed" id="show-section-title-ui">
+      <?php foreach ($on_off as $k => $v) : ?>
+        <li title="<?php echo $v ?>" data-value="<?php echo $k ?>"
+            <?php echo ($v == $show_title) ? 'class="active"' : '' ?>>
+          <?php echo $lang->word($k) ?>
+        </li>
+      <?php endforeach ?>
+      </ul>
+      <select name="<?php echo $form_keys['show_title'] ?>" class="hidden" 
+          id="show-section-title">
+      <?php foreach ($on_off as $k => $v) : ?>
+        <option value="<?php echo $v ?>"
+            <?php echo ($v == $show_title) ? 'selected' : '' ?>>
+          <?php echo $lang->word($k) ?>
+        </option>
+      <?php endforeach ?>
+      </select>
+      
+    <?php if (!$is_root) : ?>
+      <input type="submit" name="<?php echo $form_keys['delete'] ?>" id="delete-button" 
+          value="<?php echo $lang->word('delete') ?>" 
+          data-confirm="<?php echo $lang->word('sure delete section') ?>" />
+    <?php endif ?>
+      <input type="submit" name="<?php echo $form_keys['update'] ?>" id="update-button" 
+          value="<?php echo $lang->word('update') ?>" />
+      
+      <input type="hidden" name="<?php echo $form_keys['hidden_id'] ?>" 
+          value="<?php echo $id ?>" />
+      <input type="hidden" name="<?php echo $form_keys['hidden_order'] ?>" 
+          value="<?php echo $order ?>" />
+      
+    </div>
+    <div class="col"></div>
+    <div class="col"></div>
+  </div>
+</div><!-- section-form -->

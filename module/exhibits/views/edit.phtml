@@ -2,13 +2,13 @@
 /**
  * Edit exhibit form
  * @var object $lang available by default
+ * @var string $error available by default
  * @var string $action
  * @var int $id
- * @var int $order_placement
+ * @var int $order
  * @var int $section_id
  * @var bool $show_advanced
  * @var bool $show_default_picker
- * @var string $error
  * @var string $section_name
  * @var string $title
  * @var string $content
@@ -34,7 +34,7 @@
 <div id="show-error"><?php echo $error ?></div>
 <?php endif ?>
 <div id="tab" class="clearfix">
-<div id="edit-form" class="c5 clearfix">
+<div id="exhibit-form" class="c5 clearfix">
     <div id="primary-editor-group" class="colA">
         <div id="content-editor" class="bg-grey clearfix">
             <div class="clearfix">
@@ -228,8 +228,8 @@
                         
                     </div><!-- extra-options -->
                 </div><!-- extra-options-container -->
-                <input type="hidden" name="hord" value="<?php echo $order_placement ?>" />
-                <input type="hidden" name="hsection_id" value="<?php echo $section_id ?>" />
+                <input type="hidden" name="<?php echo $form_keys['hidden_order'] ?>" value="<?php echo $order ?>" />
+                <input type="hidden" name="<?php echo $form_keys['hidden_section_id'] ?>" value="<?php echo $section_id ?>" />
             </div>
         </div>
     </div><!-- secondary-editor-group -->

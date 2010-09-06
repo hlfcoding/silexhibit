@@ -1,7 +1,7 @@
 <?php if (!defined('SITE')) exit('No direct script access allowed');
 
 /**
- * Model for the site, using MySQL
+ * Model for the site, using MySQL.
  * @version 1.0
  * @package Indexhibit++
  * @author Peng Wang <peng@pengxwang.com>
@@ -17,25 +17,29 @@ class Db extends MySQLDriver
     }
     
     /**
-     * @todo use prefixes
-     * @todo use joins
-     * @param int 
+     * @todo Use prefixes
+     * @todo Use joins
+     * @param int
      * @return array
      **/
     public function get_exhibit_by_id ($id) 
     {
-        return $this->selectArray(array('object', 'object_meta', 'section'), array(
-            'id' => $id,
-            'object' => self::OBJECT_EXHIBIT,
-        ), self::FETCH_RECORD, '', 'AND section_id = secid AND object = obj_ref_type');
+        return $this->selectArray(array('object', 'object_meta', 'section'), 
+            array('id' => $id, 'object' => self::OBJECT_EXHIBIT), 
+            self::FETCH_RECORD, '', 
+            'AND section_id = secid AND object = obj_ref_type');
     }
-    
+
+    /**
+     * @param int
+     * @return array
+     */
     public function get_exhibit_images_by_id ($id) 
     {
         return $this->selectArray('media', array(
-            'media_ref_id' => $id,
-            'media_obj_type' => self::OBJECT_EXHIBIT,
-        ), null, '', 'ORDER BY media_order ASC, media_id ASC');
+                'media_ref_id' => $id,
+                'media_obj_type' => self::OBJECT_EXHIBIT,
+            ), null, '', 'ORDER BY media_order ASC, media_id ASC');
     }
     
     /**
@@ -45,15 +49,32 @@ class Db extends MySQLDriver
     public function get_sections () 
     {
         return $this->selectArray('section', array(), null, 
-            array('secid', 'section', 'sec_desc', 'sec_proj', 'sec_ord'), 'ORDER BY sec_ord ASC');
+            array('secid', 'section', 'sec_desc', 'sec_proj', 'sec_ord'), 
+            'ORDER BY sec_ord ASC');
+    }
+
+    /**
+     * @param int
+     * @return array
+     */
+    public function get_section_by_id ($id) 
+    {
+        return $this->selectArray('section', array('secid' => $id), 
+            self::FETCH_RECORD);
     }
     
+    /**
+     * @return array
+     */
     public function get_site_settings () 
     {
         return $this->selectArray('object_meta', 
             array('obj_ref_type' => self::OBJECT_EXHIBIT), self::FETCH_RECORD);
     }
         
+    /**
+     * @return array
+     */
     public function get_site_nav_methods () 
     {
         return array(
@@ -62,16 +83,25 @@ class Db extends MySQLDriver
         );
     }
     
+    /**
+     * @return array
+     */
     public function get_cms_modes () 
     {
         return $this->get_on_off();
     }
 
+    /**
+     * @return array
+     */
     public function get_exhibit_statuses ()
     {
         return $this->get_on_off();
     }
     
+    /**
+     * @return array
+     */
     public function get_on_off ()
     {
         return array(

@@ -2,6 +2,7 @@
 /**
  * Create exhibit form
  * @var object $lang available by default
+ * @var string $error available by default
  * @var array $sections
  * @var int $current_year the selected default
  * @var int $last_year max
@@ -9,6 +10,9 @@
  * @var string $sortable_sections_grid
  */
 ?>
+<?php if (!empty($error)) : ?>
+<div id="show-error"><?php echo $error ?></div>
+<?php endif ?>
 <div id="tab">
     <div id="add-page" class="bg-grey">
         <div class="c3 clearfix">

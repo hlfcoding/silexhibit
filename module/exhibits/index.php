@@ -9,7 +9,7 @@
  * @author Peng Wang <peng@pengxwang.com>
  * @todo remove views
  * @todo convention over configuration
- **/
+ */
  
 class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
 {
@@ -70,24 +70,25 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
      * @param array view model
      * @param string
      * @return string
-     **/
-    protected function load_template ($type, $name, $vars = array(), 
-                                      $wrapper = '%s') 
+     */
+    protected function load_template ($_type, $_name, $_vars = array(), 
+                                      $_wrapper = '%s') 
     {
-        $path = $this->view_bin_path . DS . "$name.$type";
-        if (!file_exists($path)) {
-            throw new RuntimeException("no php-$type file at $path");
+        $_path = $this->view_bin_path . DS . "$_name.$_type";
+        if (!file_exists($_path)) {
+            throw new RuntimeException("no php-$_type file at $_path");
         }
         // populate template environment
-        extract($vars);
+        extract($_vars);
+        $error = ($this->error === true) ? $this->error_msg : '';
         $lang = $this->lang;
         // run template
         ob_start();
-        require $path;
-        $contents = ob_get_contents();
+        require $_path;
+        $_contents = ob_get_contents();
         ob_end_clean();
         // process template results
-        return sprintf($wrapper, $contents);
+        return sprintf($_wrapper, $_contents);
     }
     // temp location until an html filter object is created
     public function deserialize_html ($html) 
@@ -106,7 +107,8 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
     public function load_master_js () {
         $this->template->add_js(array(
             'jquery.js',
-            'module.js'
+            'module.js',
+            'ndxz.exhibit-edit.js'
         ));
     }
     
@@ -161,14 +163,11 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
         global $go, $default;
         
         load_helpers(array('output'));
-
+        
         $this->template->location = $this->lang->word('settings');
         $this->template->sub_location[] = array($this->lang->word('main'),"?a=$go[a]");
         
         $this->load_master_js();
-        
-        $body = ($this->error === true) ?
-            div($this->error_msg,"id='show-error'").br() : '';
         
         $sections = $this->db->get_sections();
         foreach ($sections as &$s) {
@@ -209,7 +208,7 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
     /**
      * @todo global `ide` -> `id`
      * @return void
-     **/
+     */
     public function page_edit ()
     {
         global $go, $default;
@@ -224,8 +223,7 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
         $this->template->add_js(array(
             'jquery.inplace.js', 
             'toolman.dragdrop.js', 
-            'alexking.quicktags.js', 
-            'ndxz.exhibit-edit.js'
+            'alexking.quicktags.js'
         ));
         if ($default['color_picker'] === true) {
             $this->template->add_js('plugin.js');
@@ -242,12 +240,11 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
         }
         
         $this->template->body = $this->load_phtml('edit', array(
-            'error' => (($this->error === true) ? $this->error_msg : ''),
             'action' => $go['a'],
             'id' => $go['id'],
             'show_advanced' => ($this->settings['obj_mode'] == 1),
             'show_default_picker' => ($default['color_picker'] === true),
-            'order_placement' => $exhibit['ord'],
+            'order' => $exhibit['ord'],
             'section_id' => $exhibit['section_id'],
             'section_name' => $exhibit['sec_desc'],
             'title' => $exhibit['title'],
@@ -270,75 +267,55 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
                 'images' => $exhibit_images
             )),
             'form_keys' => array(
-                'format' => 'obj_present'
+                'format' => 'obj_present',
+                'hidden_order' => 'hsec_ord',
+                'hidden_section_id' => 'hsection_id'
             )
         ));
         
         return;
     }
 
-    function page_section()
+    public function page_section()
     {
         global $go, $default;
-
-        $this->template->location = $this->lang->word('section');
         
-        // sub-locations
+        load_helpers(array('output'));
+        
+        $this->template->location = $this->lang->word('section');
         $this->template->sub_location[] = array($this->lang->word('settings'),"?a=$go[a]&q=settings");
         $this->template->sub_location[] = array($this->lang->word('main'),"?a=$go[a]");
         
-        // the record
-        $rs = $this->db->fetchRecord("SELECT * 
-            FROM ".PX."sections 
-            WHERE secid = '{$go['id']}'");
-            
-        
-        $body = ($this->error === true) ?
-            div($this->error_msg,"id='show-error'").br() : '';
-        
-        load_module_helper('files', $go['a']);
-        load_helpers(array('editortools', 'output'));
-        
-        // ++++++++++++++++++++++++++++++++++++++++++++++++++++
-        
-        $body .= "<div class='bg-grey'>\n";
-        $body .= "<div class='c3'>\n";
-        
-        // First column
-        $body .= "<div class='col'>\n";
-        
-        $body .= "<label>" . $this->lang->word('path') . "</label>";
-        $body .= "<h2>" . BASEURL . "$rs[sec_path]</h2>" . br();
-        
-        $body .= ips($this->lang->word('section name'), 'input', 'sec_desc', 
-            $rs['sec_desc'], "maxlength='50'", 'text', $this->lang->word('required'),'req');
-            
-        $body .= ips($this->lang->word('folder name'), 'input', 'section', 
-            $rs['section'], "maxlength='50'", 'text', $this->lang->word('required'),'req');
-        
-        $body .= "<label>" . $this->lang->word('section order') . "</label>";
-        $body .= getSectionOrd($rs['sec_ord'], 'sec_ord', null);
-        
-        $body .= ips($this->lang->word('projects section'), 'getGeneric', 'sec_proj', $rs['sec_proj']);
-        
-        $body .= ips($this->lang->word('section display'), 'getGeneric', 'sec_disp', $rs['sec_disp']);
-                
-        if ($rs['secid'] !== 1)
-        {
-            $body .= input('del_sec', 'submit', "onclick=\"javascript:return confirm('" . $this->lang->word('sure delete section') . "');return false;\"", $this->lang->word('delete'));
+        $section = $this->db->get_section_by_id($go['id']);
+        $sections = $this->db->get_sections();
+        $orders = array();
+        foreach ($sections as &$s) {
+            $orders[] = $s['sec_ord'];
         }
         
-        $body .= input('edit_sec', 'submit', null, $this->lang->word('update'));
-        
-        $body .= input('hsecid', 'hidden', null, $rs['secid']);
-        $body .= input('hsec_ord', 'hidden', null, $rs['sec_ord']);
-            
-        $body .= "</div>\n";
-        
-        $body .= "<div class='cl'><!-- --></div>\n";
-        $body .= "</div>";
-        
-        $this->template->body = $body;
+        $this->template->body = $this->load_phtml('section', array(
+            'is_root' => ($section['secid'] == 1),
+            'path' => BASEURL . $section['sec_path'],
+            'name' => $section['sec_desc'],
+            'folder' => $section['section'],
+            'order' => $section['sec_ord'],
+            'id' => $section['secid'],
+            'show_projects' => $section['sec_proj'],
+            'show_title' => $section['sec_disp'],
+            'orders' => $orders,
+            'on_off' => $this->db->get_on_off(),
+            'form_keys' => array(
+                'name' => 'sec_desc',
+                'folder' => 'section',
+                'order' => 'sec_ord',
+                'show_projects' => 'sec_proj',
+                'show_title' => 'sec_disp',
+                'delete' => 'del_sec',
+                'update' => 'edit_sec',
+                'hidden_id' => 'hsecid',
+                'hidden_id' => 'hsec_ord'
+            )
+        ));
         
         return;
     }   
@@ -897,7 +874,7 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
     
     /**
      * @todo update year logic
-     **/
+     */
     function sbmt_upd_ord()
     {
         $vars = explode('&', $_POST['name']);

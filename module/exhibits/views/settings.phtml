@@ -2,6 +2,7 @@
 /**
  * Manage settings form
  * @var object $lang available by default
+ * @var string $error available by default
  * @var string $name 
  * @var int $cms_mode 
  * @var string $theme
@@ -15,6 +16,9 @@
  * @todo toggle add section form
  */
 ?>
+<?php if (!empty($error)) : ?>
+<div id="show-error"><?php echo $error ?></div>
+<?php endif ?>
 <div id="settings-form" class="bg-grey">
     <div class="c3 clearfix">
         <div class="col">
@@ -24,7 +28,7 @@
                 <span class="small-txt"><?php echo $lang->word('required') ?></span>
             </label>
             <input type="text" name="<?php echo $form_keys['name'] ?>" id="site-name" 
-                axlength="50" value="<?php echo $name ?>" placeholder="" />
+                maxlength="50" value="<?php echo $name ?>" placeholder="" />
             
             <label for="cms-mode">
                 <?php echo $lang->word('advanced mode') ?>
