@@ -1,3 +1,6 @@
+/**
+ * @todo unit test
+ */
 if (typeof Object.inherit !== 'function') {
 (function () {
     function subClass () {};
