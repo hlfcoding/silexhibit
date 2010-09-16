@@ -35,209 +35,212 @@
 <?php endif ?>
 <div id="tab" class="clearfix">
 <div id="exhibit-form" class="c5 clearfix">
-    <div id="primary-editor-group" class="colA">
-        <div id="content-editor" class="bg-grey clearfix">
-            <div class="clearfix">
-                <div class="col">
-                    <h3>
-                        <span class="sec-title"><?php echo $section_name ?></span>
-                        <span class="inplace1"><?php echo $title ?></span>
-                    </h3>
-                </div>
-                <div class="col txt-right">
-                    <p id="ajaxhold"></p>
-                </div>
-            </div>
-            <div id="editor-tools-left" class="col">
-                <a href="#" title="<?php echo $lang->word('bold') ?>" class="btn btn-off">
-                    <img src="asset/img/bold.gif" id="ed_bold" name="ed_bold">
-                </a>
-                <a href="#" title="<?php echo $lang->word('italic') ?>" class="btn btn-off">
-                    <img src="asset/img/italic.gif" id="ed_italic" name="ed_italic">
-                </a>
-                <a href="#" title="<?php echo $lang->word('underline') ?>" class="btn btn-off">
-                    <img src="asset/img/under.gif" id="ed_under" name="ed_under">
-                </a>
-                <img src="asset/img/line_spcr.gif" border="0">
-                <a href="?a=system&amp;q=links" title="<?php echo $lang->word('links manager') ?>" class="btn btn-off"
-                    data-popup-width="325" data-popup-height="350">
-                    <img src="asset/img/link.gif" id="ed_links">
-                </a>
-                <a href="?a=system&amp;q=files" title="<?php echo $lang->word('files manager') ?>" class="btn btn-off"
-                    data-popup-width="700" data-popup-height="465">
-                    <img src="asset/img/files.gif" id="ed_links">
-                </a>
-            </div><!-- editor-tools-left -->
-            <div id="editor-tools-right" class="col txt-right">
-                <input name="preview" type="image" src="asset/img/f-prev.gif" 
-                    title="Preview (without saving)" class="btn btn-off" onclick="previewText(<?php echo $id ?>);">
-                <input name="save" type="image" src="asset/img/save.gif" 
-                    title="<?php echo $lang->word('save preview') ?>" class="btn btn-off" onclick="updateText(<?php echo $id ?>);">
-                <input name="delete" type="image" src="asset/img/delete.gif" 
-                    title="<?php echo $lang->word('delete') ?>" class="btn btn-off" onclick="javascript:return confirm('<?php echo $lang->word('are you sure') ?>');" >
-            </div><!-- editor-tools-right -->
-            <textarea name="content" class="content" id="jxcontent"><?php echo $content ?></textarea> 
-            <script type="text/javascript">
-                var edCanvas = document.getElementById('jxcontent');
-            </script>
-        </div><!-- content-editor -->
-        <div id="image-manager" class="bg-grey">
-            <div id="image-uploader" class="clearfix">
-                <div class="col">
-                    <label><?php echo $lang->word('images') ?></label>
-                </div>
-                <div class="col txt-right">
-                    <p id="imgshold">
-                        &nbsp;
-                    </p>
-                </div>
-            </div>
-            <div id="iframe">
-                <iframe src="?a=exhibits&amp;q=jxload&amp;id=2" frameborder="0" scrolling="auto" width="625" height="100"></iframe>
-            </div>
-            <div id="img-container" class="clearfix">
-                <?php echo $exhibit_images_list ?>
-            </div>
-        </div><!-- image-manager -->
-    </div><!-- primary-editor-group -->
-    <div id="secondary-editor-group" class="colB">
-        <div class="colB-set">
-            <div class="colB-pad">
-                <label for="exhibit-status">
-                    <?php echo $lang->word('publish') ?>
-                </label><br/>
-                <ul class="listed" id="exhibit-status">
-                <?php foreach ($statuses as $k => $v) : ?>
-                    <li title="<?php echo $v ?>" id="<?php echo $k ?>"
-                        <?php echo ($v == $status) ? 'class="active"' : '' ?>>
-                        <?php echo $lang->word($k) ?>
-                    </li>
-                <?php endforeach ?>
-                </ul>
-                <label for="exhibit-format">
-                    <?php $lang->word('exhibition format') ?>
-                </label>
-                <select name="<?php echo $form_keys['format'] ?>" id="exhibit-format">
-                <?php foreach ($formats as $f) : ?>
-                    <option value="<?php echo $f ?>"
-                        <?php echo ($f == $format) ? 'selected' : '' ?>>
-                        <?php echo ucwords(str_replace('_', ' ', $f)) ?>
-                    </option>
-                <?php endforeach ?>
-                </select> 
-                
-                <label for="thumb-size">
-                    <?php echo $lang->word('thumb max') ?>
-                </label><br/>
-                <ul class="listed" id="thumb-size">
-                <?php foreach ($thumb_sizes as $k => $v) : ?>
-                    <li title="<?php echo $v ?>" id="<?php echo $k ?>"
-                        <?php echo ($v == $thumb_size) ? 'class="active"' : '' ?>>
-                        <?php echo $lang->word($k) ?>
-                    </li>
-                <?php endforeach ?>
-                </ul>
-                
-                <label for="image-size">
-                     <?php echo $lang->word('image max') ?>
-                </label><br>
-                <ul class="listed" id="image-size">
-                <?php foreach ($image_sizes as $k => $v) : ?>
-                    <li title="<?php echo $v ?>" id="<?php echo $k ?>"
-                        <?php echo ($v == $image_size) ? 'class="active"' : '' ?>>
-                        <?php echo $k ?>px
-                    </li>
-                <?php endforeach ?>
-                </ul>
-                
-                <label for="bg-color-picker">
-                    <?php echo $lang->word('background color') ?>
-                </label>
-                <div id="bg-color-picker" onclick="toggle('<?php echo $show_default_picker ? 'plugin' : 'plugin2' ?>'); return false;">
-            <?php if ($show_default_picker) : ?>
-                    <span id="plugID" style="background: #<?php echo $bg_color ?>;">&nbsp;</span>
-                    <span id="colorTest2"><?php echo $bg_color ?></span>
-                    <div id="plugin" onmousedown="HSVslide('drag','plugin',event);" class="hidden">
-                        <div id="SV" onmousedown="HSVslide('SVslide','plugin',event);" title="Saturation + Value">
-                            <div id="SVslide"><br/></div>
-                        </div>
-                        <div id="H" onmousedown="HSVslide('Hslide','plugin',event);" title="Hue">
-                            <div id="Hslide"><br/></div>
-                        </div>
-                    </div>
-                    <input id="colorTest" type="text" name="color" value="ffffff" class="hidden">
-                    <p class="edit-link-container">
-                        <small><?php echo $lang->word('edit color') ?></small>
-                    </p>
-            <?php else : ?>
-                    <div id="plugin2" class="hidden">
-                        <input type="text" id="colorBox" name="color" value="<?php echo $bg_color ?>" style="margin-bottom: 0;" maxlength="7" />
-                        <input type="button" onclick="updateColor();" value="Update" />
-                    </div>
-            <?php endif ?>
-                </div><!-- bg-color-picker -->
-                
-                <label for="bg-image">
-                    <?php echo $lang->word('background image') ?>
-                    <span class="small-txt">128 MB max</span>
-                </label>
-                <div id="iframe">
-                    <iframe id="bg-image" src="?a=<?php echo $action ?>&amp;q=jxbg&amp;id=<?php echo $id ?>" frameborder="0" scrolling="no" width="200" height="55"></iframe>
-                </div>
-                <div id="extra-options-container" onclick="toggle('extra-options'); return false;">
-                    <label id="extra-options-label">
-                        <?php echo $lang->word('additional options') ?>
-                    </label>
-                    <div id="extra-options" class="hidden">
-
-                        <label for="bg-tiling">
-                            <?php echo $lang->word('background tiling') ?>
-                        </label><br/>
-                        <ul class="listed" id="bg-tiling">
-                        <?php foreach ($on_off as $k => $v) : ?>
-                            <li title="<?php echo $v ?>" id="<?php echo $k ?>"
-                                <?php echo ($v == $bg_tiling) ? 'class="active"' : '' ?>>
-                                <?php echo $lang->word($k) ?>
-                            </li>
-                        <?php endforeach ?>
-                        </ul>
-
-                        <label for="process-html">
-                            <?php echo $lang->word('page process') ?>
-                        </label><br/>
-                        <ul class="listed" id="process-html">
-                        <?php foreach ($on_off as $k => $v) : ?>
-                            <li title="<?php echo $v ?>" id="<?php echo $k ?>"
-                                <?php echo ($v == $process_html) ? 'class="active"' : '' ?>>
-                                <?php echo $lang->word($k) ?>
-                            </li>
-                        <?php endforeach ?>
-                        </ul>
-                        
-                        <label for="hide-page">
-                            <?php echo $lang->word('hide page') ?>
-                        </label><br />
-                        <ul class="listed" id="hide-page">
-                        <?php foreach ($on_off as $k => $v) : ?>
-                            <li title="<?php echo $v ?>" id="<?php echo $k ?>"
-                                <?php echo ($v == $process_html) ? 'class="active"' : '' ?>>
-                                <?php echo $lang->word($k) ?>
-                            </li>
-                        <?php endforeach ?>
-                        </ul>
-                        
-                    </div><!-- extra-options -->
-                </div><!-- extra-options-container -->
-                <input type="hidden" name="<?php echo $form_keys['hidden_order'] ?>" value="<?php echo $order ?>" />
-                <input type="hidden" name="<?php echo $form_keys['hidden_section_id'] ?>" value="<?php echo $section_id ?>" />
-            </div>
+  <div id="primary-editor-group" class="colA">
+    <div id="content-editor" class="bg-grey clearfix">
+      <div class="clearfix">
+        <div class="col">
+          <h3>
+            <span class="sec-title"><?php echo $section_name ?></span>
+            <span class="inplace1"><?php echo $title ?></span>
+          </h3>
         </div>
-    </div><!-- secondary-editor-group -->
+        <div class="col txt-right">
+          <p id="ajaxhold"></p>
+        </div>
+      </div>
+      <div id="editor-tools-left" class="col">
+        <a href="#" title="<?php echo $lang->word('bold') ?>" class="btn btn-off">
+          <img src="asset/img/bold.gif" id="ed_bold" name="ed_bold">
+        </a>
+        <a href="#" title="<?php echo $lang->word('italic') ?>" class="btn btn-off">
+          <img src="asset/img/italic.gif" id="ed_italic" name="ed_italic">
+        </a>
+        <a href="#" title="<?php echo $lang->word('underline') ?>" class="btn btn-off">
+          <img src="asset/img/under.gif" id="ed_under" name="ed_under">
+        </a>
+        <img src="asset/img/line_spcr.gif" border="0">
+        <a href="?a=system&amp;q=links" title="<?php echo $lang->word('links manager') ?>" 
+            class="btn btn-off" data-popup-width="325" data-popup-height="350">
+          <img src="asset/img/link.gif" id="ed_links">
+        </a>
+        <a href="?a=system&amp;q=files" title="<?php echo $lang->word('files manager') ?>" 
+            class="btn btn-off" data-popup-width="700" data-popup-height="465">
+          <img src="asset/img/files.gif" id="ed_links">
+        </a>
+      </div><!-- editor-tools-left -->
+      <div id="editor-tools-right" class="col txt-right">
+        <input name="preview" type="image" src="asset/img/f-prev.gif" 
+            title="Preview (without saving)" class="btn btn-off" onclick="previewText(<?php echo $id ?>);">
+        <input name="save" type="image" src="asset/img/save.gif" 
+            title="<?php echo $lang->word('save preview') ?>" class="btn btn-off" onclick="updateText(<?php echo $id ?>);">
+        <input name="delete" type="image" src="asset/img/delete.gif" 
+            title="<?php echo $lang->word('delete') ?>" class="btn btn-off" onclick="javascript:return confirm('<?php echo $lang->word('are you sure') ?>');" >
+      </div><!-- editor-tools-right -->
+      <textarea name="content" class="content" id="jxcontent"><?php echo $content ?></textarea> 
+      <script type="text/javascript">
+        var edCanvas = document.getElementById('jxcontent');
+      </script>
+    </div><!-- content-editor -->
+    <div id="image-manager" class="bg-grey">
+      <div id="image-uploader" class="clearfix">
+        <div class="col">
+          <label><?php echo $lang->word('images') ?></label>
+        </div>
+        <div class="col txt-right">
+          <p id="imgshold">
+            &nbsp;
+          </p>
+        </div>
+      </div>
+      <div id="iframe">
+        <iframe src="?a=exhibits&amp;q=jxload&amp;id=2" frameborder="0" scrolling="auto" width="625" height="100"></iframe>
+      </div>
+      <div id="img-container" class="clearfix">
+        <?php echo $exhibit_images_list ?>
+      </div>
+    </div><!-- image-manager -->
+  </div><!-- primary-editor-group -->
+  <div id="secondary-editor-group" class="colB">
+    <div class="colB-set">
+      <div class="colB-pad">
+        <label for="exhibit-status">
+          <?php echo $lang->word('publish') ?>
+        </label><br/>
+        <ul class="listed" id="exhibit-status">
+        <?php foreach ($statuses as $k => $v) : ?>
+          <li title="<?php echo $v ?>" id="<?php echo $k ?>"
+            <?php echo ($v == $status) ? 'class="active"' : '' ?>>
+            <?php echo $lang->word($k) ?>
+          </li>
+        <?php endforeach ?>
+        </ul>
+        <label for="exhibit-format">
+          <?php $lang->word('exhibition format') ?>
+        </label>
+        <select name="<?php echo $form_keys['format'] ?>" id="exhibit-format">
+        <?php foreach ($formats as $f) : ?>
+          <option value="<?php echo $f ?>"
+            <?php echo ($f == $format) ? 'selected' : '' ?>>
+            <?php echo ucwords(str_replace('_', ' ', $f)) ?>
+          </option>
+        <?php endforeach ?>
+        </select> 
+        
+        <label for="thumb-size">
+          <?php echo $lang->word('thumb max') ?>
+        </label><br/>
+        <ul class="listed" id="thumb-size">
+        <?php foreach ($thumb_sizes as $k => $v) : ?>
+          <li title="<?php echo $v ?>" id="<?php echo $k ?>"
+            <?php echo ($v == $thumb_size) ? 'class="active"' : '' ?>>
+            <?php echo $lang->word($k) ?>
+          </li>
+        <?php endforeach ?>
+        </ul>
+        
+        <label for="image-size">
+           <?php echo $lang->word('image max') ?>
+        </label><br>
+        <ul class="listed" id="image-size">
+        <?php foreach ($image_sizes as $k => $v) : ?>
+          <li title="<?php echo $v ?>" id="<?php echo $k ?>"
+            <?php echo ($v == $image_size) ? 'class="active"' : '' ?>>
+            <?php echo $k ?>px
+          </li>
+        <?php endforeach ?>
+        </ul>
+        
+        <label for="bg-color-picker">
+          <?php echo $lang->word('background color') ?>
+        </label>
+        <div id="bg-color-picker" onclick="toggle('<?php echo $show_default_picker ? 'plugin' : 'plugin2' ?>'); return false;">
+      <?php if ($show_default_picker) : ?>
+          <span id="plugID" style="background: #<?php echo $bg_color ?>;">&nbsp;</span>
+          <span id="colorTest2"><?php echo $bg_color ?></span>
+          <div id="plugin" onmousedown="HSVslide('drag','plugin',event);" class="hidden">
+            <div id="SV" onmousedown="HSVslide('SVslide','plugin',event);" title="Saturation + Value">
+              <div id="SVslide"><br/></div>
+            </div>
+            <div id="H" onmousedown="HSVslide('Hslide','plugin',event);" title="Hue">
+              <div id="Hslide"><br/></div>
+            </div>
+          </div>
+          <input id="colorTest" type="text" name="color" value="ffffff" class="hidden">
+          <p class="edit-link-container">
+            <small><?php echo $lang->word('edit color') ?></small>
+          </p>
+      <?php else : ?>
+          <div id="plugin2" class="hidden">
+            <input type="text" id="colorBox" name="color" value="<?php echo $bg_color ?>" style="margin-bottom: 0;" maxlength="7" />
+            <input type="button" onclick="updateColor();" value="Update" />
+          </div>
+      <?php endif ?>
+        </div><!-- bg-color-picker -->
+        
+        <label for="bg-image">
+          <?php echo $lang->word('background image') ?>
+          <span class="small-txt">128 MB max</span>
+        </label>
+        <div id="iframe">
+          <iframe id="bg-image" src="?a=<?php echo $action ?>&amp;q=jxbg&amp;id=<?php echo $id ?>" 
+              frameborder="0" scrolling="no" width="200" height="55"></iframe>
+        </div>
+        <div id="extra-options-container" onclick="toggle('extra-options'); return false;">
+          <label id="extra-options-label">
+            <?php echo $lang->word('additional options') ?>
+          </label>
+          <div id="extra-options" class="hidden">
+
+            <label for="bg-tiling">
+              <?php echo $lang->word('background tiling') ?>
+            </label><br/>
+            <ul class="listed" id="bg-tiling">
+            <?php foreach ($on_off as $k => $v) : ?>
+              <li title="<?php echo $v ?>" id="<?php echo $k ?>"
+                <?php echo ($v == $bg_tiling) ? 'class="active"' : '' ?>>
+                <?php echo $lang->word($k) ?>
+              </li>
+            <?php endforeach ?>
+            </ul>
+
+            <label for="process-html">
+              <?php echo $lang->word('page process') ?>
+            </label><br/>
+            <ul class="listed" id="process-html">
+            <?php foreach ($on_off as $k => $v) : ?>
+              <li title="<?php echo $v ?>" id="<?php echo $k ?>"
+                <?php echo ($v == $process_html) ? 'class="active"' : '' ?>>
+                <?php echo $lang->word($k) ?>
+              </li>
+            <?php endforeach ?>
+            </ul>
+            
+            <label for="hide-page">
+              <?php echo $lang->word('hide page') ?>
+            </label><br />
+            <ul class="listed" id="hide-page">
+            <?php foreach ($on_off as $k => $v) : ?>
+              <li title="<?php echo $v ?>" id="<?php echo $k ?>"
+                <?php echo ($v == $process_html) ? 'class="active"' : '' ?>>
+                <?php echo $lang->word($k) ?>
+              </li>
+            <?php endforeach ?>
+            </ul>
+            
+          </div><!-- extra-options -->
+        </div><!-- extra-options-container -->
+        <input type="hidden" name="<?php echo $form_keys['hidden_order'] ?>" 
+            value="<?php echo $order ?>" />
+        <input type="hidden" name="<?php echo $form_keys['hidden_section_id'] ?>" 
+            value="<?php echo $section_id ?>" />
+      </div>
+    </div>
+  </div><!-- secondary-editor-group -->
 </div><!-- edit-form -->
 <?php if ($show_default_picker) : ?>
 <script type="text/javascript">
-    function mkColor(v) { $S('plugID').background='#'+v; }
-    loadSV(); updateH('<?php echo $bg_color ?>');
+  function mkColor(v) { $S('plugID').background='#'+v; }
+  loadSV(); updateH('<?php echo $bg_color ?>');
 </script>
 <?php endif ?>
 </div><!-- tab -->
