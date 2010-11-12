@@ -100,13 +100,19 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
         return $html;
     }
     
+    // TODO
     public function serialize_html ($html) {
         
     }
     
     public function load_master_js () {
         $this->template->add_js(array(
+            'underscore.js',
+            'underscore.namespace.js',
+            'backbone.js',
             'jquery.js',
+            'mootools.core.js',
+            'mootators.jquery.js',
             'module.js',
             'ndxz.exhibit-edit.js'
         ));
