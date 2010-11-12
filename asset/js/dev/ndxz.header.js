@@ -1,3 +1,4 @@
+_.namespace('org.indexhibit', { 'classes': {}, 'pages': {}, 'options': {}, 'globals': {}});
 /**
  * @todo unit test
  */
@@ -11,9 +12,6 @@ if (typeof Object.inherit !== 'function') {
 })();
 }
 if (window.jQuery) {
-    window.org = jQuery.extend(true, window.org || {}, {
-        'indexhibit': { 'classes': {}, 'pages': {}, 'options': {}, 'globals': {} }
-    });
 (function ($, nsC, nsP, nsO, nsG) { // jQuery, namespaced: classes, pages, options
     $.fn.module = function () {
         return this.data(this.data('className'));

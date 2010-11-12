@@ -4,70 +4,70 @@
  * @todo move button id to link tag
  * @todo class inheritance
  */
-if (window.jQuery) { (function ($, nsC, nsP, nsO, nsG) { 
-  // jQuery, namespaced: classes, pages, options
-// ----------------------------------------
-// Text Editor
-// ----------------------------------------
-var textEditorDefaults = nsO.textEditor = {
-  's': { // selectors
-    'button': 'a.btn:has(img), input.btn[type="image"]'
-  },
-  'c': { // classes
-    'buttonOver': 'btn-over',
-    'buttonOut': 'btn-off'
-  }
-};
-var TextEditor = nsC.TextEditor = function () {
-  var _s = this, _o = this.opt;
-  _s.$self; _s.$toolButtons;
-  $.extend(_s, {
-    init: function () {
-      _s.$self = arguments[0];
-      _o = arguments[1];
-      _s.tools();
+_.using('org.indexhibit.*', function () {
+  /**
+   * Main text editor.
+   * @class
+   */
+  classes.Editor = new Class({
+    Implements: [Options, Events],
+    options: {
+      sButton: 'a.btn:has(img), input.btn[type="image"]',
+      cButtonOver: 'btn-over',
+      cButtonOut: 'btn-off'
     },
-    tools: function () {
-      _s.$toolButtons = $(_o.s.button).each(function () {
+    jQuery: 'ndxzEditor',
+    initialize: function (s, o) {
+      this.setOptions(o); var _o = this.options;
+      this.$container = $(s);
+      this.$toolButtons = $(_o.sButton);
+      this.setup().attach();
+    },
+    setup: function () {
+      var _this = this, _o = this.options;
+      return this;
+    },
+    attach: function () {
+      var _this = this, _o = this.options;
+      this.$toolButtons.each(function () {
         var $button = $(this),
             id = $button.find('img').attr('id');
         $button.bind({
           mouseover: function (evt) { 
-            $button.removeClass(_o.c.buttonOut).addClass(_o.c.buttonOver); 
+            $button.removeClass(_o.cButtonOut).addClass(_o.cButtonOver); 
           },
           mouseout: function (evt) { 
-            $button.removeClass(_o.c.buttonOver).addClass(_o.c.buttonOut); 
+            $button.removeClass(_o.cButtonOver).addClass(_o.cButtonOut); 
           },
-          click: function (evt) { 
-            evt.preventDefault(); 
-          }
+          click: function (evt) { evt.preventDefault(); }
         });
-        switch (id) { 
-          case 'ed_bold':
-            $button.bind('click', function () { edInsertTag(edCanvas, 0); });
-            break; 
-          case 'ed_italic':
-            $button.bind('click', function () { edInsertTag(edCanvas, 1); });
-            break; 
-          case 'ed_underline':
-            $button.bind('click', function () { edInsertTag(edCanvas, 2); });
-            break; 
-          case 'ed_files': 
-          case 'ed_links':
-            $button.bind('click', function () {
-              OpenWindow($button.attr('href'), 'popup', 
-                  $button.attr('data-popup-width'), 
-                  $button.attr('data-popup-width'), 'yes');
-            });
-            break; 
-          default: break;
-        }
+        _this._attachToolButton($button, id);
       });
+      return this;
+    },
+    _attachToolButton: function ($button, id) {
+      switch (id) { 
+        case 'ed_bold': $button.bind('click', function () { edInsertTag(edCanvas, 0); }); 
+          break; 
+        case 'ed_italic': $button.bind('click', function () { edInsertTag(edCanvas, 1); }); 
+          break; 
+        case 'ed_underline': $button.bind('click', function () { edInsertTag(edCanvas, 2); }); 
+          break; 
+        case 'ed_files': 
+        case 'ed_links': 
+        // TODO - use iframe modals instead
+          $button.bind('click', function () {
+            OpenWindow($button.attr('href'), 'popup', 
+                $button.attr('data-popup-width'), 
+                $button.attr('data-popup-width'), 'yes');
+          });
+          break; 
+        default: break;
+      }
     }
-  });
-  return _s;
-};
-$.module('textEditor'); // create a jQuery plugin
+  }); // editor
+});
+if (window.jQuery) { (function ($, nsC, nsP, nsO, nsG) { 
 // ----------------------------------------
 // Image Manager
 // ----------------------------------------
@@ -124,8 +124,7 @@ $.module('imageManager'); // create a jQuery plugin
 var $page;
 var editExhibitPrc = nsP.editExhibit = function () {
   var $context = $('#exhibit-form', $page),
-      $elT = $('#primary-editor-group #content-editor', $context).textEditor({
-      }),
+      $elT = $('#primary-editor-group #content-editor', $context).ndxzEditor({}),
       $elI = $('#primary-editor-group #image-manager', $context).imageManager({
         's': {
           'previewGallery': '#img-container',

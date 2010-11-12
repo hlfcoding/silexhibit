@@ -113,7 +113,8 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
             'jquery.js',
             'mootools.core.js',
             'mootators.jquery.js',
-            'module.js',
+            'ndxz.header.js',
+            'toolman.dragdrop.js', 
             'ndxz.exhibit-edit.js'
         ));
     }
@@ -228,7 +229,6 @@ class Exhibits extends Router implements ICMSPageController, ICMSAjaxController
         $this->load_master_js();
         $this->template->add_js(array(
             'jquery.inplace.js', 
-            'toolman.dragdrop.js', 
             'alexking.quicktags.js'
         ));
         if ($default['color_picker'] === true) {

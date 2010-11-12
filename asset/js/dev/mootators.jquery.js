@@ -2,9 +2,9 @@ Class.Mutators.jQuery = function(name){
     var self = this;
     jQuery.fn[name] = function(arg){
         var instance = this.data(name);
-        if ($type(arg) == 'string'){
+        if (typeof arg === 'string'){
             var prop = instance[arg];
-            if ($type(prop) == 'function'){
+            if (typeof prop === 'function'){
                 var returns = prop.apply(instance, Array.slice(arguments, 1));
                 return (returns == instance) ? this : returns;
             } else if (arguments.length == 1){
