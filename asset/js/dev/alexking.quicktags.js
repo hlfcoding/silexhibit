@@ -1,7 +1,10 @@
-// JS QuickTags version 1.2
+// JS QuickTags version 1.3.1
 //
-// Copyright (c) 2002-2005 Alex King
-// http://www.alexking.org/
+// Copyright (c) 2002-2008 Alex King
+// http://alexking.org/projects/js-quicktags
+//
+// Thanks to Greg Heo <greg@node79.com> for his changes 
+// to support multiple toolbars per page.
 //
 // Licensed under the LGPL license
 // http://www.gnu.org/copyleft/lesser.html
@@ -14,20 +17,23 @@
 //
 // This JavaScript will insert the tags below at the cursor position in IE and 
 // Gecko-based browsers (Mozilla, Camino, Firefox, Netscape). For browsers that 
-// do not support inserting at the cursor position (Safari, OmniWeb) it appends
-// the tags to the end of the content.
+// do not support inserting at the cursor position (older versions of Safari, 
+// OmniWeb) it appends the tags to the end of the content.
 //
-// The variable 'edCanvas' must be defined as the <textarea> element you want 
-// to be editing in. See the accompanying 'index.html' page for an example.
+// Pass the ID of the <textarea> element to the edToolbar and function.
+//
+// Example:
+//
+//  <script type="text/javascript">edToolbar('canvas');</script>
+//  <textarea id="canvas" rows="20" cols="50"></textarea>
+//
 
-/*
- * Vaska edited out alot of \n's and \t's - 04.04.2007
- *
- *
- *
- *
- *
- */
+var dictionaryUrl = 'http://www.ninjawords.com/';
+
+// other options include:
+//
+// var dictionaryUrl = 'http://www.answers.com/';
+// var dictionaryUrl = 'http://www.dictionary.com/';
 
 var edButtons = new Array();
 var edLinks = new Array();
@@ -72,7 +78,6 @@ edButtons.push(
 	)
 ); // special case
 
-/*
 edButtons.push(
 	new edButton(
 		'ed_ext_link'
@@ -98,8 +103,8 @@ edButtons.push(
 	new edButton(
 		'ed_ul'
 		,'UL'
-		,'<ul>'
-		,'</ul>'
+		,'<ul>\n'
+		,'</ul>\n\n'
 		,'u'
 	)
 );
@@ -108,8 +113,8 @@ edButtons.push(
 	new edButton(
 		'ed_ol'
 		,'OL'
-		,'<ol>'
-		,'</ol>'
+		,'<ol>\n'
+		,'</ol>\n\n'
 		,'o'
 	)
 );
@@ -118,8 +123,8 @@ edButtons.push(
 	new edButton(
 		'ed_li'
 		,'LI'
-		,'<li>'
-		,'</li>'
+		,'\t<li>'
+		,'</li>\n'
 		,'l'
 	)
 );
@@ -133,19 +138,17 @@ edButtons.push(
 		,'q'
 	)
 );
-*/
 
 var extendedStart = edButtons.length;
 
 // below here are the extended buttons
 
-/*
 edButtons.push(
 	new edButton(
 		'ed_h1'
 		,'H1'
 		,'<h1>'
-		,'</h1>'
+		,'</h1>\n\n'
 		,'1'
 	)
 );
@@ -155,7 +158,7 @@ edButtons.push(
 		'ed_h2'
 		,'H2'
 		,'<h2>'
-		,'</h2>'
+		,'</h2>\n\n'
 		,'2'
 	)
 );
@@ -165,7 +168,7 @@ edButtons.push(
 		'ed_h3'
 		,'H3'
 		,'<h3>'
-		,'</h3>'
+		,'</h3>\n\n'
 		,'3'
 	)
 );
@@ -175,7 +178,7 @@ edButtons.push(
 		'ed_h4'
 		,'H4'
 		,'<h4>'
-		,'</h4>'
+		,'</h4>\n\n'
 		,'4'
 	)
 );
@@ -185,7 +188,7 @@ edButtons.push(
 		'ed_p'
 		,'P'
 		,'<p>'
-		,'</p>'
+		,'</p>\n\n'
 		,'p'
 	)
 );
@@ -213,8 +216,8 @@ edButtons.push(
 	new edButton(
 		'ed_dl'
 		,'DL'
-		,'<dl>'
-		,'</dl>'
+		,'<dl>\n'
+		,'</dl>\n\n'
 	)
 );
 
@@ -222,8 +225,8 @@ edButtons.push(
 	new edButton(
 		'ed_dt'
 		,'DT'
-		,'<dt>'
-		,'</dt>'
+		,'\t<dt>'
+		,'</dt>\n'
 	)
 );
 
@@ -231,8 +234,8 @@ edButtons.push(
 	new edButton(
 		'ed_dd'
 		,'DD'
-		,'<dd>'
-		,'</dd>'
+		,'\t<dd>'
+		,'</dd>\n'
 	)
 );
 
@@ -262,24 +265,22 @@ edButtons.push(
 		,'</td>\n'
 	)
 );
-*/
 
 edButtons.push(
 	new edButton(
-		'ed_under'
-		,'U'
-		,'<u>'
-		,'</u>'
+		'ed_ins'
+		,'INS'
+		,'<ins>'
+		,'</ins>'
 	)
 );
 
-/*
 edButtons.push(
 	new edButton(
-		'ed_strike'
-		,'S'
-		,'<s>'
-		,'</s>'
+		'ed_del'
+		,'DEL'
+		,'<del>'
+		,'</del>'
 	)
 );
 
@@ -301,7 +302,16 @@ edButtons.push(
 		,'f'
 	)
 );
-*/
+
+edButtons.push(
+	new edButton(
+		'ed_via'
+		,'Via'
+		,''
+		,''
+		,'v'
+	)
+);
 
 function edLink(display, URL, newWin) {
 	this.display = display;
@@ -317,7 +327,7 @@ edLinks[edLinks.length] = new edLink('alexking.org'
                                     ,'http://www.alexking.org/'
                                     );
 
-function edShowButton(button, i) {
+function edShowButton(which, button, i) {
 	if (button.access) {
 		var accesskey = ' accesskey = "' + button.access + '"'
 	}
@@ -326,45 +336,22 @@ function edShowButton(button, i) {
 	}
 	switch (button.id) {
 		case 'ed_img':
-			document.write('<input type="button" id="' + button.id + '" ' + accesskey + ' class="ed_button" onclick="edInsertImage(edCanvas);" value="' + button.display + '" />');
+			document.write('<input type="button" id="' + button.id + '_' + which + '" ' + accesskey + ' class="ed_button" onclick="edInsertImage(\'' + which + '\');" value="' + button.display + '" />');
 			break;
 		case 'ed_link':
-			document.write('<input type="button" id="' + button.id + '" ' + accesskey + ' class="ed_button" onclick="edInsertLink(edCanvas, ' + i + ');" value="' + button.display + '" />');
+			document.write('<input type="button" id="' + button.id + '_' + which + '" ' + accesskey + ' class="ed_button" onclick="edInsertLink(\'' + which + '\', ' + i + ');" value="' + button.display + '" />');
 			break;
 		case 'ed_ext_link':
-			document.write('<input type="button" id="' + button.id + '" ' + accesskey + ' class="ed_button" onclick="edInsertExtLink(edCanvas, ' + i + ');" value="' + button.display + '" />');
+			document.write('<input type="button" id="' + button.id + '_' + which + '" ' + accesskey + ' class="ed_button" onclick="edInsertExtLink(\'' + which + '\', ' + i + ');" value="' + button.display + '" />');
 			break;
 		case 'ed_footnote':
-			document.write('<input type="button" id="' + button.id + '" ' + accesskey + ' class="ed_button" onclick="edInsertFootnote(edCanvas);" value="' + button.display + '" />');
+			document.write('<input type="button" id="' + button.id + '_' + which + '" ' + accesskey + ' class="ed_button" onclick="edInsertFootnote(\'' + which + '\');" value="' + button.display + '" />');
+			break;
+		case 'ed_via':
+			document.write('<input type="button" id="' + button.id + '_' + which + '" ' + accesskey + ' class="ed_button" onclick="edInsertVia(\'' + which + '\');" value="' + button.display + '" />');
 			break;
 		default:
-			document.write('<input type="button" id="' + button.id + '" ' + accesskey + ' class="ed_button" onclick="edInsertTag(edCanvas, ' + i + ');" value="' + button.display + '"  />');
-			break;
-	}
-}
-
-function edShowButtonSAVED(button, i) {
-	if (button.access) {
-		var accesskey = ' accesskey = "' + button.access + '"'
-	}
-	else {
-		var accesskey = '';
-	}
-	switch (button.id) {
-		case 'ed_img':
-			document.write('<input type="button" id="' + button.id + '" ' + accesskey + ' class="ed_button" onclick="edInsertImage(edCanvas);" value="' + button.display + '" />');
-			break;
-		case 'ed_link':
-			document.write('<input type="button" id="' + button.id + '" ' + accesskey + ' class="ed_button" onclick="edInsertLink(edCanvas, ' + i + ');" value="' + button.display + '" />');
-			break;
-		case 'ed_ext_link':
-			document.write('<input type="button" id="' + button.id + '" ' + accesskey + ' class="ed_button" onclick="edInsertExtLink(edCanvas, ' + i + ');" value="' + button.display + '" />');
-			break;
-		case 'ed_footnote':
-			document.write('<input type="button" id="' + button.id + '" ' + accesskey + ' class="ed_button" onclick="edInsertFootnote(edCanvas);" value="' + button.display + '" />');
-			break;
-		default:
-			document.write('<input type="button" id="' + button.id + '" ' + accesskey + ' class="ed_button" onclick="edInsertTag(edCanvas, ' + i + ');" value="' + button.display + '"  />');
+			document.write('<input type="button" id="' + button.id + '_' + which + '" ' + accesskey + ' class="ed_button" onclick="edInsertTag(\'' + which + '\', ' + i + ');" value="' + button.display + '"  />');
 			break;
 	}
 }
@@ -378,26 +365,26 @@ function edShowLinks() {
 	document.write(tempStr);
 }
 
-function edAddTag(button) {
+function edAddTag(which, button) {
 	if (edButtons[button].tagEnd != '') {
-		edOpenTags[edOpenTags.length] = button;
-		document.getElementById(edButtons[button].id).value = '/' + document.getElementById(edButtons[button].id).value;
+		edOpenTags[which][edOpenTags[which].length] = button;
+		document.getElementById(edButtons[button].id + '_' + which).value = '/' + document.getElementById(edButtons[button].id + '_' + which).value;
 	}
 }
 
-function edRemoveTag(button) {
-	for (i = 0; i < edOpenTags.length; i++) {
-		if (edOpenTags[i] == button) {
-			edOpenTags.splice(i, 1);
-			document.getElementById(edButtons[button].id).value = 		document.getElementById(edButtons[button].id).value.replace('/', '');
+function edRemoveTag(which, button) {
+	for (i = 0; i < edOpenTags[which].length; i++) {
+		if (edOpenTags[which][i] == button) {
+			edOpenTags[which].splice(i, 1);
+			document.getElementById(edButtons[button].id + '_' + which).value = document.getElementById(edButtons[button].id + '_' + which).value.replace('/', '');
 		}
 	}
 }
 
-function edCheckOpenTags(button) {
+function edCheckOpenTags(which, button) {
 	var tag = 0;
-	for (i = 0; i < edOpenTags.length; i++) {
-		if (edOpenTags[i] == button) {
+	for (i = 0; i < edOpenTags[which].length; i++) {
+		if (edOpenTags[which][i] == button) {
 			tag++;
 		}
 	}
@@ -409,10 +396,10 @@ function edCheckOpenTags(button) {
 	}
 }	
 
-function edCloseAllTags() {
-	var count = edOpenTags.length;
+function edCloseAllTags(which) {
+	var count = edOpenTags[which].length;
 	for (o = 0; o < count; o++) {
-		edInsertTag(edCanvas, edOpenTags[edOpenTags.length - 1]);
+		edInsertTag(which, edOpenTags[which][edOpenTags[which].length - 1]);
 	}
 }
 
@@ -433,7 +420,8 @@ function edQuickLink(i, thisSelect) {
 	}
 }
 
-function edSpell(myField) {
+function edSpell(which) {
+    myField = document.getElementById(which);
 	var word = '';
 	if (document.selection) {
 		myField.focus();
@@ -453,79 +441,47 @@ function edSpell(myField) {
 		word = prompt('Enter a word to look up:', '');
 	}
 	if (word != '') {
-		window.open('http://www.answers.com/' + escape(word));
+		window.open(dictionaryUrl + escape(word));
 	}
 }
 
-function edToolbar() {
-	document.write('<div id="ed_toolbar"><span>');
+function edToolbar(which) {
+	document.write('<div id="ed_toolbar_' + which + '"><span>');
 	for (i = 0; i < extendedStart; i++) {
-		edShowButton(edButtons[i], i);
+		edShowButton(which, edButtons[i], i);
 	}
 	if (edShowExtraCookie()) {
 		document.write(
-			'<input type="button" id="ed_close" class="ed_button" onclick="edCloseAllTags();" value="Close Tags" />'
-			+ '<input type="button" id="ed_spell" class="ed_button" onclick="edSpell(edCanvas);" value="Dict" />'
-			+ '<input type="button" id="ed_extra_show" class="ed_button" onclick="edShowExtra()" value="&raquo;" style="visibility: hidden;" />'
+			'<input type="button" id="ed_close_' + which + '" class="ed_button" onclick="edCloseAllTags(\'' + which + '\');" value="Close Tags" />'
+			+ '<input type="button" id="ed_spell_' + which + '" class="ed_button" onclick="edSpell(\'' + which + '\');" value="Dict" />'
+			+ '<input type="button" id="ed_extra_show_' + which + '" class="ed_button" onclick="edShowExtra(\'' + which + '\')" value="&raquo;" style="visibility: hidden;" />'
 			+ '</span><br />'
-			+ '<span id="ed_extra_buttons">'
-			+ '<input type="button" id="ed_extra_hide" class="ed_button" onclick="edHideExtra();" value="&laquo;" />'
+			+ '<span id="ed_extra_buttons_' + which + '">'
+			+ '<input type="button" id="ed_extra_hide_' + which + '" class="ed_button" onclick="edHideExtra(\'' + which + '\');" value="&laquo;" />'
 		);
 	}
 	else {
 		document.write(
-			'<input type="button" id="ed_close" class="ed_button" onclick="edCloseAllTags();" value="Close Tags" />'
-			+ '<input type="button" id="ed_spell" class="ed_button" onclick="edSpell(edCanvas);" value="Dict" />'
-			+ '<input type="button" id="ed_extra_show" class="ed_button" onclick="edShowExtra()" value="&raquo;" />'
+			'<input type="button" id="ed_close_' + which + '" class="ed_button" onclick="edCloseAllTags(\'' + which + '\');" value="Close Tags" />'
+			+ '<input type="button" id="ed_spell_' + which + '" class="ed_button" onclick="edSpell(\'' + which + '\');" value="Dict" />'
+			+ '<input type="button" id="ed_extra_show_' + which + '" class="ed_button" onclick="edShowExtra(\'' + which + '\')" value="&raquo;" />'
 			+ '</span><br />'
-			+ '<span id="ed_extra_buttons" style="display: none;">'
-			+ '<input type="button" id="ed_extra_hide" class="ed_button" onclick="edHideExtra();" value="&laquo;" />'
+			+ '<span id="ed_extra_buttons_' + which + '" style="display: none;">'
+			+ '<input type="button" id="ed_extra_hide_' + which + '" class="ed_button" onclick="edHideExtra(\'' + which + '\');" value="&laquo;" />'
 		);
 	}
 	for (i = extendedStart; i < edButtons.length; i++) {
-		edShowButton(edButtons[i], i);
+		edShowButton(which, edButtons[i], i);
 	}
 	document.write('</span>');
 //	edShowLinks();
 	document.write('</div>');
+    edOpenTags[which] = new Array();
 }
 
-function edToolbarIndexhibit() {
-	document.write('<div id="ed_toolbar"><span>');
-	for (i = 0; i < extendedStart; i++) {
-		edShowButton(edButtons[i], i);
-	}
-	if (edShowExtraCookie()) {
-		document.write(
-			'<input type="button" id="ed_close" class="ed_button" onclick="edCloseAllTags();" value="Close Tags" />'
-			//+ '<input type="button" id="ed_spell" class="ed_button" onclick="edSpell(edCanvas);" value="Dict" />'
-			//+ '<input type="button" id="ed_extra_show" class="ed_button" onclick="edShowExtra()" value="&raquo;" style="visibility: hidden;" />'
-			+ '</span><br />'
-			//+ '<span id="ed_extra_buttons">'
-			//+ '<input type="button" id="ed_extra_hide" class="ed_button" onclick="edHideExtra();" value="&laquo;" />'
-		);
-	}
-	else {
-		document.write(
-			'<input type="button" id="ed_close" class="ed_button" onclick="edCloseAllTags();" value="Close Tags" />'
-			//+ '<input type="button" id="ed_spell" class="ed_button" onclick="edSpell(edCanvas);" value="Dict" />'
-			//+ '<input type="button" id="ed_extra_show" class="ed_button" onclick="edShowExtra()" value="&raquo;" />'
-			//+ '</span><br />'
-			//+ '<span id="ed_extra_buttons" style="display: none;">'
-			//+ '<input type="button" id="ed_extra_hide" class="ed_button" onclick="edHideExtra();" value="&laquo;" />'
-		);
-	}
-	for (i = extendedStart; i < edButtons.length; i++) {
-		edShowButton(edButtons[i], i);
-	}
-	document.write('</span>');
-//	edShowLinks();
-	document.write('</div>');
-}
-
-function edShowExtra() {
-	document.getElementById('ed_extra_show').style.visibility = 'hidden';
-	document.getElementById('ed_extra_buttons').style.display = 'block';
+function edShowExtra(which) {
+	document.getElementById('ed_extra_show_' + which).style.visibility = 'hidden';
+	document.getElementById('ed_extra_buttons_' + which).style.display = 'block';
 	edSetCookie(
 		'js_quicktags_extra'
 		, 'show'
@@ -533,9 +489,9 @@ function edShowExtra() {
 	);
 }
 
-function edHideExtra() {
-	document.getElementById('ed_extra_buttons').style.display = 'none';
-	document.getElementById('ed_extra_show').style.visibility = 'visible';
+function edHideExtra(which) {
+	document.getElementById('ed_extra_buttons_' + which).style.display = 'none';
+	document.getElementById('ed_extra_show_' + which).style.visibility = 'visible';
 	edSetCookie(
 		'js_quicktags_extra'
 		, 'hide'
@@ -545,8 +501,8 @@ function edHideExtra() {
 
 // insertion code
 
-function edInsertTag(myField, i) {
-	
+function edInsertTag(which, i) {
+    myField = document.getElementById(which);
 	//IE support
 	if (document.selection) {
 		myField.focus();
@@ -555,18 +511,18 @@ function edInsertTag(myField, i) {
 			sel.text = edButtons[i].tagStart + sel.text + edButtons[i].tagEnd;
 		}
 		else {
-			//if (!edCheckOpenTags(i) || edButtons[i].tagEnd == '') {
+			if (!edCheckOpenTags(which, i) || edButtons[i].tagEnd == '') {
 				sel.text = edButtons[i].tagStart;
-				//edAddTag(i);
-			//}
-			//else {
+				edAddTag(which, i);
+			}
+			else {
 				sel.text = edButtons[i].tagEnd;
-				//edRemoveTag(i);
-			//}
+				edRemoveTag(which, i);
+			}
 		}
 		myField.focus();
 	}
-	//MOZILLA/NETSCAPE/SAFARI support
+	//MOZILLA/NETSCAPE support
 	else if (myField.selectionStart || myField.selectionStart == '0') {
 		var startPos = myField.selectionStart;
 		var endPos = myField.selectionEnd;
@@ -581,21 +537,20 @@ function edInsertTag(myField, i) {
 			cursorPos += edButtons[i].tagStart.length + edButtons[i].tagEnd.length;
 		}
 		else {
-			//if (!edCheckOpenTags(i) || edButtons[i].tagEnd == '') {
+			if (!edCheckOpenTags(which, i) || edButtons[i].tagEnd == '') {
 				myField.value = myField.value.substring(0, startPos) 
 				              + edButtons[i].tagStart
-				+ edButtons[i].tagEnd
 				              + myField.value.substring(endPos, myField.value.length);
-				//edAddTag(i);
+				edAddTag(which, i);
 				cursorPos = startPos + edButtons[i].tagStart.length;
-			//}
-			//else {
-				//myField.value = myField.value.substring(0, startPos) 
-				              //+ edButtons[i].tagEnd
-				              //+ myField.value.substring(endPos, myField.value.length);
-				//edRemoveTag(i);
-				//cursorPos = startPos + edButtons[i].tagEnd.length;
-			//}
+			}
+			else {
+				myField.value = myField.value.substring(0, startPos) 
+				              + edButtons[i].tagEnd
+				              + myField.value.substring(endPos, myField.value.length);
+				edRemoveTag(which, i);
+				cursorPos = startPos + edButtons[i].tagEnd.length;
+			}
 		}
 		myField.focus();
 		myField.selectionStart = cursorPos;
@@ -603,20 +558,20 @@ function edInsertTag(myField, i) {
 		myField.scrollTop = scrollTop;
 	}
 	else {
-		//if (!edCheckOpenTags(i) || edButtons[i].tagEnd == '') {
+		if (!edCheckOpenTags(which, i) || edButtons[i].tagEnd == '') {
 			myField.value += edButtons[i].tagStart;
+			edAddTag(which, i);
+		}
+		else {
 			myField.value += edButtons[i].tagEnd;
-			//edAddTag(i);
-		//}
-		//else {
-			//myField.value += edButtons[i].tagEnd;
-			//edRemoveTag(i);
-		//}
+			edRemoveTag(which, i);
+		}
 		myField.focus();
 	}
 }
 
-function edInsertContent(myField, myValue) {
+function edInsertContent(which, myValue) {
+    myField = document.getElementById(which);
 	//IE support
 	if (document.selection) {
 		myField.focus();
@@ -642,107 +597,101 @@ function edInsertContent(myField, myValue) {
 	}
 }
 
-function edInsertLink(myField, i, defaultValue) {
-	if (!edCheckOpenTags(i)) {
-		var URL = defaultValue;
-		edButtons[i].tagStart = '<a href="' + URL + '">';
-		edInsertTag(myField, i);
-	} else {
-		var URL = defaultValue;
-		edInsertTag(myField, i);
-	}
-}
-
-function edInsertSysLink(myField, i, defaultValue) {
-	if (!edCheckOpenTags(i)) {
-		var URL = defaultValue;
-		edButtons[i].tagStart = URL;
-		edInsertTag(myField, i);
-	} else {
-		var URL = defaultValue;
-		edInsertTag(myField, i);
-	}
-}
-
-function edInsertLinkSAVED(myField, i, defaultValue) {
+function edInsertLink(which, i, defaultValue) {
+    myField = document.getElementById(which);
 	if (!defaultValue) {
 		defaultValue = 'http://';
 	}
-	if (!edCheckOpenTags(i)) {
+	if (!edCheckOpenTags(which, i)) {
 		var URL = prompt('Enter the URL' ,defaultValue);
 		if (URL) {
 			edButtons[i].tagStart = '<a href="' + URL + '">';
-			edInsertTag(myField, i);
+			edInsertTag(which, i);
 		}
 	}
 	else {
-		edInsertTag(myField, i);
+		edInsertTag(which, i);
 	}
 }
 
-function edInsertExtLink(myField, i, defaultValue) {
+function edInsertExtLink(which, i, defaultValue) {
+    myField = document.getElementById(which);
 	if (!defaultValue) {
 		defaultValue = 'http://';
 	}
-	if (!edCheckOpenTags(i)) {
+	if (!edCheckOpenTags(which, i)) {
 		var URL = prompt('Enter the URL' ,defaultValue);
 		if (URL) {
 			edButtons[i].tagStart = '<a href="' + URL + '" rel="external">';
-			edInsertTag(myField, i);
+			edInsertTag(which, i);
 		}
 	}
 	else {
-		edInsertTag(myField, i);
+		edInsertTag(which, i);
 	}
 }
 
-function edInsertImage(myField) {
+function edInsertImage(which) {
+    myField = document.getElementById(which);
 	var myValue = prompt('Enter the URL of the image', 'http://');
 	if (myValue) {
 		myValue = '<img src="' 
 				+ myValue 
 				+ '" alt="' + prompt('Enter a description of the image', '') 
 				+ '" />';
-		edInsertContent(myField, myValue);
+		edInsertContent(which, myValue);
 	}
 }
 
-function edInsertFootnote(myField) {
+function edInsertFootnote(which) {
+    myField = document.getElementById(which);
 	var note = prompt('Enter the footnote:', '');
 	if (!note || note == '') {
 		return false;
 	}
 	var now = new Date;
 	var fnId = 'fn' + now.getTime();
-	var fnStart = edCanvas.value.indexOf('<ol class="footnotes">');
+	var fnStart = myField.value.indexOf('<ol class="footnotes">');
 	if (fnStart != -1) {
-		var fnStr1 = edCanvas.value.substring(0, fnStart)
-		var fnStr2 = edCanvas.value.substring(fnStart, edCanvas.value.length)
+		var fnStr1 = myField.value.substring(0, fnStart)
+		var fnStr2 = myField.value.substring(fnStart, myField.value.length)
 		var count = countInstances(fnStr2, '<li id="') + 1;
 	}
 	else {
 		var count = 1;
 	}
 	var count = '<sup><a href="#' + fnId + 'n" id="' + fnId + '" class="footnote">' + count + '</a></sup>';
-	edInsertContent(edCanvas, count);
+	edInsertContent(which, count);
 	if (fnStart != -1) {
-		fnStr1 = edCanvas.value.substring(0, fnStart + count.length)
-		fnStr2 = edCanvas.value.substring(fnStart + count.length, edCanvas.value.length)
+		fnStr1 = myField.value.substring(0, fnStart + count.length)
+		fnStr2 = myField.value.substring(fnStart + count.length, myField.value.length)
 	}
 	else {
-		var fnStr1 = edCanvas.value;
+		var fnStr1 = myField.value;
 		var fnStr2 = "\n\n" + '<ol class="footnotes">' + "\n"
 		           + '</ol>' + "\n";
 	}
 	var footnote = '	<li id="' + fnId + 'n">' + note + ' [<a href="#' + fnId + '">back</a>]</li>' + "\n"
 				 + '</ol>';
-	edCanvas.value = fnStr1 + fnStr2.replace('</ol>', footnote);
+	myField.value = fnStr1 + fnStr2.replace('</ol>', footnote);
 }
 
 function countInstances(string, substr) {
 	var count = string.split(substr);
 	return count.length - 1;
 }
+
+function edInsertVia(which) {
+    myField = document.getElementById(which);
+	var myValue = prompt('Enter the URL of the source link', 'http://');
+	if (myValue) {
+		myValue = '(Thanks <a href="' + myValue + '" rel="external">'
+				+ prompt('Enter the name of the source', '') 
+				+ '</a>)';
+		edInsertContent(which, myValue);
+	}
+}
+
 
 function edSetCookie(name, value, expires, path, domain) {
 	document.cookie= name + "=" + escape(value) +

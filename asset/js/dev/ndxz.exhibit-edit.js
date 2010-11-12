@@ -2,8 +2,8 @@
  * @todo use modals
  * @todo native editor behavior
  * @todo move button id to link tag
- * @todo class inheritance
  */
+// TODO - classes.TagInserter mixin
 _.using('org.indexhibit.*', function () {
   /**
    * Main text editor.
@@ -12,6 +12,7 @@ _.using('org.indexhibit.*', function () {
   classes.Editor = new Class({
     Implements: [Options, Events],
     options: {
+      iField: 'jxcontent',
       sButton: 'a.btn:has(img), input.btn[type="image"]',
       cButtonOver: 'btn-over',
       cButtonOut: 'btn-off'
@@ -46,12 +47,16 @@ _.using('org.indexhibit.*', function () {
       return this;
     },
     _attachToolButton: function ($button, id) {
+      var _this = this, _o = this.options;
       switch (id) { 
-        case 'ed_bold': $button.bind('click', function () { edInsertTag(edCanvas, 0); }); 
+        case 'ed_bold': 
+          $button.bind('click', function () { edInsertTag(_o.iField, 0); }); 
           break; 
-        case 'ed_italic': $button.bind('click', function () { edInsertTag(edCanvas, 1); }); 
+        case 'ed_italic': 
+          $button.bind('click', function () { edInsertTag(_o.iField, 1); }); 
           break; 
-        case 'ed_underline': $button.bind('click', function () { edInsertTag(edCanvas, 2); }); 
+        case 'ed_underline': 
+          $button.bind('click', function () { edInsertTag(_o.iField, 2); }); 
           break; 
         case 'ed_files': 
         case 'ed_links': 
@@ -65,6 +70,9 @@ _.using('org.indexhibit.*', function () {
         default: break;
       }
     }
+    detach: function () {
+      return this;
+    },
   }); // editor
 });
 if (window.jQuery) { (function ($, nsC, nsP, nsO, nsG) { 

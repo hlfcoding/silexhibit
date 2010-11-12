@@ -8,7 +8,7 @@
      * Creates an Object following the specified namespace identifier.
      * @param {string} identifier The namespace string.
      * @param {?Object=} classes An object which properties will be added to the namespace.
-     * @return {Object} The most inner object
+     * @return {Object} The most inner object.
      */
     _.namespace = function (identifier) {
         var classes = arguments[1] || false;
@@ -39,7 +39,7 @@
      *      imported, the test object will now be global). 
      * @public
      * @param {string} identifier The namespace string.
-     * @param {?function=} callback A function to call when the process is completed
+     * @param {?function=} callback A function to call when the process is completed.
      */
     _.using = function (identifier) {
         var identifiers = identifier.pop ? identifier : [identifier];
