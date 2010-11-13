@@ -9,7 +9,7 @@ _.using('org.indexhibit.*', function () {
    * Main text editor.
    * @class
    */
-  classes.Editor = new Class({
+  classes.TextEditor = new Class({
     Implements: [Options, Events],
     options: {
       iField: 'jxcontent',
@@ -17,11 +17,10 @@ _.using('org.indexhibit.*', function () {
       cButtonOver: 'btn-over',
       cButtonOut: 'btn-off'
     },
-    jQuery: 'ndxzEditor',
     initialize: function (s, o) {
       this.setOptions(o); var _o = this.options;
       this.$container = $(s);
-      this.$toolButtons = $(_o.sButton);
+      this.$toolButtons = $(_o.sButton, this.$container);
       this.setup().attach();
     },
     setup: function () {
@@ -32,7 +31,7 @@ _.using('org.indexhibit.*', function () {
       var _this = this, _o = this.options;
       this.$toolButtons.each(function () {
         var $button = $(this),
-            id = $button.find('img').attr('id');
+            id = $button.find('img').attr('id'); // TODO data attr
         $button.bind({
           mouseover: function (evt) { 
             $button.removeClass(_o.cButtonOut).addClass(_o.cButtonOver); 
@@ -69,83 +68,64 @@ _.using('org.indexhibit.*', function () {
           break; 
         default: break;
       }
-    }
+    },
     detach: function () {
       return this;
     },
-  }); // editor
-});
-if (window.jQuery) { (function ($, nsC, nsP, nsO, nsG) { 
-// ----------------------------------------
-// Image Manager
-// ----------------------------------------
-var imageManagerDefaults = nsO.imageManager = {
-  's': { // selectors
-    'previewGallery': '.preview-gallery',
-    'previewItem': '.preview-item',
-    'previewEdit': '.preview-edit-link'
-  },
-  'c': { // classes
-  },
-  'p': { // query params
-    'preview': {}
-  }
-}; 
-var ImageManager = nsC.ImageManager = function () {
-  var _s = this, 
-      _o = this.opt;
-  _s.$self; 
-  _s.$gallery; 
-  _s.$galleryItems;
-  $.extend(_s, {
-    init: function () {
-      _s.$self = arguments[0];
-      _o = arguments[1];
-      _s.gallery();
+    jQuery: 'ndxzTextEditor'
+  });
+  /**
+   * Main gallery editor.
+   * @class
+   */
+  classes.GalleryEditor = new Class({
+    Implements: [Options, Events],
+    options: {
+      'sPreviewGallery': '.preview-gallery',
+      'sPreviewItem': '.preview-item',
+      'sPreviewEdit': '.preview-edit-link'
     },
-    gallery: function () {
-      _s.$gallery = $(_o.s.previewGallery);
-      _s.$galleryItems = $(_o.s.previewItem, _s.$gallery).each(function () {
-        var $item = $(this),
-          id = $item.attr('data-id');
-        $(_o.s.previewEdit, $item).bind('click', function (evt) {
+    initialize: function (s, o) {
+      this.setOptions(o); var _o = this.options;
+      this.$pGallery = $(_o.sPreviewGallery);
+      this.$pItems = $(_o.sPreviewItem, this.$pGallery);
+      this.setup().attach();
+    },
+    setup: function () {
+      var _this = this, _o = this.options;
+      return this;
+    },
+    attach: function () {
+      var _this = this, _o = this.options;
+      this.$pItems.each(function () {
+        var $item = $(this);
+        $(_o.sPreviewEdit, $item).bind('click', function (evt) {
           evt.preventDefault();
-          _s.getPreview(id);
+          _this.showEdit($image);
         });
       });
     },
-    getPreview: function (id) {
-      _s.$gallery.load('?' + $.param(
-        $.extend({}, _o.p.preview, {'id': id })
-      ));
+    showEdit: function ($image) {
     },
-    preview: function () {
-      alert('foo');
-    }
+    deleteImage: function () {
+    },
+    updateImage: function () {
+    },
+    jQuery: 'ndxzGalleryEditor'
   });
-  return _s;       
-};
-$.module('imageManager'); // create a jQuery plugin
+});
+if (window.jQuery) { (function ($, nsC, nsP, nsO, nsG) { 
 // ----------------------------------------
 // Page Controller
 // ----------------------------------------
 var $page;
 var editExhibitPrc = nsP.editExhibit = function () {
   var $context = $('#exhibit-form', $page),
-      $elT = $('#primary-editor-group #content-editor', $context).ndxzEditor({}),
-      $elI = $('#primary-editor-group #image-manager', $context).imageManager({
-        's': {
-          'previewGallery': '#img-container',
-          'previewItem': '.box',
-          'previewEdit': '.edit-image-link'                    
-        },
-        'c': {},
-        'p': {
-          'preview': {
-            'q': 'view',
-            'action': nsG.action
-          }
-        }
+      $elT = $('#primary-editor-group #content-editor', $context).ndxzTextEditor({}),
+      $elI = $('#primary-editor-group #image-manager', $context).ndxzGalleryEditor({
+        'sPreviewGallery': '#img-container',
+        'sPreviewItem': '.box',
+        'sPreviewEdit': '.edit-image-link'
       }),
       modT = $elT.module(),
       modI = $elI.module();
