@@ -1,5 +1,6 @@
 .svn/
 .backup/
+.DS_STORE
 config/config.php
 extend/service/cache/
 production/
