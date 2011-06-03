@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>fileTriggers</key>
+        <dict>
+            <key>core</key>
+            <string>lib\core.php</string>
+            <key>css</key>
+            <string>asset\css\style.css</string>
+            <key>image.</key>
+            <string>module\exhibits\views\image.phtml</string>
+            <key>image.p</key>
+            <string>module\exhibits\views\images.phtml</string>
+            <key>image.pjs</key>
+            <string>module\exhibits\views\image.pjs</string>
+            <key>index</key>
+            <string>module\exhibits\index.php</string>
+            <key>ndxz</key>
+            <string>asset\js\dev\ndxz.exhibit-edit.js</string>
+            <key>ndxz.</key>
+            <string>asset\js\ndxz.exhibit-edit.js</string>
+            <key>ndxz.ed</key>
+            <string>asset\js\ndxz.exhibit-edit.js</string>
+            <key>ndxz.edit</key>
+            <string>asset\js\ndxz.exhibit-edit.js</string>
+            <key>ndxz.header</key>
+            <string>asset\js\dev\ndxz.header.js</string>
+            <key>pjs</key>
+            <string>module\exhibits\views\index.pjs</string>
+            <key>section</key>
+            <string>module\exhibits\views\section.phtml</string>
+        </dict>
+    </dict>
+</plist>

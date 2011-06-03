@@ -19,7 +19,7 @@ class Router extends Core
         // don't access this space directly
         // work above or below it
         parent::__construct();
-        $this->load_classes(array('lang', 'lib.template', 'lib.access'));
+        $this->load_classes(array('lang', 'lib.template', 'lib.access', 'lib.mustache'));
         // from entrance helper - sets defaults
         directions(); // global $go of default $_GET values
         $this->check_routes();

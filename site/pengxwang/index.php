@@ -43,7 +43,7 @@
     <plug:front_dyn_css />
     
     <!-- custom scripts -->
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.js"></script>
     <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/modernizr.js"></script>
     <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/jquery.template.js"></script>
     <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/jquery.cookie.js"></script>
@@ -92,7 +92,7 @@
                     <p id="colophon">
                         <em>Curation and plumbing via <a href="http://www.indexhibit.org/" title="<% data_ndxz_tip %>">Indexhibit</a><br/>
                         with custom JS &amp; PHP plugins<br/>
-                        and a custom <a href="<% pxw_html_validation %>" title="W3C validation">XHTML</a> &amp; <a href="<% pxw_css_validation %>" title="W3C validation">CSS</a> theme<br/>
+                        and a custom <a href="<% pxw_html_validation %>" title="W3C validation">HTML5</a> &amp; <a href="<% pxw_css_validation %>" title="W3C validation">CSS</a> theme<br/>
                         Hosting via <a href="<% data_dreamhost_link %>" title="<% data_dreamhost_tip %>">DreamHost</a></em>
                     </p>
                 </div>

@@ -1,0 +1,38 @@
+<?php if (!defined('SITE')) exit('No direct script access allowed');
+/**
+ * Exhibit image edit mustache template.
+ * @var object $lang available by default
+ * @var object $form_keys available by default
+ * @var object $image
+ */
+?>
+_.using('org.indexhibit.*', function () {
+  views.imageEditor = '
+  <div id="image-editor" class="clearfix">
+    <div class="colA">
+      <img src="<?php echo $medium_media_root ?>{{media_file}}" width="100"/>
+      <a href="<?php echo $full_media_root ?>{{media_file}}" target="_new">
+        <?php echo $lang->word('view full size') ?></a>
+    </div>
+    <div class="colB">
+      <label for="media-title">
+        <?php echo $lang->word('image title') ?>
+        <span class="small-txt">Required</span>
+      </label>
+      <input type="text" name="<?php echo $form_keys['media_title'] ?>" id="media-title" 
+          value="{{media_title}}" maxlength="50"/>
+          
+      <label for="section-name">
+        <?php echo $lang->word('image caption') ?>
+        <span class="small-txt">Required</span>
+      </label>
+      <input type="text" name="<?php echo $form_keys['media_caption'] ?>" id="media-caption" 
+          value="{{media_caption}}" maxlength="50"/>
+      
+      <input type="button" id="cancel-button" value="<?php echo $lang->word('cancel') ?>" />
+      <input type="button" id="delete-button" value="<?php echo $lang->word('delete') ?>" />
+      <input type="button" id="update-button" value="<?php echo $lang->word('update') ?>" />
+    </div>
+  </div>
+  ';
+});

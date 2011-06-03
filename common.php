@@ -272,7 +272,7 @@ function _log ($data, $label = null, $trace = false) {
         return $data;
     }
     require_once DIRNAME . BASENAME . DS . TESTPATH . DS . 'test.pcss';
-    $label = isset($label) ? '' : "$label: ";
+    $label = isset($label) ? "$label: " : '';
     echo '<pre class="log">' . $label;
     var_export($data); 
     echo '</pre>';

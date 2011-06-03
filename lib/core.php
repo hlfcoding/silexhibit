@@ -19,6 +19,7 @@ class Core
     public $db;
     public $lang;
     public $template;
+    public $mustache;
     public $access;
     public $front;
     public $organize;
