@@ -1,9 +1,3 @@
-/**
- * The Screen Layout Stylesheet
- * @see     readme.txt
- * @base    CSS Framework 1.0
- * @author    peng@pengxwang.com
-**/
 .clearfix {
   zoom: 1; }
   .clearfix::before, .clearfix::after {
@@ -14,14 +8,6 @@
   .clearfix::after {
     clear: both; }
 
-/* 
-  reserved indexhibit selectors
-  - .container
-  - #content
-  - #menu
-  - #menu .section
-  - #once
-*/
 html, body, div, span, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp,
@@ -169,10 +155,17 @@ input:invalid, textarea:invalid {
 .no-boxshadow input:invalid, .no-boxshadow textarea:invalid {
   background-color: #f0dddd; }
 
-.box ul, .box li {
-  margin: 0;
-  list-style: none;
-  list-style-image: none; }
+.box {
+  display: block; }
+  .box ul, .box li {
+    margin: 0;
+    list-style: none;
+    list-style-image: none; }
+  .box .hd, .box .bd, .box .ft {
+    padding: 16px;
+    position: relative; }
+  .box .hd, .box .bd {
+    padding-bottom: 0; }
 
 /** util */
 .replaced {
@@ -389,20 +382,6 @@ body {
 
 /* ^ extend grid **/
 /** modules ! basic package */
-/** modules > boxes */
-/** modules > boxes > core */
-.box {
-  display: block; }
-
-.box .hd, .box .bd, .box .ft {
-  position: relative;
-  padding: 1em; }
-
-.box .hd, .box .bd {
-  padding-bottom: 0; }
-
-/* ^ modules > boxes > core **/
-/* ^ modules > boxes **/
 /** modules > menus */
 /** modules > menus > core ! protected */
 .mn {
@@ -586,59 +565,54 @@ body {
   line-height: 0;
   width: 54.545em; }
 
-/** modules > hash list */
-#content .rows dd,
-#content .rows dt {
+#content .rows dd, #content .rows dt {
   vertical-align: middle; }
-
 #content .rows dt {
   float: left;
   padding-right: 1em;
   margin: 0; }
-
 #content .rows dd {
   display: block;
   clear: right; }
+#content .feeds-container {
+  padding-left: 0;
+  padding-right: 0; }
+  #content .feeds-container header {
+    padding-left: 16px;
+    padding-right: 16px; }
+  #content .feeds-container .label {
+    display: block; }
+#content .feed.mnV li {
+  padding: 0;
+  border-bottom-width: 1px; }
+  #content .feed.mnV li li {
+    border: 0; }
+#content .feed.mnV.posterous-feed li, #content .feed.mnV.twitter-feed li {
+  padding-right: 17px; }
 
-/** modules > hash list > h-card */
 #html #hcardContact {
-  padding-bottom: 1.5em; }
-
+  padding-bottom: 24px; }
 #hcardContact dt {
   width: 4em; }
-
-#hcardContact dt.r2 {
-  padding-bottom: 1.455em;
-  /* 16px */ }
-
+  #hcardContact dt.r2 {
+    padding-bottom: 16px; }
 #hcardContact dd {
   padding-bottom: 0; }
 
-/* ^ modules > hash list > h-card **/
-/* ^ modules > hash list **/
-/** jquery > slideshow */
-.slideshow-plugin .img-bot {
-  margin-bottom: 0; }
-
-.slideshow-plugin .slide {
-  min-width: 600px;
-  text-align: center;
-  /* layout */ }
-
 #html .slideshow-plugin p.meta {
   text-align: left;
-  /* layout reset */
-  margin-top: 1em;
-  margin-bottom: 1em;
-  padding: 1em;
-  width: 566px;
-  /*width: 35.5em;*/
-  /* 600px - 32px */ }
-
+  margin-top: 16px;
+  margin-bottom: 16px;
+  padding: 16px;
+  width: 582px; }
+.slideshow-plugin .img-bot {
+  margin-bottom: 0; }
+.slideshow-plugin .slide {
+  min-width: 600px;
+  text-align: center; }
 .slideshow-plugin .meta span {
   display: block; }
 
-/* ^ jquery > slideshow **/
 /** jquery > accordion */
 .pjpna .section-title {
   position: relative; }
@@ -667,28 +641,6 @@ body {
 
 /* ^ jquery > feed **/
 /** jquery > templates */
-#content .feeds-container {
-  padding-left: 0;
-  padding-right: 0; }
-
-#content .feed-container header {
-  padding-left: 1.455em;
-  padding-right: 1.455em; }
-
-#content .feed-container .label {
-  display: block; }
-
-#content .mnV.feed li {
-  padding: 0;
-  border-bottom-width: 1px; }
-
-#content .mnV.feed li li {
-  border: 0; }
-
-#content .twitter-feed .mnV li,
-#content .posterous-feed .mnV li {
-  padding-right: 1.545em; }
-
 #content .mnV.feed a.permalink {
   padding-top: .545em;
   padding-bottom: .181em;

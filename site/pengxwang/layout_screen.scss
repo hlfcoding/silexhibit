@@ -1,23 +1,41 @@
-/**
- * The Screen Layout Stylesheet
- * @see     readme.txt
- * @base    CSS Framework 1.0
- * @author    peng@pengxwang.com
-**/
+// 
+// The Screen Layout Stylesheet
+// ============================
+//
+// Reserved indexhibit selectors:
+//
+// - .container
+// - #content
+// - #menu
+// - #menu .section
+// - #once
 
 @import "_framework.scss";
-/* 
-  reserved indexhibit selectors
-  - .container
-  - #content
-  - #menu
-  - #menu .section
-  - #once
-*/
 
 @include html5-boilerplate;
 
-.box { ul, li { margin: 0; list-style:none; list-style-image: none; } }
+// Constants
+// =========
+
+$_text-height: 16px;
+$_line-height: 24px;
+$_box-gutter: $_text-height;
+$_weight: '#html';
+
+// Base
+// ====
+
+.box {
+  display: block;
+  ul, li { margin: 0; list-style:none; list-style-image: none; } // Reset.
+  .hd, .bd, .ft {
+    padding: $_box-gutter;
+    position: relative;
+  }
+  .hd, .bd {
+    padding-bottom: 0;
+  }
+}
 
 
 /** util */
@@ -209,22 +227,6 @@ body {
 
 /* ^ extend grid **/
 /** modules ! basic package */
-/** modules > boxes */
-/** modules > boxes > core */
-
-.box {
-  display: block;
-}
-.box .hd, .box .bd, .box .ft {
-  position: relative;
-  padding: 1em;
-}
-.box .hd, .box .bd {
-  padding-bottom: 0;
-}
-
-/* ^ modules > boxes > core **/
-/* ^ modules > boxes **/
 /** modules > menus */
 /** modules > menus > core ! protected */
 
@@ -415,59 +417,96 @@ body {
       width: 54.545em;
     }
 
-/** modules > hash list */
+// Application
+// ===========
 
-#content .rows dd, 
-#content .rows dt {
-  vertical-align: middle;
-}
-#content .rows dt {
-  float: left;
-  padding-right: 1em;
-  margin: 0;
-}
-#content .rows dd {
-  display: block;
-  clear: right;
-}
-/** modules > hash list > h-card */
+// Containers
+// ----------
 
-#html #hcardContact {
-  padding-bottom: 1.5em;
-}
-#hcardContact dt {
-  width: 4em;
-}
-#hcardContact dt.r2 {
-  padding-bottom: 1.455em; /* 16px */
-}
-#hcardContact dd {
-  padding-bottom: 0;
-}
+#content {
+  
+  // Hash list.
+  .rows {
+    dd, dt { vertical-align: middle; }
+    dt {
+      float: left;
+      padding-right: 1em;
+      margin: 0;
+    }
+    dd {
+      display: block;
+      clear: right;
+    }
+  }
+  
+  // Feeds.
+  .feeds-container {
+    padding: { left: 0; right: 0; }
+    header { 
+      padding: { left: $_box-gutter; right: $_box-gutter; }
+    }
+    .label {
+      display: block;
+    }
+  }
+  .feed.mnV {
+    li {
+      padding: 0;
+      border-bottom-width: 1px;
+      li {
+        border: 0;
+      }
+    }
+    &.posterous-feed li,
+    &.twitter-feed li {
+      padding-right: $_box-gutter + 1px;
+    }
+    a.permalink {
+  
+    }
+  }
 
-/* ^ modules > hash list > h-card **/
-/* ^ modules > hash list **/
-/** jquery > slideshow */
-
-.slideshow-plugin .img-bot {
-  margin-bottom: 0;
-}
-.slideshow-plugin .slide {
-  min-width: 600px; text-align: center; /* layout */
-}
-#html .slideshow-plugin p.meta {
-  text-align: left; /* layout reset */
-  margin-top: 1em;
-  margin-bottom: 1em;
-  padding: 1em;
-  width: 566px;
-  /*width: 35.5em;*/ /* 600px - 32px */
-}
-.slideshow-plugin .meta span {
-  display: block;
 }
 
-/* ^ jquery > slideshow **/
+// Modules
+// -------
+
+#hcardContact {
+  #{$_weight} & {
+    padding-bottom: $_line-height;
+  }
+  dt { 
+    width: 4em;
+    &.r2 {
+      padding-bottom: $_box-gutter;
+    }
+  }
+  dd { padding-bottom: 0; }
+}
+
+.slideshow-plugin {
+  $width: 600px;
+  #{$_weight} & {
+    $gutter: $_box-gutter;
+    p.meta {
+      text-align: left;
+      margin-top: $gutter;
+      margin-bottom: $gutter;
+      padding: $gutter;
+      width: $width - ($_box-gutter + 2px); // Account for borders.
+    }
+  }
+  .img-bot {
+    margin-bottom: 0;
+  }
+  .slide {
+    min-width: $width; 
+    text-align: center;
+  }
+  .meta span {
+    display: block;
+  }
+}
 /** jquery > accordion */
 
 .pjpna .section-title {
@@ -496,32 +535,6 @@ body {
 }
 /* ^ jquery > feed **/
 /** jquery > templates */
-
-#content .feeds-container {
-  padding-left: 0;
-  padding-right: 0;
-}
-  #content .feeds-container .feeds {
-    
-  }
-#content .feed-container header {
-  padding-left: 1.455em;
-  padding-right: 1.455em;
-}
-  #content .feed-container .label {
-    display: block;
-  }
-#content .mnV.feed li {
-  padding: 0;
-  border-bottom-width: 1px;
-}
-  #content .mnV.feed li li {
-    border: 0;
-  }
-  #content .twitter-feed .mnV li,
-  #content .posterous-feed .mnV li {
-    padding-right: 1.545em;
-  }
 #content .mnV.feed a.permalink {
   padding-top: .545em;
   padding-bottom: .181em;
