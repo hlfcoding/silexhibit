@@ -20,10 +20,18 @@
 $_text-height: 16px;
 $_line-height: 24px;
 $_box-gutter: $_text-height;
+$_list-gutter: 7px;
+$_node-gutter: 10px;
+$_true-box-width: 600px;
+$_box-width: 600px - 2px;
 $_weight: '#html';
 
 // Base
 // ====
+
+.inline-block {
+  display: -moz-inline-stack; display: inline-block;  
+}
 
 .box {
   display: block;
@@ -37,6 +45,45 @@ $_weight: '#html';
   }
 }
 
+.mn { margin-left: 0; list-style:none; list-style-image: none; }
+
+.mnH {
+  @extend .clearfix;
+  li { float: left; }
+  a { display: block; }
+}
+
+.pjpTip {
+  position: absolute;
+  z-index: 9999;
+  .in {
+    position: relative;
+    max-width: 162px;
+    overflow: hidden;
+    padding: 7px 12px 10px 12px;
+  }
+}
+.pjpTipStem {
+  position: relative;
+  width: 0;
+  height: 0;
+  border-right-width: $_box-gutter;
+  border-bottom-width: $_box-gutter;
+  top: 0;
+}
+
+.as {
+  display: block;
+  position: absolute;
+  right: 0;
+  .hd & {
+    top: 0;
+    right: 1em;
+  }
+}
+.paAs {
+  position: relative;
+}
 
 /** util */
 
@@ -271,11 +318,7 @@ body {
 /* ^ modules > menu > vertical **/
 /** modules > menu > horizontal ! requires .cFix */
 
-.mnH li {
-  float: left;
-}
 .mnH a {
-  display: block;
   border-left-width: 0;
 }
 .mnH li.ch1 a { /* exception */
@@ -285,44 +328,6 @@ body {
 /* ^ modules > menu > horizontal ! requires .inG **/
 /* ^ modules > menu **/
 /* ^ modules ! basic package **/
-/** extend modules */
-
-.pjpTip {
-  position: absolute;
-  z-index: 9999;
-}
-.pjpTip .in {
-  position: relative;
-  max-width: 18em; /* 162px */
-  overflow: hidden;
-  padding: .777em 1.333em 1.111em 1.333em; /* 7px 12px 10px 12px */
-}
-.pjpTipStem {
-  position: relative;
-  width: 0;
-  height: 0;
-  border-right-width: 1em;
-  border-bottom-width: 1em;
-  top: 0;
-}
-
-/** modules > motifs > aside */
-
-.as {
-  display: block;
-  position: absolute;
-  right: 0;
-}
-.hd .as {
-  top: 0;
-  right: 1em;
-}
-.paAs {
-  position: relative;
-}
-
-/* ^ modules > motifs > aside **/
-/* ^ extend modules **/
 
 /* -------------------------------------------------- */
 /* NON-REUSABLE, CUSTOM CODE AFTER THIS POINT     */
@@ -354,68 +359,9 @@ body {
   #navigation .mn {
     padding-bottom: 1.5em;
   }
-#content {}
-  #content .box .in {
-    width: 598px;
-    /*width: 37.5em;*/ /* 600px */
-    margin-bottom: 1em;
-  }
-  #content .box .hd {
-    padding-top: 1.5em;
-  }
-    #content .box .hd .paAs .as {
-      padding-top: .2725em; /* 3px */
-    }
-  #content .box .bd {
-    padding-bottom: 1.5em;
-  }
-    #content .box dl.bd {
-      padding-bottom: .5em;
-    }
-  #content .box li {
-    padding-bottom: .636em; /* 7px */
-  }
-    #content .box .mnLinked li {
-      padding-bottom: 0;
-    }
-    #content .box .mnLinked a {
-      padding-bottom: .636em; /* 7px */
-    }
-  #content dt, #content dd {
-    display: block;
-  }
-    #content dt {
-      margin-top: .5em;
-      margin-bottom: .5em;
-    }
-    #content dt small {
-      padding-left: 1em;
-    }
-    #content dd {
-      padding-bottom: 1em;
-    }
-  #content header .label,
-  #content li.label {
-    margin-top: .455em;
-    margin-bottom: .455em;
-    padding-bottom: 0;
-  }
-  #content p { 
-    width: 566px;
-    /*width: 51.636em;*/ /* 600px - 32px */ 
-    padding: 1.455em; /* 16px */
-    margin-bottom: 1.455em;
-  }
-    #img-container p.scrollItem span {
-      display: block;
-      padding: 1.455em; /* 16px */
-    }
-    #img-container p.scrollItem,
-    #content p.embed {
-      padding: 0;
-      line-height: 0;
-      width: 54.545em;
-    }
+
+
+
 
 // Application
 // ===========
@@ -424,6 +370,44 @@ body {
 // ----------
 
 #content {
+  
+  // Boxes. Yay.
+  .box {
+    $v-gutter: 1.5*$_box-gutter;
+    .in {
+      width: $_box-width - 2px;
+      margin-bottom: $_box-gutter;
+    }
+    .hd {
+      padding-top: $v-gutter;
+      .paAs .as { padding-top: 3px; }
+    }
+    .bd {
+      padding-bottom: $v-gutter;
+    }
+    dl.bd { padding-bottom: 0.5*$_box-gutter; }
+    li {
+      padding-bottom: $_list-gutter;
+    }
+    .mnLinked { 
+      li { padding-bottom: 0; }
+      a { padding-bottom: $_list-gutter; }
+    }
+  }
+
+  // Labeled list.
+  dt, dd {
+    display: block;
+  }
+  dt {
+    margin: { top: $_node-gutter/2; bottom: $_node-gutter/2; }
+    small {
+      padding-left: 1em;
+    }
+  }
+  dd {
+    padding-bottom: $_node-gutter;
+  }
   
   // Hash list.
   .rows {
@@ -449,27 +433,100 @@ body {
       display: block;
     }
   }
-  .feed.mnV {
-    li {
-      padding: 0;
-      border-bottom-width: 1px;
-      li {
-        border: 0;
-      }
-    }
+  .feed-container {
     &.posterous-feed li,
     &.twitter-feed li {
       padding-right: $_box-gutter + 1px;
     }
-    a.permalink {
-  
+    &.posterous-feed .mnV a.permalink {
+      // TODO - truncated text.
+      padding-right: 0;
+      overflow: hidden;
+      white-space: nowrap;
     }
+    &.github-feed .mnV article,
+    &.twitter-feed .mnV article {
+      padding: .545em 0 .181em 1.545em;
+    }
+    &.github-feed .mnV {
+      blockquote, code { font-style: italic; }
+    }
+  }
+  .feed {
+    &.mnV {
+      .inline {
+        border: 0;
+        padding: 0;
+        margin: 0;
+      }
+      li {
+        padding: 0;
+        border-bottom-width: 1px;
+        li {
+          border: 0;
+        }
+      }
+      a.permalink {
+        padding-top: .545em;
+        padding-bottom: .181em;
+        padding-left: .545em;
+        border-width: 0 0 0 1em;
+      }
+    }
+    &.mnG {
+      // TODO - image grid mixin
+      li {
+        float: left;
+        width: 33%;
+        display: block;
+      }
+      figure {
+        height: 170px;
+        padding: 10px 0;
+        img {
+          display: block;
+          margin: 0 auto;
+          box-shadow: 0 0 3px rgba(0,0,0, .5); -moz-box-shadow: 0 0 3px rgba(0,0,0, .5); -webkit-box-shadow: 0 0 3px rgba(0,0,0, .5);
+        }
+      }
+      figcaption {
+        display: block;
+        text-align: center;
+        padding: 10px 0 0 0;
+      }
+    }
+  }
+  .jFeedRemember {
+    right: 100px;
+  }
+  
+  // Alternative to headers.
+  header .label,
+  li.label {
+    margin: { top: $_node-gutter/2; bottom: $_node-gutter/2; }
+    padding-bottom: 0;
+  }
+  
+  // Content.
+  p { 
+    width: $_box-width - 2*$_box-gutter;
+    padding: $_box-gutter; /* 16px */
+    margin-bottom: $_box-gutter;
+  }
+  #img-container p.scrollItem span {
+    display: block;
+    padding: $_box-gutter;
+  }
+  #img-container p.scrollItem,
+  p.embed {
+    padding: 0; line-height: 0; // Reset.
+    width: $_true-box-width;
   }
 
 }
 
-// Modules
-// -------
+// Misc
+// ----
 
 #hcardContact {
   #{$_weight} & {
@@ -484,8 +541,11 @@ body {
   dd { padding-bottom: 0; }
 }
 
+// JavaScript Modules
+// ------------------
+
 .slideshow-plugin {
-  $width: 600px;
+  $width: $_true-box-width;
   #{$_weight} & {
     $gutter: $_box-gutter;
     p.meta {
@@ -493,7 +553,7 @@ body {
       margin-top: $gutter;
       margin-bottom: $gutter;
       padding: $gutter;
-      width: $width - ($_box-gutter + 2px); // Account for borders.
+      width: $width - 2*($_box-gutter + 1px); // Account for borders.
     }
   }
   .img-bot {
@@ -507,116 +567,60 @@ body {
     display: block;
   }
 }
-/** jquery > accordion */
 
-.pjpna .section-title {
-  position: relative;
-}
-.pjpnaDisabled .pjpnaButton {
-  display: none;
-}
-#html #menu .pjpnaButton {
-  position: absolute;
-  right: 1em;
-  bottom: .25em;
-  text-align: center;
-  line-height: 1.5em; /* 24px */
-  padding: 0;
-  width: 1.5em; 
-  height: 1.5em;
-  border-width: 1px; 
-  font-family: Arial, sans-serif; /* line-height fix */
-}
+// Base Extensions
+// ---------------
 
-/* ^ jquery > accordion **/
-/** jquery > feed */
-#content .jFeedRemember {
-  right: 100px;
-}
-/* ^ jquery > feed **/
-/** jquery > templates */
-#content .mnV.feed a.permalink {
-  padding-top: .545em;
-  padding-bottom: .181em;
-  padding-left: .545em;
-  border-width: 0 0 0 1em;
-}
-  #content .posterous-feed .mnV a.permalink {
-    padding-right: 0;
-    overflow: hidden;
-    white-space: nowrap;
+.mnV {
+  #html & {
+    .section-title {
+      display: block;
+      padding: { top: 1.5*$_box-gutter; bottom: 0.5*$_box-gutter; }
+      border-width: 0;
+    }
   }
-#content .github-feed .mnV article,
-#content .twitter-feed .mnV article {
-  padding: .545em 0 .181em 1.545em;
-}
-#content .github-feed .mnV blockquote,
-#content .github-feed .mnV code {
-  font-style: italic;
-}
-#content .feed .inline {
-  border: 0;
-  padding: 0;
-  margin: 0;
-}
-#content .mnG.feed li {
-  float: left;
-  width: 33%;
-  display: block;
-  
-}
-#content .mnG.feed figure {
-  height: 170px;
-  padding: 10px 0;
-}
-#content .mnG.feed figure img {
-  display: block;
-  margin: 0 auto;
-  box-shadow: 0 0 3px rgba(0,0,0, .5); -moz-box-shadow: 0 0 3px rgba(0,0,0, .5); -webkit-box-shadow: 0 0 3px rgba(0,0,0, .5);
-}
-#content .mnG.feed figcaption {
-  display: block;
-  text-align: center;
-  padding: 10px 0 0 0;
+  #navigation & {
+    li {
+      border-bottom-width: 1px;
+      &.section-title {
+        position: relative;
+        padding-left: $_box-gutter;
+        .js-fold-trigger {
+          $gutter: $_box-gutter;
+          $size: 1.5*$gutter;
+          position: absolute;
+          right: $gutter; bottom: 0.25*$gutter;
+          text-align: center; line-height: $size; width: $size; height: $size;
+          padding: 0;
+          border-width: 1px; 
+        }
+      }
+      a { border-left-width: 1em; }
+    }
+    a {
+      border-width: 0;
+      padding: { top: 0.5*$_node-gutter + 1px; bottom: 2px; left: 0.5*$_node-gutter; }
+    }
+  }
 }
 
-/* ^ jquery > templates **/
-/* ^ unique **/
-/** unique > extend grid */
-/* ^ unique > extend grid **/
-/** unique > extend modules */
-
-#html .mnV .section-title {
-  display: block;
-  padding-top: 1.5em; /* 24px */
-  padding-bottom: .5em; /* 8px */
-  border-width: 0;
-}
-#navigation .mnV li {
-  border-bottom-width: 1px;
-}
-#navigation .mnV a {
-  border-width: 0;
-  padding-left: .455em; /* 5px */
-  padding-top: .545em; /* 6px */
-  padding-bottom: .181em; /* 2px */
+.box {
+  #menu & {
+    .in { padding-left: $_box-gutter; }
+  }
 }
 
-#navigation .section-title,
-#menu .box .in {
-  padding-left: 1em;
-}
-#navigation .mnV li a {
-  border-left-width: 1em;
-}
-
-#content .mnLinked a {
-  display: -moz-inline-stack; display: inline-block;
-  width: 100%;
+.mnLinked {
+  #content & {
+    a {
+      @extend .inline-block;
+      width: 100%;
+    }
+  }
 }
 
-/* ^ unique > extend modules **/
-/** indexhibit default */
+// Indexhibit Default
+// ------------------
 
 #once { 
   clear: left; 
@@ -644,5 +648,3 @@ body {
   padding: 0 0 0 0;
   margin: 0 0 0 0;
 }
-
-/* ^ indexhibit default **/

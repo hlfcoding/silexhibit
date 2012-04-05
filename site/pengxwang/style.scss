@@ -41,9 +41,13 @@ a:hover { color: #036; }
   
 }
 
+.js-fold-disabled {
+  .js-fold-trigger { cursor: default; }
+}
+
 /** borders */
 
-#html #menu a.pjpnaButton:hover,
+#html #menu .js-foldable:not(.js-fold-disabled) .js-fold-trigger:hover,
 ._ { border-color: #fff; }
 
 .mn ul,
@@ -63,7 +67,7 @@ a:hover { color: #036; }
 ._ { border-color: #cacaca; }
 ._ { border-color: #797979; }
 
-#html #menu .pjpnaButton,
+#html #menu .js-fold-trigger,
 ._ { border-color: transparent; }
 
 /** borders > custom sides */
@@ -96,7 +100,7 @@ a:hover { color: #036; }
 
 #content p,
 #html #hd .in,
-#navigation a:hover,
+#navigation a:not(.js-fold-trigger):hover,
 .box .in,
 ._ { background-color: #fff; }
   #navigation .mnV li a:hover,
@@ -104,13 +108,13 @@ a:hover { color: #036; }
 
 ._ { background-color: #f8f8f8; }
 
-#html #menu a.pjpnaButton:hover,
+#html #menu .js-foldable:not(.js-fold-disabled) .js-fold-trigger:hover,
 #navigation .mnV,
 ._ { background-color: #f4f4f4; }
   #navigation .mnV li a, 
   ._ { *border-left-color: #f4f4f4; }
 
-.pjpnaButton,
+.js-fold-trigger,
 #content header .label,
 #content li.label,
 #content dt,
@@ -197,7 +201,7 @@ a.compound:hover,
 a.compound,
 h3 a.as:hover,
 h3 a,
-#html a.pjpnaButton:hover,
+#html .js-foldable:not(.js-fold-disabled) .js-fold-trigger:hover,
 body, 
 ._ { color: #333; }
 
@@ -213,7 +217,7 @@ h3 a.as,
 
 .mnV.feed article .meta *,
 a.compound article *,
-#html .pjpnaButton,
+#html .js-fold-trigger,
 ._ { color: #aaa; }
 
 ._ { color: #bbb; }
@@ -314,7 +318,7 @@ a.compound article span.tags,
   -moz-box-shadow: inset -1em 0 2em #f6f6f6; 
   -webkit-box-shadow: inset -1em 0 2em #f6f6f6;
 }
-#html #menu a.pjpnaButton {
+#html #menu .js-fold-trigger {
   box-shadow: 0 0 2px rgba(0,0,0, .2); 
   -moz-box-shadow: 0 0 2px rgba(0,0,0, .2); 
   -webkit-box-shadow: 0 0 2px rgba(0,0,0, .2);  
@@ -572,11 +576,11 @@ html.ie6 {
   .pjpTipStem
   { border-right-color: orange; }
 
-  #html #menu .pjpnaButton 
+  #html #menu .js-fold-trigger 
   { border-color: orange; }
 
   .pjpTipStem,
-  #html #menu .pjpnaButton 
+  #html #menu .js-fold-trigger 
   { filter: chroma(color=orange); }
   
   // Debugging.
