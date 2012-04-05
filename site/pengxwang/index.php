@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <!-- Thanks for looking at my source code. It's hand-coded and auto-formatted. -->
-<html lang="en-US" dir="ltr">
+<!--[if lt IE 7 ]> <html class="no-js ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]>    <html class="no-js ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]>    <html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
     <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
     <meta name="expires" content="<% pxw_cache_expires %>" />
-    <meta name="robots" content="all"/>
     <meta name="verify-v1" content=" <% data_goog_webm_key %>" />
     <meta name="profile" content="http://gmpg.org/xfn/11" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -26,17 +30,7 @@
     <link rel="apple-touch-icon" href="<% baseurl %>/favicon.png" />
 
     <!-- custom styles -->
-    <link rel="stylesheet" href="<% baseurl %><% baseurlname %>/site/<% obj_theme %>/style.css" media="all" />
-<!--[if lte IE 8]>
-    <link href="<% baseurl %><% baseurlname %>/site/<% obj_theme %>/layout_mobile.css" rel="stylesheet" media="handheld" id="layout_mobile-css" />
-    <link href="<% baseurl %><% baseurlname %>/site/<% obj_theme %>/layout_print.css" rel="stylesheet" media="print" id="layout_print-css" />
-    <link href="<% baseurl %><% baseurlname %>/site/<% obj_theme %>/layout_screen.css" rel="stylesheet" media="screen" id="layout_screen-css" />
-<![endif]-->
-    <link rel="stylesheet" href="<% baseurl %><% baseurlname %>/site/<% obj_theme %>/color.css" media="all" />
-    <link rel="stylesheet" href="<% baseurl %><% baseurlname %>/site/<% obj_theme %>/type.css" media="all" />
-<!--[if lte IE 8]><link href="<% baseurl %><% baseurlname %>/site/<% obj_theme %>/lte_ie8.css" rel="stylesheet" media="all" id="lte_ie8-css" /><![endif]-->
-<!--[if lte IE 7]><link href="<% baseurl %><% baseurlname %>/site/<% obj_theme %>/lte_ie7.css" rel="stylesheet" media="all" id="lte_ie7-css" /><![endif]-->
-<!--[if lte IE 6]><link href="<% baseurl %><% baseurlname %>/site/<% obj_theme %>/lte_ie6.css" rel="stylesheet" media="all" id="lte_ie6-css" /><![endif]-->
+    <link rel="stylesheet" href="<% baseurl %><% baseurlname %>/site/<% obj_theme %>/css/style.css" media="all" />
 
     <!-- indexhibit styles -->
     <plug:front_lib_css />
@@ -72,9 +66,9 @@
                 </div>
             </div>
             <div id="navigation" class="box">
-                <div class="mn mnV">
+                <nav class="mn mnV">
                     <plug:front_index />
-                </div>
+                </nav>
             </div>
             <div id="ft" class="box copy">
                 <div class="in">
@@ -99,7 +93,7 @@
             </div>
         </div><!-- .container -->
     </div><!-- #menu -->
-    <div id="content" class="fixC">
+    <div id="content" class="fixC" role="main">
         <div class="container">
             <div id="bd" class="copy">
                 <plug:front_template section_id="<% section_id %>", template_name="feed" />
