@@ -39,13 +39,15 @@
   <!-- custom scripts -->
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
   <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/modernizr.js"></script>
+  <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/underscore.js"></script>
   <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/jquery.template.js"></script>
   <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/jquery.cookie.js"></script>
+  <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/jquery.extension.hlf.core.js"></script>
   <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/jquery.hlf.tip.js"></script>
-  <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/ndxz.accordion-menu.js"></script>
+  <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/jquery.hlf.foldable.js"></script>
   <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/cookie.js"></script>
   <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/swfobject.js"></script>
-  <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/pengxwang/site.js"></script>
+  <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/pengxwang/js/site.js"></script>
   <plug:api_urls />
   <plug:news_feed section_id="<% section_id %>", feeds="github_posterous_twitter_deviantart" />
   <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->

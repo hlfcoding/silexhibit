@@ -2,12 +2,12 @@
     include 'test.pcss'; // TODO refactor path
 ?>
 
-<pre class="tests">
+<!-- <pre class="tests"> -->
 
 <?php
     // include 'config.php';
     // include 'helpers.php';
-    include 'db.php';
+    // include 'db.php';
 ?>
 
-</pre>
+<!-- </pre> -->

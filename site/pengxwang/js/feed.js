@@ -50,13 +50,14 @@ var buildFeed = $$.fn.feed.build = function (cb) {
             'url': serviceUrl, 
             'success': function (data, status, xhr) {
                 data = enhanceData(data, name);
+                if (data && data.item && !data.item.length) { return; }
                 feed = $('#tpl-' + name + '-feed').render(data);
                 feeds[$$.feedOrder.indexOf(name)] = ($(feed).html());
             },
             'error': function (status, xhr, error) {},
             'complete': function (xhr, status) {
                 nCompleted += 1;
-                if (nCompleted === nToComplete) {
+                if (nCompleted === nToComplete && !!feeds.length) {
                     result = $('#tpl-feeds-container').render({
                         'feeds': feeds.join('\n')
                     });

@@ -63,7 +63,7 @@ function include_feed_js ()
     $output = '';
     if (!defined('INCLUDED_FEEDJS')) {
         $path = THEMEURL
-            . ((MODE === PRODUCTION) ? '/' . PRODUCTION . '/feed.min.js' :  '/feed.js');
+            . ((MODE === PRODUCTION) ? '/' . PRODUCTION . '/js/feed.min.js' :  '/js/feed.js');
         $output .= "<script type=\"text/javascript\" src=\"$path\"></script>";
         define('INCLUDED_FEEDJS', true);
     }
