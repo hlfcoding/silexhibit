@@ -1,0 +1,107 @@
+//
+// Grid Module
+// ===========
+// Columns. Applies styles to inner containers, grid inner-containers.
+// Reserved grid selectors:
+//
+// - `.in` - Generic inner wrap.
+// - `.gd` - Set of floating boxes. Technically a placeholder class.
+// - `.g2-[x]`-`.g4-[x]` - Our actual grid classes.
+// - `.in-g` - Inner-container. Conventionally direct child of `.g` instance.
+// - `.gd-b` - Bleeding grid.
+// - `.col` - Floating box simulating a column. Technically a placeholder class.
+// - `.col-r` - Right-aligned column.
+// - `.c1`-`.c4` - Our actual column classes.
+// - `.in-c` - Inner wrap for columns.
+// - `.in-c-b` - Bleeding version.
+
+.in {
+  margin: 0;
+}
+
+.gd {
+  display: block;
+  // Inner.
+  .in {
+    display: block;
+    padding: 1em;
+    .in {
+      padding-left: 1.5em;
+      padding-right: 1.5em;
+    }
+  }
+}
+
+.in-g {
+  @include clearfix;
+  border-width: 1px;
+  >.left, >.right { @extend .inline-block; }
+  .in-g {
+    border-width: 0;
+  }
+}
+
+.gd-b {
+  @extend .gd;
+  .col { padding-left: 0; }
+}
+
+@for $i from 2 through 4 {
+  $types: z;
+  @if $i == 2 {
+    $types: a b c d z;
+  } @else if $i == 3 {
+    $types: a b c z;
+  } @else if $i == 4 {
+    $types: z;
+  }
+  @each $j in $types {
+    .g#{$i}-#{$j} { @extend .gd; }
+  }
+}
+
+.col {
+  float: left;
+  $gutter: 1.99%;
+  padding: { left: $gutter; right: 0; }
+}
+.col-r {
+  @extend .col;
+  float: right;
+}
+
+@for $i from 1 through 4 {
+  .c#{$i} { @extend .col; }
+}
+.c1 { padding-left: 0; }
+
+.in-c {
+  padding: 1em 1.5em;
+  border-left-width: 1px;
+  .in-c {
+    padding: 0;
+    border-left-width: 0;
+  }
+  .c1 & { border-left: 0 none; }
+}
+.in-c-b {
+  @extend .in-c;
+  padding: 0;
+}
+
+// Column widths.
+
+.g2-a .c1, .g2-b .c2 { width: 33.0%; *width: 32.875%; }
+.g2-a .c2, .g2-b .c1 { width: 65.0%; *width: 64.875%; }
+.g2-c .c1, .g2-d .c2 { width: 23.5%; *width: 23.375%; }
+.g2-c .c2, .g2-d .c1 { width: 74.5%; *width: 74.375%; }
+.in-g .g2-z .col { width: 49.0%; *width: 48.875%; }
+
+.g3-a .c1, .g3-b .c1, .g3-c .c3,     
+.g3-a .c2, .g3-b .c3, .g3-c .c2 { width: 23.5%; *width: 23.375%}
+.g3-a .c3, .g3-b .c2, .g3-c .c1 { width: 49.0%; *width: 48.875%}
+.in-g .g3-z,
+.g3-z { .c1, .c2, .c3 { width: 32.0%; *width: 31.875%; } }
+
+.in-g .g4-z,
+.g4-z { .c1, .c2, .c3, .c4 { width: 23.5%; *width: 23.375%; } }

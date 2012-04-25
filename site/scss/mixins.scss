@@ -258,7 +258,7 @@
 
 // Will be redeclared once for each css file, a limitation of importing
 // everything for each scss stylesheet and then concatenating them.
-.clearfix {
+@mixin clearfix {
   &::before, &::after { 
     content: "\0020"; 
     display: block; 
@@ -283,7 +283,7 @@
 
 // Simple "nav bar" type layout where the children simply float left.
 @mixin navbar ($spacing:1em, $child-element:'button', $padding:false) {
-  @extend .clearfix;
+  @extend .fix-c;
   display: block;
   >#{$child-element} {
     display: block;

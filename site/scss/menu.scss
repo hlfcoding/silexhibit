@@ -1,0 +1,58 @@
+//
+// Menu Module
+// ===========
+// Reserved menu selectors:
+//
+// - `.mn`
+// - `.mn-h`
+// - `.mn-v`
+
+.mn {
+  margin-left: 0; 
+  list-style:none;
+  list-style-image: none;
+}
+
+.mn-h {
+  @extend .fix-c;
+  li { float: left; }
+  a { display: block; }
+}
+
+.mn {
+  display: block;
+}
+.mn a {
+  padding: .5em 1em;
+  border-style: solid;
+  border-width: 1px;
+  line-height: 1.33em;
+  text-decoration: none;
+}
+
+.mn-v li {
+}
+.mn-v a {
+  display: block;
+  border-top-width: 0;
+}
+.mn-v li.chL a { /* exception */
+  border-bottom-width: 0;
+}
+#html .mn-v li.aftN a, /* nesting */
+.mn-v li.ch1 a { /* exception */
+  border-top-width: 1px;
+}
+.mn-v li.ch1 li a { /* reset */
+  border-top-width: 0;
+}
+.mn-v li li {
+  padding-left: 1em;
+}
+
+.mn-h a {
+  border-left-width: 0;
+}
+.mn-h li.ch1 a { /* exception */
+  border-left-width: 1px;
+}

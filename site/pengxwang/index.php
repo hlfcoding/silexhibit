@@ -66,7 +66,7 @@
         </div>
       </div>
       <div id="navigation" class="box">
-        <nav class="mn mnV">
+        <nav class="mn mn-v">
           <plug:front_index />
         </nav>
       </div>
@@ -93,7 +93,7 @@
       </div>
     </div><!-- .container -->
   </div><!-- #menu -->
-  <div id="content" class="fixC" role="main">
+  <div id="content" class="fix-c" role="main">
     <div class="container">
       <div id="bd" class="copy">
         <plug:front_template section_id="<% section_id %>", template_name="feed" />

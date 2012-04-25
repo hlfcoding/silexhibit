@@ -146,7 +146,7 @@ $(document).ready(function () {
 
     var $container = $('#content #ouFeed:eq(0) .in'),
         $trigger = $('a.jFeed:eq(0)', $container),
-        $oldContent = $('.bd.mnLinked:eq(0)', $container),
+        $oldContent = $('.bd.mn-v-a:eq(0)', $container),
         $remember = $trigger.clone().hide()
             .toggleClass('jFeed jFeedRemember')
             .find('.jOn').html('stay').end()

@@ -10,10 +10,6 @@
 // - #menu .section
 // - #once
 
-@import "_framework.scss";
-
-@include html5-boilerplate;
-
 // Constants
 // =========
 
@@ -24,14 +20,16 @@ $_list-gutter: 7px;
 $_node-gutter: 10px;
 $_true-box-width: 600px;
 $_box-width: 600px - 2px;
-$_weight: '#html';
 
 // Base
 // ====
 
-.inline-block {
-  display: -moz-inline-stack; display: inline-block;  
-}
+// Add context-dependent base boilerplate.
+$_context: layout_screen;
+@import "../scss/bootstrap.scss";
+
+// Box
+// ---
 
 .box {
   display: block;
@@ -45,32 +43,12 @@ $_weight: '#html';
   }
 }
 
-.mn { margin-left: 0; list-style:none; list-style-image: none; }
+// Menu
+// ----
 
-.mnH {
-  @extend .clearfix;
-  li { float: left; }
-  a { display: block; }
-}
+@import "../scss/menu.scss";
 
-.pjpTip {
-  position: absolute;
-  z-index: 9999;
-  .in {
-    position: relative;
-    max-width: 162px;
-    overflow: hidden;
-    padding: 7px 12px 10px 12px;
-  }
-}
-.pjpTipStem {
-  position: relative;
-  width: 0;
-  height: 0;
-  border-right-width: $_box-gutter;
-  border-bottom-width: $_box-gutter;
-  top: 0;
-}
+.mn-v-a { @extend .mn-v; }
 
 .as {
   display: block;
@@ -85,289 +63,44 @@ $_weight: '#html';
   position: relative;
 }
 
-/** util */
+// Grid
+// ----
 
-.replaced {
-  text-indent: 9999em;
-  overflow: hidden;
-}
+@import "../scss/grid.scss";
 
-#html .inline {
-  display: inline;
-}
-
-.hide { 
-  display: none; 
-}
-
-/* ^ util **/
-/** extend util */
-
-/* ^ extend util **/
-/** grid ! basic package */
-/** grid > wrapper */
-
-body {
-  text-align: center;
-}
-.doc {
-  margin: auto;
-  text-align: left;
-  /* default width is fluid */
-  margin-left: auto;
-  margin-right: auto;
-}
-.dA, .dB, .dC { /* fixed-width */
-  margin-left: auto;
-  margin-right: auto;
-}
-.dA { width: 50em; /* web 1.0 - 720px - 240 x 3 */ }
-.dB { width: 60em; /* web 2.0 - 960px - 240 x 4 */ }
-.dC { width: 75em; /* web 3.0 - 1200px - 240 x 5 */ }
-
-.dE1, .dE2, .dE3 { /* elastic */
-  width: auto;
-}
-.dE1 { 
-  margin-left: 40px; 
-  margin-right: 40px; 
-  min-width: 50em;
-}
-.dE2 { 
-  margin-left: 120px; 
-  margin-right: 120px; 
-  min-width: 60em;
-}
-.dE3 { 
-  margin-left: 360px; 
-  margin-right: 360px; 
-  min-width: 70em;
-}
-
-/* ^ grid > wrapper **/
-/** grid > core ! protected */
-
-.gd {
-  display: block;
-}
-.mnH:after,
-.fixC:after,
-.gd .inG:after { /* clearfix */
-  content: ".";
-  display: block;
-  clear: both;
-  height: 0;
-  visibility: hidden;
-}
-/* another way */
-.clearer { 
-  clear: both;
-  line-height: 1px;
-  margin: 0;
-  padding: 0;
-  visibility: hidden;
-}
-/* floats */
-.inG .left, .inG .right {
-  display: -moz-inline-stack; display: inline-block;
-}
-/* ^ grid > core ! protected **/
-/** grid > inner */
-
-.in {
-  margin: 0; /* ! protected */
-}
-.gd .in { 
-  display: block;
-  padding: 1em;
-}
-.gd .in .in { 
-  padding-left: 1.5em;
-  padding-right: 1.5em;
-}
-.gd .inG {
-  border-width: 1px; 
-}
-
-/* ^ grid > inner **/
-/** grid > cols */
-/** grid > cols > core */
-
-.inG .colR, .inG .col {
-/*    display: -moz-inline-stack;*/
-/*    display: inline-block;*/
-}
-.inG .col {
-  float: left;
-}
-.inG .colR {
-  float: right;
-}
-/* gutter */
-.gd .col { /* note: no margins with floats */
-  padding-left: 1.99%;
-  padding-right: 0; /* ! protected */
-}
-.gdB .col, /* bleed */
-.gd .c1 { /* exception */
-  padding-left: 0; /* ! protected */
-}
-
-/* ^ grid > cols > core **/
-/** grid > cols > inner */
-
-.gd .inC {
-  padding: 1em 1.5em;
-  border-left-width: 1px; 
-}
-.gd .inCB { /* bleed */
-  padding: 0;
-}
-.gd .c1 .inC { /* exception */
-  border-left: 0 none;
-}
-/* nesting */
-.gd .inC .inC { 
-  padding: 0;
-  border-left-width: 0;
-}
-.gd .inG .inG {
-  border-width: 0;
-}
-
-/* ^ grid > cols > inner **/
-/** grid > cols > widths ! IE too */
-/** grid > cols > widths > 2-cols */
-
-/* 100 - 2 */
-.g2A .c1, .g2B .c2 { width: 33.0%; *width: 32.875%; }
-.g2A .c2, .g2B .c1 { width: 65.0%; *width: 64.875%; }
-.g2C .c1, .g2D .c2 { width: 23.5%; *width: 23.375%; }
-.g2C .c2, .g2D .c1 { width: 74.5%; *width: 74.375%; }
-.gd .g2Z .col, /* nesting */
-.g2Z .col { width: 49.0%; *width: 48.875%; }
-
-/* ^ grid > cols > widths > 2-cols **/
-/** grid > cols > widths > 3-cols */
-
-/* 100 - 4 */
-.g3A .c1, .g3B .c1, .g3C .c3,     
-.g3A .c2, .g3B .c3, .g3C .c2 { width: 23.5%; *width: 23.375%}
-.g3A .c3, .g3B .c2, .g3C .c1 { width: 49.0%; *width: 48.875%}
-.gd .g3Z col, 
-.g3Z .col { width: 32.0%; *width: 31.875%; }
-
-/* ^ grid > cols > widths > 3-cols **/
-/** grid > cols > widths > 4-cols */
-
-/* 100 - 6 */
-.gd .g4Z col, 
-.g4Z .col { width: 23.5%; *width: 23.375%; }
-
-/* ^ grid > cols > widths > 4-cols **/
-/* ^ grid > cols > widths **/
-/* ^ grid > cols **/
-/* ^ grid ! basic package **/
-/** extend grid */
-
-#html .inG { border-width: 0; }
-
-/* ^ extend grid **/
-/** modules ! basic package */
-/** modules > menus */
-/** modules > menus > core ! protected */
-
-.mn {
-  display: block;
-}
-.mn a {
-  padding: .5em 1em;
-  border-style: solid;
-  border-width: 1px;
-  line-height: 1.33em;
-  text-decoration: none;
-}
-/* submenu guide */
-.mn2 {}
-.mn3 {}
-.mn4 {}
-
-/* ^ modules > menu > core ! protected **/
-/** modules > menu > vertical */
-
-.mnV li {
-}
-.mnV a {
-  display: block;
-  border-top-width: 0;
-}
-.mnV li.chL a { /* exception */
-  border-bottom-width: 0;
-}
-#html .mnV li.aftN a, /* nesting */
-.mnV li.ch1 a { /* exception */
-  border-top-width: 1px;
-}
-.mnV li.ch1 li a { /* reset */
-  border-top-width: 0;
-}
-.mnV li li {
-  padding-left: 1em;
-}
-
-/* ^ modules > menu > vertical **/
-/** modules > menu > horizontal ! requires .cFix */
-
-.mnH a {
-  border-left-width: 0;
-}
-.mnH li.ch1 a { /* exception */
-  border-left-width: 1px;
-}
-
-/* ^ modules > menu > horizontal ! requires .inG **/
-/* ^ modules > menu **/
-/* ^ modules ! basic package **/
+#html .in-g { border-width: 0; }
 
 /* -------------------------------------------------- */
-/* NON-REUSABLE, CUSTOM CODE AFTER THIS POINT     */
+/* NON-REUSABLE, CUSTOM CODE AFTER THIS POINT         */
 /* -------------------------------------------------- */
-/** unique */
 
-#menu {}
-  #menu .box .in {
-    padding-top: 1em;
-    padding-bottom: 1em;
-    padding-right: .5em;
-  }
-    #hd {
-      padding-bottom: 1em;
+// App
+// ===
+
+// Nav
+// ---
+
+#menu {
+  
+  $gutter: $_box-gutter;
+  .box {
+    .in { padding: { top: $gutter; right: 0.5*$gutter; bottom: $gutter; } }
+    &#hd {
+      padding-bottom: $gutter;
+      .in { padding: 0; }
     }
-    #menu #hd.box .in {
-      padding: 0;
-    }
-    #ft {
-      padding-top: 1em;
-    }
-  #menu p {
-    padding-bottom: 0;
   }
-  #menu .container { 
-    padding-bottom: 1em;
-    padding-right: 1em;
+  #ft { padding-top: $gutter; }
+  p { padding-bottom: 0; }
+  .container { padding: { bottom: $gutter; right: $gutter; } }
+  #navigation {
+    .mn { padding-bottom: 1.5*$gutter; }
   }
-  #navigation .mn {
-    padding-bottom: 1.5em;
-  }
+  
+}
 
-
-
-
-// Application
-// ===========
-
-// Containers
-// ----------
+// Wraps
+// -----
 
 #content {
   
@@ -389,7 +122,7 @@ body {
     li {
       padding-bottom: $_list-gutter;
     }
-    .mnLinked { 
+    .mn-v-a { 
       li { padding-bottom: 0; }
       a { padding-bottom: $_list-gutter; }
     }
@@ -438,22 +171,22 @@ body {
     &.twitter-feed li {
       padding-right: $_box-gutter + 1px;
     }
-    &.posterous-feed .mnV a.permalink {
+    &.posterous-feed .mn-v a.permalink {
       // TODO - truncated text.
       padding-right: 0;
       overflow: hidden;
       white-space: nowrap;
     }
-    &.github-feed .mnV article,
-    &.twitter-feed .mnV article {
+    &.github-feed .mn-v article,
+    &.twitter-feed .mn-v article {
       padding: .545em 0 .181em 1.545em;
     }
-    &.github-feed .mnV {
+    &.github-feed .mn-v {
       blockquote, code { font-style: italic; }
     }
   }
   .feed {
-    &.mnV {
+    &.mn-v {
       .inline {
         border: 0;
         padding: 0;
@@ -541,8 +274,8 @@ body {
   dd { padding-bottom: 0; }
 }
 
-// JavaScript Modules
-// ------------------
+// JavaScript
+// ----------
 
 .slideshow-plugin {
   $width: $_true-box-width;
@@ -568,10 +301,29 @@ body {
   }
 }
 
+.pjpTip {
+  position: absolute;
+  z-index: 9999;
+  .in {
+    position: relative;
+    max-width: 162px;
+    overflow: hidden;
+    padding: 7px 12px 10px 12px;
+  }
+}
+.pjpTipStem {
+  position: relative;
+  width: 0;
+  height: 0;
+  border-right-width: $_box-gutter;
+  border-bottom-width: $_box-gutter;
+  top: 0;
+}
+
 // Base Extensions
 // ---------------
 
-.mnV {
+.mn-v {
   #html & {
     .section-title {
       display: block;
@@ -610,7 +362,7 @@ body {
   }
 }
 
-.mnLinked {
+.mn-v-a {
   #content & {
     a {
       @extend .inline-block;

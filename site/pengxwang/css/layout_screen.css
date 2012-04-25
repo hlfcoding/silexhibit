@@ -1,13 +1,3 @@
-.clearfix, .mnH {
-  zoom: 1; }
-  .clearfix::before, .mnH::before, .clearfix::after, .mnH::after {
-    content: "\0020";
-    display: block;
-    height: 0;
-    overflow: hidden; }
-  .clearfix::after, .mnH::after {
-    clear: both; }
-
 html, body, div, span, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp,
@@ -155,10 +145,6 @@ input:invalid, textarea:invalid {
 .no-boxshadow input:invalid, .no-boxshadow textarea:invalid {
   background-color: #f0dddd; }
 
-.inline-block, #content .mnLinked a {
-  display: -moz-inline-stack;
-  display: inline-block; }
-
 .box {
   display: block; }
   .box ul, .box li {
@@ -176,27 +162,47 @@ input:invalid, textarea:invalid {
   list-style: none;
   list-style-image: none; }
 
-.mnH li {
+.mn-h li {
   float: left; }
-.mnH a {
+.mn-h a {
   display: block; }
 
-.pjpTip {
-  position: absolute;
-  z-index: 9999; }
-  .pjpTip .in {
-    position: relative;
-    max-width: 162px;
-    overflow: hidden;
-    padding: 7px 12px 10px 12px; }
+.mn {
+  display: block; }
 
-.pjpTipStem {
-  position: relative;
-  width: 0;
-  height: 0;
-  border-right-width: 16px;
-  border-bottom-width: 16px;
-  top: 0; }
+.mn a {
+  padding: .5em 1em;
+  border-style: solid;
+  border-width: 1px;
+  line-height: 1.33em;
+  text-decoration: none; }
+
+.mn-v a {
+  display: block;
+  border-top-width: 0; }
+
+.mn-v li.chL a {
+  /* exception */
+  border-bottom-width: 0; }
+
+#html .mn-v li.aftN a,
+.mn-v li.ch1 a {
+  /* exception */
+  border-top-width: 1px; }
+
+.mn-v li.ch1 li a {
+  /* reset */
+  border-top-width: 0; }
+
+.mn-v li li {
+  padding-left: 1em; }
+
+.mn-h a {
+  border-left-width: 0; }
+
+.mn-h li.ch1 a {
+  /* exception */
+  border-left-width: 1px; }
 
 .as {
   display: block;
@@ -209,295 +215,128 @@ input:invalid, textarea:invalid {
 .paAs {
   position: relative; }
 
-/** util */
-.replaced {
-  text-indent: 9999em;
-  overflow: hidden; }
-
-#html .inline {
-  display: inline; }
-
-.hide {
-  display: none; }
-
-/* ^ util **/
-/** extend util */
-/* ^ extend util **/
-/** grid ! basic package */
-/** grid > wrapper */
-body {
-  text-align: center; }
-
-.doc {
-  margin: auto;
-  text-align: left;
-  /* default width is fluid */
-  margin-left: auto;
-  margin-right: auto; }
-
-.dA, .dB, .dC {
-  /* fixed-width */
-  margin-left: auto;
-  margin-right: auto; }
-
-.dA {
-  width: 50em;
-  /* web 1.0 - 720px - 240 x 3 */ }
-
-.dB {
-  width: 60em;
-  /* web 2.0 - 960px - 240 x 4 */ }
-
-.dC {
-  width: 75em;
-  /* web 3.0 - 1200px - 240 x 5 */ }
-
-.dE1, .dE2, .dE3 {
-  /* elastic */
-  width: auto; }
-
-.dE1 {
-  margin-left: 40px;
-  margin-right: 40px;
-  min-width: 50em; }
-
-.dE2 {
-  margin-left: 120px;
-  margin-right: 120px;
-  min-width: 60em; }
-
-.dE3 {
-  margin-left: 360px;
-  margin-right: 360px;
-  min-width: 70em; }
-
-/* ^ grid > wrapper **/
-/** grid > core ! protected */
-.gd {
-  display: block; }
-
-.mnH:after,
-.fixC:after,
-.gd .inG:after {
-  /* clearfix */
-  content: ".";
-  display: block;
-  clear: both;
-  height: 0;
-  visibility: hidden; }
-
-/* another way */
-.clearer {
-  clear: both;
-  line-height: 1px;
-  margin: 0;
-  padding: 0;
-  visibility: hidden; }
-
-/* floats */
-.inG .left, .inG .right {
-  display: -moz-inline-stack;
-  display: inline-block; }
-
-/* ^ grid > core ! protected **/
-/** grid > inner */
 .in {
-  margin: 0;
-  /* ! protected */ }
+  margin: 0; }
 
-.gd .in {
-  display: block;
-  padding: 1em; }
+.gd, .gd-b, .g2-a, .g2-b, .g2-c, .g2-d, .g2-z, .g3-a, .g3-b, .g3-c, .g3-z, .g4-z {
+  display: block; }
+  .gd .in, .gd-b .in, .g2-a .in, .g2-b .in, .g2-c .in, .g2-d .in, .g2-z .in, .g3-a .in, .g3-b .in, .g3-c .in, .g3-z .in, .g4-z .in {
+    display: block;
+    padding: 1em; }
+    .gd .in .in, .gd-b .in .in, .g2-a .in .in, .g2-b .in .in, .g2-c .in .in, .g2-d .in .in, .g2-z .in .in, .g3-a .in .in, .g3-b .in .in, .g3-c .in .in, .g3-z .in .in, .g4-z .in .in {
+      padding-left: 1.5em;
+      padding-right: 1.5em; }
 
-.gd .in .in {
-  padding-left: 1.5em;
-  padding-right: 1.5em; }
-
-.gd .inG {
+.in-g {
+  zoom: 1;
   border-width: 1px; }
+  .in-g::before, .in-g::after {
+    content: "\0020";
+    display: block;
+    height: 0;
+    overflow: hidden; }
+  .in-g::after {
+    clear: both; }
+  .in-g .in-g {
+    border-width: 0; }
 
-/* ^ grid > inner **/
-/** grid > cols */
-/** grid > cols > core */
-.inG .colR, .inG .col {
-  /*    display: -moz-inline-stack;*/
-  /*    display: inline-block;*/ }
+.gd-b .col, .gd-b .col-r, .gd-b .c1, .gd-b .c2, .gd-b .c3, .gd-b .c4 {
+  padding-left: 0; }
 
-.inG .col {
-  float: left; }
+.col, .col-r, .c1, .c2, .c3, .c4 {
+  float: left;
+  padding-left: 1.99%;
+  padding-right: 0; }
 
-.inG .colR {
+.col-r {
   float: right; }
 
-/* gutter */
-.gd .col {
-  /* note: no margins with floats */
-  padding-left: 1.99%;
-  padding-right: 0;
-  /* ! protected */ }
+.c1 {
+  padding-left: 0; }
 
-.gdB .col,
-.gd .c1 {
-  /* exception */
-  padding-left: 0;
-  /* ! protected */ }
-
-/* ^ grid > cols > core **/
-/** grid > cols > inner */
-.gd .inC {
+.in-c, .in-c-b {
   padding: 1em 1.5em;
   border-left-width: 1px; }
+  .in-c .in-c, .in-c-b .in-c, .in-c .in-c-b, .in-c-b .in-c-b {
+    padding: 0;
+    border-left-width: 0; }
+  .c1 .in-c, .c1 .in-c-b {
+    border-left: 0 none; }
 
-.gd .inCB {
+.in-c-b {
   /* bleed */
   padding: 0; }
 
-.gd .c1 .inC {
-  /* exception */
-  border-left: 0 none; }
-
-/* nesting */
-.gd .inC .inC {
-  padding: 0;
-  border-left-width: 0; }
-
-.gd .inG .inG {
-  border-width: 0; }
-
-/* ^ grid > cols > inner **/
-/** grid > cols > widths ! IE too */
-/** grid > cols > widths > 2-cols */
 /* 100 - 2 */
-.g2A .c1, .g2B .c2 {
+.g2-a .c1, .g2-b .c2 {
   width: 33.0%;
   *width: 32.875%; }
 
-.g2A .c2, .g2B .c1 {
+.g2-a .c2, .g2-b .c1 {
   width: 65.0%;
   *width: 64.875%; }
 
-.g2C .c1, .g2D .c2 {
+.g2-c .c1, .g2-d .c2 {
   width: 23.5%;
   *width: 23.375%; }
 
-.g2C .c2, .g2D .c1 {
+.g2-c .c2, .g2-d .c1 {
   width: 74.5%;
   *width: 74.375%; }
 
-.gd .g2Z .col,
-.g2Z .col {
+.in-g .g2-z .col, .in-g .g2-z .col-r, .in-g .g2-z .c1, .in-g .g2-z .c2, .in-g .g2-z .c3, .in-g .g2-z .c4 {
   width: 49.0%;
   *width: 48.875%; }
 
-/* ^ grid > cols > widths > 2-cols **/
-/** grid > cols > widths > 3-cols */
 /* 100 - 4 */
-.g3A .c1, .g3B .c1, .g3C .c3,
-.g3A .c2, .g3B .c3, .g3C .c2 {
+.g3-a .c1, .g3-b .c1, .g3-c .c3,
+.g3-a .c2, .g3-b .c3, .g3-c .c2 {
   width: 23.5%;
   *width: 23.375%; }
 
-.g3A .c3, .g3B .c2, .g3C .c1 {
+.g3-a .c3, .g3-b .c2, .g3-c .c1 {
   width: 49.0%;
   *width: 48.875%; }
 
-.gd .g3Z col,
-.g3Z .col {
+.in-g .g3-z .c1, .in-g .g3-z .c2, .in-g .g3-z .c3,
+.g3-z .c1,
+.g3-z .c2,
+.g3-z .c3 {
   width: 32.0%;
   *width: 31.875%; }
 
-/* ^ grid > cols > widths > 3-cols **/
-/** grid > cols > widths > 4-cols */
 /* 100 - 6 */
-.gd .g4Z col,
-.g4Z .col {
+.in-g .g4-z .c1, .in-g .g4-z .c2, .in-g .g4-z .c3, .in-g .g4-z .c4,
+.g4-z .c1,
+.g4-z .c2,
+.g4-z .c3,
+.g4-z .c4 {
   width: 23.5%;
   *width: 23.375%; }
 
-/* ^ grid > cols > widths > 4-cols **/
-/* ^ grid > cols > widths **/
-/* ^ grid > cols **/
-/* ^ grid ! basic package **/
-/** extend grid */
-#html .inG {
+#html .in-g {
   border-width: 0; }
 
-/* ^ extend grid **/
-/** modules ! basic package */
-/** modules > menus */
-/** modules > menus > core ! protected */
-.mn {
-  display: block; }
-
-.mn a {
-  padding: .5em 1em;
-  border-style: solid;
-  border-width: 1px;
-  line-height: 1.33em;
-  text-decoration: none; }
-
-/* submenu guide */
-/* ^ modules > menu > core ! protected **/
-/** modules > menu > vertical */
-.mnV a {
-  display: block;
-  border-top-width: 0; }
-
-.mnV li.chL a {
-  /* exception */
-  border-bottom-width: 0; }
-
-#html .mnV li.aftN a,
-.mnV li.ch1 a {
-  /* exception */
-  border-top-width: 1px; }
-
-.mnV li.ch1 li a {
-  /* reset */
-  border-top-width: 0; }
-
-.mnV li li {
-  padding-left: 1em; }
-
-/* ^ modules > menu > vertical **/
-/** modules > menu > horizontal ! requires .cFix */
-.mnH a {
-  border-left-width: 0; }
-
-.mnH li.ch1 a {
-  /* exception */
-  border-left-width: 1px; }
-
-/* ^ modules > menu > horizontal ! requires .inG **/
-/* ^ modules > menu **/
-/* ^ modules ! basic package **/
 /* -------------------------------------------------- */
-/* NON-REUSABLE, CUSTOM CODE AFTER THIS POINT     */
+/* NON-REUSABLE, CUSTOM CODE AFTER THIS POINT         */
 /* -------------------------------------------------- */
-/** unique */
 #menu .box .in {
-  padding-top: 1em;
-  padding-bottom: 1em;
-  padding-right: .5em; }
-
-#hd {
-  padding-bottom: 1em; }
-
-#menu #hd.box .in {
-  padding: 0; }
-
-#ft {
-  padding-top: 1em; }
-
+  padding-top: 16px;
+  padding-right: 8px;
+  padding-bottom: 16px; }
+#menu .box#hd {
+  padding-bottom: 16px; }
+  #menu .box#hd .in {
+    padding: 0; }
+#menu #ft {
+  padding-top: 16px; }
 #menu p {
   padding-bottom: 0; }
-
 #menu .container {
-  padding-bottom: 1em;
-  padding-right: 1em; }
-
-#navigation .mn {
-  padding-bottom: 1.5em; }
+  padding-bottom: 16px;
+  padding-right: 16px; }
+#menu #navigation .mn {
+  padding-bottom: 24px; }
 
 #content .box .in {
   width: 596px;
@@ -512,9 +351,9 @@ body {
   padding-bottom: 8px; }
 #content .box li {
   padding-bottom: 7px; }
-#content .box .mnLinked li {
+#content .box .mn-v-a li {
   padding-bottom: 0; }
-#content .box .mnLinked a {
+#content .box .mn-v-a a {
   padding-bottom: 7px; }
 #content dt, #content dd {
   display: block; }
@@ -544,24 +383,24 @@ body {
     display: block; }
 #content .feed-container.posterous-feed li, #content .feed-container.twitter-feed li {
   padding-right: 17px; }
-#content .feed-container.posterous-feed .mnV a.permalink {
+#content .feed-container.posterous-feed .mn-v a.permalink {
   padding-right: 0;
   overflow: hidden;
   white-space: nowrap; }
-#content .feed-container.github-feed .mnV article, #content .feed-container.twitter-feed .mnV article {
+#content .feed-container.github-feed .mn-v article, #content .feed-container.twitter-feed .mn-v article {
   padding: .545em 0 .181em 1.545em; }
-#content .feed-container.github-feed .mnV blockquote, #content .feed-container.github-feed .mnV code {
+#content .feed-container.github-feed .mn-v blockquote, #content .feed-container.github-feed .mn-v code {
   font-style: italic; }
-#content .feed.mnV .inline {
+#content .feed.mn-v .inline {
   border: 0;
   padding: 0;
   margin: 0; }
-#content .feed.mnV li {
+#content .feed.mn-v li {
   padding: 0;
   border-bottom-width: 1px; }
-  #content .feed.mnV li li {
+  #content .feed.mn-v li li {
     border: 0; }
-#content .feed.mnV a.permalink {
+#content .feed.mn-v a.permalink {
   padding-top: .545em;
   padding-bottom: .181em;
   padding-left: .545em;
@@ -627,17 +466,34 @@ body {
 .slideshow-plugin .meta span {
   display: block; }
 
-#html .mnV .section-title {
+.pjpTip {
+  position: absolute;
+  z-index: 9999; }
+  .pjpTip .in {
+    position: relative;
+    max-width: 162px;
+    overflow: hidden;
+    padding: 7px 12px 10px 12px; }
+
+.pjpTipStem {
+  position: relative;
+  width: 0;
+  height: 0;
+  border-right-width: 16px;
+  border-bottom-width: 16px;
+  top: 0; }
+
+#html .mn-v .section-title {
   display: block;
   padding-top: 24px;
   padding-bottom: 8px;
   border-width: 0; }
-#navigation .mnV li {
+#navigation .mn-v li {
   border-bottom-width: 1px; }
-  #navigation .mnV li.section-title {
+  #navigation .mn-v li.section-title {
     position: relative;
     padding-left: 16px; }
-    #navigation .mnV li.section-title .js-fold-trigger {
+    #navigation .mn-v li.section-title .js-fold-trigger {
       position: absolute;
       right: 16px;
       bottom: 4px;
@@ -647,9 +503,9 @@ body {
       height: 24px;
       padding: 0;
       border-width: 1px; }
-  #navigation .mnV li a {
+  #navigation .mn-v li a {
     border-left-width: 1em; }
-#navigation .mnV a {
+#navigation .mn-v a {
   border-width: 0;
   padding-top: 6px;
   padding-bottom: 2px;
@@ -658,7 +514,7 @@ body {
 #menu .box .in {
   padding-left: 16px; }
 
-#content .mnLinked a {
+#content .mn-v-a a {
   width: 100%; }
 
 #once {

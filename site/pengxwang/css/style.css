@@ -1,15 +1,34 @@
-/**
- * Theme Name:     pengxwang.com
- * Theme URI:    pengxwang.com
- * Description:    standards-oriented theme
- * Version:      1.0
- * Author:       Peng Wang
- * Author URI:     pengxwang.com
- * Tags:       css framework, jquery plugins
-**/
 @import 'layout_screen.css' screen;
 @import 'layout_mobile.css' handheld;
 @import 'layout_print.css' print;
+.fix-c {
+  zoom: 1; }
+  .fix-c::before, .fix-c::after {
+    content: "\0020";
+    display: block;
+    height: 0;
+    overflow: hidden; }
+  .fix-c::after {
+    clear: both; }
+
+.replaced {
+  display: block;
+  text-indent: -999em;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  text-align: left;
+  direction: ltr; }
+
+.inline-block {
+  display: -moz-inline-stack;
+  display: inline-block; }
+
+#html .inline {
+  display: inline; }
+
+.hide {
+  display: none; }
+
 ::-moz-selection {
   background: #FF5E99;
   color: #fff;
@@ -91,7 +110,7 @@ a:hover {
 
 /** borders > custom sides */
 #content .feed a,
-#navigation .mnV a,
+#navigation .mn-v a,
 ._ {
   border-left-color: transparent; }
 
@@ -99,12 +118,12 @@ a:hover {
 ._ {
   border-right-color: transparent; }
 
-#navigation .mnV li.active a,
+#navigation .mn-v li.active a,
 ._ {
   border-left-color: #05c; }
 
 #content .feed a:hover,
-#navigation .mnV li.active a:hover,
+#navigation .mn-v li.active a:hover,
 ._ {
   border-left-color: #07e; }
 
@@ -130,7 +149,7 @@ a:hover {
 ._ {
   background-color: #fff; }
 
-#navigation .mnV li a:hover,
+#navigation .mn-v li a:hover,
 ._ {
   *border-left-color: #fff; }
 
@@ -138,11 +157,11 @@ a:hover {
   background-color: #f8f8f8; }
 
 #html #menu .js-foldable:not(.js-fold-disabled) .js-fold-trigger:hover,
-#navigation .mnV,
+#navigation .mn-v,
 ._ {
   background-color: #f4f4f4; }
 
-#navigation .mnV li a,
+#navigation .mn-v li a,
 ._ {
   *border-left-color: #f4f4f4; }
 
@@ -265,7 +284,7 @@ h3 a.as,
 ._ {
   color: #999; }
 
-.mnV.feed article .meta *,
+.mn-v.feed article .meta *,
 a.compound article *,
 #html .js-fold-trigger,
 ._ {
@@ -346,7 +365,7 @@ html.boxshadow #content p.embed {
   padding: 0; }
 
 #menu .box .in,
-#navigation .mnV {
+#navigation .mn-v {
   box-shadow: inset -1em 0 2em #f6f6f6;
   -moz-box-shadow: inset -1em 0 2em #f6f6f6;
   -webkit-box-shadow: inset -1em 0 2em #f6f6f6; }
@@ -357,7 +376,7 @@ html.boxshadow #content p.embed {
   -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.2); }
 
 /* emboss */
-#navigation .mnV li a {
+#navigation .mn-v li a {
   text-shadow: 0 1px 0 #fff; }
 
 /* ^ css3 **/
@@ -459,7 +478,7 @@ a:hover {
   font-size: .6875em;
   /* 11px */ }
 
-.container .mnLinked a,
+.container .mn-v-a a,
 .slideshow-plugin .meta .title,
 .container .rows dt,
 .container dd,
@@ -524,7 +543,7 @@ h1 {
   /* 32px */ }
 
 /** global > size + spacing > reset */
-.container .mnLinked li,
+.container .mn-v-a li,
 h1, h2, h3,
 a {
   line-height: 1em; }
@@ -596,14 +615,14 @@ html.ie6 .thumb-it {
   top: 50%; }
 html.ie6 .paAs,
 html.ie6 .pjpTip .in,
-html.ie6 .mnV li,
+html.ie6 .mn-v li,
 html.ie6 .mn a {
   zoom: 1; }
-html.ie6 .mnH, html.ie6 .inG, html.ie6 .fixC {
+html.ie6 .mn-h, html.ie6 .in-g, html.ie6 .fix-c {
   display: inline-block;
   height: 1%;
   display: block; }
-html.ie6 .mnV a {
+html.ie6 .mn-v a {
   display: inline;
   display: block; }
 html.ie6 .pjpTipStem {
@@ -617,8 +636,8 @@ html.ie6 .dev {
   border: 1px solid red; }
 
 html.ie7 #content .rows,
-html.ie7 .inC,
-html.ie7 .inG, html.ie7 .fixC {
+html.ie7 .in-c,
+html.ie7 .in-g, html.ie7 .fix-c {
   zoom: 1; }
 html.ie7 #logo a,
 html.ie7 .fixIB {

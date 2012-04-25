@@ -1,25 +1,27 @@
-/**
- * Theme Name:     pengxwang.com
- * Theme URI:    pengxwang.com
- * Description:    standards-oriented theme
- * Version:      1.0
- * Author:       Peng Wang
- * Author URI:     pengxwang.com
- * Tags:       css framework, jquery plugins
-**/
-
-// Constants
-// =========
+// 
+// The Master Stylesheet
+// =====================
+// Styles specified here should be consistent for all media.
 
 // Layout
 // ======
 
+// These are css imports and need to go first.
 @import 'layout_screen.css' screen;
 @import 'layout_mobile.css' handheld;
 @import 'layout_print.css' print;
 
-///** START   Extended Boilerplate */
+// Constants
+// =========
 
+// Base
+// ====
+
+// Add context-dependent base boilerplate.
+$_context: master;
+@import "../scss/bootstrap.scss";
+//
+// Extended boilerplate.
 ::-moz-selection{ background: #FF5E99; color:#fff; text-shadow: none; }
 ::selection { background:#FF5E99; color:#fff; text-shadow: none; }
 a:link { -webkit-tap-highlight-color: #FF5E99; }
@@ -31,7 +33,8 @@ h1, h2, h3, h4, h5, h6 { font-weight: bold; }
 a, a:active, a:visited { color: #607890; }
 a:hover { color: #036; }
 
-///* END      Extended Boilerplate **/
+// App
+// ===
 
 #menu {
   
@@ -73,17 +76,17 @@ a:hover { color: #036; }
 /** borders > custom sides */
 
 #content .feed a,
-#navigation .mnV a,
+#navigation .mn-v a,
 ._ { border-left-color: transparent; }
 
 .pjpTipStem,
 ._ { border-right-color: transparent; }
 
-#navigation .mnV li.active a,
+#navigation .mn-v li.active a,
 ._ { border-left-color: #05c; }
 
 #content .feed a:hover,
-#navigation .mnV li.active a:hover, 
+#navigation .mn-v li.active a:hover, 
 ._ { border-left-color: #07e; }
 
 .pjpTipStem,
@@ -103,15 +106,15 @@ a:hover { color: #036; }
 #navigation a:not(.js-fold-trigger):hover,
 .box .in,
 ._ { background-color: #fff; }
-  #navigation .mnV li a:hover,
+  #navigation .mn-v li a:hover,
   ._ { *border-left-color: #fff; }
 
 ._ { background-color: #f8f8f8; }
 
 #html #menu .js-foldable:not(.js-fold-disabled) .js-fold-trigger:hover,
-#navigation .mnV,
+#navigation .mn-v,
 ._ { background-color: #f4f4f4; }
-  #navigation .mnV li a, 
+  #navigation .mn-v li a, 
   ._ { *border-left-color: #f4f4f4; }
 
 .js-fold-trigger,
@@ -215,7 +218,7 @@ h3 a.as,
 .container .rows dt,
 ._ { color: #999; }
 
-.mnV.feed article .meta *,
+.mn-v.feed article .meta *,
 a.compound article *,
 #html .js-fold-trigger,
 ._ { color: #aaa; }
@@ -313,7 +316,7 @@ a.compound article span.tags,
     padding: 0;
   }
 #menu .box .in,
-#navigation .mnV {
+#navigation .mn-v {
   box-shadow: inset -1em 0 2em #f6f6f6; 
   -moz-box-shadow: inset -1em 0 2em #f6f6f6; 
   -webkit-box-shadow: inset -1em 0 2em #f6f6f6;
@@ -325,7 +328,7 @@ a.compound article span.tags,
 }
 
 /* emboss */
-#navigation .mnV li a {
+#navigation .mn-v li a {
   text-shadow: 0 1px 0 #fff;
 }
 
@@ -417,7 +420,7 @@ a:hover
 .container p,
 .container li,
 .prose { font-size: .6875em; /* 11px */ }
-  .container .mnLinked a,
+  .container .mn-v-a a,
   .slideshow-plugin .meta .title,
   .container .rows dt,
   .container dd,
@@ -466,7 +469,7 @@ h1
 
 /** global > size + spacing > reset */
 
-.container .mnLinked li,
+.container .mn-v-a li,
 h1, h2, h3,
 a 
 { line-height: 1em; }
@@ -557,19 +560,19 @@ html.ie6 {
   .paAs,
   .pjpTip .in,
   // Base.
-  .mnV li,
+  .mn-v li,
   .mn a 
   { zoom: 1; }
   
   // Fix grid core.
-  .mnH, .inG, .fixC {
+  .mn-h, .in-g, .fix-c {
     display: inline-block; 
     height: 1%; 
     display: block; 
   }
 
   // Fix base.
-  .mnV a
+  .mn-v a
   { display: inline; display: block; }
   
   // Fix transparent borders.
@@ -593,8 +596,8 @@ html.ie7 {
   // Give has-layout.
   #content .rows,
   // Base.
-  .inC,
-  .inG, .fixC
+  .in-c,
+  .in-g, .fix-c
   { zoom: 1; }
   
   // Fix inline-block.
