@@ -31,5 +31,6 @@ $_weight: '#html';
   .inline-block { display: -moz-inline-stack; display: inline-block; }
   #{$_weight} .inline { display: inline; }
   .hide { display: none; }
+  .sprite { background: { repeat: no-repeat; position: top left; attachment: scroll; color: transparent; } }
 
 }

@@ -10,6 +10,33 @@
 //   especially as vendor prefixes become deprecated with wider adoption of newer
 //   browsers, or as new CSS3 features become more viable, like flex-box.
 
+///** START   Constants */
+
+$hx: 16;
+
+$w-f: rgba(255,255,255, 1.0);
+$w-9: rgba(255,255,255, 0.9);
+$w-8: rgba(255,255,255, 0.8);
+$w-7: rgba(255,255,255, 0.7);
+$w-6: rgba(255,255,255, 0.6);
+$w-5: rgba(255,255,255, 0.5);
+$w-4: rgba(255,255,255, 0.4);
+$w-3: rgba(255,255,255, 0.3);
+$w-2: rgba(255,255,255, 0.2);
+$w-1: rgba(255,255,255, 0.1);
+
+$b-f: rgba(0,0,0, 1.0);
+$b-9: rgba(0,0,0, 0.9);
+$b-8: rgba(0,0,0, 0.8);
+$b-7: rgba(0,0,0, 0.7);
+$b-6: rgba(0,0,0, 0.6);
+$b-5: rgba(0,0,0, 0.5);
+$b-4: rgba(0,0,0, 0.4);
+$b-3: rgba(0,0,0, 0.3);
+$b-2: rgba(0,0,0, 0.2);
+$b-1: rgba(0,0,0, 0.1);
+
+///* END      Constants **/
 ///** START   CSS3 Box */
 
 // We interpolate `$radius` for cases where it's not's just one value, but [top]
@@ -96,12 +123,12 @@
   @include box-shadow($x, $y, $blur, $color, $size);
 }
 
-// A preset using box-shadow that has no offset, where two box shadows are applied
+// A preset using box-shadow that by default has no offset, where two box shadows are applied
 // uniformly, one for an inner shadow, another for an outer "edge", to create the
 // appearance of a bevel. You can provide inverted colors for the "contour" look,
 // where it's bumpy, not caved in.
-@mixin simple-bevel ($shadow, $highlight, $shadow-blur:1px, $shadow-size:0, $highlight-blur:0, $highlight-size:1px) {
-  @include box-shadow(0, 0, $shadow-blur, $shadow, $shadow-size, true, '0 0 #{$highlight-blur} #{$highlight-size} #{$highlight}');
+@mixin simple-bevel ($shade, $light, $shade-blur:1px, $light-blur:0, $shade-size:0, $light-size:1px, $shade-x:0, $shade-y:0) {
+  @include box-shadow($shade-x, $shade-y, $shade-blur, $shade, $shade-size, true, '0 0 #{$light-blur} #{$light-size} #{$light}');
 }
 
 // Beware that this is expensive, since it creates 4 box-shadows. By default it
@@ -112,35 +139,35 @@
 // to somewhat customize.
 @mixin compound-contour ($size-1:15px, $size-2:2px, $size-3:10px,
                          $shift-1:3px, $shift-2:3px,
-                         $shadow-1:$b-3, $shadow-2:$b-5, $shadow-3:$b-8, $shadow-4:$b-2)
+                         $shade-1:$b-3, $shade-2:$b-5, $shade-3:$b-8, $shade-4:$b-2)
 {
-  @include box-shadow(0, 0, $size-1, $shadow-1, 0, true,
-                     '0 0 #{$size-2} #{$shadow-2}, '+
-                     '0 #{$shift-1} #{$size-3} #{$shadow-3}, '+
-                     '0 #{$shift-2} 0 #{$shadow-4}');
+  @include box-shadow(0, 0, $size-1, $shade-1, 0, true,
+                     '0 0 #{$size-2} #{$shade-2}, '+
+                     '0 #{$shift-1} #{$size-3} #{$shade-3}, '+
+                     '0 #{$shift-2} 0 #{$shade-4}');
 }
 
 // Draws a generic, vertical (top-to-bottom by default) gradient.
-@mixin simple-gradient ($highlight, $shadow, $highlight-position:0%, $shadow-position:100%) {
-  background-color: $highlight;
-  background-image: -webkit-linear-gradient(top, $highlight $highlight-position, $shadow $shadow-position); // Chrome 10+, Saf5.1+ 
-  background-image:    -moz-linear-gradient(top, $highlight $highlight-position, $shadow $shadow-position); // FF3.6
-  background-image:     -ms-linear-gradient(top, $highlight $highlight-position, $shadow $shadow-position); // IE10
-  background-image:      -o-linear-gradient(top, $highlight $highlight-position, $shadow $shadow-position); // Opera 11.10+
-  background-image:         linear-gradient(top, $highlight $highlight-position, $shadow $shadow-position);
+@mixin simple-gradient ($light, $shade, $light-pos:0%, $shade-pos:100%) {
+  background-color: $light;
+  background-image: -webkit-linear-gradient(top, $light $light-pos, $shade $shade-pos); // Chrome 10+, Saf5.1+ 
+  background-image:    -moz-linear-gradient(top, $light $light-pos, $shade $shade-pos); // FF3.6
+  background-image:     -ms-linear-gradient(top, $light $light-pos, $shade $shade-pos); // IE10
+  background-image:      -o-linear-gradient(top, $light $light-pos, $shade $shade-pos); // Opera 11.10+
+  background-image:         linear-gradient(top, $light $light-pos, $shade $shade-pos);
 }
 
 // Draws a more custom gradient that supports up to three colors. This is useful
 // if you want a surface that appears to have more "contour."
-@mixin single-stop-gradient ($start-color, $stop-color, $stop-position:50%, 
-                             $position:top, $end-color:$start-color) 
+@mixin single-stop-gradient ($start-clr, $stop-clr, $stop-pos:50%, 
+                             $pos:top, $end-clr:$start-clr) 
 {
-  background-color: $stop-color;
-  background-image: -webkit-linear-gradient($position, $start-color, $stop-color $stop-position, $end-color); // Chrome 10+, Saf5.1+
-  background-image:    -moz-linear-gradient($position, $start-color, $stop-color $stop-position, $end-color); // FF3.6
-  background-image:     -ms-linear-gradient($position, $start-color, $stop-color $stop-position, $end-color); // IE10
-  background-image:      -o-linear-gradient($position, $start-color, $stop-color $stop-position, $end-color); // Opera 11.10+
-  background-image:         linear-gradient($position, $start-color, $stop-color $stop-position, $end-color);    
+  background-color: $stop-clr;
+  background-image: -webkit-linear-gradient($pos, $start-clr, $stop-clr $stop-pos, $end-clr); // Chrome 10+, Saf5.1+
+  background-image:    -moz-linear-gradient($pos, $start-clr, $stop-clr $stop-pos, $end-clr); // FF3.6
+  background-image:     -ms-linear-gradient($pos, $start-clr, $stop-clr $stop-pos, $end-clr); // IE10
+  background-image:      -o-linear-gradient($pos, $start-clr, $stop-clr $stop-pos, $end-clr); // Opera 11.10+
+  background-image:         linear-gradient($pos, $start-clr, $stop-clr $stop-pos, $end-clr);    
 }
 
 ///* END      CSS3 Box **/
@@ -149,23 +176,23 @@
 // Draws an inset around the text. The default is for dark-colored text on a
 // non-white background. If needed you can specify two different highlights to make
 // the inset less harsh. The shift is for how "deep" the inset should be.
-@mixin text-inset ($highlight-1:$w-5, $highlight-2:$w-5, $shift:-1px) { 
-  text-shadow: $shift $shift 0 $highlight-1, 
-               $shift*-1 $shift*-1 0 $highlight-2, 
-               0 $shift 0 $highlight-1, 
-               0 $shift*-1 0 $highlight-2;
+@mixin text-inset ($light-1:$w-5, $light-2:$w-5, $shift:-1px) { 
+  text-shadow: $shift $shift 0 $light-1, 
+               $shift*-1 $shift*-1 0 $light-2, 
+               0 $shift 0 $light-1, 
+               0 $shift*-1 0 $light-2;
 }
 // A shorthand for inverting the default `text-inset`. Use with light-colored text
 // on a non-black background.
-@mixin text-inset-inverted ($shadow-1:#000, $shadow-2:#000, $shift:-1px) {
-  @include text-inset($shadow-1, $shadow-2, $shift);
+@mixin text-inset-inverted ($shade-1:#000, $shade-2:#000, $shift:-1px) {
+  @include text-inset($shade-1, $shade-2, $shift);
 }
 
 // Mostly derived from HTML5 Boilerplate. Useful mainly for disabling /
 // neutralizing visibly selected text.
-@mixin text-selection ($color:$b-2, $text-color:#fff) {
-  ::-moz-selection { background: $color; color: $text-color; text-shadow: none; }
-       ::selection { background: $color; color: $text-color; text-shadow: none; }  
+@mixin text-selection ($color:$b-2, $text-clr:#fff) {
+  ::-moz-selection { background: $color; color: $text-clr; text-shadow: none; }
+       ::selection { background: $color; color: $text-clr; text-shadow: none; }  
   @if $color == transparent {
     cursor: default;
   }
@@ -202,14 +229,14 @@
 // should be comma-separated. The properties should be passed in in list format:
 // `@include transition([prop] [prop] [prop]);`. Normally, we avoid the long form
 // b/c it increases file size.
-@mixin transition ($properties, $time:0.3s, $easing: ease-in-out) {
-  @if length($properties) > 1 {
+@mixin transition ($props, $time:0.3s, $easing: ease-in-out) {
+  @if length($props) > 1 {
     $str: ''; 
     $i: 0;
-    @each $property in $properties { 
-      $str: $str+$property;
+    @each $prop in $props { 
+      $str: $str+$prop;
       $i: $i+1;
-      @if $i < length($properties) {
+      @if $i < length($props) {
         $str: $str+', ';
       }
     }
@@ -229,22 +256,22 @@
                 transition-duration: $time;
          transition-timing-function: $easing;
   } @else {
-  -webkit-transition: $properties $time $easing;  // Saf3.2+, Chrome
-     -moz-transition: $properties $time $easing;  // FF4+
-      -ms-transition: $properties $time $easing;  // IE10
-       -o-transition: $properties $time $easing;  // Opera 10.5+
-          transition: $properties $time $easing;  
+  -webkit-transition: $props $time $easing;  // Saf3.2+, Chrome
+     -moz-transition: $props $time $easing;  // FF4+
+      -ms-transition: $props $time $easing;  // IE10
+       -o-transition: $props $time $easing;  // Opera 10.5+
+          transition: $props $time $easing;  
   }
 }
 // A shorthand for adding an on-hover animation.
-@mixin anim-onhover ($property, $value-1, $value-2, $target:'&') {
+@mixin anim-onhover ($prop, $value-1, $value-2, $target:'&') {
   #{$target} {
-    @include transition($property);
-    #{$property}: $value-1;
+    @include transition($prop);
+    #{$prop}: $value-1;
   }
   &:hover { 
     #{$target} {
-      #{$property}: $value-2; 
+      #{$prop}: $value-2; 
     }
   }
 }
@@ -282,10 +309,10 @@
 }
 
 // Simple "nav bar" type layout where the children simply float left.
-@mixin navbar ($spacing:1em, $child-element:'button', $padding:false) {
+@mixin navbar ($spacing:1em, $child-slr:'button', $padding:false) {
   @extend .fix-c;
   display: block;
-  >#{$child-element} {
+  >#{$child-slr} {
     display: block;
     float: left;
     @if $padding != false {
@@ -327,7 +354,7 @@
 // and the selector can be used to specify what selector (in the context of the
 // first and last child), gets the padding. You can pass false for either to omit
 // the respective styles.
-@mixin ruled($highlight, $shadow, $edge-padding:0, 
+@mixin ruled($light, $shade, $edge-padding:0, 
              $edge-padding-slr:'&', 
              $first-item-slr:'&:first-child',
              $last-item-slr:'&:last-child',
@@ -342,8 +369,8 @@
   }
   #{$item-slr} {
     border: {
-      #{$start}: 1px solid $highlight;
-      #{$end}: 1px solid $shadow;
+      #{$start}: 1px solid $light;
+      #{$end}: 1px solid $shade;
     }
   }
   @if $first-item-slr {
@@ -361,6 +388,14 @@
         #{$edge-padding-slr} { padding-#{$end}: $edge-padding; }
       }
     }
+  }
+}
+
+@mixin min-height($h) {
+  min-height: $h;
+  html.ie6 & {
+    height: auto !important;
+    height: $h;
   }
 }
 
@@ -428,6 +463,9 @@ button, input, select, textarea { margin: 0; }
 input:valid, textarea:valid   {  }
 input:invalid, textarea:invalid { border-radius: 1px; -moz-box-shadow: 0px 0px 5px red; -webkit-box-shadow: 0px 0px 5px red; box-shadow: 0px 0px 5px red; }
 .no-boxshadow input:invalid, .no-boxshadow textarea:invalid { background-color: #f0dddd; }
+
+button {  width: auto; overflow: visible; }
+.ie7 img { -ms-interpolation-mode: bicubic; }
 
 }
 

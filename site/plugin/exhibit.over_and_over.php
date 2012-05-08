@@ -41,7 +41,7 @@ function createExhibit()
         $text = ($go['media_title'] == '') ? '' : $go['media_title'];
         $text .= ($go['media_caption'] == '') ? '&nbsp;' : ': ' . $go['media_caption'];
         
-        $a .= "\n<p class='scrollItem'><img src='" . BASEURL . GIMGS . "/$go[media_file]' alt='$go[media_caption]' /><br />\n<span>$text</span>\n</p>\n";
+        $a .= "\n<p class='scroll-item'><img src='" . BASEURL . GIMGS . "/$go[media_file]' alt='$go[media_caption]' /><br />\n<span>$text</span>\n</p>\n";
         
         $i++;
     }

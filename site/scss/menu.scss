@@ -11,48 +11,42 @@
   margin-left: 0; 
   list-style:none;
   list-style-image: none;
+  display: block;
+  a {
+    padding: .5em 1em;
+    border-style: solid;
+    border-width: 1px;
+    line-height: 1.33em;
+    text-decoration: none;
+  }
 }
 
 .mn-h {
+  @extend .mn;
   @extend .fix-c;
-  li { float: left; }
-  a { display: block; }
+  li {
+    float: left;
+    &:first-child a { border-left-width: 1px; }
+  }
+  a {
+    display: block;
+    border-left-width: 0;
+  }
 }
 
-.mn {
-  display: block;
-}
-.mn a {
-  padding: .5em 1em;
-  border-style: solid;
-  border-width: 1px;
-  line-height: 1.33em;
-  text-decoration: none;
-}
-
-.mn-v li {
-}
-.mn-v a {
-  display: block;
-  border-top-width: 0;
-}
-.mn-v li.chL a { /* exception */
-  border-bottom-width: 0;
-}
-#html .mn-v li.aftN a, /* nesting */
-.mn-v li.ch1 a { /* exception */
-  border-top-width: 1px;
-}
-.mn-v li.ch1 li a { /* reset */
-  border-top-width: 0;
-}
-.mn-v li li {
-  padding-left: 1em;
-}
-
-.mn-h a {
-  border-left-width: 0;
-}
-.mn-h li.ch1 a { /* exception */
-  border-left-width: 1px;
+.mn-v {
+  @extend .mn;
+  li {
+    li { padding-left: 1em; }
+//    &.aft-n a { border-top-width: 1px }
+    &:first-child {
+      a { border-top-width: 1px; }
+      li a { border-top-width: 0; }
+    }
+    &:last-child a { border-bottom-width: 0; }
+  }
+  a {
+    display: block;
+    border-top-width: 0;
+  }
 }
