@@ -22,8 +22,13 @@ $ ->
       autoCollapse: on
       toFeature:
         baseNum: 1
-  # - Setup tooltips.
+  
   # - Setup printing.
+  $('.js-print').bind 'click', (evt) ->
+    window.print()
+    evt.preventDefault()
+  
+  # - Setup tooltips.
 ###
     var opt = {
         'tip_class': 'pjpTip',
@@ -33,8 +38,5 @@ $ ->
     $('*').bind('title_changed', function (evt) {
         $(evt.target).pjpTip(opt);
     });
-    $('.jPrint').bind('click', function (evt) {
-        window.print();
-        evt.preventDefault();
-    });
 ###
+  

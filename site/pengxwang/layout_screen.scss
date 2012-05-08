@@ -19,7 +19,8 @@ $_box-gutter: $_text-height;
 $_list-gutter: 7px;
 $_node-gutter: 10px;
 $_true-box-width: 600px;
-$_box-width: 600px - 2px;
+$_box-width: 600px;
+$_menu-width: 256px;
 
 // Base
 // ====
@@ -59,7 +60,7 @@ $_context: layout_screen;
     right: 1em;
   }
 }
-.paAs {
+.has-as {
   position: relative;
 }
 
@@ -94,7 +95,7 @@ $_context: layout_screen;
   p { padding-bottom: 0; }
   .container { padding: { bottom: $gutter; right: $gutter; } }
   #navigation {
-    .mn { padding-bottom: 1.5*$gutter; }
+    .mn-v { padding-bottom: 1.5*$gutter; }
   }
   
 }
@@ -113,7 +114,7 @@ $_context: layout_screen;
     }
     .hd {
       padding-top: $v-gutter;
-      .paAs .as { padding-top: 3px; }
+      .has-as .as { padding-top: 3px; }
     }
     .bd {
       padding-bottom: $v-gutter;
@@ -206,7 +207,8 @@ $_context: layout_screen;
         border-width: 0 0 0 1em;
       }
     }
-    &.mnG {
+    &.mn-g {
+      @extend .mn;
       // TODO - image grid mixin
       li {
         float: left;
@@ -229,7 +231,7 @@ $_context: layout_screen;
       }
     }
   }
-  .jFeedRemember {
+  .js-feed-remember {
     right: 100px;
   }
   
@@ -242,15 +244,15 @@ $_context: layout_screen;
   
   // Content.
   p { 
-    width: $_box-width - 2*$_box-gutter;
+    width: $_box-width - 2*($_box-gutter + 1px);
     padding: $_box-gutter; /* 16px */
     margin-bottom: $_box-gutter;
   }
-  #img-container p.scrollItem span {
+  #img-container p.scroll-item span {
     display: block;
     padding: $_box-gutter;
   }
-  #img-container p.scrollItem,
+  #img-container p.scroll-item,
   p.embed {
     padding: 0; line-height: 0; // Reset.
     width: $_true-box-width;
@@ -261,7 +263,7 @@ $_context: layout_screen;
 // Misc
 // ----
 
-#hcardContact {
+#hcard-contact {
   #{$_weight} & {
     padding-bottom: $_line-height;
   }
@@ -342,7 +344,7 @@ $_context: layout_screen;
           $size: 1.5*$gutter;
           position: absolute;
           right: $gutter; bottom: 0.25*$gutter;
-          text-align: center; line-height: $size; width: $size; height: $size;
+          text-align: center; line-height: $size - 2px; width: $size; height: $size;
           padding: 0;
           border-width: 1px; 
         }
@@ -380,12 +382,11 @@ $_context: layout_screen;
 #content {
   height: 100%;
   margin: 0;
-  margin-left: 16em;
+  margin-left: $_menu-width;
   top: 0;
 }
 #menu {
-  width: 16em; /* 256px */
-  /*overflow: auto;*/
+  width: $_menu-width;
   top: 0;
   bottom: 0;
   left: 0;
@@ -394,9 +395,4 @@ $_context: layout_screen;
 }
 #content .container .cl {
   display: none;
-}
-.null { /* dumb hack */
-  border: 1px solid black;
-  padding: 0 0 0 0;
-  margin: 0 0 0 0;
 }

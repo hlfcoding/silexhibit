@@ -145,13 +145,13 @@ var enhanceData = $$.fn.feed.enhance = function (data, name) {
 
 $(document).ready(function () {
 
-    var $container = $('#content #ouFeed:eq(0) .in'),
-        $trigger = $('a.jFeed:eq(0)', $container),
+    var $container = $('#content #ou-feed:eq(0) .in'),
+        $trigger = $('a.js-feed:eq(0)', $container),
         $oldContent = $('.bd.mn-v-a:eq(0)', $container),
         $remember = $trigger.clone().hide()
-            .toggleClass('jFeed jFeedRemember')
-            .find('.jOn').html('stay').end()
-            .find('.jOff').html('leave').hide().end()
+            .toggleClass('js-feed js-feed-remember')
+            .find('.js-on').html('stay').end()
+            .find('.js-off').html('leave').hide().end()
             .insertBefore($trigger), 
         cookieName = 'pengxwang_feed_preferred',
         cookieValue = $.cookie(cookieName),
@@ -162,14 +162,14 @@ $(document).ready(function () {
         },
         $feed,
         feedOn = function () {
-            $trigger.find('.jOn').hide().end().find('.jOff').show();
+            $trigger.find('.js-on').hide().end().find('.js-off').show();
             $oldContent.fadeOut('fast', function () { 
                 $feed.fadeIn('fast'); 
                 $remember.fadeIn('fast');
             });
         },
         feedOff = function () {
-            $trigger.find('.jOn').show().end().find('.jOff').hide();
+            $trigger.find('.js-on').show().end().find('.js-off').hide();
             $feed.fadeOut('fast', function () { 
                 $oldContent.fadeIn('fast');
                 $remember.fadeOut('fast');
@@ -184,7 +184,7 @@ $(document).ready(function () {
         
     $trigger.bind('click', function (evt) {
         evt.preventDefault();
-        if ($('.jOn:visible', $trigger).length > 0) {
+        if ($('.js-on:visible', $trigger).length > 0) {
             if ($feed === undefined) {
                 feedInit();
             } else {
@@ -202,16 +202,16 @@ $(document).ready(function () {
     }
     if ($.cookie(cookieName) === 'true') {
         $trigger.trigger('click');
-        $remember.find('.jOn').hide().end()
-            .find('.jOff').show();
+        $remember.find('.js-on').hide().end()
+            .find('.js-off').show();
     }
     $remember.bind('click', function (evt) {
         evt.preventDefault();
         cookieValue = $.cookie(cookieName);
         $.cookie(cookieName, (cookieValue === 'true') ? false : true, cookieOptions);
         $remember
-            .find('.jOn')[(cookieValue === 'true') ? 'show' : 'hide']().end() // back on
-            .find('.jOff')[(cookieValue === 'true') ? 'hide' : 'show'](); // back off
+            .find('.js-on')[(cookieValue === 'true') ? 'show' : 'hide']().end() // back on
+            .find('.js-off')[(cookieValue === 'true') ? 'hide' : 'show'](); // back off
     });
 });
 

@@ -18,6 +18,7 @@
     border-width: 1px;
     line-height: 1.33em;
     text-decoration: none;
+    html.ie6 & { zoom: 1; }
   }
 }
 
@@ -32,7 +33,13 @@
     display: block;
     border-left-width: 0;
   }
+  html.ie6 & {
+    display: inline-block; 
+    height: 1%; 
+    display: block; 
+  }
 }
+
 
 .mn-v {
   @extend .mn;
@@ -44,9 +51,11 @@
       li a { border-top-width: 0; }
     }
     &:last-child a { border-bottom-width: 0; }
+    html.ie6 & { zoom: 1; }
   }
   a {
     display: block;
     border-top-width: 0;
+    html.ie6 & { display: inline; display: block; }
   }
 }

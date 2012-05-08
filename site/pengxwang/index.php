@@ -68,7 +68,7 @@
         </div>
       </div>
       <div id="navigation" class="box">
-        <nav class="mn mn-v">
+        <nav class="mn-v">
           <plug:front_index />
         </nav>
       </div>

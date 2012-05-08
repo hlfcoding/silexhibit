@@ -95,7 +95,7 @@ tr {
   page-break-inside: avoid; }
 
 /* ^ reset ! protected **/
-.jPrint,
+.js-print,
 #menu {
   display: none; }
 
