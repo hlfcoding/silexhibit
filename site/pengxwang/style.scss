@@ -57,6 +57,22 @@ $_context: master;
 ._base-text-2 {
   color: $_clr-base-2;
 }
+._base-type-1 {
+  font-size: 11px;
+  line-height: 16px;
+}
+._base-type-2 {
+  @extend ._base-type-1;
+  line-height: 18px;
+}
+._base-type-3 {
+  @extend ._base-type-1;
+  line-height: 24px;
+}
+._base-type-4 {
+  font-size: 12px;
+  line-height: 24px;
+}
 ._heavy-text-1 {
   color: $_clr-shade-1;
 }
@@ -75,14 +91,27 @@ $_context: master;
 ._meta-text-5 {
   color: $_clr-light-2;
 }
+._meta-type-1 {
+  @extend ._meta-text-2;
+  font-size: 10px;
+  line-height: 14px;
+}
+._meta-type-2 {
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  word-spacing: 2px;
+  font-family: Verdana, 'Century Gothic', 'Geneva', sans-serif;
+}
 ._underlined-text-1 {
   border-bottom: 1px dotted ($_clr-base-1 + $hx);
   &.truncated { border-bottom: 0; }
 }
 ._link-text-1 {
-  border-bottom: 1px dotted transparent;
   @include transition(color border-bottom-color);
-  &:link, &:active, &:visited {color: $_clr-accent-3; }
+  text-decoration: none;
+  border-bottom: 1px dotted transparent;
+  &:link, &:active, &:visited { color: $_clr-accent-3; }
   &:hover {
     color: $_clr-accent-4;
     border-bottom-color: $_clr-base-1;
@@ -128,6 +157,19 @@ $_context: master;
   color: $_clr-shade-1;
   text-shadow: none;
 }
+._title-text-1 {
+  @extend ._floating-text-1;
+  text-transform: lowercase;
+  #{$_weight} & { font-weight: bold; }
+  & .as {
+    // Reset.
+    letter-spacing: normal;
+    word-spacing: normal;
+  }
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  letter-spacing: -.05em;
+  word-spacing: .05em;
+}
 ._button-1-default {
   $bg-color: $_clr-light-4;
   @include simple-bevel($b-2, $w-3, 4px, 2px, 0, 0);
@@ -136,7 +178,7 @@ $_context: master;
   border-color: $bg-color + 0.5*$hx;
 }
 ._button-1-toggled {
-  background-color: $_clr-light-3;
+  background-color: $_clr-light-1 - 0.5*$hx;
   border-color: $_clr-light-1;
 }
 ._paper-1 {
@@ -157,6 +199,9 @@ $_context: master;
   background-color: $bg-color;
   html.boxshadow & { border: 1px solid $bg-color; border-left: 0; }
 }
+._font-1 { font-family: Arial, Helvetica, 'Helvetica Neue', sans-serif; }
+._font-2 { font-family: 'Consolas', 'Monaco', 'Lucida Console', 'Andale Mono', monospace; }
+._font-3 { font-family: Georgia, 'Constantia', 'Utopian', 'Palatino', 'Palatino Linotype', serif; }
 //
 // Extended boilerplate.
 ::selection, ::-moz-selection { @extend ._selected-text-1; }
@@ -164,18 +209,27 @@ a:link { -webkit-tap-highlight-color: $_clr-light-5; }
 
 body {
   @extend ._base-text-1;
+  @extend ._font-1;
   cursor: default;
+  text-align: left;
 }
 
-select, input, textarea {
-  @extend ._base-text-1;
+select, input, textarea { @extend ._base-text-1; }
+
+abbr, strong { @extend ._heavy-text-1; }
+#{$_weight} strong { font-weight: bold; }
+
+#{$_weight} em {
+  font-style: italic;
+  // Reset.
+  &, & * {
+    @extend ._font-3;
+    letter-spacing: normal;
+  }
+  strong { font-weight: normal; }
 }
 
-abbr, strong {
-  @extend ._heavy-text-1;
-}
-
-a {
+a:not(.replaced) {
   @extend ._link-text-1;
   // Reset.
   h3 & { 
@@ -192,10 +246,19 @@ a {
   }
 }
 
+h1, h2, h3 {
+  @extend ._title-text-1;
+  // Reset.
+  line-height: 1em;
+}
+h1 { font-size: 30px; }
+h2 { font-size: 24px; }
+h3 { font-size: 16px; }
+
 // Modules
 // =======
 
-.mn {
+.mn-v {
   ol, ul {
     border: { style: solid; color: $_clr-light-4; }
   }
@@ -207,9 +270,12 @@ a {
 // Extensions & Plugins
 // ====================
 
+// Generic wrapper.
 .container {
+  @extend ._font-2;
   .rows dt {
     @extend ._meta-text-2;
+    @extend ._base-type-1;
     // Reset.
     #{$_weight} & {
       @include box-shadow(none);
@@ -217,17 +283,17 @@ a {
       border: 0;
     }
   }
+  li, dd { @extend ._base-type-1; }
+  .prose, p { @extend ._base-type-2; }
+  // Reset.
+  .mn-v-a li { line-height: 1em; }
+  #{$_weight} li li { font-size: 1em; }
 }
 
 .section-title {
-  @extend ._floating-text-1;
+  @extend ._title-text-1;
+  #{$_weight} & { @extend h3; }
   .title { @extend ._underlined-text-1; }
-}
-
-#{$_weight} .js-fold-trigger {
-  // Reset.
-  & { @extend ._meta-text-1; }
-  &:not(.js-fold-disabled) { @extend ._meta-link-text-2; }
 }
 
 .feed {
@@ -235,6 +301,10 @@ a {
 }
 
 sup {
+  // Reset.
+  font-size: 100%;
+  vertical-align: baseline;
+  top: 0;
   #{$_weight} & { text-shadow: none; } // Reset.
   .hdr & {
     @extend ._meta-text-5;
@@ -243,6 +313,39 @@ sup {
     #menu & { @extend ._meta-text-4; }
   }
 }
+
+.copy {
+  small { @extend ._meta-type-2; }
+  a { line-height: 1em; }
+  dt small {
+    line-height: 24px; // Align.
+  }
+  // Reset.
+  dd a, li a, .prose a {
+    line-height: inherit;
+  }
+}
+
+.caption {
+  @extend ._font-3;
+  @extend ._meta-type-1;
+}
+
+.slide {
+  @extend ._paper-1;
+  #{$_weight} & {
+    background: $_clr-shade-1;
+    border: 0;
+  }
+  .meta {
+    .title { @extend ._base-type-1; }
+    // Reset.
+    font-size: 1em;
+    // TODO - Temp hack.
+    position: absolute;
+  }
+}
+
 // App
 // ===
 
@@ -255,6 +358,11 @@ sup {
     @extend ._button-1-default;
     &:not(.js-fold-disabled):hover { @extend ._button-1-toggled; }
     &.js-fold-disabled { cursor: default; }
+    #{$_weight} & {
+      // Reset.
+      & { @extend ._meta-text-1; }
+      &:not(.js-fold-disabled) { @extend ._meta-link-text-2; }
+    }
   }
   .js-foldables a:not(.js-fold-trigger):hover { @extend ._toggled-menu-item-1; }
   // - Menus.
@@ -302,16 +410,30 @@ sup {
     }
     &.embed { background-color: transparent; } // Reset.
   }
-  header .label {
-    @extend ._ribbon-text-1;
-    @extend ._floating-text-1;
-  }
+  header .label,
   li.label {
     @extend ._ribbon-text-1;
     @extend ._floating-text-1;
+    @extend ._base-type-3;
   }
-  dt { @extend ._ribbon-text-1; }
-  h3 .as { text-shadow: none; } // Reset.
+  dt {
+    @extend ._ribbon-text-1;
+    em { @extend ._base-type-4; }
+  }
+  .as {
+    @extend ._font-2;
+    @extend ._base-type-1;
+    text-shadow: none;
+  } // Reset.
+}
+
+#intro {
+  line-height: 20px;
+}
+
+#colophon {
+  @extend ._meta-type-1;
+  text-transform: lowercase;
 }
 
 // Images
@@ -352,206 +474,28 @@ body {
 }
 
 /** hlf-tip */
-.pjpTipStem,
-._ { border-right-color: transparent; }
 
-.pjpTipStem,
-._ { border-bottom-color: #606060; }
+.pjpTipStem { border-right-color: transparent; }
 
-.pjpTip .in,
-._ { background-color: #606060; }
+.pjpTipStem { border-bottom-color: #606060; }
 
-.pjpTip .in,
-._ { color: #fff; }
+.pjpTip .in { background-color: #606060; }
+
+.pjpTip .in { color: #fff; }
+
+.pjpTip { text-align: left; }
+
+.pjpTip { text-transform: lowercase; }
+
+.pjpTip { font-style: italic; }
+
+.pjpTip { font-size: .5625em; /* 9px */ }
+
+.pjpTip { line-height: 1.555em; /* 14px */ }
+
+.pjpTip { font-family: Georgia, 'Constantia', 'Utopian', 'Palatino', 'Palatino Linotype', serif; }
 
 /* hlf tip **/
-
-/**
- * The Typography styleheet
- * @see     readme.txt
- * @author    peng@pengxwang.com
-**/
-/** global > style */
-
-.pjpTip,
-#menu, 
-#content 
-{ text-align: left; }
-
-.null
-{ text-align: right; }
-/*
-#content dd,
-#content p
-{ text-align: justify; }
-*/
-.pjpTip,
-#colophon *,
-.section-title,
-h1, h2, h3
-{ text-transform: lowercase; }
-
-.copy small
-{ text-transform: uppercase; }
-
-#html h1, #html h2, #html h3, 
-/* _ref font-family */
-#html strong { font-weight: bold; }
-
-.pjpTip,
-.caption,
-#html em { font-style: italic;}
-
-.null
-{ font-style: normal; }
-
-#html em strong
-{ font-weight: normal; }
-
-.hd .as,
-#html em *,
-#html em { letter-spacing: normal; }
-
-.hd .as
-{ word-spacing: normal; }
-
-a.compound:hover,
-#navigation a:hover,
-a 
-{ text-decoration: none; }
-
-/* ^ global > style **/
-/** global > size + spacing */
-
-.copy small
-{ font-size: .5em; /* 8px */}
-  .copy small { /* uppercase */
-    letter-spacing: .125em; /* 1px */
-    word-spacing: .25em; /* 2px */
-  }
-  .copy dt small
-  {
-    line-height: 3em; /* align 24px */
-  }
-.pjpTip,
-.slideshow-plugin .meta .caption,
-#colophon
-{ font-size: .5625em; /* 9px */ }
-  .pjpTip,
-  .slideshow-plugin .meta .caption,
-  #colophon 
-  { line-height: 1.555em; /* 14px */ }
-
-#content .as,
-.slideshow-plugin .meta .title,
-.container .rows dt,
-.container dd,
-.container p,
-.container li,
-.prose { font-size: .6875em; /* 11px */ }
-  .container .mn-v-a a,
-  .slideshow-plugin .meta .title,
-  .container .rows dt,
-  .container dd,
-  .container .copy li
-  { line-height: 1.455em; /* 16px */ }
-  .container p,
-  .prose 
-  { line-height: 1.636em; /* 18px */ }
-  #content header .label,
-  #content li.label em
-  { line-height: 2.182em; /* 24px */ }
-
-#content dt em
-{ font-size: .75em; /* 12px */ }
-  #content dt em 
-  { line-height: 2em; }
-
-.null
-{ font-size: 1em; /* 16px */ }
-  h3#intro
-  { line-height: 1.25em; }
-
-h2
-{ font-size: 1.5em; /* 24px */ }
-
-.null
-{ font-size: 1.625em; /* 26px */ }
-
-h1
-{ font-size: 1.875em; /* 30px */ }
-
-.null
-{ font-size: 2em; /* 32px */ }
-
-/** global > size + spacing > reset */
-
-.container .mn-v-a li,
-h1, h2, h3,
-a 
-{ line-height: 1em; }
-
-.copy dd a, .copy li a,
-.prose a
-{ line-height: inherit; }
-
-.slideshow-plugin p.meta,
-#html .section-title,
-#html li li
-{ font-size: 1em; }
-
-body.safari,
-body.chrome {
-  font-size: 16px;
-}
-
-/* ^ global > size + spacing > reset **/
-/* ^ global > size + spacing **/
-/** mono set */
-
-#content .as,
-.container,
-.mono { font-family: 'Consolas', 'Monaco', 'Lucida Console', 'Andale Mono', monospace !important; }
-
-/* ^ mono set **/
-/** serif set */
-
-.pjpTip,
-.caption,
-#html em *,
-#html em,
-.serif { font-family: Georgia, 'Constantia', 'Utopian', 'Palatino', 'Palatino Linotype', serif; }
-
-
-/* ^ serif set **/
-/** sans-serif set */
-
-/* default */
-body, 
-/* utility */
-.sans { font-family: Arial, Helvetica, 'Helvetica Neue', sans-serif; } /* reset */
-
-.section-title,
-#html h1, #html h2, #html h3,
-/* utility */
-.hSans {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-weight: bold;
-  letter-spacing: -.05em;
-  word-spacing: .05em;
-}
-
-.copy small,
-/* utility */
-.wSans { font-family: Verdana, 'Century Gothic', 'Geneva', sans-serif; }
-
-/* utility */
-.pSans { font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
-
-/* utility */
-.pSans strong { font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
-
-/* ^ sans-serif set **/
 ///** START IE */
 
 html.ie6 {
