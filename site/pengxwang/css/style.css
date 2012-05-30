@@ -151,8 +151,8 @@ html.ie6 .fix-c {
   -webkit-box-shadow: inset 0 -1px 4px 0 rgba(0, 0, 0, 0.1);
   box-shadow: inset 0 -1px 4px 0 rgba(0, 0, 0, 0.1);
   background-color: #f4f4f4; }
-  html.boxshadow ._ribbon-text-1, html.boxshadow #content header .label, #content header html.boxshadow .label, html.boxshadow
-  #content li.label,
+  html.boxshadow ._ribbon-text-1, html.boxshadow #content header .label, #content header html.boxshadow .label,
+  html.boxshadow #content li.label,
   #content html.boxshadow li.label, html.boxshadow #content dt, #content html.boxshadow dt {
     margin-left: -4px;
     padding-left: 4px;

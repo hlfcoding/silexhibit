@@ -164,18 +164,18 @@ button {
   .box .hd, .box .bd {
     padding-bottom: 0; }
 
-.mn, .mn-h, .mn-v, .mn-v-a {
+.mn, .mn-h, .mn-v, .mn-v-a, #content .feed.mn-g {
   margin-left: 0;
   list-style: none;
   list-style-image: none;
   display: block; }
-  .mn a, .mn-h a, .mn-v a, .mn-v-a a {
+  .mn a, .mn-h a, .mn-v a, .mn-v-a a, #content .feed.mn-g a {
     padding: .5em 1em;
     border-style: solid;
     border-width: 1px;
     line-height: 1.33em;
     text-decoration: none; }
-    html.ie6 .mn a, html.ie6 .mn-h a, html.ie6 .mn-v a, html.ie6 .mn-v-a a {
+    html.ie6 .mn a, html.ie6 .mn-h a, html.ie6 .mn-v a, html.ie6 .mn-v-a a, html.ie6 #content .feed.mn-g a, #content html.ie6 .feed.mn-g a {
       zoom: 1; }
 
 .mn-h li {
