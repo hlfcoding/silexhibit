@@ -5,7 +5,6 @@ ns = jQuery.hlf
 
 # Boilerplate.
 $.noConflict()
-Modernizr.run_tests()
 
 $ ->
   # - Setup navigation.

@@ -10,8 +10,6 @@
 
   $.noConflict();
 
-  Modernizr.run_tests();
-
   $(function() {
     var cls;
     cls = $.extend({}, ns.foldable.defaults.cls, ns.foldables.defaults.cls);
