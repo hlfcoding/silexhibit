@@ -183,7 +183,7 @@ $_context: master;
 }
 ._paper-1 {
   $bg-color: $_clr-light-1;
-  @include simple-bevel($b-1, $b-3, 1em, 3px, 0, 0);
+  @include simple-bevel($b-1, $b-2, 1.5em, 3px, 0, 0);
   background-color: $bg-color;
   html.boxshadow & { border: 1px solid $bg-color; }
 }

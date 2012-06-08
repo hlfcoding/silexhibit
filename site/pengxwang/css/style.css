@@ -210,9 +210,9 @@ html.ie6 .fix-c {
   border-color: white; }
 
 ._paper-1, .slide, #menu #hd .in, #content .box .in, #content p {
-  -moz-box-shadow: inset 0 0 1em 0 rgba(0, 0, 0, 0.1), 0 0 3px 0 rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: inset 0 0 1em 0 rgba(0, 0, 0, 0.1), 0 0 3px 0 rgba(0, 0, 0, 0.3);
-  box-shadow: inset 0 0 1em 0 rgba(0, 0, 0, 0.1), 0 0 3px 0 rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: inset 0 0 1.5em 0 rgba(0, 0, 0, 0.1), 0 0 3px 0 rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: inset 0 0 1.5em 0 rgba(0, 0, 0, 0.1), 0 0 3px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 0 1.5em 0 rgba(0, 0, 0, 0.1), 0 0 3px 0 rgba(0, 0, 0, 0.2);
   background-color: white; }
   html.boxshadow ._paper-1, html.boxshadow .slide, html.boxshadow #menu #hd .in, #menu #hd html.boxshadow .in, html.boxshadow #content .box .in, #content .box html.boxshadow .in, html.boxshadow #content p, #content html.boxshadow p {
     border: 1px solid white; }
