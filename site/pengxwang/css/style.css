@@ -83,22 +83,6 @@ html.ie6 .fix-c {
 body, select, input, textarea {
   color: #333333; }
 
-.container .prose, .container p, #content header .label,
-#content li.label, .container .rows dt, .container li, .container dd, .slide .meta .title, #content .as {
-  font-size: 11px;
-  line-height: 16px; }
-
-.container .prose, .container p {
-  line-height: 18px; }
-
-#content header .label,
-#content li.label {
-  line-height: 24px; }
-
-#content dt em {
-  font-size: 12px;
-  line-height: 24px; }
-
 abbr, strong {
   color: black; }
 
@@ -116,17 +100,6 @@ a:not(.replaced).compound article .tags {
 
 .hdr sup, #content .box .in .delim {
   color: #eaeaea; }
-
-.caption, #colophon {
-  font-size: 10px;
-  line-height: 14px; }
-
-.copy small {
-  font-size: 8px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  word-spacing: 2px;
-  font-family: Verdana, "Century Gothic", "Geneva", sans-serif; }
 
 .section-title .title, #content .abbr {
   border-bottom: 1px dotted #bababa; }
@@ -208,6 +181,49 @@ h1, h2, h3, #html .section-title, .section-title {
     letter-spacing: normal;
     word-spacing: normal; }
 
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+
+.container, #content .as {
+  font-family: "SourceCodeProRegular", "Consolas", monospace;
+  word-spacing: -1px; }
+  #html .container, #html #content .as, #content #html .as {
+    font-weight: normal; }
+    #html .container strong, #html #content .as strong, #content #html .as strong {
+      font-family: "SourceCodeProSemibold", "Consolas", monospace;
+      font-weight: normal; }
+
+.copy dt em, .caption, #content header .label em,
+#content li.label em, #colophon em {
+  font-family: Georgia, serif; }
+
+.container .prose, .container p, #content header .label,
+#content li.label, .container .rows dt, .container li, .container dd, .slide .meta .title, #content .as {
+  font-size: 11px;
+  line-height: 16px; }
+
+.container .prose, .container p {
+  line-height: 18px; }
+
+#content header .label,
+#content li.label {
+  line-height: 24px; }
+
+#content dt em {
+  font-size: 12px;
+  line-height: 24px; }
+
+.caption, #colophon {
+  font-size: 10px;
+  line-height: 14px; }
+
+.copy small {
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  word-spacing: 2px;
+  font-family: Verdana, "Century Gothic", "Geneva", sans-serif; }
+
 #menu .js-fold-trigger {
   -moz-box-shadow: inset 0 0 4px 0 rgba(0, 0, 0, 0.2), 0 0 2px 0 rgba(255, 255, 255, 0.3);
   -webkit-box-shadow: inset 0 0 4px 0 rgba(0, 0, 0, 0.2), 0 0 2px 0 rgba(255, 255, 255, 0.3);
@@ -260,15 +276,6 @@ h1, h2, h3, #html .section-title, .section-title {
     border: 1px solid #f4f4f4;
     border-left: 0; }
 
-body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
-
-.container, #content .as {
-  font-family: "SourceCodeProRegular", "Consolas", monospace; }
-
-#html em, #html em *, .caption {
-  font-family: Georgia, serif; }
-
 a:link {
   -webkit-tap-highlight-color: #dadad8; }
 
@@ -281,8 +288,9 @@ body {
 
 #html em {
   font-style: italic; }
-  #html em, #html em * {
-    letter-spacing: normal; }
+  #html em, #html em > * {
+    letter-spacing: normal;
+    word-spacing: normal; }
   #html em strong {
     font-weight: normal; }
 

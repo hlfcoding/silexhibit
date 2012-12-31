@@ -43,6 +43,8 @@ $_context: master;
 @import 'fonts.scss';
 //
 // Object oriented internal classes to extend from.
+//
+// Menu skins.
 %accented-menu-item-1 {
   border-left-color: $_clr-accent-1;
   &:hover { border-left-color: $_clr-accent-2; }
@@ -54,27 +56,13 @@ $_context: master;
 %toggled-menu-item-1 {
   background-color: $_clr-light-1;
 }
+//
+// Text skins.
 %base-text-1 {
   color: $_clr-shade-2;
 }
 %base-text-2 {
   color: $_clr-base-2;
-}
-%base-type-1 {
-  font-size: 11px;
-  line-height: 16px;
-}
-%base-type-2 {
-  @extend %base-type-1;
-  line-height: 18px;
-}
-%base-type-3 {
-  @extend %base-type-1;
-  line-height: 24px;
-}
-%base-type-4 {
-  font-size: 12px;
-  line-height: 24px;
 }
 %heavy-text-1 {
   color: $_clr-shade-1;
@@ -93,18 +81,6 @@ $_context: master;
 }
 %meta-text-5 {
   color: $_clr-light-2;
-}
-%meta-type-1 {
-  @extend %meta-text-2;
-  font-size: 10px;
-  line-height: 14px;
-}
-%meta-type-2 {
-  font-size: 8px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  word-spacing: 2px;
-  font-family: Verdana, 'Century Gothic', 'Geneva', sans-serif;
 }
 %underlined-text-1 {
   border-bottom: 1px dotted ($_clr-base-1 + $hx);
@@ -165,14 +141,61 @@ $_context: master;
   text-transform: lowercase;
   #{$_weight} & { font-weight: bold; }
   & .as {
-    // Reset.
     letter-spacing: normal;
     word-spacing: normal;
-  }
+  } // Reset.
+  // As an exception, the font styles are tightly coupled.
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   letter-spacing: -.05em;
   word-spacing: .05em;
 }
+//
+// Font styles.
+%font-1 { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+%font-2 {
+  font-family: 'SourceCodeProRegular', 'Consolas', monospace;
+  word-spacing: -1px;
+  #{$_weight} & {
+    font-weight: normal;
+    strong {
+      font-family: 'SourceCodeProSemibold', 'Consolas', monospace;
+      font-weight: normal;
+    }
+  } // Reset.
+}
+%font-3 { font-family: Georgia, serif; }
+//
+// Typography.
+%base-type-1 {
+  font-size: 11px;
+  line-height: 16px;
+}
+%base-type-2 {
+  @extend %base-type-1;
+  line-height: 18px;
+}
+%base-type-3 {
+  @extend %base-type-1;
+  line-height: 24px;
+}
+%base-type-4 {
+  font-size: 12px;
+  line-height: 24px;
+}
+%meta-type-1 {
+  @extend %meta-text-2;
+  font-size: 10px;
+  line-height: 14px;
+}
+%meta-type-2 {
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  word-spacing: 2px;
+  font-family: Verdana, 'Century Gothic', 'Geneva', sans-serif;
+}
+//
+// Button skins.
 %button-1-default {
   $bg-color: $_clr-light-4;
   @include simple-bevel($b-2, $w-3, 4px, 2px, 0, 0);
@@ -184,6 +207,8 @@ $_context: master;
   background-color: $_clr-light-1 - 0.5*$hx;
   border-color: $_clr-light-1;
 }
+//
+// Module skins.
 %paper-1 {
   $bg-color: $_clr-light-1;
   @include simple-bevel($b-1, $b-2, 1.5em, 3px, 0, 0);
@@ -202,9 +227,6 @@ $_context: master;
   background-color: $bg-color;
   html.boxshadow & { border: 1px solid $bg-color; border-left: 0; }
 }
-%font-1 { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
-%font-2 { font-family: 'SourceCodeProRegular', 'Consolas', monospace; }
-%font-3 { font-family: Georgia, serif; }
 //
 // Extended boilerplate.
 ::selection, ::-moz-selection { @extend %selected-text-1; }
@@ -224,21 +246,19 @@ abbr, strong { @extend %heavy-text-1; }
 
 #{$_weight} em {
   font-style: italic;
-  // Reset.
-  &, & * {
-    @extend %font-3;
+  &, & > * {
     letter-spacing: normal;
-  }
-  strong { font-weight: normal; }
+    word-spacing: normal;
+  } // Reset.
+  strong { font-weight: normal; } // Reset.
 }
 
 a:not(.replaced) {
   @extend %link-text-1;
-  // Reset.
   h3 & {
     @extend %meta-link-text-1;
     &.as { @extend %meta-link-text-3; }
-  }
+  } // Reset.
   &.compound {
     @extend %meta-link-text-1;
     .faux-link { @extend %link-text-1; }
@@ -251,8 +271,7 @@ a:not(.replaced) {
 
 h1, h2, h3 {
   @extend %title-text-1;
-  // Reset.
-  line-height: 1em;
+  line-height: 1em; // Reset.
 }
 h1 { font-size: 30px; }
 h2 { font-size: 24px; }
@@ -279,12 +298,11 @@ h3 { font-size: 16px; }
   .rows dt {
     @extend %meta-text-2;
     @extend %base-type-1;
-    // Reset.
     #{$_weight} & {
       @include box-shadow(none);
       background-color: transparent;
       border: 0;
-    }
+    } // Reset.
   }
   li, dd { @extend %base-type-1; }
   .prose, p { @extend %base-type-2; }
@@ -320,13 +338,13 @@ sup {
 .copy {
   small { @extend %meta-type-2; }
   a { line-height: 1em; }
-  dt small {
-    line-height: 24px; // Align.
+  dt {
+    small { line-height: 24px; } // Align.
+    em { @extend %font-3; }
   }
-  // Reset.
   dd a, li a, .prose a {
     line-height: inherit;
-  }
+  } // Reset.
 }
 
 .caption {
@@ -342,8 +360,7 @@ sup {
   }
   .meta {
     .title { @extend %base-type-1; }
-    // Reset.
-    font-size: 1em;
+    font-size: 1em; // Reset.
     // TODO - Temp hack.
     position: absolute;
   }
@@ -362,10 +379,9 @@ sup {
     &:not(.js-fold-disabled):hover { @extend %button-1-toggled; }
     &.js-fold-disabled { cursor: default; }
     #{$_weight} & {
-      // Reset.
       & { @extend %meta-text-1; }
       &:not(.js-fold-disabled) { @extend %meta-link-text-2; }
-    }
+    } // Reset.
   }
   .js-foldables a:not(.js-fold-trigger):hover { @extend %toggled-menu-item-1; }
   // - Menus.
@@ -404,13 +420,12 @@ sup {
   .abbr { @extend %underlined-text-1; }
   p {
     @extend %paper-1;
-    // Reset.
     html.boxshadow & {
       &.scroll-item, &.embed {
         border: 0;
         padding: 0;
       }
-    }
+    } // Reset.
     &.embed { background-color: transparent; } // Reset.
   }
   header .label,
@@ -418,6 +433,7 @@ sup {
     @extend %ribbon-text-1;
     @extend %floating-text-1;
     @extend %base-type-3;
+    em { @extend %font-3; }
   }
   dt {
     @extend %ribbon-text-1;
@@ -437,6 +453,7 @@ sup {
 #colophon {
   @extend %meta-type-1;
   text-transform: lowercase;
+  em { @extend %font-3; }
 }
 
 // Images
