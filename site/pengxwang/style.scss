@@ -1,4 +1,4 @@
-// 
+//
 // The Master Stylesheet
 // =====================
 // Styles specified here should be consistent for all media.
@@ -40,74 +40,74 @@ $_context: master;
 @import "../scss/bootstrap.scss";
 //
 // Object oriented internal classes to extend from.
-._accented-menu-item-1 {
+%accented-menu-item-1 {
   border-left-color: $_clr-accent-1;
   &:hover { border-left-color: $_clr-accent-2; }
 }
-._accented-menu-item-2 {
+%accented-menu-item-2 {
   border-left-color: transparent;
   &:hover { border-left-color: $_clr-accent-2; }
 }
-._toggled-menu-item-1 {
+%toggled-menu-item-1 {
   background-color: $_clr-light-1;
 }
-._base-text-1 {
+%base-text-1 {
   color: $_clr-shade-2;
 }
-._base-text-2 {
+%base-text-2 {
   color: $_clr-base-2;
 }
-._base-type-1 {
+%base-type-1 {
   font-size: 11px;
   line-height: 16px;
 }
-._base-type-2 {
-  @extend ._base-type-1;
+%base-type-2 {
+  @extend %base-type-1;
   line-height: 18px;
 }
-._base-type-3 {
-  @extend ._base-type-1;
+%base-type-3 {
+  @extend %base-type-1;
   line-height: 24px;
 }
-._base-type-4 {
+%base-type-4 {
   font-size: 12px;
   line-height: 24px;
 }
-._heavy-text-1 {
+%heavy-text-1 {
   color: $_clr-shade-1;
 }
-._meta-text-1 {
+%meta-text-1 {
   color: $_clr-base-1;
 }
-._meta-text-2 {
+%meta-text-2 {
   color: $_clr-base-3;
 }
-._meta-text-3 {
+%meta-text-3 {
   color: $_clr-base-4;
 }
-._meta-text-4 {
+%meta-text-4 {
   color: $_clr-light-5;
 }
-._meta-text-5 {
+%meta-text-5 {
   color: $_clr-light-2;
 }
-._meta-type-1 {
-  @extend ._meta-text-2;
+%meta-type-1 {
+  @extend %meta-text-2;
   font-size: 10px;
   line-height: 14px;
 }
-._meta-type-2 {
+%meta-type-2 {
   font-size: 8px;
   text-transform: uppercase;
   letter-spacing: 1px;
   word-spacing: 2px;
   font-family: Verdana, 'Century Gothic', 'Geneva', sans-serif;
 }
-._underlined-text-1 {
+%underlined-text-1 {
   border-bottom: 1px dotted ($_clr-base-1 + $hx);
   &.truncated { border-bottom: 0; }
 }
-._link-text-1 {
+%link-text-1 {
   @include transition(color border-bottom-color);
   text-decoration: none;
   border-bottom: 1px dotted transparent;
@@ -117,21 +117,21 @@ $_context: master;
     border-bottom-color: $_clr-base-1;
   }
 }
-._meta-link-text-1 {
+%meta-link-text-1 {
   // Includes necessary reset.
   &, &:hover { color: $_clr-shade-2; }
 }
-._meta-link-text-2 {
+%meta-link-text-2 {
   color: $_clr-base-1;
   // Includes necessary reset.
   &:hover { color: $_clr-shade-2; }
 }
-._meta-link-text-3 {
+%meta-link-text-3 {
   color: $_clr-base-2;
   // Includes necessary reset.
   &:hover { color: $_clr-shade-2; }
 }
-._ribbon-text-1 {
+%ribbon-text-1 {
   $bg-color: $_clr-light-3;
   $inset-size: 4px;
   @include single-inset(0, -1px, $inset-size, $b-1);
@@ -146,19 +146,19 @@ $_context: master;
     }
   }
 }
-._floating-text-1 {
+%floating-text-1 {
   text-shadow: 0 1px 0 $b-2;
 }
-._engraved-text-1 {
+%engraved-text-1 {
   @include text-inset;
 }
-._selected-text-1 {
+%selected-text-1 {
   background: transparent;
   color: $_clr-shade-1;
   text-shadow: none;
 }
-._title-text-1 {
-  @extend ._floating-text-1;
+%title-text-1 {
+  @extend %floating-text-1;
   text-transform: lowercase;
   #{$_weight} & { font-weight: bold; }
   & .as {
@@ -170,84 +170,84 @@ $_context: master;
   letter-spacing: -.05em;
   word-spacing: .05em;
 }
-._button-1-default {
+%button-1-default {
   $bg-color: $_clr-light-4;
   @include simple-bevel($b-2, $w-3, 4px, 2px, 0, 0);
   @include transition(background-color border-color color, 0.3s);
   background-color: $bg-color;
   border-color: $bg-color + 0.5*$hx;
 }
-._button-1-toggled {
+%button-1-toggled {
   background-color: $_clr-light-1 - 0.5*$hx;
   border-color: $_clr-light-1;
 }
-._paper-1 {
+%paper-1 {
   $bg-color: $_clr-light-1;
   @include simple-bevel($b-1, $b-2, 1.5em, 3px, 0, 0);
   background-color: $bg-color;
   html.boxshadow & { border: 1px solid $bg-color; }
 }
-._paper-2 {
+%paper-2 {
   $bg-color: $_clr-light-2;
   @include simple-bevel($w-2, $b-1, 2em, 3px, 1px, 0, -1em, 0);
   background-color: $bg-color;
   html.boxshadow & { border: 1px solid $bg-color; border-left: 0; }
 }
-._paper-3 {
+%paper-3 {
   $bg-color: $_clr-light-3;
   @include simple-bevel($w-2, $b-2, 2em, 3px, 1px, 0, -1em, 0);
   background-color: $bg-color;
   html.boxshadow & { border: 1px solid $bg-color; border-left: 0; }
 }
-._font-1 { font-family: Arial, Helvetica, 'Helvetica Neue', sans-serif; }
-._font-2 { font-family: 'Consolas', 'Monaco', 'Lucida Console', 'Andale Mono', monospace; }
-._font-3 { font-family: Georgia, 'Constantia', 'Utopian', 'Palatino', 'Palatino Linotype', serif; }
+%font-1 { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+%font-2 { font-family: 'SourceCodeProRegular', 'Consolas', monospace; }
+%font-3 { font-family: Georgia, serif; }
 //
 // Extended boilerplate.
-::selection, ::-moz-selection { @extend ._selected-text-1; }
+::selection, ::-moz-selection { @extend %selected-text-1; }
 a:link { -webkit-tap-highlight-color: $_clr-light-5; }
 
 body {
-  @extend ._base-text-1;
-  @extend ._font-1;
+  @extend %base-text-1;
+  @extend %font-1;
   cursor: default;
   text-align: left;
 }
 
-select, input, textarea { @extend ._base-text-1; }
+select, input, textarea { @extend %base-text-1; }
 
-abbr, strong { @extend ._heavy-text-1; }
+abbr, strong { @extend %heavy-text-1; }
 #{$_weight} strong { font-weight: bold; }
 
 #{$_weight} em {
   font-style: italic;
   // Reset.
   &, & * {
-    @extend ._font-3;
+    @extend %font-3;
     letter-spacing: normal;
   }
   strong { font-weight: normal; }
 }
 
 a:not(.replaced) {
-  @extend ._link-text-1;
+  @extend %link-text-1;
   // Reset.
-  h3 & { 
-    @extend ._meta-link-text-1;
-    &.as { @extend ._meta-link-text-3; }
+  h3 & {
+    @extend %meta-link-text-1;
+    &.as { @extend %meta-link-text-3; }
   }
   &.compound {
-    @extend ._meta-link-text-1;
-    .faux-link { @extend ._link-text-1; }
+    @extend %meta-link-text-1;
+    .faux-link { @extend %link-text-1; }
     article {
-      * { @extend ._meta-text-1; }
-      .tags { @extend ._meta-text-3; }
+      * { @extend %meta-text-1; }
+      .tags { @extend %meta-text-3; }
     }
   }
 }
 
 h1, h2, h3 {
-  @extend ._title-text-1;
+  @extend %title-text-1;
   // Reset.
   line-height: 1em;
 }
@@ -272,10 +272,10 @@ h3 { font-size: 16px; }
 
 // Generic wrapper.
 .container {
-  @extend ._font-2;
+  @extend %font-2;
   .rows dt {
-    @extend ._meta-text-2;
-    @extend ._base-type-1;
+    @extend %meta-text-2;
+    @extend %base-type-1;
     // Reset.
     #{$_weight} & {
       @include box-shadow(none);
@@ -283,21 +283,21 @@ h3 { font-size: 16px; }
       border: 0;
     }
   }
-  li, dd { @extend ._base-type-1; }
-  .prose, p { @extend ._base-type-2; }
+  li, dd { @extend %base-type-1; }
+  .prose, p { @extend %base-type-2; }
   // Reset.
   .mn-v-a li { line-height: 1em; }
   #{$_weight} li li { font-size: 1em; }
 }
 
 .section-title {
-  @extend ._title-text-1;
+  @extend %title-text-1;
   #{$_weight} & { @extend h3; }
-  .title { @extend ._underlined-text-1; }
+  .title { @extend %underlined-text-1; }
 }
 
 .feed {
-  article .meta * { @extend ._meta-text-1; }
+  article .meta * { @extend %meta-text-1; }
 }
 
 sup {
@@ -307,15 +307,15 @@ sup {
   top: 0;
   #{$_weight} & { text-shadow: none; } // Reset.
   .hdr & {
-    @extend ._meta-text-5;
+    @extend %meta-text-5;
   }
   .h-main & {
-    #menu & { @extend ._meta-text-4; }
+    #menu & { @extend %meta-text-4; }
   }
 }
 
 .copy {
-  small { @extend ._meta-type-2; }
+  small { @extend %meta-type-2; }
   a { line-height: 1em; }
   dt small {
     line-height: 24px; // Align.
@@ -327,18 +327,18 @@ sup {
 }
 
 .caption {
-  @extend ._font-3;
-  @extend ._meta-type-1;
+  @extend %font-3;
+  @extend %meta-type-1;
 }
 
 .slide {
-  @extend ._paper-1;
+  @extend %paper-1;
   #{$_weight} & {
     background: $_clr-shade-1;
     border: 0;
   }
   .meta {
-    .title { @extend ._base-type-1; }
+    .title { @extend %base-type-1; }
     // Reset.
     font-size: 1em;
     // TODO - Temp hack.
@@ -355,52 +355,52 @@ sup {
 #menu {
   // - Folds.
   .js-fold-trigger {
-    @extend ._button-1-default;
-    &:not(.js-fold-disabled):hover { @extend ._button-1-toggled; }
+    @extend %button-1-default;
+    &:not(.js-fold-disabled):hover { @extend %button-1-toggled; }
     &.js-fold-disabled { cursor: default; }
     #{$_weight} & {
       // Reset.
-      & { @extend ._meta-text-1; }
-      &:not(.js-fold-disabled) { @extend ._meta-link-text-2; }
+      & { @extend %meta-text-1; }
+      &:not(.js-fold-disabled) { @extend %meta-link-text-2; }
     }
   }
-  .js-foldables a:not(.js-fold-trigger):hover { @extend ._toggled-menu-item-1; }
+  .js-foldables a:not(.js-fold-trigger):hover { @extend %toggled-menu-item-1; }
   // - Menus.
   .mn-v {
-    @extend ._paper-3;
+    @extend %paper-3;
     a {
-      @extend ._engraved-text-1;
+      @extend %engraved-text-1;
       @include transition(background-color border-color, 0.2s);
       border-left-color: transparent;
     }
-    li.active a { @extend ._accented-menu-item-1; }
+    li.active a { @extend %accented-menu-item-1; }
     .ie7 & li a {
       background-color: $_clr-light-3;
       :hover { border-left-color: $_clr-light-1; }
     }
   }
   // - Other.
-  #hd .in { @extend ._paper-1; }
-  #ft .in { @extend ._paper-2; }
+  #hd .in { @extend %paper-1; }
+  #ft .in { @extend %paper-2; }
 }
 
 #content {
   // - Feed.
   .feed {
-    a { @extend ._accented-menu-item-2; }
+    a { @extend %accented-menu-item-2; }
   }
   // - Box.
   .box {
-    h3 { @extend ._floating-text-1; }
+    h3 { @extend %floating-text-1; }
     .in {
-      @extend ._paper-1;
-      .delim { @extend ._meta-text-5; }
+      @extend %paper-1;
+      .delim { @extend %meta-text-5; }
     }
   }
   // - Text.
-  .abbr { @extend ._underlined-text-1; }
+  .abbr { @extend %underlined-text-1; }
   p {
-    @extend ._paper-1;
+    @extend %paper-1;
     // Reset.
     html.boxshadow & {
       &.scroll-item, &.embed {
@@ -412,17 +412,17 @@ sup {
   }
   header .label,
   li.label {
-    @extend ._ribbon-text-1;
-    @extend ._floating-text-1;
-    @extend ._base-type-3;
+    @extend %ribbon-text-1;
+    @extend %floating-text-1;
+    @extend %base-type-3;
   }
   dt {
-    @extend ._ribbon-text-1;
-    em { @extend ._base-type-4; }
+    @extend %ribbon-text-1;
+    em { @extend %base-type-4; }
   }
   .as {
-    @extend ._font-2;
-    @extend ._base-type-1;
+    @extend %font-2;
+    @extend %base-type-1;
     text-shadow: none;
   } // Reset.
 }
@@ -432,7 +432,7 @@ sup {
 }
 
 #colophon {
-  @extend ._meta-type-1;
+  @extend %meta-type-1;
   text-transform: lowercase;
 }
 
@@ -451,7 +451,7 @@ sup {
     width: 225px;
     &:hover { background-position: 0 (-$height + 1px); }
   }
-  
+
 }
 #ou-intro {
   $width-with-gutter: 240px;
@@ -466,7 +466,7 @@ sup {
   #intro, #tagline { padding-right: $width-with-gutter; }
 }
 body {
-  background: $_clr-light-5 url(#{$_img}bg_space_tile.jpg) 0 0 repeat-x fixed; 
+  background: $_clr-light-5 url(#{$_img}bg_space_tile.jpg) 0 0 repeat-x fixed;
 }
 #menu,
 #content {
@@ -499,7 +499,7 @@ body {
 ///** START IE */
 
 html.ie6 {
-  
+
   // Indexhibit protected.
   img.png {
     background-image: expression(
@@ -516,7 +516,7 @@ html.ie6 {
   .thumb-it {
     top: 50%;
   }
-  
+
   // Give has-layout.
   .has-as,
   .pjpTip .in
@@ -526,27 +526,27 @@ html.ie6 {
   .pjpTipStem
   { border-right-color: orange; }
 
-  #html #menu .js-fold-trigger 
+  #html #menu .js-fold-trigger
   { border-color: orange; }
 
   .pjpTipStem,
-  #html #menu .js-fold-trigger 
+  #html #menu .js-fold-trigger
   { filter: chroma(color=orange); }
-  
+
   // Debugging.
   .dev { border: 1px solid red; }
-  
+
 }
 
 html.ie7 {
-  
+
   // Give has-layout.
   #content .rows
   { zoom: 1; }
-  
+
   // Fix inline-block.
   #logo a { display: inline; display: block; }
-  
+
 }
 
 ///* END    IE **/

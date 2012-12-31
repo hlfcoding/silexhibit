@@ -39,76 +39,73 @@ html.ie6 .fix-c {
   background-attachment: scroll;
   background-color: transparent; }
 
-._accented-menu-item-1, #menu .mn-v li.active a {
+#menu .mn-v li.active a {
   border-left-color: #0055cc; }
-  ._accented-menu-item-1:hover, #menu .mn-v li.active a:hover {
+  #menu .mn-v li.active a:hover {
     border-left-color: #0077ee; }
 
-._accented-menu-item-2, #content .feed a {
+#content .feed a {
   border-left-color: transparent; }
-  ._accented-menu-item-2:hover, #content .feed a:hover {
+  #content .feed a:hover {
     border-left-color: #0077ee; }
 
-._toggled-menu-item-1, #menu .js-foldables a:not(.js-fold-trigger):hover {
+#menu .js-foldables a:not(.js-fold-trigger):hover {
   background-color: white; }
 
-._base-text-1, body, select, input, textarea {
+body, select, input, textarea {
   color: #333333; }
 
-._base-text-2 {
-  color: #606060; }
-
-._base-type-1, ._base-type-2, .container .prose, .container p, ._base-type-3, #content header .label,
+.container .prose, .container p, #content header .label,
 #content li.label, .container .rows dt, .container li, .container dd, .slide .meta .title, #content .as {
   font-size: 11px;
   line-height: 16px; }
 
-._base-type-2, .container .prose, .container p {
+.container .prose, .container p {
   line-height: 18px; }
 
-._base-type-3, #content header .label,
+#content header .label,
 #content li.label {
   line-height: 24px; }
 
-._base-type-4, #content dt em {
+#content dt em {
   font-size: 12px;
   line-height: 24px; }
 
-._heavy-text-1, abbr, strong {
+abbr, strong {
   color: black; }
 
-._meta-text-1, a:not(.replaced).compound article *, .feed article .meta *, #html #menu .js-fold-trigger {
+a:not(.replaced).compound article *, .feed article .meta *, #html #menu .js-fold-trigger {
   color: #aaaaaa; }
 
-._meta-text-2, ._meta-type-1, .caption, #colophon, .container .rows dt {
+.caption, #colophon, .container .rows dt {
   color: #999999; }
 
-._meta-text-3, a:not(.replaced).compound article .tags {
+a:not(.replaced).compound article .tags {
   color: #cccccc; }
 
-._meta-text-4, #menu .h-main sup {
+#menu .h-main sup {
   color: #dadad8; }
 
-._meta-text-5, .hdr sup, #content .box .in .delim {
+.hdr sup, #content .box .in .delim {
   color: #eaeaea; }
 
-._meta-type-1, .caption, #colophon {
+.caption, #colophon {
   font-size: 10px;
   line-height: 14px; }
 
-._meta-type-2, .copy small {
+.copy small {
   font-size: 8px;
   text-transform: uppercase;
   letter-spacing: 1px;
   word-spacing: 2px;
-  font-family: Verdana, 'Century Gothic', 'Geneva', sans-serif; }
+  font-family: Verdana, "Century Gothic", "Geneva", sans-serif; }
 
-._underlined-text-1, .section-title .title, #content .abbr {
+.section-title .title, #content .abbr {
   border-bottom: 1px dotted #bababa; }
-  ._underlined-text-1.truncated, .section-title .truncated.title, #content .truncated.abbr {
+  .section-title .truncated.title, #content .truncated.abbr {
     border-bottom: 0; }
 
-._link-text-1, a:not(.replaced), a:not(.replaced).compound .faux-link {
+a:not(.replaced), a:not(.replaced).compound .faux-link {
   -moz-transition-property: color, border-bottom-color;
   -moz-transition-duration: 0.3s;
   -moz-transition-timing-function: ease-in-out;
