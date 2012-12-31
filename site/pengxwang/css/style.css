@@ -39,6 +39,34 @@ html.ie6 .fix-c {
   background-attachment: scroll;
   background-color: transparent; }
 
+@font-face {
+  font-family: "SourceCodeProExtraLight";
+  src: url("../fonts/SourceCodePro-ExtraLight-webfont.eot");
+  src: url("../fonts/SourceCodePro-ExtraLight-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/SourceCodePro-ExtraLight-webfont.woff") format("woff"), url("../fonts/SourceCodePro-ExtraLight-webfont.ttf") format("truetype"), url("../fonts/SourceCodePro-ExtraLight-webfont.svg#SourceCodeProExtraLight") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: "SourceCodeProLight";
+  src: url("../fonts/SourceCodePro-Light-webfont.eot");
+  src: url("../fonts/SourceCodePro-Light-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/SourceCodePro-Light-webfont.woff") format("woff"), url("../fonts/SourceCodePro-Light-webfont.ttf") format("truetype"), url("../fonts/SourceCodePro-Light-webfont.svg#SourceCodeProLight") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: "SourceCodeProRegular";
+  src: url("../fonts/SourceCodePro-Regular-webfont.eot");
+  src: url("../fonts/SourceCodePro-Regular-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/SourceCodePro-Regular-webfont.woff") format("woff"), url("../fonts/SourceCodePro-Regular-webfont.ttf") format("truetype"), url("../fonts/SourceCodePro-Regular-webfont.svg#SourceCodeProRegular") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: "SourceCodeProSemibold";
+  src: url("../fonts/SourceCodePro-Semibold-webfont.eot");
+  src: url("../fonts/SourceCodePro-Semibold-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/SourceCodePro-Semibold-webfont.woff") format("woff"), url("../fonts/SourceCodePro-Semibold-webfont.ttf") format("truetype"), url("../fonts/SourceCodePro-Semibold-webfont.svg#SourceCodeProSemibold") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
 #menu .mn-v li.active a {
   border-left-color: #0055cc; }
   #menu .mn-v li.active a:hover {
@@ -123,32 +151,32 @@ a:not(.replaced), a:not(.replaced).compound .faux-link {
   transition-timing-function: ease-in-out;
   text-decoration: none;
   border-bottom: 1px dotted transparent; }
-  ._link-text-1:link, a:link:not(.replaced), a:not(.replaced).compound .faux-link:link, ._link-text-1:active, a:active:not(.replaced), a:not(.replaced).compound .faux-link:active, ._link-text-1:visited, a:visited:not(.replaced), a:not(.replaced).compound .faux-link:visited {
+  a:link:not(.replaced), a:not(.replaced).compound .faux-link:link, a:active:not(.replaced), a:not(.replaced).compound .faux-link:active, a:visited:not(.replaced), a:not(.replaced).compound .faux-link:visited {
     color: #0066cc; }
-  ._link-text-1:hover, a:hover:not(.replaced), a:not(.replaced).compound .faux-link:hover {
+  a:hover:not(.replaced), a:not(.replaced).compound .faux-link:hover {
     color: #0066ff;
     border-bottom-color: #aaaaaa; }
 
-._meta-link-text-1, h3 a:not(.replaced), #html .section-title a:not(.replaced), a.compound:not(.replaced), ._meta-link-text-1:hover, h3 a:hover:not(.replaced), #html .section-title a:hover:not(.replaced), a.compound:hover:not(.replaced) {
+h3 a:not(.replaced), #html .section-title a:not(.replaced), a.compound:not(.replaced), h3 a:hover:not(.replaced), #html .section-title a:hover:not(.replaced), a.compound:hover:not(.replaced) {
   color: #333333; }
 
-._meta-link-text-2, #html #menu .js-fold-trigger:not(.js-fold-disabled) {
+#html #menu .js-fold-trigger:not(.js-fold-disabled) {
   color: #aaaaaa; }
-  ._meta-link-text-2:hover, #html #menu .js-fold-trigger:hover:not(.js-fold-disabled) {
+  #html #menu .js-fold-trigger:hover:not(.js-fold-disabled) {
     color: #333333; }
 
-._meta-link-text-3, h3 a.as:not(.replaced), #html .section-title a.as:not(.replaced) {
+h3 a.as:not(.replaced), #html .section-title a.as:not(.replaced) {
   color: #606060; }
-  ._meta-link-text-3:hover, h3 a.as:hover:not(.replaced), #html .section-title a.as:hover:not(.replaced) {
+  h3 a.as:hover:not(.replaced), #html .section-title a.as:hover:not(.replaced) {
     color: #333333; }
 
-._ribbon-text-1, #content header .label,
+#content header .label,
 #content li.label, #content dt {
   -moz-box-shadow: inset 0 -1px 4px 0 rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: inset 0 -1px 4px 0 rgba(0, 0, 0, 0.1);
   box-shadow: inset 0 -1px 4px 0 rgba(0, 0, 0, 0.1);
   background-color: #f4f4f4; }
-  html.boxshadow ._ribbon-text-1, html.boxshadow #content header .label, #content header html.boxshadow .label,
+  html.boxshadow #content header .label, #content header html.boxshadow .label,
   html.boxshadow #content li.label,
   #content html.boxshadow li.label, html.boxshadow #content dt, #content html.boxshadow dt {
     margin-left: -4px;
@@ -157,30 +185,30 @@ a:not(.replaced), a:not(.replaced).compound .faux-link {
     border-color: #f4f4f4 #e4e4e4 #d4d4d4 #e4e4e4;
     border-style: solid; }
 
-._floating-text-1, ._title-text-1, h1, h2, h3, #html .section-title, .section-title, #content .box h3, #content .box #html .section-title, #html #content .box .section-title, #content header .label,
+h1, h2, h3, #html .section-title, .section-title, #content .box h3, #content .box #html .section-title, #html #content .box .section-title, #content header .label,
 #content li.label {
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2); }
 
-._engraved-text-1, #menu .mn-v a {
+#menu .mn-v a {
   text-shadow: -1px -1px 0 rgba(255, 255, 255, 0.5), 1px 1px 0 rgba(255, 255, 255, 0.5), 0 -1px 0 rgba(255, 255, 255, 0.5), 0 1px 0 rgba(255, 255, 255, 0.5); }
 
-._selected-text-1, ::selection, ::-moz-selection {
+::selection, ::-moz-selection {
   background: transparent;
   color: black;
   text-shadow: none; }
 
-._title-text-1, h1, h2, h3, #html .section-title, .section-title {
+h1, h2, h3, #html .section-title, .section-title {
   text-transform: lowercase;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  letter-spacing: -0.05em;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  letter-spacing: -.05em;
   word-spacing: .05em; }
-  #html ._title-text-1, #html h1, #html h2, #html h3, #html .section-title, #html .section-title {
+  #html h1, #html h2, #html h3, #html .section-title {
     font-weight: bold; }
-  ._title-text-1 .as, h1 .as, h2 .as, h3 .as, #html .section-title .as, .section-title .as {
+  h1 .as, h2 .as, h3 .as, #html .section-title .as, .section-title .as {
     letter-spacing: normal;
     word-spacing: normal; }
 
-._button-1-default, #menu .js-fold-trigger {
+#menu .js-fold-trigger {
   -moz-box-shadow: inset 0 0 4px 0 rgba(0, 0, 0, 0.2), 0 0 2px 0 rgba(255, 255, 255, 0.3);
   -webkit-box-shadow: inset 0 0 4px 0 rgba(0, 0, 0, 0.2), 0 0 2px 0 rgba(255, 255, 255, 0.3);
   box-shadow: inset 0 0 4px 0 rgba(0, 0, 0, 0.2), 0 0 2px 0 rgba(255, 255, 255, 0.3);
@@ -202,44 +230,44 @@ a:not(.replaced), a:not(.replaced).compound .faux-link {
   background-color: #f0f0f0;
   border-color: #f8f8f8; }
 
-._button-1-toggled, #menu .js-fold-trigger:not(.js-fold-disabled):hover {
+#menu .js-fold-trigger:not(.js-fold-disabled):hover {
   background-color: #f7f7f7;
   border-color: white; }
 
-._paper-1, .slide, #menu #hd .in, #content .box .in, #content p {
+.slide, #menu #hd .in, #content .box .in, #content p {
   -moz-box-shadow: inset 0 0 1.5em 0 rgba(0, 0, 0, 0.1), 0 0 3px 0 rgba(0, 0, 0, 0.2);
   -webkit-box-shadow: inset 0 0 1.5em 0 rgba(0, 0, 0, 0.1), 0 0 3px 0 rgba(0, 0, 0, 0.2);
   box-shadow: inset 0 0 1.5em 0 rgba(0, 0, 0, 0.1), 0 0 3px 0 rgba(0, 0, 0, 0.2);
   background-color: white; }
-  html.boxshadow ._paper-1, html.boxshadow .slide, html.boxshadow #menu #hd .in, #menu #hd html.boxshadow .in, html.boxshadow #content .box .in, #content .box html.boxshadow .in, html.boxshadow #content p, #content html.boxshadow p {
+  html.boxshadow .slide, html.boxshadow #menu #hd .in, #menu #hd html.boxshadow .in, html.boxshadow #content .box .in, #content .box html.boxshadow .in, html.boxshadow #content p, #content html.boxshadow p {
     border: 1px solid white; }
 
-._paper-2, #menu #ft .in {
+#menu #ft .in {
   -moz-box-shadow: inset -1em 0 2em 1px rgba(255, 255, 255, 0.2), 0 0 3px 0 rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: inset -1em 0 2em 1px rgba(255, 255, 255, 0.2), 0 0 3px 0 rgba(0, 0, 0, 0.1);
   box-shadow: inset -1em 0 2em 1px rgba(255, 255, 255, 0.2), 0 0 3px 0 rgba(0, 0, 0, 0.1);
   background-color: #eaeaea; }
-  html.boxshadow ._paper-2, html.boxshadow #menu #ft .in, #menu #ft html.boxshadow .in {
+  html.boxshadow #menu #ft .in, #menu #ft html.boxshadow .in {
     border: 1px solid #eaeaea;
     border-left: 0; }
 
-._paper-3, #menu .mn-v {
+#menu .mn-v {
   -moz-box-shadow: inset -1em 0 2em 1px rgba(255, 255, 255, 0.2), 0 0 3px 0 rgba(0, 0, 0, 0.2);
   -webkit-box-shadow: inset -1em 0 2em 1px rgba(255, 255, 255, 0.2), 0 0 3px 0 rgba(0, 0, 0, 0.2);
   box-shadow: inset -1em 0 2em 1px rgba(255, 255, 255, 0.2), 0 0 3px 0 rgba(0, 0, 0, 0.2);
   background-color: #f4f4f4; }
-  html.boxshadow ._paper-3, html.boxshadow #menu .mn-v, #menu html.boxshadow .mn-v {
+  html.boxshadow #menu .mn-v, #menu html.boxshadow .mn-v {
     border: 1px solid #f4f4f4;
     border-left: 0; }
 
-._font-1, body {
-  font-family: Arial, Helvetica, 'Helvetica Neue', sans-serif; }
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
 
-._font-2, .container, #content .as {
-  font-family: 'Consolas', 'Monaco', 'Lucida Console', 'Andale Mono', monospace; }
+.container, #content .as {
+  font-family: "SourceCodeProRegular", "Consolas", monospace; }
 
-._font-3, #html em, #html em *, .caption {
-  font-family: Georgia, 'Constantia', 'Utopian', 'Palatino', 'Palatino Linotype', serif; }
+#html em, #html em *, .caption {
+  font-family: Georgia, serif; }
 
 a:link {
   -webkit-tap-highlight-color: #dadad8; }
@@ -410,7 +438,7 @@ body {
   /* 14px */ }
 
 .pjpTip {
-  font-family: Georgia, 'Constantia', 'Utopian', 'Palatino', 'Palatino Linotype', serif; }
+  font-family: Georgia, "Constantia", "Utopian", "Palatino", "Palatino Linotype", serif; }
 
 /* hlf tip **/
 html.ie6 img.png {

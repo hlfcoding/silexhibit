@@ -31,6 +31,7 @@ $_clr-base-3: #999;
 $_clr-base-4: #ccc;
 
 $_img: '../img/';
+$_fonts: '../fonts/';
 
 // Base
 // ====
@@ -38,6 +39,8 @@ $_img: '../img/';
 // Add context-dependent base boilerplate. Utility classes are also added.
 $_context: master;
 @import "../scss/bootstrap.scss";
+// Add font styles.
+@import 'fonts.scss';
 //
 // Object oriented internal classes to extend from.
 %accented-menu-item-1 {
