@@ -1,4 +1,4 @@
-// 
+//
 // The Screen Layout Stylesheet
 // ============================
 //
@@ -82,7 +82,7 @@ $_context: layout_screen;
 // ---
 
 #menu {
-  
+
   $gutter: $_box-gutter;
   .box {
     .in { padding: { top: $gutter; right: 0.5*$gutter; bottom: $gutter; } }
@@ -97,14 +97,16 @@ $_context: layout_screen;
   #navigation {
     .mn-v { padding-bottom: 1.5*$gutter; }
   }
-  
+
 }
 
 // Wraps
 // -----
 
 #content {
-  
+
+  @extend %clearfix;
+
   // Boxes. Yay.
   .box {
     $v-gutter: 1.5*$_box-gutter;
@@ -123,7 +125,7 @@ $_context: layout_screen;
     li {
       padding-bottom: $_list-gutter;
     }
-    .mn-v-a { 
+    .mn-v-a {
       li { padding-bottom: 0; }
       a { padding-bottom: $_list-gutter; }
     }
@@ -142,7 +144,7 @@ $_context: layout_screen;
   dd {
     padding-bottom: $_node-gutter;
   }
-  
+
   // Hash list.
   .rows {
     dd, dt { vertical-align: middle; }
@@ -156,11 +158,11 @@ $_context: layout_screen;
       clear: right;
     }
   }
-  
+
   // Feeds.
   .feeds-container {
     padding: { left: 0; right: 0; }
-    header { 
+    header {
       padding: { left: $_box-gutter; right: $_box-gutter; }
     }
     .label {
@@ -234,16 +236,16 @@ $_context: layout_screen;
   .js-feed-remember {
     right: 100px;
   }
-  
+
   // Alternative to headers.
   header .label,
   li.label {
     margin: { top: $_node-gutter/2; bottom: $_node-gutter/2; }
     padding-bottom: 0;
   }
-  
+
   // Content.
-  p { 
+  p {
     width: $_box-width - 2*($_box-gutter + 1px);
     padding: $_box-gutter; /* 16px */
     margin-bottom: $_box-gutter;
@@ -267,7 +269,7 @@ $_context: layout_screen;
   #{$_weight} & {
     padding-bottom: $_line-height;
   }
-  dt { 
+  dt {
     width: 4em;
     &.r2 {
       padding-bottom: $_box-gutter;
@@ -295,7 +297,7 @@ $_context: layout_screen;
     margin-bottom: 0;
   }
   .slide {
-    min-width: $width; 
+    min-width: $width;
     text-align: center;
   }
   .meta span {
@@ -346,7 +348,7 @@ $_context: layout_screen;
           right: $gutter; bottom: 0.25*$gutter;
           text-align: center; line-height: $size - 2px; width: $size; height: $size;
           padding: 0;
-          border-width: 1px; 
+          border-width: 1px;
         }
       }
       a { border-left-width: 1em; }
@@ -376,8 +378,8 @@ $_context: layout_screen;
 // Indexhibit Default
 // ------------------
 
-#once { 
-  clear: left; 
+#once {
+  clear: left;
 }
 #content {
   height: 100%;

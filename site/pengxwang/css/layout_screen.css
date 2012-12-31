@@ -52,7 +52,7 @@ hr {
   display: block;
   height: 1px;
   border: 0;
-  border-top: 1px solid #ccc;
+  border-top: 1px solid #cccccc;
   margin: 1em 0;
   padding: 0; }
 
@@ -170,7 +170,7 @@ button {
   list-style-image: none;
   display: block; }
   .mn a, .mn-h a, .mn-v a, .mn-v-a a, #content .feed.mn-g a {
-    padding: .5em 1em;
+    padding: 0.5em 1em;
     border-style: solid;
     border-width: 1px;
     line-height: 1.33em;
@@ -394,7 +394,7 @@ html.ie6 .mn-v li, html.ie6 .mn-v-a li {
   overflow: hidden;
   white-space: nowrap; }
 #content .feed-container.github-feed .mn-v article, #content .feed-container.github-feed .mn-v-a article, #content .feed-container.twitter-feed .mn-v article, #content .feed-container.twitter-feed .mn-v-a article {
-  padding: .545em 0 .181em 1.545em; }
+  padding: 0.545em 0 0.181em 1.545em; }
 #content .feed-container.github-feed .mn-v blockquote, #content .feed-container.github-feed .mn-v-a blockquote, #content .feed-container.github-feed .mn-v code, #content .feed-container.github-feed .mn-v-a code {
   font-style: italic; }
 #content .feed.mn-v .inline, #content .feed.mn-v-a .inline {

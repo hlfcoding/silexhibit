@@ -1,9 +1,9 @@
-// 
+//
 // The Bootstrap
 // =============
 // Include this at the start of your stylesheet. Define a `_context` before then
 // to determine what gets output.
-// 
+//
 // Reserved indexhibit selectors:
 //
 // - .container
@@ -21,12 +21,12 @@ $_weight: '#html';
 @if $_context == layout_screen or $_context == layout_mobile {
 
   @include html5-boilerplate;
-  
+
 }
 
 @if $_context == master {
 
-  .fix-c { @include clearfix; }
+  %clearfix, .fix-c { @include clearfix; }
   .replaced { @include replaced; }
   .inline-block { display: -moz-inline-stack; display: inline-block; }
   #{$_weight} .inline { display: inline; }

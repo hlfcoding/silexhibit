@@ -1,9 +1,9 @@
 //
 // HLF SCSS Framework
-// 
+//
 // - Provides mixins that abstract common (and tedious) css patterns,
-//   while being as consistent as possible with the CSS3 syntax. 
-// - Some convenient mixins for common UI elements are also included. 
+//   while being as consistent as possible with the CSS3 syntax.
+// - Some convenient mixins for common UI elements are also included.
 // - When appropriate, parts of Compass are taken.
 // - This framework is IE9+.
 // - This framework should be maintained by regular visits to css3please.com,
@@ -50,12 +50,12 @@ $b-1: rgba(0,0,0, 0.1);
 }
 // Useful if you don't want a bg color from leaking outside the border.
 @mixin bg-clip ($clip) {
-     -moz-background-clip: $clip; 
-  -webkit-background-clip: #{$clip}-box; 
-          background-clip: #{$clip}-box;   
+     -moz-background-clip: $clip;
+  -webkit-background-clip: #{$clip}-box;
+          background-clip: #{$clip}-box;
 }
-// To get round corners on tables, the border-radius values should be added to 
-// the appropriate cells. The custom selectors makes it so this can be applied 
+// To get round corners on tables, the border-radius values should be added to
+// the appropriate cells. The custom selectors makes it so this can be applied
 // to a variety of tables.
 @mixin border-radius-table ($radius:5px, $clip:border, $head-slr:'thead', $foot-slr:'tfoot') {
   #{$head-slr} tr:first-child {
@@ -73,25 +73,25 @@ $b-1: rgba(0,0,0, 0.1);
   $moz-corner: $corner-y+$corner-x;
   $corner: $corner-y+'-'+$corner-x;
  -moz-border-radius-#{$moz-corner}: $radius; // FF1-3.6
-  -webkit-border-#{$corner}-radius: $radius; // Saf3-4, iOS 1-3.2, Android <1.6 
-          border-#{$corner}-radius: $radius; // Opera 10.5, IE9, Saf5, Chrome, FF4, iOS 4, Android 2.1+ 
+  -webkit-border-#{$corner}-radius: $radius; // Saf3-4, iOS 1-3.2, Android <1.6
+          border-#{$corner}-radius: $radius; // Opera 10.5, IE9, Saf5, Chrome, FF4, iOS 4, Android 2.1+
   @include bg-clip($clip);
 }
 // A shorthand for doing rounded corners for a side. To get the top corners:
-// `@include border-side-radius(top);` 
+// `@include border-side-radius(top);`
 @mixin border-side-radius ($side, $radius:5px) {
   @if $side == top or $side == left {
     @include border-corner-radius(top, left, $radius);
   }
   @if $side == bottom or $side == left {
     @include border-corner-radius(bottom, left, $radius);
-  } 
+  }
   @if $side == top or $side == right {
     @include border-corner-radius(top, right, $radius);
-  } 
+  }
   @if $side == bottom or $side == right {
     @include border-corner-radius(bottom, right, $radius);
-  } 
+  }
 }
 
 // The base box shadow mixin. It sort of supports multiple box-shadows by having
@@ -103,7 +103,7 @@ $b-1: rgba(0,0,0, 0.1);
   @if $x == none {
        -moz-box-shadow: none;
     -webkit-box-shadow: none;
-            box-shadow: none; 
+            box-shadow: none;
   } @else {
     @if $inset != false { $inset: 'inset'; } @else { $inset: ''; }
     @if $additional != false { $additional: ', '+$additional; } @else { $additional: ''; }
@@ -133,7 +133,7 @@ $b-1: rgba(0,0,0, 0.1);
 
 // Beware that this is expensive, since it creates 4 box-shadows. By default it
 // creates a slight inset (value-set 1), a small dropshadow with no offset
-// (value-set 2), a large dropshadow that's a bit below (value-set-3), and a 
+// (value-set 2), a large dropshadow that's a bit below (value-set-3), and a
 // sharp small shaded "edge" that gives it a 3d feel (value-set-4). This is very
 // custom, but can be useful if you want to quickly have a set of four box-shadows
 // to somewhat customize.
@@ -150,7 +150,7 @@ $b-1: rgba(0,0,0, 0.1);
 // Draws a generic, vertical (top-to-bottom by default) gradient.
 @mixin simple-gradient ($light, $shade, $light-pos:0%, $shade-pos:100%) {
   background-color: $light;
-  background-image: -webkit-linear-gradient(top, $light $light-pos, $shade $shade-pos); // Chrome 10+, Saf5.1+ 
+  background-image: -webkit-linear-gradient(top, $light $light-pos, $shade $shade-pos); // Chrome 10+, Saf5.1+
   background-image:    -moz-linear-gradient(top, $light $light-pos, $shade $shade-pos); // FF3.6
   background-image:     -ms-linear-gradient(top, $light $light-pos, $shade $shade-pos); // IE10
   background-image:      -o-linear-gradient(top, $light $light-pos, $shade $shade-pos); // Opera 11.10+
@@ -159,15 +159,15 @@ $b-1: rgba(0,0,0, 0.1);
 
 // Draws a more custom gradient that supports up to three colors. This is useful
 // if you want a surface that appears to have more "contour."
-@mixin single-stop-gradient ($start-clr, $stop-clr, $stop-pos:50%, 
-                             $pos:top, $end-clr:$start-clr) 
+@mixin single-stop-gradient ($start-clr, $stop-clr, $stop-pos:50%,
+                             $pos:top, $end-clr:$start-clr)
 {
   background-color: $stop-clr;
   background-image: -webkit-linear-gradient($pos, $start-clr, $stop-clr $stop-pos, $end-clr); // Chrome 10+, Saf5.1+
   background-image:    -moz-linear-gradient($pos, $start-clr, $stop-clr $stop-pos, $end-clr); // FF3.6
   background-image:     -ms-linear-gradient($pos, $start-clr, $stop-clr $stop-pos, $end-clr); // IE10
   background-image:      -o-linear-gradient($pos, $start-clr, $stop-clr $stop-pos, $end-clr); // Opera 11.10+
-  background-image:         linear-gradient($pos, $start-clr, $stop-clr $stop-pos, $end-clr);    
+  background-image:         linear-gradient($pos, $start-clr, $stop-clr $stop-pos, $end-clr);
 }
 
 ///* END      CSS3 Box **/
@@ -176,10 +176,10 @@ $b-1: rgba(0,0,0, 0.1);
 // Draws an inset around the text. The default is for dark-colored text on a
 // non-white background. If needed you can specify two different highlights to make
 // the inset less harsh. The shift is for how "deep" the inset should be.
-@mixin text-inset ($light-1:$w-5, $light-2:$w-5, $shift:-1px) { 
-  text-shadow: $shift $shift 0 $light-1, 
-               $shift*-1 $shift*-1 0 $light-2, 
-               0 $shift 0 $light-1, 
+@mixin text-inset ($light-1:$w-5, $light-2:$w-5, $shift:-1px) {
+  text-shadow: $shift $shift 0 $light-1,
+               $shift*-1 $shift*-1 0 $light-2,
+               0 $shift 0 $light-1,
                0 $shift*-1 0 $light-2;
 }
 // A shorthand for inverting the default `text-inset`. Use with light-colored text
@@ -192,7 +192,7 @@ $b-1: rgba(0,0,0, 0.1);
 // neutralizing visibly selected text.
 @mixin text-selection ($color:$b-2, $text-clr:#fff) {
   ::-moz-selection { background: $color; color: $text-clr; text-shadow: none; }
-       ::selection { background: $color; color: $text-clr; text-shadow: none; }  
+       ::selection { background: $color; color: $text-clr; text-shadow: none; }
   @if $color == transparent {
     cursor: default;
   }
@@ -224,16 +224,16 @@ $b-1: rgba(0,0,0, 0.1);
 ///* END      CSS3 Text **/
 ///** START   CSS3 Animation */
 
-// Add animation to a property. In order for multiple properties to be specified, 
-// the long form of the property declaration is needed, the properties string 
+// Add animation to a property. In order for multiple properties to be specified,
+// the long form of the property declaration is needed, the properties string
 // should be comma-separated. The properties should be passed in in list format:
 // `@include transition([prop] [prop] [prop]);`. Normally, we avoid the long form
 // b/c it increases file size.
-@mixin transition ($props, $time:0.3s, $easing: ease-in-out) {
+@mixin transition ($props, $time:0.3s, $easing:ease-in-out) {
   @if length($props) > 1 {
-    $str: ''; 
+    $str: '';
     $i: 0;
-    @each $prop in $props { 
+    @each $prop in $props {
       $str: $str+$prop;
       $i: $i+1;
       @if $i < length($props) {
@@ -260,7 +260,7 @@ $b-1: rgba(0,0,0, 0.1);
      -moz-transition: $props $time $easing;  // FF4+
       -ms-transition: $props $time $easing;  // IE10
        -o-transition: $props $time $easing;  // Opera 10.5+
-          transition: $props $time $easing;  
+          transition: $props $time $easing;
   }
 }
 // A shorthand for adding an on-hover animation.
@@ -269,14 +269,14 @@ $b-1: rgba(0,0,0, 0.1);
     @include transition($prop);
     #{$prop}: $value-1;
   }
-  &:hover { 
+  &:hover {
     #{$target} {
-      #{$prop}: $value-2; 
+      #{$prop}: $value-2;
     }
   }
 }
 // A preset fading on-hover animation.
-@mixin anim-fadein-onhover ($target:'&', $opacity: 0.6) {
+@mixin anim-fadein-onhover ($target:'&', $opacity:0.6) {
   @include anim-onhover(opacity, $opacity, 1, $target);
 }
 
@@ -285,26 +285,28 @@ $b-1: rgba(0,0,0, 0.1);
 
 // Will be redeclared once for each css file, a limitation of importing
 // everything for each scss stylesheet and then concatenating them.
-@mixin clearfix {
-  &::before, &::after { 
-    content: "\0020"; 
-    display: block; 
-    height: 0; 
-    overflow: hidden; 
+@mixin clearfix ($with_ie:true) {
+  &::before, &::after {
+    content: "\0020";
+    display: block;
+    height: 0;
+    overflow: hidden;
   }
   &::after { clear: both; }
-  html.ie8 & { zoom: 1; }
-  html.ie6 & {
-    display: inline-block; 
-    height: 1%; 
-    display: block; 
+  @if $with_ie {
+    html.ie8 & { zoom: 1; }
+    html.ie6 & {
+      display: inline-block;
+      height: 1%;
+      display: block;
+    }
   }
 }
 
 // Mostly derived from HTML5 Boilerplate. It's for semantic banners that show an
 // image instead of the actual text, etc.
 @mixin replaced {
-  display: block; text-indent: -999em; overflow: hidden; background-repeat: no-repeat; text-align: left; direction: ltr; 
+  display: block; text-indent: -999em; overflow: hidden; background-repeat: no-repeat; text-align: left; direction: ltr;
 }
 
 // Generic box reset.
@@ -336,18 +338,18 @@ $b-1: rgba(0,0,0, 0.1);
 // both. Pass `false` to defer that dimension. You can include extras for adding
 // the additional required/implied rules.
 @mixin centered ($width, $height:false, $extras:true) {
-  @if $extras { 
-    position: absolute; 
-    display: block; 
+  @if $extras {
+    position: absolute;
+    display: block;
   }
   @if $width != false {
-    left: 50%; 
+    left: 50%;
     margin-left: -$width / 2;
     @if $extras { width: $width; }
   }
   @if $height != false {
-    top: 50%; 
-    margin-top: -$height / 2; 
+    top: 50%;
+    margin-top: -$height / 2;
     @if $extras { height: $height; }
   }
 }
@@ -359,8 +361,8 @@ $b-1: rgba(0,0,0, 0.1);
 // and the selector can be used to specify what selector (in the context of the
 // first and last child), gets the padding. You can pass false for either to omit
 // the respective styles.
-@mixin ruled($light, $shade, $edge-padding:0, 
-             $edge-padding-slr:'&', 
+@mixin ruled($light, $shade, $edge-padding:0,
+             $edge-padding-slr:'&',
              $first-item-slr:'&:first-child',
              $last-item-slr:'&:last-child',
              $item-slr:'&',
@@ -457,8 +459,8 @@ sup { top: -0.5em; }
 sub { bottom: -0.25em; }
 
 pre { white-space: pre; white-space: pre-wrap; word-wrap: break-word; padding: 15px; }
-textarea { overflow: auto; } 
-.ie6 legend, .ie7 legend { margin-left: -7px; } 
+textarea { overflow: auto; }
+.ie6 legend, .ie7 legend { margin-left: -7px; }
 input[type="radio"] { vertical-align: text-bottom; }
 input[type="checkbox"] { vertical-align: bottom; }
 .ie7 input[type="checkbox"] { vertical-align: baseline; }
