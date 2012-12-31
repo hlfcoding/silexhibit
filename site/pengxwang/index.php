@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  
+
   <meta name="expires" content="<% pxw_cache_expires %>" />
   <meta name="verify-v1" content=" <% data_goog_webm_key %>" />
   <meta name="profile" content="http://gmpg.org/xfn/11" />
@@ -35,9 +35,14 @@
   <!-- indexhibit styles -->
   <plug:front_lib_css />
   <plug:front_dyn_css />
-  
+
   <!-- custom scripts -->
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+  <script type="text/javascript">
+  if (typeof jQuery == 'undefined') {
+    document.write(unescape("%3Cscript src='<% baseurl %><% baseurlname %>/site/js/jquery.js' type='text/javascript'%3E%3C/script%3E"));
+  }
+  </script>
   <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/modernizr.js"></script>
   <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/underscore.js"></script>
   <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/jquery.template.js"></script>
@@ -51,11 +56,11 @@
   <plug:api_urls />
   <plug:news_feed section_id="<% section_id %>", feeds="github_posterous_twitter_deviantart" />
   <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-  
+
   <!-- indexhibit scripts -->
   <plug:front_lib_js />
   <plug:front_dyn_js />
-  
+
   <plug:backgrounder color="<% color %>", img="<% bgimg %>", tile="<% tiling %>" />
 </head>
 <body id="html" class="section-<% section_id %> <% pxw_browser %> <% pxw_browser_and_version %> <% pxw_browser_platform %>">
@@ -77,9 +82,9 @@
           <!-- <%obj_ibot%> -->
           <p>
             <a href="<% data_content_license_link %>" title="<% data_copyright_tip %>">
-              &copy;</a> 
+              &copy;</a>
               <% data_copyright_start %>&ndash;<% pxw_current_year %>
-            <plug:the_email 
+            <plug:the_email
                 address="<% data_email %>"
               , name="<% data_name %>"
               , title="<% data_email_tip %>"
@@ -95,7 +100,7 @@
       </div>
     </div><!-- .container -->
   </div><!-- #menu -->
-  <div id="content" class="fix-c" role="main">
+  <div id="content" role="main">
     <div class="container">
       <div id="bd" class="copy">
         <plug:front_template section_id="<% section_id %>", template_name="feed" />
