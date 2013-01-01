@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Run from site directory!
+# Run from site/ root.
 
 # Config:
 export NDXZ_SITE_NAME=pengxwang

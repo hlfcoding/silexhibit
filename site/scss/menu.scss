@@ -1,6 +1,7 @@
 //
 // Menu Module
 // ===========
+//
 // Reserved menu selectors:
 //
 // - `.mn`
@@ -8,7 +9,7 @@
 // - `.mn-v`
 
 .mn {
-  margin-left: 0; 
+  margin-left: 0;
   list-style:none;
   list-style-image: none;
   display: block;
@@ -34,9 +35,9 @@
     border-left-width: 0;
   }
   html.ie6 & {
-    display: inline-block; 
-    height: 1%; 
-    display: block; 
+    display: inline-block;
+    height: 1%;
+    display: block;
   }
 }
 

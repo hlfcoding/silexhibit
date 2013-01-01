@@ -17,7 +17,7 @@ ns.foldable =
       when 'data' then 'hlfFoldable'
       when 'class' then 'js-foldable'
       else 'hlf.foldable'
-  
+
   defaults: do (pre='js-fold-') ->
     cls: (->
       cls = {}
@@ -25,7 +25,7 @@ ns.foldable =
         (key) -> cls[key] = "#{pre}#{key}"
       return cls
     )()
-    
+
     slr: (name) -> ".#{@cls[name]}"
     trigger:
       tpl:       _.template """<a href="#" title="{{label}}">{{icon}}</a>"""
@@ -37,7 +37,7 @@ ns.foldable =
         collapsed: 'show all'
     initialState: 'collapsed'
     togglebleFilter: (idx) -> true
-  
+
 
 ###
 Foldables
@@ -50,7 +50,7 @@ ns.foldables =
       when 'data' then 'hlfFoldables'
       when 'class' then 'js-foldables'
       else 'hlf.foldables'
-  
+
   defaults: do (pre='js-folds-') ->
     ###
     Options for `$.fn.foldable` can be included in the `foldable` wrapper.
@@ -64,7 +64,7 @@ ns.foldables =
     toFeature:
       baseNum: 2
       customNums: null
-  
+
 
 ###
 Foldable API
@@ -93,14 +93,14 @@ class Foldable
         proceed = @toggleExpanded()
         return if not proceed
         @updateTrigger()
-      
-    
+
+
     @toggleExpanded expand
-  
+
 
   editOptions: (options) ->
     $.extend (deep=on), @o, options
-  
+
   toggleExpanded: (expand, silent=off, force=off) ->
     expand ?= if @expanded? then not @expanded else @$el.hasClass "#{@o.cls.collapsed}"
     # - CSS hook.
@@ -118,25 +118,25 @@ class Foldable
     # - Update UI as needed.
     if silent is on then @updateTrigger()
     return yes
-  
+
   toggleVisibleItems: (visible, force=off) ->
     return no if @$el.is(@o.slr 'active') and force is off
     @$items.filter(@o.togglebleFilter).toggle visible
     return yes
-  
+
   updateTrigger: ->
     do (o=@o.trigger) =>
       type = if @expanded then 'expanded' else 'collapsed'
       @$trigger.html(o.icon[type]).attr('title', o.label[type])
-    
-  
+
+
 
 ###
 Foldables API
 -------------
 ###
 class Foldables
-  
+
   constructor: (@$el, @o) ->
     # - Update options.
     if o.toFeature isnt off
@@ -153,11 +153,11 @@ class Foldables
       $(@).siblings()
           .not(o.foldable.slr 'disabled')
           .each -> $(@).foldable().toggleExpanded off, (silent=on), (force=on)
-  
+
 
   editOptions: (options) ->
     $.extend (deep=on), @o, options
-  
+
 
 # Export
 # ------
