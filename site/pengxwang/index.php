@@ -48,6 +48,7 @@
   <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/jquery.template.js"></script>
   <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/jquery.cookie.js"></script>
   <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/jquery.extension.hlf.core.js"></script>
+  <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/jquery.extension.hlf.event.js"></script>
   <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/jquery.hlf.tip.js"></script>
   <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/jquery.hlf.foldable.js"></script>
   <script type="text/javascript" src="<% baseurl %><% baseurlname %>/site/js/cookie.js"></script>

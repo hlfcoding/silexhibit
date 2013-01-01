@@ -1,0 +1,34 @@
+.js-tip {
+  position: absolute;
+  z-index: 9999;
+  display: none; }
+
+.js-tip-inner {
+  position: relative; }
+
+.js-tip-stem {
+  border-width: 0;
+  border-style: solid;
+  border-color: transparent;
+  background: none;
+  position: absolute;
+  width: 0;
+  height: 0; }
+  .js-tip-east.js-snap-tip-y-side .js-tip-stem, .js-tip-east .js-tip-stem {
+    left: 0; }
+  .js-tip-west.js-snap-tip-y-side .js-tip-stem, .js-tip-west .js-tip-stem {
+    right: 0; }
+  .js-tip-south.js-snap-tip-x-side .js-tip-stem, .js-tip-south .js-tip-stem {
+    top: 0; }
+  .js-tip-north.js-snap-tip-x-side .js-tip-stem, .js-tip-north .js-tip-stem {
+    bottom: 0; }
+  .js-snap-tip-x-side .js-tip-stem {
+    left: 50%;
+    border-color: transparent; }
+  .js-snap-tip-y-side .js-tip-stem {
+    top: 50%;
+    border-color: transparent; }
+
+.js-tip-content {
+  overflow: hidden;
+  position: relative; }

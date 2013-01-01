@@ -20,5 +20,6 @@ cd ../scss
 curl http://svn.pengxwang.com/box/trunk/css/bootstrap.scss -o "bootstrap.scss"
 curl http://svn.pengxwang.com/box/trunk/css/mixins.scss -o "mixins.scss"
 curl http://svn.pengxwang.com/box/trunk/css/h5bp.scss -o "h5bp.scss"
+curl https://raw.github.com/hlfcoding/hlf-jquery/latest-stable/release/jquery.hlf.tip.scss -o "jquery.hlf.tip.scss"
 
 cd ..

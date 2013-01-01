@@ -67,6 +67,41 @@ html.ie6 .fix-c {
   font-weight: normal;
   font-style: normal; }
 
+.js-tip {
+  position: absolute;
+  z-index: 9999;
+  display: none; }
+
+.js-tip-inner {
+  position: relative; }
+
+.js-tip-stem {
+  border-width: 0;
+  border-style: solid;
+  border-color: transparent;
+  background: none;
+  position: absolute;
+  width: 0;
+  height: 0; }
+  .js-tip-east.js-snap-tip-y-side .js-tip-stem, .js-tip-east .js-tip-stem {
+    left: 0; }
+  .js-tip-west.js-snap-tip-y-side .js-tip-stem, .js-tip-west .js-tip-stem {
+    right: 0; }
+  .js-tip-south.js-snap-tip-x-side .js-tip-stem, .js-tip-south .js-tip-stem {
+    top: 0; }
+  .js-tip-north.js-snap-tip-x-side .js-tip-stem, .js-tip-north .js-tip-stem {
+    bottom: 0; }
+  .js-snap-tip-x-side .js-tip-stem {
+    left: 50%;
+    border-color: transparent; }
+  .js-snap-tip-y-side .js-tip-stem {
+    top: 50%;
+    border-color: transparent; }
+
+.js-tip-content {
+  overflow: hidden;
+  position: relative; }
+
 #menu .mn-v li.active a {
   border-left-color: #0055cc; }
   #menu .mn-v li.active a:hover {
@@ -410,37 +445,59 @@ body {
   background: transparent url(../img/banners/env1_1.jpg) 0 0 repeat-x fixed; }
 
 /** hlf-tip */
-.pjpTipStem {
-  border-right-color: transparent; }
-
-.pjpTipStem {
-  border-bottom-color: #606060; }
-
-.pjpTip .in {
-  background-color: #606060; }
-
-.pjpTip .in {
-  color: #fff; }
-
-.pjpTip {
-  text-align: left; }
-
-.pjpTip {
+.js-tip {
+  font: italic 9px/14px Georgia, serif;
+  text-align: left;
   text-transform: lowercase; }
-
-.pjpTip {
-  font-style: italic; }
-
-.pjpTip {
-  font-size: .5625em;
-  /* 9px */ }
-
-.pjpTip {
-  line-height: 1.555em;
-  /* 14px */ }
-
-.pjpTip {
-  font-family: Georgia, "Constantia", "Utopian", "Palatino", "Palatino Linotype", serif; }
+  .js-tip .js-tip-inner {
+    max-width: 216px; }
+  .js-tip .js-tip-content {
+    padding: 8px 12px 10px 12px; }
+  .js-tip.js-tip-east.js-snap-tip-y-side .js-tip-stem, .js-tip.js-tip-east .js-tip-stem {
+    border-right-width: 12px; }
+    .js-tip.js-tip-east.js-snap-tip-y-side .js-tip-stem + .js-tip-content, .js-tip.js-tip-east .js-tip-stem + .js-tip-content {
+      top: auto;
+      bottom: auto;
+      left: 12px; }
+  .js-tip.js-tip-west.js-snap-tip-y-side .js-tip-stem, .js-tip.js-tip-west .js-tip-stem {
+    border-left-width: 12px; }
+    .js-tip.js-tip-west.js-snap-tip-y-side .js-tip-stem + .js-tip-content, .js-tip.js-tip-west .js-tip-stem + .js-tip-content {
+      top: auto;
+      bottom: auto;
+      right: 12px; }
+  .js-tip.js-tip-south.js-snap-tip-x-side .js-tip-stem, .js-tip.js-tip-south .js-tip-stem {
+    border-bottom-width: 12px; }
+    .js-tip.js-tip-south.js-snap-tip-x-side .js-tip-stem + .js-tip-content, .js-tip.js-tip-south .js-tip-stem + .js-tip-content {
+      left: auto;
+      right: auto;
+      top: 12px; }
+  .js-tip.js-tip-north.js-snap-tip-x-side .js-tip-stem, .js-tip.js-tip-north .js-tip-stem {
+    border-top-width: 12px; }
+    .js-tip.js-tip-north.js-snap-tip-x-side .js-tip-stem + .js-tip-content, .js-tip.js-tip-north .js-tip-stem + .js-tip-content {
+      left: auto;
+      right: auto;
+      bottom: 12px; }
+  .js-tip.js-snap-tip-x-side .js-tip-stem {
+    margin-left: -9px;
+    border-width: 0 9px; }
+  .js-tip.js-snap-tip-y-side .js-tip-stem {
+    margin-top: -9px;
+    border-width: 9px 0; }
+  .js-tip .js-tip-content {
+    background-color: #606060;
+    color: white; }
+  .js-tip.js-tip-east.js-snap-tip-y-side .js-tip-stem, .js-tip.js-tip-east .js-tip-stem {
+    border-color: transparent;
+    border-right-color: #606060; }
+  .js-tip.js-tip-west.js-snap-tip-y-side .js-tip-stem, .js-tip.js-tip-west .js-tip-stem {
+    border-color: transparent;
+    border-left-color: #606060; }
+  .js-tip.js-tip-south.js-snap-tip-x-side .js-tip-stem, .js-tip.js-tip-south .js-tip-stem {
+    border-color: transparent;
+    border-bottom-color: #606060; }
+  .js-tip.js-tip-north.js-snap-tip-x-side .js-tip-stem, .js-tip.js-tip-north .js-tip-stem {
+    border-color: transparent;
+    border-top-color: #606060; }
 
 /* hlf tip **/
 html.ie6 img.png {
@@ -449,16 +506,8 @@ html.ie6 #menu {
   position: absolute; }
 html.ie6 .thumb-it {
   top: 50%; }
-html.ie6 .has-as,
-html.ie6 .pjpTip .in {
+html.ie6 .has-as {
   zoom: 1; }
-html.ie6 .pjpTipStem {
-  border-right-color: orange; }
-html.ie6 #html #menu .js-fold-trigger {
-  border-color: orange; }
-html.ie6 .pjpTipStem,
-html.ie6 #html #menu .js-fold-trigger {
-  filter: chroma(color=orange); }
 html.ie6 .dev {
   border: 1px solid red; }
 

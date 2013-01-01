@@ -50,6 +50,8 @@ $_context: master;
 @import "../scss/bootstrap.scss";
 // Add font styles.
 @import 'fonts.scss';
+// Add plugin styles.
+@import '../scss/jquery.hlf.tip.scss';
 //
 // Object oriented internal classes to extend from.
 //
@@ -504,25 +506,17 @@ body {
 
 /** hlf-tip */
 
-.pjpTipStem { border-right-color: transparent; }
-
-.pjpTipStem { border-bottom-color: #606060; }
-
-.pjpTip .in { background-color: #606060; }
-
-.pjpTip .in { color: #fff; }
-
-.pjpTip { text-align: left; }
-
-.pjpTip { text-transform: lowercase; }
-
-.pjpTip { font-style: italic; }
-
-.pjpTip { font-size: .5625em; /* 9px */ }
-
-.pjpTip { line-height: 1.555em; /* 14px */ }
-
-.pjpTip { font-family: Georgia, 'Constantia', 'Utopian', 'Palatino', 'Palatino Linotype', serif; }
+.js-tip {
+  $fill: $_clr-base-2;
+  $text: $_clr-light-1;
+  @include tip-layout;
+  @include tip-skin($fill, $text);
+  font: italic 9px/14px Georgia, serif;
+  text: {
+    align: left;
+    transform: lowercase;
+  }
+}
 
 /* hlf tip **/
 ///** START IE */
@@ -547,20 +541,7 @@ html.ie6 {
   }
 
   // Give has-layout.
-  .has-as,
-  .pjpTip .in
-  { zoom: 1; }
-
-  // Fix transparent borders.
-  .pjpTipStem
-  { border-right-color: orange; }
-
-  #html #menu .js-fold-trigger
-  { border-color: orange; }
-
-  .pjpTipStem,
-  #html #menu .js-fold-trigger
-  { filter: chroma(color=orange); }
+  .has-as { zoom: 1; }
 
   // Debugging.
   .dev { border: 1px solid red; }
@@ -570,8 +551,7 @@ html.ie6 {
 html.ie7 {
 
   // Give has-layout.
-  #content .rows
-  { zoom: 1; }
+  #content .rows { zoom: 1; }
 
   // Fix inline-block.
   #logo a { display: inline; display: block; }

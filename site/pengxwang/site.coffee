@@ -6,6 +6,9 @@ ns = jQuery.hlf
 # Boilerplate.
 $.noConflict()
 
+# TODO: Temporary fix for legacy NDXZ
+window.do_click ?= $.noop
+
 $ ->
   # - Setup navigation.
   cls = $.extend {}, ns.foldable.defaults.cls, ns.foldables.defaults.cls
@@ -21,21 +24,18 @@ $ ->
       autoCollapse: on
       toFeature:
         baseNum: 1
-  
+
   # - Setup printing.
   $('.js-print').bind 'click', (evt) ->
     window.print()
     evt.preventDefault()
-  
+
   # - Setup tooltips.
-###
-    var opt = {
-        'tip_class': 'pjpTip',
-        'stem_class': 'pjpTipStem'
-    };
-    $('[title]').pjpTip(opt);
-    $('*').bind('title_changed', function (evt) {
-        $(evt.target).pjpTip(opt);
-    });
-###
-  
+  setupTip = ($el) ->
+    $menuItems = $el.filter '.mn-v [title]'
+    $menuItems.snapTip { snap: { toYAxis: on } }
+    $el.not($menuItems).snapTip { snap: { toXAxis: on } }
+  # - Initial setup.
+  setupTip $ '[title]'
+  # - Reset as needed.
+  $('body').on 'title_changed', (evt) -> setupTip $ evt.target
