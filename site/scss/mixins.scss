@@ -1,5 +1,6 @@
 //
 // HLF SCSS Framework
+// ==================
 //
 // - Provides mixins that abstract common (and tedious) css patterns,
 //   while being as consistent as possible with the CSS3 syntax.
@@ -283,7 +284,7 @@ $b-1: rgba(0,0,0, 0.1);
 
 // Will be redeclared once for each css file, a limitation of importing
 // everything for each scss stylesheet and then concatenating them.
-@mixin clearfix ($with_ie:true) {
+@mixin clearfix ($with-ie:true) {
   &::before, &::after {
     content: "\0020";
     display: block;
@@ -291,7 +292,7 @@ $b-1: rgba(0,0,0, 0.1);
     overflow: hidden;
   }
   &::after { clear: both; }
-  @if $with_ie {
+  @if $with-ie {
     html.ie8 & { zoom: 1; }
     html.ie6 & {
       display: inline-block;

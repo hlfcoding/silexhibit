@@ -1,5 +1,10 @@
+//
+// H5BP SCSS
+// =========
+//
 // Stripped branch of HTML5 Boilerplate.
-@mixin html5-boilerplate(){
+
+@mixin html5-boilerplate($with-ie:true){
 
 html, body, div, span, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -52,11 +57,15 @@ sub { bottom: -0.25em; }
 
 pre { white-space: pre; white-space: pre-wrap; word-wrap: break-word; padding: 15px; }
 textarea { overflow: auto; }
-.ie6 legend, .ie7 legend { margin-left: -7px; }
+@if $with-ie {
+  .ie6 legend, .ie7 legend { margin-left: -7px; }
+}
 input[type="radio"] { vertical-align: text-bottom; }
 input[type="checkbox"] { vertical-align: bottom; }
-.ie7 input[type="checkbox"] { vertical-align: baseline; }
-.ie6 input { vertical-align: text-bottom; }
+@if $with-ie {
+  .ie7 input[type="checkbox"] { vertical-align: baseline; }
+  .ie6 input { vertical-align: text-bottom; }
+}
 label, input[type="button"], input[type="submit"], input[type="image"], button { cursor: pointer; }
 button, input, select, textarea { margin: 0; }
 input:valid, textarea:valid   {  }
@@ -64,6 +73,8 @@ input:invalid, textarea:invalid { border-radius: 1px; -moz-box-shadow: 0px 0px 5
 .no-boxshadow input:invalid, .no-boxshadow textarea:invalid { background-color: #f0dddd; }
 
 button {  width: auto; overflow: visible; }
-.ie7 img { -ms-interpolation-mode: bicubic; }
+@if $with-ie {
+  .ie7 img { -ms-interpolation-mode: bicubic; }
+}
 
 }
