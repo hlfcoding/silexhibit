@@ -1,0 +1,6 @@
+{
+  "require": {
+    "silex/silex": "1.0.*@dev",
+    "mustache/mustache": "2.0.*"
+  }
+}
