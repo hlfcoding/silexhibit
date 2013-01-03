@@ -1123,8 +1123,8 @@ h3, #html .section-title {
   font-size: 14px;
   width: 14px;
   text-align: center; }
-.mn-v li [class^="icon-"], .mn-linked li [class^="icon-"], .mn-v li
-[class*=" icon-"], .mn-linked li
+.mn-v li:not(.js-fold-head) [class^="icon-"], .mn-linked li:not(.js-fold-head) [class^="icon-"], .mn-v li:not(.js-fold-head)
+[class*=" icon-"], .mn-linked li:not(.js-fold-head)
 [class*=" icon-"] {
   float: right;
   margin-top: -1px;
@@ -1135,10 +1135,17 @@ h3, #html .section-title {
   transition: opacity 0.3s ease-in-out;
   color: #999999;
   opacity: 0.2; }
-.mn-v li:hover [class^="icon-"], .mn-linked li:hover [class^="icon-"], .mn-v li:hover
-[class*=" icon-"], .mn-linked li:hover
+.mn-v li:not(.js-fold-head):hover [class^="icon-"], .mn-linked li:not(.js-fold-head):hover [class^="icon-"], .mn-v li:not(.js-fold-head):hover
+[class*=" icon-"], .mn-linked li:not(.js-fold-head):hover
 [class*=" icon-"] {
   opacity: 1; }
+.js-fold-head [class^="icon-"], .js-fold-head
+[class*=" icon-"] {
+  font-size: 13px;
+  display: block;
+  width: inherit;
+  height: inherit;
+  line-height: 2em; }
 
 .mn-v ol, .mn-v ul {
   border-style: solid;

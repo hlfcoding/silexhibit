@@ -21,6 +21,14 @@
       autoCollapse: true,
       toFeature: {
         baseNum: 1
+      },
+      foldable: {
+        trigger: {
+          icon: {
+            expanded: '<span class="icon-minus"></span>',
+            collapsed: '<span class="icon-plus"></span>'
+          }
+        }
       }
     });
     $('.js-print').bind('click', function(evt) {

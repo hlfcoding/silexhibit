@@ -24,6 +24,12 @@ $ ->
       autoCollapse: on
       toFeature:
         baseNum: 1
+      foldable:
+        trigger:
+          # Font-Awesome integration.
+          icon:
+            expanded: '<span class="icon-minus"></span>'
+            collapsed: '<span class="icon-plus"></span>'
 
   # - Setup printing.
   $('.js-print').bind 'click', (evt) ->

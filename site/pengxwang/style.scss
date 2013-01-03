@@ -295,11 +295,10 @@ h3 { font-size: 16px; }
 [class*=" icon-"] {
   %font-2 & {
     font-size: 14px;
-    width: 14px;
-    text-align: center;
+    width: 14px; text-align: center;
   }
-  .mn-v li &,
-  .mn-linked li & {
+  .mn-v li:not(.js-fold-head) &,
+  .mn-linked li:not(.js-fold-head) & {
     float: right;
     margin-top: -1px;
     // Skin.
@@ -307,9 +306,14 @@ h3 { font-size: 16px; }
     color: $_clr-base-3;
     opacity: 0.2;
   }
-  .mn-v li:hover &,
-  .mn-linked li:hover & {
+  .mn-v li:not(.js-fold-head):hover &,
+  .mn-linked li:not(.js-fold-head):hover & {
     opacity: 1;
+  }
+  .js-fold-head & {
+    font-size: 13px;
+    display: block; width: inherit; height: inherit;
+    line-height: 2em;
   }
 }
 
