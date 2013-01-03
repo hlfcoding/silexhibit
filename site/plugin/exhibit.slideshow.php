@@ -4,10 +4,10 @@
 * Slideshow
 *
 * Exhibition format
-* 
-* @version 1.0 
+*
+* @version 1.0
 * @author Peng Wang
-* @author Simon Lagneaux 
+* @author Simon Lagneaux
 * @author Vaska
 */
 
@@ -22,11 +22,11 @@ $exhibit['exhibit'] = createExhibit();
 function dynamicJS()
 {
     global $timeout;
-    return "$(document).ready(function(){ 
+    return "$(document).ready(function(){
     $('#s1').cycle({
-    fx:'fade', 
-    speed:'2000', 
-    timeout: 0, 
+    fx:'fade',
+    speed:'2000',
+    timeout: 0,
     next:'#next', prev:'#prev'});
     });";
 }
@@ -36,22 +36,22 @@ function createExhibit()
 {
     $OBJ =& get_instance();
     global $rs;
-    
-    $pages = $OBJ->db->fetchArray("SELECT * 
-        FROM ".PX."media, ".PX."objects_prefs 
-        WHERE media_ref_id = '$rs[id]' 
-        AND obj_ref_type = 'exhibit' 
-        AND obj_ref_type = media_obj_type 
+
+    $pages = $OBJ->db->fetchArray("SELECT *
+        FROM ".PX."media, ".PX."objects_prefs
+        WHERE media_ref_id = '$rs[id]'
+        AND obj_ref_type = 'exhibit'
+        AND obj_ref_type = media_obj_type
         ORDER BY media_order ASC, media_id ASC");
 
-        
+
     // ** DON'T FORGET THE TEXT ** //
     $s = $rs['content'];
 
     if (!$pages) return $s;
-    
+
         $i = 1; $a = '';
-    
+
     // people will probably want to customize this up
     $wrap_title     = '<span class="title">%s</span>';
     $wrap_caption   = '<span class="caption">%s</span>';
@@ -60,17 +60,17 @@ function createExhibit()
         $title 		= ($go['media_title'] == '') ? '' : sprintf($wrap_title, ($go['media_title'] . '&nbsp;'));
         $caption 	= ($go['media_caption'] == '') ? '' : sprintf($wrap_caption, ($go['media_caption']));
         //$x = getimagesize(BASEURL . GIMGS . '/' . $go['media_file']);
-        
+
         $a .= "\n<div class='slide'><img src='" . BASEURL . GIMGS . "/$go[media_file]' class='img-bot' />";
         $a .= ( ! empty($title) OR ! empty($caption)) ? "<p class='meta'>{$title}{$caption}</p>" : '';
         $a .= "</div>\n";
-        
+
         $i++;
     }
-    
-    $nav_title = '&darr; Gallery';
-    $nav_prev = '&larr; Prev';
-    $nav_next = 'Next &rarr;';
+
+    $nav_title = '<span class="icon-arrow-down"></span> Gallery';
+    $nav_prev = '<span class="icon-arrow-left"></span> Prev';
+    $nav_next = 'Next <span class="icon-arrow-right"></span>';
     $nav_format = '%1$s %4$s &nbsp; %2$s | %3$s';
     // images
     $s .= "<div id='img-container' class='slideshow-plugin'>\n";
@@ -84,7 +84,7 @@ function createExhibit()
     $s .= $a;
     $s .= "</div>\n";
     $s .= "</div>\n\n";
-        
+
     return $s;
 }
 

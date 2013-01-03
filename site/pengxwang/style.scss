@@ -289,33 +289,6 @@ h1, h2, h3 {
 h1 { font-size: 30px; }
 h2 { font-size: 24px; }
 h3 { font-size: 16px; }
-//
-// Font-Awesome integration.
-[class^="icon-"],
-[class*=" icon-"] {
-  %font-2 & {
-    font-size: 14px;
-    width: 14px; text-align: center;
-  }
-  .mn-v li:not(.js-fold-head) &,
-  .mn-linked li:not(.js-fold-head) & {
-    float: right;
-    margin-top: -1px;
-    // Skin.
-    @include transition(opacity);
-    color: $_clr-base-3;
-    opacity: 0.2;
-  }
-  .mn-v li:not(.js-fold-head):hover &,
-  .mn-linked li:not(.js-fold-head):hover & {
-    opacity: 1;
-  }
-  .js-fold-head & {
-    font-size: 13px;
-    display: block; width: inherit; height: inherit;
-    line-height: 2em;
-  }
-}
 
 // Modules
 // =======
@@ -403,6 +376,65 @@ sup {
     font-size: 1em; // Reset.
     // TODO - Temp hack.
     position: absolute;
+  }
+}
+//
+// Font-Awesome integration.
+#{$_weight} p.nav a {
+  border-bottom: 0;
+}
+%fade-in-on-hover {
+  [class^="icon-"],
+  [class*=" icon-"] {
+    @include transition(opacity);
+  }
+  &:hover {
+    [class^="icon-"],
+    [class*=" icon-"] { opacity: 1; }
+  }
+}
+a:not(.js-fold-trigger),
+.mn-v li:not(.js-fold-head),
+.mn-linked li:not(.js-fold-head) { @extend %fade-in-on-hover; }
+// Main.
+[class^="icon-"],
+[class*=" icon-"] {
+  .mn-v li:not(.js-fold-head) &,
+  .mn-linked li:not(.js-fold-head) & {
+    color: $_clr-base-3;
+    opacity: 0.2;
+  }
+  a:not(.js-fold-trigger) & {
+    color: $_clr-base-2;
+    opacity: 0.5;
+  }
+  %font-2 & {
+    font-size: 14px;
+    &.icon-envelope-alt {
+      font-size: 12px;
+    }
+    display: inline-block; width: 14px; text-align: center;
+  }
+  .copy & {
+    vertical-align: middle;
+  }
+  p.nav & {
+    $gutter: 0.5em;
+    font-size: inherit;
+    margin-top: -1px;
+    &.icon-arrow-down,
+    &.icon-arrow-left { padding-right: $gutter; }
+    &.icon-arrow-right { padding-left: $gutter - 0.2em; }
+  }
+  .mn-v li:not(.js-fold-head) &,
+  .mn-linked li:not(.js-fold-head) & {
+    float: right;
+    margin-top: -1px;
+  }
+  .js-fold-head & {
+    font-size: 13px;
+    display: block; width: inherit; height: inherit;
+    line-height: 2em;
   }
 }
 
