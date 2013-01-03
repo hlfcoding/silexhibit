@@ -40,16 +40,16 @@ $_clr-base-3: #999;
 $_clr-base-4: #ccc;
 
 $_img: '../img/';
-$_fonts: '../fonts/';
+$_font: '../font/';
 
 // Base
 // ====
 
 // Add context-dependent base boilerplate. Utility classes are also added.
 $_context: master;
-@import "../scss/bootstrap.scss";
+@import '../scss/bootstrap.scss';
 // Add font styles.
-@import 'fonts.scss';
+@import 'font.scss';
 // Add plugin styles.
 @import '../scss/jquery.hlf.tip.scss';
 //
