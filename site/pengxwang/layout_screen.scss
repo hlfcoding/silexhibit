@@ -305,25 +305,6 @@ $_context: layout_screen;
   }
 }
 
-.pjpTip {
-  position: absolute;
-  z-index: 9999;
-  .in {
-    position: relative;
-    max-width: 162px;
-    overflow: hidden;
-    padding: 7px 12px 10px 12px;
-  }
-}
-.pjpTipStem {
-  position: relative;
-  width: 0;
-  height: 0;
-  border-right-width: $_box-gutter;
-  border-bottom-width: $_box-gutter;
-  top: 0;
-}
-
 // Base Extensions
 // ---------------
 

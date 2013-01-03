@@ -472,23 +472,6 @@ html.ie6 .mn-v li, html.ie6 .mn-v-a li {
 .slideshow-plugin .meta span {
   display: block; }
 
-.pjpTip {
-  position: absolute;
-  z-index: 9999; }
-  .pjpTip .in {
-    position: relative;
-    max-width: 162px;
-    overflow: hidden;
-    padding: 7px 12px 10px 12px; }
-
-.pjpTipStem {
-  position: relative;
-  width: 0;
-  height: 0;
-  border-right-width: 16px;
-  border-bottom-width: 16px;
-  top: 0; }
-
 #html .mn-v .section-title, #html .mn-v-a .section-title {
   display: block;
   padding-top: 24px;
