@@ -41,6 +41,7 @@ $_clr-base-4: #ccc;
 
 $_img: '../img/';
 $_font: '../font/';
+$fontAwesomePath: '../../font' !default;
 
 // Base
 // ====
@@ -50,6 +51,7 @@ $_context: master;
 @import '../scss/bootstrap.scss';
 // Add font styles.
 @import 'font.scss';
+@import '../scss/fontawesome-bare.scss';
 // Add plugin styles.
 @import '../scss/jquery.hlf.tip.scss';
 //
@@ -287,6 +289,29 @@ h1, h2, h3 {
 h1 { font-size: 30px; }
 h2 { font-size: 24px; }
 h3 { font-size: 16px; }
+//
+// Font-Awesome integration.
+[class^="icon-"],
+[class*=" icon-"] {
+  %font-2 & {
+    font-size: 14px;
+    width: 14px;
+    text-align: center;
+  }
+  .mn-v li &,
+  .mn-linked li & {
+    float: right;
+    margin-top: -1px;
+    // Skin.
+    @include transition(opacity);
+    color: $_clr-base-3;
+    opacity: 0.2;
+  }
+  .mn-v li:hover &,
+  .mn-linked li:hover & {
+    opacity: 1;
+  }
+}
 
 // Modules
 // =======
