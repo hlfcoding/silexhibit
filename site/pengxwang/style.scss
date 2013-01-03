@@ -323,17 +323,20 @@ h3 { font-size: 16px; }
   .mn-v-a li { line-height: 1em; }
   #{$_weight} li li { font-size: 1em; }
 }
-
+//
+// Foldable.
 .section-title {
   @extend %title-text-1;
   #{$_weight} & { @extend h3; }
   .title { @extend %underlined-text-1; }
 }
-
+//
+// Feeds.
 .feed {
   article .meta * { @extend %meta-text-1; }
 }
-
+//
+// Header annotations.
 sup {
   // Reset.
   font-size: 100%;
@@ -347,7 +350,8 @@ sup {
     #menu & { @extend %meta-text-4; }
   }
 }
-
+//
+// Main.
 .copy {
   small { @extend %meta-type-2; }
   a { line-height: 1em; }
@@ -359,12 +363,12 @@ sup {
     line-height: inherit;
   } // Reset.
 }
-
+//
+// Slideshow.
 .caption {
   @extend %font-3;
   @extend %meta-type-1;
 }
-
 .slide {
   @extend %paper-1;
   #{$_weight} & {
@@ -440,6 +444,14 @@ a:not(.js-fold-trigger),
 
 // App
 // ===
+
+//
+// Typography
+// ----------
+.copyright-symbol {
+  @extend %font-1;
+  font-size: 12px; vertical-align: middle;
+}
 
 // Colors
 // ------

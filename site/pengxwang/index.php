@@ -82,7 +82,7 @@
         <div class="in">
           <!-- <%obj_ibot%> -->
           <p>
-            <a href="<% data_content_license_link %>" title="<% data_copyright_tip %>">
+            <a class="copyright-symbol" href="<% data_content_license_link %>" title="<% data_copyright_tip %>">
               &copy;</a>
               <% data_copyright_start %>&ndash;<% pxw_current_year %>
             <plug:the_email
