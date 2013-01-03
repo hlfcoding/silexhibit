@@ -996,7 +996,7 @@ h1, h2, h3, #html .section-title, .section-title {
     letter-spacing: normal;
     word-spacing: normal; }
 
-body {
+body, .copyright-symbol {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
 
 .container, #content .as {
@@ -1117,36 +1117,6 @@ h2 {
 h3, #html .section-title {
   font-size: 16px; }
 
-.container [class^="icon-"], #content .as [class^="icon-"], .container
-[class*=" icon-"], #content .as
-[class*=" icon-"] {
-  font-size: 14px;
-  width: 14px;
-  text-align: center; }
-.mn-v li:not(.js-fold-head) [class^="icon-"], .mn-linked li:not(.js-fold-head) [class^="icon-"], .mn-v li:not(.js-fold-head)
-[class*=" icon-"], .mn-linked li:not(.js-fold-head)
-[class*=" icon-"] {
-  float: right;
-  margin-top: -1px;
-  -webkit-transition: opacity 0.3s ease-in-out;
-  -moz-transition: opacity 0.3s ease-in-out;
-  -ms-transition: opacity 0.3s ease-in-out;
-  -o-transition: opacity 0.3s ease-in-out;
-  transition: opacity 0.3s ease-in-out;
-  color: #999999;
-  opacity: 0.2; }
-.mn-v li:not(.js-fold-head):hover [class^="icon-"], .mn-linked li:not(.js-fold-head):hover [class^="icon-"], .mn-v li:not(.js-fold-head):hover
-[class*=" icon-"], .mn-linked li:not(.js-fold-head):hover
-[class*=" icon-"] {
-  opacity: 1; }
-.js-fold-head [class^="icon-"], .js-fold-head
-[class*=" icon-"] {
-  font-size: 13px;
-  display: block;
-  width: inherit;
-  height: inherit;
-  line-height: 2em; }
-
 .mn-v ol, .mn-v ul {
   border-style: solid;
   border-color: #f0f0f0; }
@@ -1184,6 +1154,79 @@ sup {
 .slide .meta {
   font-size: 1em;
   position: absolute; }
+
+#html p.nav a {
+  border-bottom: 0; }
+
+a:not(.js-fold-trigger) [class^="icon-"],
+.mn-v li:not(.js-fold-head) [class^="icon-"],
+.mn-linked li:not(.js-fold-head) [class^="icon-"],
+a:not(.js-fold-trigger) [class*=" icon-"],
+.mn-v li:not(.js-fold-head) [class*=" icon-"],
+.mn-linked li:not(.js-fold-head) [class*=" icon-"] {
+  -webkit-transition: opacity 0.3s ease-in-out;
+  -moz-transition: opacity 0.3s ease-in-out;
+  -ms-transition: opacity 0.3s ease-in-out;
+  -o-transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out; }
+a:hover:not(.js-fold-trigger) [class^="icon-"],
+.mn-v li:hover:not(.js-fold-head) [class^="icon-"],
+.mn-linked li:hover:not(.js-fold-head) [class^="icon-"],
+a:hover:not(.js-fold-trigger) [class*=" icon-"],
+.mn-v li:hover:not(.js-fold-head) [class*=" icon-"],
+.mn-linked li:hover:not(.js-fold-head) [class*=" icon-"] {
+  opacity: 1; }
+
+.mn-v li:not(.js-fold-head) [class^="icon-"], .mn-linked li:not(.js-fold-head) [class^="icon-"], .mn-v li:not(.js-fold-head)
+[class*=" icon-"], .mn-linked li:not(.js-fold-head)
+[class*=" icon-"] {
+  color: #999999;
+  opacity: 0.2; }
+a:not(.js-fold-trigger) [class^="icon-"], a:not(.js-fold-trigger)
+[class*=" icon-"] {
+  color: #606060;
+  opacity: 0.5; }
+.container [class^="icon-"], #content .as [class^="icon-"], .container
+[class*=" icon-"], #content .as
+[class*=" icon-"] {
+  font-size: 14px;
+  display: inline-block;
+  width: 14px;
+  text-align: center; }
+  .container [class^="icon-"].icon-envelope-alt, #content .as [class^="icon-"].icon-envelope-alt, .container
+  [class*=" icon-"].icon-envelope-alt, #content .as
+  [class*=" icon-"].icon-envelope-alt {
+    font-size: 12px; }
+.copy [class^="icon-"], .copy
+[class*=" icon-"] {
+  vertical-align: middle; }
+p.nav [class^="icon-"], p.nav
+[class*=" icon-"] {
+  font-size: inherit;
+  margin-top: -1px; }
+  p.nav [class^="icon-"].icon-arrow-down, p.nav [class^="icon-"].icon-arrow-left, p.nav
+  [class*=" icon-"].icon-arrow-down, p.nav
+  [class*=" icon-"].icon-arrow-left {
+    padding-right: 0.5em; }
+  p.nav [class^="icon-"].icon-arrow-right, p.nav
+  [class*=" icon-"].icon-arrow-right {
+    padding-left: 0.3em; }
+.mn-v li:not(.js-fold-head) [class^="icon-"], .mn-linked li:not(.js-fold-head) [class^="icon-"], .mn-v li:not(.js-fold-head)
+[class*=" icon-"], .mn-linked li:not(.js-fold-head)
+[class*=" icon-"] {
+  float: right;
+  margin-top: -1px; }
+.js-fold-head [class^="icon-"], .js-fold-head
+[class*=" icon-"] {
+  font-size: 13px;
+  display: block;
+  width: inherit;
+  height: inherit;
+  line-height: 2em; }
+
+.copyright-symbol {
+  font-size: 12px;
+  vertical-align: middle; }
 
 #menu .js-fold-trigger.js-fold-disabled {
   cursor: default; }
