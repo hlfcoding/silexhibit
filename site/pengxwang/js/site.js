@@ -36,14 +36,23 @@
       return evt.preventDefault();
     });
     setupTip = function($el) {
-      var $menuItems;
+      var $menuItems, $socialItems;
       $menuItems = $el.filter('.mn-v [title]');
       $menuItems.snapTip({
         snap: {
           toYAxis: true
         }
       });
-      return $el.not($menuItems).snapTip({
+      $socialItems = $el.filter('.mn-linked [title]');
+      $socialItems.snapTip({
+        snap: {
+          toYAxis: true
+        },
+        delay: {
+          "in": 1000
+        }
+      });
+      return $el.not($menuItems.add($socialItems)).snapTip({
         snap: {
           toXAxis: true
         }

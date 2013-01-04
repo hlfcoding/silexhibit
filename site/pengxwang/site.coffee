@@ -40,7 +40,13 @@ $ ->
   setupTip = ($el) ->
     $menuItems = $el.filter '.mn-v [title]'
     $menuItems.snapTip { snap: { toYAxis: on } }
-    $el.not($menuItems).snapTip { snap: { toXAxis: on } }
+    $socialItems = $el.filter '.mn-linked [title]'
+    $socialItems.snapTip
+      snap:
+        toYAxis: on
+      delay:
+        in: 1000
+    $el.not($menuItems.add($socialItems)).snapTip { snap: { toXAxis: on } }
   # - Initial setup.
   setupTip $ '[title]'
   # - Reset as needed.

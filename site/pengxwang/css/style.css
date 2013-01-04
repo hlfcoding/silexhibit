@@ -1219,10 +1219,10 @@ p.nav [class^="icon-"], p.nav
 .js-fold-head [class^="icon-"], .js-fold-head
 [class*=" icon-"] {
   font-size: 13px;
-  display: block;
   width: inherit;
   height: inherit;
-  line-height: 2em; }
+  vertical-align: middle;
+  line-height: 24px; }
 
 .copyright-symbol {
   font-size: 12px;
@@ -1304,39 +1304,39 @@ body {
   text-align: left;
   text-transform: lowercase; }
   .js-tip .js-tip-inner {
-    max-width: 216px; }
+    max-width: 240px; }
   .js-tip .js-tip-content {
     padding: 8px 12px 10px 12px; }
   .js-tip.js-tip-east.js-snap-tip-y-side .js-tip-stem, .js-tip.js-tip-east .js-tip-stem {
-    border-right-width: 12px; }
+    border-right-width: 6px; }
     .js-tip.js-tip-east.js-snap-tip-y-side .js-tip-stem + .js-tip-content, .js-tip.js-tip-east .js-tip-stem + .js-tip-content {
       top: auto;
       bottom: auto;
-      left: 12px; }
+      left: 6px; }
   .js-tip.js-tip-west.js-snap-tip-y-side .js-tip-stem, .js-tip.js-tip-west .js-tip-stem {
-    border-left-width: 12px; }
+    border-left-width: 6px; }
     .js-tip.js-tip-west.js-snap-tip-y-side .js-tip-stem + .js-tip-content, .js-tip.js-tip-west .js-tip-stem + .js-tip-content {
       top: auto;
       bottom: auto;
-      right: 12px; }
+      right: 6px; }
   .js-tip.js-tip-south.js-snap-tip-x-side .js-tip-stem, .js-tip.js-tip-south .js-tip-stem {
-    border-bottom-width: 12px; }
+    border-bottom-width: 6px; }
     .js-tip.js-tip-south.js-snap-tip-x-side .js-tip-stem + .js-tip-content, .js-tip.js-tip-south .js-tip-stem + .js-tip-content {
       left: auto;
       right: auto;
-      top: 12px; }
+      top: 6px; }
   .js-tip.js-tip-north.js-snap-tip-x-side .js-tip-stem, .js-tip.js-tip-north .js-tip-stem {
-    border-top-width: 12px; }
+    border-top-width: 6px; }
     .js-tip.js-tip-north.js-snap-tip-x-side .js-tip-stem + .js-tip-content, .js-tip.js-tip-north .js-tip-stem + .js-tip-content {
       left: auto;
       right: auto;
-      bottom: 12px; }
+      bottom: 6px; }
   .js-tip.js-snap-tip-x-side .js-tip-stem {
-    margin-left: -9px;
-    border-width: 0 9px; }
+    margin-left: -6px;
+    border-width: 0 6px; }
   .js-tip.js-snap-tip-y-side .js-tip-stem {
-    margin-top: -9px;
-    border-width: 9px 0; }
+    margin-top: -6px;
+    border-width: 6px 0; }
   .js-tip .js-tip-content {
     background-color: #606060;
     color: white; }

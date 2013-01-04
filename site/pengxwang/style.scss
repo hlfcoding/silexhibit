@@ -437,8 +437,8 @@ a:not(.js-fold-trigger),
   }
   .js-fold-head & {
     font-size: 13px;
-    display: block; width: inherit; height: inherit;
-    line-height: 2em;
+    width: inherit; height: inherit;
+    vertical-align: middle; line-height: 24px;
   }
 }
 
@@ -582,8 +582,9 @@ body {
 .js-tip {
   $fill: $_clr-base-2;
   $text: $_clr-light-1;
-  @include tip-layout;
+  @include tip-layout(12px, 20, 0.5, 2);
   @include tip-skin($fill, $text);
+  // Typography.
   font: italic 9px/14px Georgia, serif;
   text: {
     align: left;
