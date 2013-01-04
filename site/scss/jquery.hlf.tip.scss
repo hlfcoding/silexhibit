@@ -25,8 +25,8 @@
                    $content-padding-em:2/3 1 5/6 1)
 {
   $max-width: $max-width-em * $baseline;
-  $stem-size: $stem-size-em * $baseline;
-  $stem-wide-base: $stem-wide-base-em * $baseline;
+  $stem-size: round($stem-size-em * $baseline);
+  $stem-wide-base: round($stem-wide-base-em * $stem-size-em * $baseline);
   // TODO: Simplify.
   $content-padding: '';
   $i: 0;

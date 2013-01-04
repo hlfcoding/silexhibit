@@ -9,7 +9,7 @@
   ns = $.hlf;
 
   ns.tip = {
-    debug: true,
+    debug: false,
     toString: function(context) {
       switch (context) {
         case 'event':
@@ -208,7 +208,7 @@
       if (!(evt.pageX != null)) {
         return false;
       }
-      $t = ($t = $(evt.target)) && $t.hasClass(this.o.cls.trigger) ? $t : $t.closest(this.o.cls.trigger);
+      $t = ($t = $(evt.currentTarget)) && $t.hasClass(this.o.cls.trigger) ? $t : $t.closest(this.o.cls.trigger);
       if (!$t.length) {
         return false;
       }
@@ -463,7 +463,7 @@
           offset.left += $t.outerWidth();
         }
         if (this.o.snap.toXAxis === false) {
-          offset.top = baseOffset.top - $t.outerHeight() / 2;
+          offset.top = baseOffset.top - this.$tip.outerHeight() / 2;
         }
       }
       return offset;

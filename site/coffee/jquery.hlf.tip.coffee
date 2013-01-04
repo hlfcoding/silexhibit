@@ -31,7 +31,7 @@ ns = $.hlf
 # - `safeToggle` - Prevents orphan tips, since timers are sometimes unreliable.
 #
 ns.tip =
-  debug: on
+  debug: off
   toString: (context) ->
     switch context
       when 'event'  then '.hlf.tip'
@@ -74,7 +74,7 @@ ns.tip =
 # - `snap.xSnap` - Set empty to disable snapping along x-axis. Off by default.
 # - `snap.ySnap` - Set empty to disable snapping along y-axis. Off by default.
 # - `snap.snap` - Set empty to disable snapping to trigger. Builds on top of
-#   axis-snapping. Off by default.
+#   axis-snapping. On by default.
 #
 ns.snapTip =
   debug: off
@@ -191,10 +191,10 @@ class Tip
            .addClass($.trim _.reduce dir, ((cls, dir) => "#{cls} #{c[dir]}"), '')
 
 
-  # - The main toggle handler.
+  # - The main toggle handler. Hooked into by `offsetOnTriggerMouseMove`.
   _onTriggerMouseMove: (evt) ->
     return no if not evt.pageX?
-    $t = if ($t = $(evt.target)) and $t.hasClass(@o.cls.trigger) then $t else $t.closest(@o.cls.trigger)
+    $t = if ($t = $(evt.currentTarget)) and $t.hasClass(@o.cls.trigger) then $t else $t.closest(@o.cls.trigger)
     return no if not $t.length
     @wakeByTrigger $t, evt, =>
       offset =
@@ -368,14 +368,14 @@ class SnapTip extends Tip
   _moveToTrigger: ($t, baseOffset) ->
     # @_log @_nsLog, baseOffset
     offset = $t.offset()
-    if @o.snap.toXAxis is yes
+    if @o.snap.toXAxis is on
       if @isDirection 'south' then offset.top += $t.outerHeight()
-      if @o.snap.toYAxis is no
-        offset.left = baseOffset.left - (@$tip.outerWidth() - 12)/ 2
-    if @o.snap.toYAxis is yes
+      if @o.snap.toYAxis is off
+        offset.left = baseOffset.left - (@$tip.outerWidth() - 12)/ 2 # Note arbitrary buffer offset.
+    if @o.snap.toYAxis is on
       if @isDirection 'east' then offset.left += $t.outerWidth()
-      if @o.snap.toXAxis is no
-        offset.top = baseOffset.top - $t.outerHeight() / 2
+      if @o.snap.toXAxis is off
+        offset.top = baseOffset.top - @$tip.outerHeight() / 2
     offset
 
   # - Bind to get initial position for snapping. This is only for snapping

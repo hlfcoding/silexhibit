@@ -1,8 +1,8 @@
-# 
-# HLF Event jQuery Extension v1.0  
-# Released under the MIT License  
-# Written with jQuery 1.7.2  
-# 
+#
+# HLF Event jQuery Extension v1.0
+# Released under the MIT License
+# Written with jQuery 1.7.2
+#
 $ = jQuery
 #
 # jQuery Event Extension
@@ -10,13 +10,13 @@ $ = jQuery
 
 #
 # Composed of three parts:
-# 
+#
 # 1. Extend main namespace with properties to store global state.
 # 2. Private functions to implement certain behaviors.
 # 3. Adapting the behaviors to custom events.
 #
 
-# 
+#
 # Hover-intent
 # ------------
 # Basically a distance check with a delay to throttle mouse-enter. Allows for
@@ -25,7 +25,7 @@ $ = jQuery
 #
 $.extend true, $.hlf,
   hoverIntent:
-    debug: off
+    debug: on
     sensitivity: 8
     interval: 300
     toString: (context) ->
@@ -42,12 +42,12 @@ $.extend true, $.hlf,
       previous: 0
 
 do (ns=$.hlf.hoverIntent, m=$.hlf.mouse) ->
-  
+
   nsDat = ns.toString 'data'
   nsLog = ns.toString 'log'
   dat = (name) -> "#{nsDat}#{name}"
   log = if ns.debug is on then $.hlf.log else $.noop
-  
+
   check = (evt) ->
     # `$t` for trigger.
     $t = $ @
@@ -58,7 +58,7 @@ do (ns=$.hlf.hoverIntent, m=$.hlf.mouse) ->
     interval = $t.data(dat('Interval')) or ns.interval
     # - Guard.
     if evt.type is 'mouseleave'
-      if timer.cleared is no 
+      if timer.cleared is no
         # - Clear state.
         clearTimeout timer.timeout
         $t.removeData(dat('Timer')).removeData(dat())
@@ -71,7 +71,7 @@ do (ns=$.hlf.hoverIntent, m=$.hlf.mouse) ->
     timer.timeout = setTimeout ->
       # log nsLog, 'timeout'
       # - Measure and track.
-      intentional = Math.abs(m.x.previous - m.x.current) + Math.abs(m.y.previous - m.y.current) > sensitivity 
+      intentional = Math.abs(m.x.previous - m.x.current) + Math.abs(m.y.previous - m.y.current) > sensitivity
       intentional = intentional
       m.x.previous = evt.pageX
       m.y.previous = evt.pageY
@@ -87,30 +87,29 @@ do (ns=$.hlf.hoverIntent, m=$.hlf.mouse) ->
     # - Save state.
     timer.cleared = no
     $t.data dat('Timer'), timer
-    
-  
+
   track = (evt) ->
     m.x.current = evt.pageX
     m.y.current = evt.pageY
-  
+
   $.event.special.truemouseenter =
     setup: (data, namespaces) ->
       $(@).on
         mouseover:  check
         mousemove:  track
-    
+
     teardown: (data, namespaces) ->
       $(@).off
         mouseover:  check
         mousemove:  track
-    
+
   $.event.special.truemouseleave =
     setup: (data, namespaces) ->
       $(@).on
         mouseleave: check
-    
+
     teardown: (data, namespaces) ->
       $(@).off
         mouseleave: check
-    
+
 

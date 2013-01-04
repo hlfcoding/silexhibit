@@ -6,7 +6,7 @@
 
   $.extend(true, $.hlf, {
     hoverIntent: {
-      debug: false,
+      debug: true,
       sensitivity: 8,
       interval: 300,
       toString: function(context) {
