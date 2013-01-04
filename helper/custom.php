@@ -1,7 +1,7 @@
 <?php if (!defined('SITE')) exit('No direct script access allowed');
 
 /**
- * Custom helper functions that mainly extend on the frontend. 
+ * Custom helper functions that mainly extend on the frontend.
  * @see /ndxz-studio/site/plugin/index.php
  * @author Peng Wang <peng@pengxwang.com>
  * @version 1
@@ -11,10 +11,10 @@ function antispambot ($address, $mailto = 0)
 {
     $safe = '';
     srand((float) microtime() * 1000000);
-    for ($i = 0; $i < strlen($address); $i++) 
+    for ($i = 0; $i < strlen($address); $i++)
     {
         $j = floor(rand(0, 1 + $mailto));
-        switch ($j) 
+        switch ($j)
         {
             case 0:
                 $safe .= '&#' . ord(substr($address, $i, 1)) . ';';
@@ -22,14 +22,14 @@ function antispambot ($address, $mailto = 0)
                 $safe .= substr($address, $i, 1);
             break; case 2:
                 $safe .= '%' . sprintf('%0' . 2 . 's', dechex(ord(substr($address, $i, 1))));
-            break; 
+            break;
         }
     }
     $safe = str_replace('@', '&#64;', $safe);
     return $safe;
 }
 
-function load_xml ($path = '', $namespace = '') 
+function load_xml ($path = '', $namespace = '')
 {
     global $rs;
     $path = DIRNAME . BASENAME . DS . "$path.xml";
@@ -38,7 +38,7 @@ function load_xml ($path = '', $namespace = '')
         return;
     }
     $data = simplexml_load_file($path);
-    foreach ($data->children() as $key => $value) 
+    foreach ($data->children() as $key => $value)
     {
         $rs["${namespace}_${key}"] = trim($value, " \n");
     }
@@ -47,22 +47,27 @@ function load_xml ($path = '', $namespace = '')
 function add_globals ($namespace = 'custom')
 {
     global $rs;
-    
-    $rs["${namespace}_html_validation"] = 'http://validator.w3.org/check/referer';
+
+    $rs["${namespace}_html_validation"] = 'http://validator.w3.org/check?'
+         . htmlentities(
+             http_build_query(array(
+                 'doctype' => 'HTML5',
+                 'charset' => 'detect automatically',
+                 'uri' => ''
+             ))) . str_replace('http://', '', FULLURL);
     $rs["${namespace}_css_validation"] = 'http://jigsaw.w3.org/css-validator/validator?'
          . htmlentities(
              http_build_query(array(
-                 'profile' => 'css21', 
-                 'warning' => 0, 
-                 'uri' => ''
-             ))
-         ) .  str_replace('http://', '', FULLURL);
+                 'profile' => 'css3',
+                 'warning' => 0,
+                 'uri' => str_replace('http://', '', FULLURL)
+             ))) . str_replace('http://', '', FULLURL);
     $rs["${namespace}_full_url"] = FULLURL;
     $info = _get_browser();
     $rs["${namespace}_browser"] = strtolower($info['browser']);
     $rs["${namespace}_browser_and_version"] = strtolower($info['browser']) . $info['majorVersion'];
-    $rs["${namespace}_browser_platform"] = strtolower($info['platform']);    
-    $rs["${namespace}_cache_expires"] = gmdate('D, d M Y H:i:s', 
+    $rs["${namespace}_browser_platform"] = strtolower($info['platform']);
+    $rs["${namespace}_cache_expires"] = gmdate('D, d M Y H:i:s',
         mktime(0, 0, 0, date('m') + 1, 0, date('y'))
     ) . ' GMT';
     $rs["${namespace}_current_year"] = date('Y');
@@ -83,10 +88,10 @@ function _get_browser ($engine = false) {
     $platform     = 'unrecognized';
     $userAgent    = strtolower($_SERVER['HTTP_USER_AGENT']);
     if ( ! $engine) {
-        $found = preg_match("/(?P<browser>" . $SUBCLASS_REGX . ")(?:\D*)(?P<majorVersion>\d*)(?P<minorVersion>(?:\.\d*)*)/i", 
+        $found = preg_match("/(?P<browser>" . $SUBCLASS_REGX . ")(?:\D*)(?P<majorVersion>\d*)(?P<minorVersion>(?:\.\d*)*)/i",
             $userAgent, $matches);
     } elseif ($engine OR ! $found) {
-        $found = preg_match("/(?P<browser>" . $SUPERCLASS_REGX . ")(?:\D*)(?P<majorVersion>\d*)(?P<minorVersion>(?:\.\d*)*)/i", 
+        $found = preg_match("/(?P<browser>" . $SUPERCLASS_REGX . ")(?:\D*)(?P<majorVersion>\d*)(?P<minorVersion>(?:\.\d*)*)/i",
             $userAgent, $matches);
     }
     if ($found) {
@@ -118,7 +123,7 @@ function _get_browser ($engine = false) {
     );
 }
 
-function truncate ($str, $delim = '. ', $html = true, $suffix = '', $length = 150, $start = 0) 
+function truncate ($str, $delim = '. ', $html = true, $suffix = '', $length = 150, $start = 0)
 {
     if ($html) { // remove cdata and html
         $str = preg_replace('/[\n\t\[\]\{\}\/\/<>]*/i', '', strip_tags($str));
@@ -144,7 +149,7 @@ function truncate ($str, $delim = '. ', $html = true, $suffix = '', $length = 15
     if ($delim === '. ') { // revert fake sentences
         $substr = str_replace('%period%', '. ', $substr);
     }
-    return rtrim($substr) 
+    return rtrim($substr)
             . ((!empty($suffix) && $substr === $str) ? '' : ' ' . $suffix);
 }
 
@@ -187,7 +192,7 @@ function clean_html ($output)
             $output[$key] = $indent_replace . $value;
         } elseif (preg_match("/<!(.*)>/", $value)) { // If doctype declaration, simply apply indent
             $output[$key] = $indent_replace . $value;
-        } elseif (preg_match("/<[^\/](.*)>/", $value) AND preg_match("/<\/(.*)>/", $value)) { 
+        } elseif (preg_match("/<[^\/](.*)>/", $value) AND preg_match("/<\/(.*)>/", $value)) {
             // If opening AND closing tag on same line, simply apply indent
             $output[$key] = $indent_replace . $value;
         } elseif (preg_match("/<\/(.*)>/", $value) OR preg_match("/^(\s|\t)*\}{1}(\s|\t)*$/", $value)) {
@@ -199,7 +204,7 @@ function clean_html ($output)
                 $indent_replace .= $indent;
             }
             $output[$key] = $indent_replace . $value;
-        } elseif ((preg_match("/<[^\/](.*)>/", $value) AND ! preg_match("/<(link|meta|base|br|img|hr)(.*)>/", $value)) 
+        } elseif ((preg_match("/<[^\/](.*)>/", $value) AND ! preg_match("/<(link|meta|base|br|img|hr)(.*)>/", $value))
             OR preg_match("/^(\s|\t)*\{{1}(\s|\t)*$/", $value)) {
             // If opening HTML tag AND not a stand-alone tag, or opening JavaScript clams, increase indentation and then apply new level
             $output[$key] = $indent_replace . $value;
