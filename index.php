@@ -21,14 +21,14 @@ if (file_exists('config/config.php')) {
 require_once 'defaults.php';
 require_once 'bootstrap.php';
 require_once 'common.php';
-	
+
 // preloading things
 load_helpers(array('html', 'entrance', 'time', 'server'));
 
 // general tools for loading things
 load_class('core', false, 'lib');
 
-// "I'm digging for fire" - Pixies	
+// "I'm digging for fire" - Pixies
 $OBJ =& load_class('router', true, 'lib');
 
 // are we logged in?

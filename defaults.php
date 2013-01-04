@@ -31,8 +31,8 @@ $tables = array(
     'user' => 'users',
     'media' => 'media'
 );
-foreach ($tables as &$table) { 
-    $table = PX . $table; 
+foreach ($tables as &$table) {
+    $table = PX . $table;
 }
 // note: `default` not `defaults`
 $default = array(
@@ -54,7 +54,7 @@ $default = array(
     'reporting' => false,
     'content_xml_filename' => 'data',
     'content_xml_namespace' => 'data',
-    'run_tests' => true,
+    'run_tests' => false,
     'run_traces' => true,
 );
 $uploads = array(
@@ -80,13 +80,13 @@ define('SITEPATH', 'site');
 define('PLUGPATH', SITEPATH . '/plugin');
 define('CMSPATH', 'module');
 $core_paths = array(
-    LIBPATH => LIBPATH, 
-    DBPATH => DBPATH, 
-    HELPATH => HELPATH, 
-    MODPATH => MODPATH, 
-    LANGPATH => LANGPATH, 
-    EXTPATH => EXTPATH, 
-    PLUGPATH => PLUGPATH, 
+    LIBPATH => LIBPATH,
+    DBPATH => DBPATH,
+    HELPATH => HELPATH,
+    MODPATH => MODPATH,
+    LANGPATH => LANGPATH,
+    EXTPATH => EXTPATH,
+    PLUGPATH => PLUGPATH,
     'mod' => CMSPATH
 );
 

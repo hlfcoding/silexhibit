@@ -25,7 +25,7 @@ $ = jQuery
 #
 $.extend true, $.hlf,
   hoverIntent:
-    debug: on
+    debug: off
     sensitivity: 8
     interval: 300
     toString: (context) ->
