@@ -71,11 +71,11 @@ table {
   text-align: left; }
 
 th {
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid #333333;
   font-weight: bold; }
 
 td {
-  border-bottom: 1px solid #333; }
+  border-bottom: 1px solid #333333; }
 
 th, td {
   padding: 4px 10px 4px 0; }
