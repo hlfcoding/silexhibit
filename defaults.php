@@ -107,6 +107,7 @@ define('DIRNAME', str_replace(BASENAME, '', realpath(dirname(__FILE__))));
 
 // app url segments
 $self = (dirname($_SERVER['PHP_SELF']) === '/') ? '' : dirname($_SERVER['PHP_SELF']);
+$self = str_replace('/_main', '', $self);
 $base = str_replace('/ndxz-studio', '', "http://{$_SERVER['HTTP_HOST']}$self/");
 define('BASEURL', preg_replace("/\/$/i", '', $base));
 
