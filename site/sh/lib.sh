@@ -18,8 +18,8 @@ curl https://raw.github.com/hlfcoding/hlf-jquery/latest-stable/src/jquery.extens
 cd ../scss
 
 curl https://raw.github.com/hlfcoding/hlf-css/misc/bootstrap.scss -o "bootstrap.scss"
-curl https://raw.github.com/hlfcoding/hlf-css/mixins.scss -o "mixins.scss"
-curl https://raw.github.com/hlfcoding/hlf-css/h5bp.scss -o "h5bp.scss"
+curl https://raw.github.com/hlfcoding/hlf-css/misc/mixins.scss -o "mixins.scss"
+curl https://raw.github.com/hlfcoding/hlf-css/misc/h5bp.scss -o "h5bp.scss"
 curl https://raw.github.com/hlfcoding/hlf-jquery/latest-stable/release/jquery.hlf.tip.scss -o "jquery.hlf.tip.scss"
 # fontawesome-bare.scss is a mod.
 
