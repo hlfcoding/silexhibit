@@ -59,9 +59,9 @@ function createExhibit()
     {
         $title 		= ($go['media_title'] == '') ? '' : sprintf($wrap_title, ($go['media_title'] . '&nbsp;'));
         $caption 	= ($go['media_caption'] == '') ? '' : sprintf($wrap_caption, ($go['media_caption']));
-        //$x = getimagesize(BASEURL . GIMGS . '/' . $go['media_file']);
+        //$x = getimagesize(IMG_BASEURL . '/' . $go['media_file']);
 
-        $a .= "\n<div class='slide'><img src='" . BASEURL . GIMGS . "/$go[media_file]' class='img-bot' />";
+        $a .= "\n<div class='slide'><img src='" . IMG_BASEURL . "/$go[media_file]' class='img-bot' />";
         $a .= ( ! empty($title) OR ! empty($caption)) ? "<p class='meta'>{$title}{$caption}</p>" : '';
         $a .= "</div>\n";
 

@@ -12,11 +12,11 @@ define('PX', 'ndxz_'); // @todo deprecated
 define('VERSION', '0.71');
 // language to default to in case of error
 define('LANGUAGE', 'en-us');
+// util
+define('DS', DIRECTORY_SEPARATOR);
 // application development and testing and release lifecycle
 define('DEVELOPMENT', 9999);
 define('PRODUCTION', 'production'); // doubles as subdirectory name
-// util
-define('DS', DIRECTORY_SEPARATOR);
 
 // --------------------------------------------------
 // config

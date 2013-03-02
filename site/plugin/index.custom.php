@@ -46,7 +46,7 @@ function api_urls ()
     global $rs;
     return implode("\n", array(
         '<script type="text/javascript">',
-        "var path = Site.mediaUrl = '" . BASEURL . GIMGS . "/';",
+        "var path = Site.mediaUrl = '" . IMG_BASEURL . "/';",
         "Site.serviceUrl = '" . BASEURL . BASEURLNAME . "/" . SERVPATH . "';",
         '</script>'
         ));

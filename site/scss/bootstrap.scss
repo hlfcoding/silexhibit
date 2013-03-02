@@ -11,6 +11,7 @@
 // Required id somewhere in the dom root.
 $_context: if(not $_context, master, $_context);
 $_weight: '#html';
+$_root: '..';
 
 @if $_context == layout_screen or $_context == layout_mobile {
 

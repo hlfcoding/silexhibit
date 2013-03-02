@@ -39,9 +39,10 @@ $_clr-base-2: #606060;
 $_clr-base-3: #999;
 $_clr-base-4: #ccc;
 
-$_img: '../img/';
-$_font: '../font/';
-$fontAwesomePath: '../../font' !default;
+$_root: 'http://pengxwang.s3.amazonaws.com/main';
+$_img: '#{$_root}/pengxwang/img/';
+$_font: '#{$_root}/pengxwang/font/';
+$fontAwesomePath: '#{$_root}/font' !default;
 
 // Base
 // ====

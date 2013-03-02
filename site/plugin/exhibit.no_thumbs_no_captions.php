@@ -4,9 +4,9 @@
 * No thumbnails, no captions
 *
 * Exhbition format
-* 
+*
 * @version 1.0
-* @author Vaska 
+* @author Vaska
 */
 
 // defaults from the general libary - be sure these are installed
@@ -18,27 +18,27 @@ function createExhibit()
 {
     $OBJ =& get_instance();
     global $rs, $exhibit;
-    
-    $pages = $OBJ->db->fetchArray("SELECT * 
-        FROM ".PX."media, ".PX."objects_prefs, ".PX."objects  
-        WHERE media_ref_id = '$rs[id]' 
-        AND obj_ref_type = 'exhibit' 
-        AND obj_ref_type = media_obj_type 
-        AND id = '$rs[id]' 
+
+    $pages = $OBJ->db->fetchArray("SELECT *
+        FROM ".PX."media, ".PX."objects_prefs, ".PX."objects
+        WHERE media_ref_id = '$rs[id]'
+        AND obj_ref_type = 'exhibit'
+        AND obj_ref_type = media_obj_type
+        AND id = '$rs[id]'
         ORDER BY media_order ASC, media_id ASC");
-        
+
     // ** DON'T FORGET THE TEXT ** //
     $s = $rs['content'];
     $s .= "\n<div class='cl'>&nbsp;</div>\n";
 
     if (!$pages) return $s;
-    
+
     $i = 1; $a = '';
     foreach ($pages as $go)
     {
         $title      = ($go['media_title'] == '') ? '&nbsp;' : $go['media_title'];
         $caption    = ($go['media_caption'] == '') ? '&nbsp;' : $go['media_caption'];
-        
+
         if ($go['break'] != 0)
         {
             if ($i == $go['break'])
@@ -55,17 +55,17 @@ function createExhibit()
         {
             $break = '';
         }
-        
-        $a .= "\n<span class='nothumb'><img src='" . BASEURL . GIMGS . "/$go[media_file]' alt='$title' title='$title' /></span>$break\n";
-        
+
+        $a .= "\n<span class='nothumb'><img src='" . IMG_BASEURL . "/$go[media_file]' alt='$title' title='$title' /></span>$break\n";
+
         $i++;
     }
-    
+
     // images
     $s .= "<div id='img-container'>\n";
     $s .= $a;
     $s .= "</div>\n";
-        
+
     return $s;
 }
 
