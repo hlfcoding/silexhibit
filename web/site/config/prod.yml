@@ -1,0 +1,3 @@
+site.prod:
+  image_baseurl: http://pengxwang.s3.amazonaws.com/main/img
+  log_level: 0

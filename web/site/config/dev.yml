@@ -1,0 +1,3 @@
+site.dev:
+  image_baseurl: "%web_baseurl%/img"
+  log_level: 2

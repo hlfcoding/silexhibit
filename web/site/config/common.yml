@@ -1,0 +1,94 @@
+site.common:
+
+  helpers:
+    - html
+  theme: pengxwang # Theme can also be set in cms, more targeted.
+
+  # Custom global content, used mainly in layout.
+  content:
+    title_name: '{pengxwang}'
+    google_webmaster_key: &google_webmaster_key 6nvBUJPI8AOryT4Vb8/GeRq8e83ySOxjDkqJGKEASSo=
+    owner:
+      name: &owner_name Peng Xiao Wang
+      email: &owner_email peng@pengxwang.com
+      email_tip: Email me
+    copyright:
+      start_year: 2008
+      tip: >
+        Creative Commons licensed. Code is under an Attribution-Share Alike 3.0 Unported
+        Creative Commons License.
+      meta: >
+        Content is under a Attribution-Noncommercial-No Derivative Works 3.0 Unported
+        Creative Commons License. Code is under an Attribution-Share Alike 3.0 Unported
+        Creative Commons License.
+      license_url: &copyright_license_url http://creativecommons.org/licenses/by-nc-nd/3.0/
+      source_url: &copyright_source_url http://creativecommons.org/licenses/by-sa/3.0/
+    validation:
+      html_base_url: 'http://validator.w3.org/check?doctype=HTML5'
+      css_base_url: 'http://jigsaw.w3.org/css-validator/validator?profile=css3&warning=0'
+    hosting:
+      url: 'http://www.asmallorange.com?a_aid=destrado'
+      tip: >
+        A Small Orange is a provider of Internet solutions and services specializing in web hosting and site management. We have the web hosting solution for you.
+    developer_banner: >
+      Thanks for looking at my source code. It's hand-coded and auto-formatted.
+
+  metas:
+    # TODO: Caching meta.
+    -
+      name: verify-v1
+      content: *google_webmaster_key
+    -
+      name: profile
+      content: http://gmpg.org/xfn/11
+    -
+      name: apple-mobile-web-app-capable
+      content: yes
+    -
+      name: apple-mobile-web-app-status-bar-style
+      content: black
+    -
+      name: description
+      content: >
+        Personal website of Peng Wang. Features: portfolio, sketches, bio, resume,
+        and more.
+    -
+      name: keywords
+      content: >
+        Peng Wang, Peng, Wang, Xiao, Indexhibit, WordPress, CodeIgniter,
+        Processing, Actionscript, Fluidesign, UCLA, D+MA, D|MA, Los Angeles,
+        China, artist, designer, coder, portfolio, resume, creative, design,
+        media arts, web design, graphic design, motion, video, drawing, painting,
+        illustration, freelance, processing
+    -
+      name: author
+      content: *owner_name
+    -
+      name: owner
+      content: *owner_email
+    -
+      name: build
+      content: 1.05
+
+  head_links:
+    -
+      rel: license content-license
+      href: *copyright_license_url
+    -
+      rel: license source-license
+      href: *copyright_source_url
+    -
+      rel: shortcut icon
+      href: favicon.ico
+    -
+      rel: apple-touch-icon
+      href: favicon.png
+
+  snippets:
+    - |
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src=\'" + gaJsHost + "google-analytics.com/ga.js\' type=\'text/javascript\'%3E%3C/script%3E"));
+      try {
+        var pageTracker = _gat._getTracker("UA-10346713-1");
+        pageTracker._trackPageview();
+      } catch (err) {}
