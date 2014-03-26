@@ -84,9 +84,9 @@ class Exhibit.FormView extends Backbone.View
     globals = app.model.get 'exhibit'
     globals.accepted_image_mimes = globals.accepted_image_mimes.join ','
     _.extend context, globals
-    # For attributes which are selected from options, add the options to the
-    # context. The option matching the current attribute is marked.
-    # This will override some previously merged globals.
+    # For model attributes which are selected from options, add the options to
+    # our context. Note the option matching the current attribute is expected to
+    # be marked. Also, this will override some previously merged globals.
     for key in Exhibit.Model.selectableKeys
       key = _.pluralize key
       context[key] = @model.getWithOptions key
@@ -102,9 +102,9 @@ class Exhibit.FormView extends Backbone.View
   inputDidChange: (sender) ->
     if sender instanceof $.Event
       e = sender
-      # When a component detects change and sends us an event, update our
-      # scratch model, after finding out the attribute key based on the event's
-      # element.
+      # When a component detects change and sends us an event, first find out
+      # the attribute key based on the event's element, and then update our
+      # scratch model.
       $component = $ e.currentTarget
       attributeValue = v for own k, v of e.userInfo when _.contains(['text', 'option'], k) and v?
       @scratchModel.set @attributeKey($component), attributeValue
