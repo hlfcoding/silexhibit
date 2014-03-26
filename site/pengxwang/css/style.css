@@ -2,26 +2,24 @@
 @import 'layout_mobile.css' handheld;
 @import 'layout_print.css' print;
 .fix-c::before, .fix-c::after {
-  content: "\0020";
-  display: block;
-  height: 0;
-  overflow: hidden; }
+  content: " ";
+  display: table; }
 .fix-c::after {
   clear: both; }
-html.ie8 .fix-c {
-  zoom: 1; }
-html.ie6 .fix-c {
-  display: inline-block;
-  height: 1%;
-  display: block; }
+html.lt-ie8 .fix-c {
+  *zoom: 1; }
 
 .replaced {
-  display: block;
-  text-indent: -999em;
+  background-color: transparent;
+  border: 0;
   overflow: hidden;
-  background-repeat: no-repeat;
-  text-align: left;
-  direction: ltr; }
+  /* IE 6/7 fallback */
+  *text-indent: -9999px; }
+  .replaced::before {
+    content: "";
+    display: block;
+    width: 0;
+    height: 150%; }
 
 .inline-block, #logo a {
   display: -moz-inline-stack;
@@ -987,7 +985,7 @@ h1, h2, h3, #html .section-title, .section-title, #content .box h3, #content .bo
 
 h1, h2, h3, #html .section-title, .section-title {
   text-transform: lowercase;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   letter-spacing: -.05em;
   word-spacing: .05em; }
   #html h1, #html h2, #html h3, #html .section-title {
@@ -997,15 +995,15 @@ h1, h2, h3, #html .section-title, .section-title {
     word-spacing: normal; }
 
 body, .copyright-symbol {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
 
 .container, #content .as {
-  font-family: "SourceCodeProRegular", "Consolas", monospace;
+  font-family: 'SourceCodeProRegular', 'Consolas', monospace;
   word-spacing: -1px; }
   #html .container, #html #content .as, #content #html .as {
     font-weight: normal; }
     #html .container strong, #html #content .as strong, #content #html .as strong {
-      font-family: "SourceCodeProSemibold", "Consolas", monospace;
+      font-family: 'SourceCodeProSemibold', 'Consolas', monospace;
       font-weight: normal; }
 
 .copy dt em, .caption, #content header .label em,
@@ -1037,7 +1035,7 @@ body, .copyright-symbol {
   text-transform: uppercase;
   letter-spacing: 1px;
   word-spacing: 2px;
-  font-family: Verdana, "Century Gothic", "Geneva", sans-serif; }
+  font-family: Verdana, 'Century Gothic', 'Geneva', sans-serif; }
 
 #menu .js-fold-trigger {
   -webkit-box-shadow: inset 0 0 4px 0 rgba(0, 0, 0, 0.2), 0 0 2px 0 rgba(255, 255, 255, 0.3);
@@ -1355,7 +1353,7 @@ body {
 
 /* hlf tip **/
 html.ie6 img.png {
-  background-image: expression(this.runtimeStyle.backgroundImage = "none",       this.runtimeStyle.filter =       "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.src +       "', sizingMethod='image')",       this.src = "/path/to/transparent.gif"     ); }
+  background-image: expression(this.runtimeStyle.backgroundImage = "none", this.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.src + "', sizingMethod='image')", this.src = "/path/to/transparent.gif" ); }
 html.ie6 #menu {
   position: absolute; }
 html.ie6 .thumb-it {

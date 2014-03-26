@@ -52,7 +52,7 @@ hr {
   display: block;
   height: 1px;
   border: 0;
-  border-top: 1px solid #cccccc;
+  border-top: 1px solid #ccc;
   margin: 1em 0;
   padding: 0; }
 
@@ -170,12 +170,12 @@ button {
   list-style-image: none;
   display: block; }
   .mn a, .mn-h a, .mn-v a, .mn-v-a a, #content .feed.mn-g a {
-    padding: 0.5em 1em;
+    padding: .5em 1em;
     border-style: solid;
     border-width: 1px;
     line-height: 1.33em;
     text-decoration: none; }
-    html.ie6 .mn a, html.ie6 .mn-h a, html.ie6 .mn-v a, html.ie6 .mn-v-a a, html.ie6 #content .feed.mn-g a, #content html.ie6 .feed.mn-g a {
+    html.lt-ie7 .mn a, html.lt-ie7 .mn-h a, html.lt-ie7 .mn-v a, html.lt-ie7 .mn-v-a a, html.lt-ie7 #content .feed.mn-g a, #content html.lt-ie7 .feed.mn-g a {
       zoom: 1; }
 
 .mn-h li {
@@ -185,7 +185,7 @@ button {
 .mn-h a {
   display: block;
   border-left-width: 0; }
-html.ie6 .mn-h {
+html.lt-ie7 .mn-h {
   display: inline-block;
   height: 1%;
   display: block; }
@@ -198,12 +198,12 @@ html.ie6 .mn-h {
   border-top-width: 0; }
 .mn-v li:last-child a, .mn-v-a li:last-child a {
   border-bottom-width: 0; }
-html.ie6 .mn-v li, html.ie6 .mn-v-a li {
+html.lt-ie7 .mn-v li, html.lt-ie7 .mn-v-a li {
   zoom: 1; }
 .mn-v a, .mn-v-a a {
   display: block;
   border-top-width: 0; }
-  html.ie6 .mn-v a, html.ie6 .mn-v-a a {
+  html.lt-ie7 .mn-v a, html.lt-ie7 .mn-v-a a {
     display: inline;
     display: block; }
 
@@ -233,18 +233,12 @@ html.ie6 .mn-v li, html.ie6 .mn-v-a li {
 .in-g {
   border-width: 1px; }
   .in-g::before, .in-g::after {
-    content: "\0020";
-    display: block;
-    height: 0;
-    overflow: hidden; }
+    content: " ";
+    display: table; }
   .in-g::after {
     clear: both; }
-  html.ie8 .in-g {
-    zoom: 1; }
-  html.ie6 .in-g {
-    display: inline-block;
-    height: 1%;
-    display: block; }
+  html.lt-ie8 .in-g {
+    *zoom: 1; }
   .in-g .in-g {
     border-width: 0; }
 
@@ -270,7 +264,7 @@ html.ie6 .mn-v li, html.ie6 .mn-v-a li {
     border-left-width: 0; }
   .c1 .in-c, .c1 .in-c-b {
     border-left: 0 none; }
-  html.ie7 .in-c, html.ie7 .in-c-b {
+  html.lt-ie8 .in-c, html.lt-ie8 .in-c-b {
     zoom: 1; }
 
 .in-c-b {
@@ -394,7 +388,7 @@ html.ie6 .mn-v li, html.ie6 .mn-v-a li {
   overflow: hidden;
   white-space: nowrap; }
 #content .feed-container.github-feed .mn-v article, #content .feed-container.github-feed .mn-v-a article, #content .feed-container.twitter-feed .mn-v article, #content .feed-container.twitter-feed .mn-v-a article {
-  padding: 0.545em 0 0.181em 1.545em; }
+  padding: .545em 0 .181em 1.545em; }
 #content .feed-container.github-feed .mn-v blockquote, #content .feed-container.github-feed .mn-v-a blockquote, #content .feed-container.github-feed .mn-v code, #content .feed-container.github-feed .mn-v-a code {
   font-style: italic; }
 #content .feed.mn-v .inline, #content .feed.mn-v-a .inline {
