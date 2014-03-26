@@ -26,6 +26,7 @@ class FeatureContext extends MinkContext
   public function __construct(array $parameters)
   {
     $this->app = require __DIR__.'/../../src/app.php';
+    // TODO: Testable controllers.
     $this->exhibit_model = new ExhibitModel();
     $this->exhibit_view = new ExhibitView();
     $this->data = array();
