@@ -1,0 +1,13 @@
+debug: true
+
+db.options.dev:
+  user:     root
+  password:
+  host:     localhost
+
+assetic.dev:
+  css_compressor: '/usr/local/Cellar/yuicompressor/2.4.7/libexec/yuicompressor-2.4.7.jar'
+  coffee: '/usr/local/bin/coffee'
+
+monolog.options.dev:
+  monolog.logfile: "%logs_path%/dev.log"

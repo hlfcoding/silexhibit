@@ -1,0 +1,9 @@
+# debug: true
+
+# db.options.prod:
+#   user:
+#   password:
+#   host:     localhost
+
+# monolog.options.prod:
+#   monolog.logfile: "%logs_path%/prod.log"
