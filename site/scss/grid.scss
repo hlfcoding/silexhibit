@@ -84,7 +84,7 @@
     border-left-width: 0;
   }
   .c1 & { border-left: 0 none; }
-  html.ie7 & { zoom: 1; }
+  html.lt-ie8 & { zoom: 1; }
 }
 .in-c-b {
   @extend .in-c;

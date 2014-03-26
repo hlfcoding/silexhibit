@@ -286,26 +286,29 @@ $b-1: rgba(0,0,0, 0.1);
 // everything for each scss stylesheet and then concatenating them.
 @mixin clearfix ($with-ie:true) {
   &::before, &::after {
-    content: "\0020";
-    display: block;
-    height: 0;
-    overflow: hidden;
+    content: " ";
+    display: table;
   }
   &::after { clear: both; }
   @if $with-ie {
-    html.ie8 & { zoom: 1; }
-    html.ie6 & {
-      display: inline-block;
-      height: 1%;
-      display: block;
-    }
+    html.lt-ie8 & { *zoom: 1; }
   }
 }
 
 // Mostly derived from HTML5 Boilerplate. It's for semantic banners that show an
 // image instead of the actual text, etc.
 @mixin replaced {
-  display: block; text-indent: -999em; overflow: hidden; background-repeat: no-repeat; text-align: left; direction: ltr;
+  background-color: transparent;
+  border: 0;
+  overflow: hidden;
+  /* IE 6/7 fallback */
+  *text-indent: -9999px;
+  &::before {
+    content: "";
+    display: block;
+    width: 0;
+    height: 150%;
+  }
 }
 
 // Generic box reset.
