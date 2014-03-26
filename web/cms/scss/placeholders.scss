@@ -1,0 +1,5 @@
+@import 'shared';
+
+%clearfix {
+  @include clearfix;
+}
