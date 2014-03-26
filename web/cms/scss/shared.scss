@@ -1,0 +1,14 @@
+$include-html-classes: false;
+
+@import 'bootstrap';
+
+$base-bg-color: #fff;
+$base-text-color: #000;
+
+@mixin flex ($property, $value) {
+  @if $property == display {
+    #{$property}: -webkit-#{$value};
+  } @else {
+    -webkit-#{$property}: $value;
+  }
+}

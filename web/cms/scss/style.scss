@@ -1,0 +1,60 @@
+@import 'shared';
+
+@import 'placeholders';
+
+@import 'module/header';
+@import 'module/content';
+@import 'module/footer';
+
+// exhibit.scss
+.exhibit-form .form-section-wrap {
+  $meta-width: 250px;
+  html.flexbox & {
+    @include flex(display, flex);
+    > .form-section-main {
+      @include flex(flex, 1);
+      @include flex(order, 1);
+    }
+    > .form-section-meta {
+      @include flex(flex, 0 0 $meta-width);
+      @include flex(order, 2);
+    }
+  }
+  html.no-flexbox & {
+    @extend %clearfix;
+    > .form-section-main {
+      padding-right: $meta-width;
+    }
+    > .form-section-meta {
+      float: right;
+      width: $meta-width;
+    }
+  }
+
+}
+
+[data-pre-text]::before {
+  content: attr(data-pre-text);
+}
+
+.exhibit-form {
+  %editable-color {
+    [data-pre-text]::before,
+    .color-well,
+    .inline-wrap > div,
+    .inline-wrap {
+      display: inline-block;
+    }
+  }
+  .exhibit-bg-color {
+    @extend %editable-color;
+  }
+}
+
+.radio {
+  label.selectable-selected {
+    background: black;
+    color: white;
+  }
+}
+
