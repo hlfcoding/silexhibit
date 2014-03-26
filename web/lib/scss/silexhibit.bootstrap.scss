@@ -1,0 +1,31 @@
+//
+// The Bootstrap
+// =============
+//
+// Include this at the start of your stylesheet. Define a `_context` before then
+// to determine what gets output.
+
+@import 'hlf.mixins';
+
+$_context: master !default;
+// Required id somewhere in the dom root.
+$_weight: '#html';
+
+$_fontawesome-path: '/lib/font';
+
+@if $_context == master {
+
+  .inline-block { display: -moz-inline-stack; display: inline-block; }
+  #{$_weight} .inline { display: inline; }
+  .loosely-hidden { display: none; }
+
+  // TODO: Deprecated, stop using.
+  .fix-c { @include clearfix; }
+  .replaced { @include replaced; }
+  .sprite { background: { repeat: no-repeat; position: top left; attachment: scroll; color: transparent; } }
+
+  * { box-sizing: content-box; } // TODO: A patch. Eventually remove.
+
+}
+
+
