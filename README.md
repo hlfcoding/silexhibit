@@ -9,6 +9,16 @@
 bash ./bin/setup.sh
 ```
 
+## Usage
+
+Where to put your files for:
+
+- A custom theme: `web/site/<theme>/`
+- A custom plugin: `user/Silexhibit/Plugins/<plugin>/`
+- A custom php library, update: `composer.json`.
+- A custom frontend library, update: `bower.json`.
+- A custom grunt task or plugin, update: `package.json`, `Gruntfile.coffee`
+
 ## Differences from Indexhibit ~ 0.7
 
 - Deprecated exhibit settings:
