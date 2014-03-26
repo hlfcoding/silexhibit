@@ -1,0 +1,17 @@
+{{#sections}}
+<ul>
+  {{#should_display_name}}
+  <li class='section-title'>
+    <span class='h-main'>
+      <span class='title'>{{name}}</span>
+      <sup>({{item_count}})</sup>
+    </span>
+  </li>
+  {{/should_display_name}}
+  {{#items}}
+    <li class="{{#is_active}}active{{/is_active}}">
+      <a href="{{url}}" title="{{preview_text}}">{{title}}</a>
+    </li>
+  {{/items}}
+</ul>
+{{/sections}}

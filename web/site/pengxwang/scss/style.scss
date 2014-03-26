@@ -1,0 +1,680 @@
+//
+// The Master Stylesheet
+// =====================
+//
+// Styles specified here should be consistent for all media.
+//
+// Reserved indexhibit selectors:
+//
+// - .container
+// - #content
+// - #menu
+// - #menu .section
+// - #once
+
+// Constants
+// =========
+
+$_clr-accent-1: #05c;
+$_clr-accent-2: #07e;
+$_clr-accent-3: #06c;
+$_clr-accent-4: #06f;
+$_clr-light-1: #fff;
+$_clr-light-2: #eaeaea;
+$_clr-light-3: #f4f4f4;
+$_clr-light-4: #f0f0f0;
+$_clr-light-5: #dadad8;
+$_clr-shade-1: #000;
+$_clr-shade-2: #333;
+$_clr-base-1: #aaa;
+$_clr-base-2: #606060;
+$_clr-base-3: #999;
+$_clr-base-4: #ccc;
+
+// TODO: Support dev.
+// $_app-web-root: 'http://pengxwang.s3.amazonaws.com/main';
+
+@import '../../scss/bootstrap';
+$_theme-web-img: '#{$_app-web-root}/pengxwang/img/'; // TODO: No trailing slash.
+$_theme-web-font: '#{$_app-web-root}/pengxwang/font/'; // TODO: No trailing slash.
+$_img: $_theme-web-img;
+$_font: $_theme-web-font;
+
+// Base
+// ====
+
+// Add context-dependent base boilerplate. Utility classes are also added.
+@import '../../../lib/scss/silexhibit.bootstrap';
+
+// Add font styles.
+@import 'font';
+@import '../../../lib/scss/hlf.fontawesome-mod';
+// Add plugin styles.
+@import '../../../lib/scss/optional/jquery.flexslider';
+@import '../../../lib/scss/optional/jquery.hlf.tip';
+// Add layout styles.
+@import 'layout';
+$_context: master;
+//
+// Object oriented internal classes to extend from.
+//
+// Menu skins.
+%accented-menu-item-1 {
+  border-left-color: $_clr-accent-1;
+  &:hover { border-left-color: $_clr-accent-2; }
+}
+%accented-menu-item-2 {
+  border-left-color: transparent;
+  &:hover { border-left-color: $_clr-accent-2; }
+}
+%toggled-menu-item-1 {
+  background-color: $_clr-light-1;
+}
+//
+// Text skins.
+%base-text-1 {
+  color: $_clr-shade-2;
+}
+%base-text-2 {
+  color: $_clr-base-2;
+}
+%heavy-text-1 {
+  color: $_clr-shade-1;
+}
+%meta-text-1 {
+  color: $_clr-base-1;
+}
+%meta-text-2 {
+  color: $_clr-base-3;
+}
+%meta-text-3 {
+  color: $_clr-base-4;
+}
+%meta-text-4 {
+  color: $_clr-light-5;
+}
+%meta-text-5 {
+  color: $_clr-light-2;
+}
+%underlined-text-1 {
+  border-bottom: 1px dotted ($_clr-base-1 + $hx);
+  &.truncated { border-bottom: 0; }
+}
+%link-text-1 {
+  @include transition(color border-bottom-color);
+  text-decoration: none;
+  border-bottom: 1px dotted transparent;
+  &:link, &:active, &:visited { color: $_clr-accent-3; }
+  &:hover {
+    color: $_clr-accent-4;
+    border-bottom-color: $_clr-base-1;
+  }
+}
+%meta-link-text-1 {
+  // Includes necessary reset.
+  &, &:hover { color: $_clr-shade-2; }
+}
+%meta-link-text-2 {
+  color: $_clr-base-1;
+  // Includes necessary reset.
+  &:hover { color: $_clr-shade-2; }
+}
+%meta-link-text-3 {
+  color: $_clr-base-2;
+  // Includes necessary reset.
+  &:hover { color: $_clr-shade-2; }
+}
+%ribbon-text-1 {
+  $bg-color: $_clr-light-3;
+  $inset-size: 4px;
+  @include single-inset(0, -1px, $inset-size, $b-1);
+  background-color: $bg-color;
+  html.boxshadow & {
+    margin-left: -$inset-size;
+    padding-left: $inset-size;
+    border: {
+      width: 1px;
+      color: $bg-color ($bg-color - $hx) ($bg-color - 2*$hx) ($bg-color - $hx);
+      style: solid;
+    }
+  }
+}
+%floating-text-1 {
+  text-shadow: 0 1px 0 $b-2;
+}
+%engraved-text-1 {
+  @include text-inset;
+}
+%selected-text-1 {
+  background: transparent;
+  color: $_clr-shade-1;
+  text-shadow: none;
+}
+%title-text-1 {
+  @extend %floating-text-1;
+  text-transform: lowercase;
+  #{$_weight} & { font-weight: bold; }
+  & .as {
+    letter-spacing: normal;
+    word-spacing: normal;
+  } // Reset.
+  // As an exception, the font styles are tightly coupled.
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  letter-spacing: -.05em;
+  word-spacing: .05em;
+}
+//
+// Font styles.
+%font-1 { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+%font-2 {
+  font-family: 'SourceCodeProRegular', 'Consolas', monospace;
+  word-spacing: -1px;
+  #{$_weight} & {
+    font-weight: normal;
+    strong {
+      font-family: 'SourceCodeProSemibold', 'Consolas', monospace;
+      font-weight: normal;
+    }
+  } // Reset.
+}
+%font-3 { font-family: Georgia, serif; }
+//
+// Typography.
+%base-type-1 {
+  font-size: 11px;
+  line-height: 16px;
+}
+%base-type-2 {
+  @extend %base-type-1;
+  line-height: 18px;
+}
+%base-type-3 {
+  @extend %base-type-1;
+  line-height: 24px;
+}
+%base-type-4 {
+  font-size: 12px;
+  line-height: 24px;
+}
+%meta-type-1 {
+  @extend %meta-text-2;
+  font-size: 10px;
+  line-height: 14px;
+}
+%meta-type-2 {
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  word-spacing: 2px;
+  font-family: Verdana, 'Century Gothic', 'Geneva', sans-serif;
+}
+//
+// Button skins.
+%button-1-default {
+  $bg-color: $_clr-light-4;
+  @include simple-bevel($b-2, $w-3, 4px, 2px, 0, 0);
+  @include transition(background-color border-color color, 0.3s);
+  background-color: $bg-color;
+  border-color: $bg-color + 0.5*$hx;
+}
+%button-1-toggled {
+  background-color: $_clr-light-1 - 0.5*$hx;
+  border-color: $_clr-light-1;
+}
+//
+// Module skins.
+%paper-1 {
+  $bg-color: $_clr-light-1;
+  @include simple-bevel($b-1, $b-2, 1.5em, 3px, 0, 0);
+  background-color: $bg-color;
+  html.boxshadow & { border: 1px solid $bg-color; }
+}
+%paper-2 {
+  $bg-color: $_clr-light-2;
+  @include simple-bevel($w-2, $b-1, 2em, 3px, 1px, 0, -1em, 0);
+  background-color: $bg-color;
+  html.boxshadow & { border: 1px solid $bg-color; border-left: 0; }
+}
+%paper-3 {
+  $bg-color: $_clr-light-3;
+  @include simple-bevel($w-2, $b-2, 2em, 3px, 1px, 0, -1em, 0);
+  background-color: $bg-color;
+  html.boxshadow & { border: 1px solid $bg-color; border-left: 0; }
+}
+//
+// Extended boilerplate.
+::selection, ::-moz-selection { @extend %selected-text-1; }
+a:link { -webkit-tap-highlight-color: $_clr-light-5; }
+
+body {
+  @extend %base-text-1;
+  @extend %font-1;
+  cursor: default;
+  text-align: left;
+}
+
+select, input, textarea { @extend %base-text-1; }
+
+abbr, strong { @extend %heavy-text-1; }
+#{$_weight} strong { font-weight: bold; }
+
+#{$_weight} em {
+  font-style: italic;
+  &, & > * {
+    letter-spacing: normal;
+    word-spacing: normal;
+  } // Reset.
+  strong { font-weight: normal; } // Reset.
+}
+
+a:not(.replaced) {
+  @extend %link-text-1;
+  h3 & {
+    @extend %meta-link-text-1;
+    &.as { @extend %meta-link-text-3; }
+  } // Reset.
+  &.compound {
+    @extend %meta-link-text-1;
+    .faux-link { @extend %link-text-1; }
+    article {
+      * { @extend %meta-text-1; }
+      .title { @extend %base-text-2; }
+      .tags { @extend %meta-text-3; }
+    }
+  }
+}
+
+h1, h2, h3, %h3 {
+  @extend %title-text-1;
+  font-weight: bold;
+  line-height: 1em; // Reset.
+}
+h1 { font-size: 30px; }
+h2 { font-size: 24px; }
+%h3, // TODO: A patch. Eventually remove.
+h3 { font-size: 16px; }
+
+// Modules
+// =======
+
+.mn-v {
+  ol, ul {
+    border: { style: solid; color: $_clr-light-4; }
+  }
+  li {
+    border: { style: solid; color: $_clr-light-2; }
+  }
+}
+
+// Extensions & Plugins
+// ====================
+
+// Generic wrapper.
+.container {
+  @extend %font-2;
+  .rows dt {
+    @extend %meta-text-2;
+    @extend %base-type-1;
+    #{$_weight} & {
+      @include box-shadow(none);
+      background-color: transparent;
+      border: 0;
+    } // Reset.
+  }
+  li, dd { @extend %base-type-1; }
+  .prose, p { @extend %base-type-2; }
+  // Reset.
+  .mn-v-a li { line-height: 1em; }
+  #{$_weight} li li { font-size: 1em; }
+}
+//
+// Foldable.
+.section-title {
+  @extend %title-text-1;
+  #{$_weight} & { @extend %h3; }
+  .title { @extend %underlined-text-1; }
+}
+//
+// Feeds.
+.st-feed {
+  article .meta * { @extend %meta-text-1; }
+}
+.st-feed-nav-trigger-wrap {
+  cursor: pointer;
+  position: relative;
+  * {
+    position: relative;
+    z-index: 2;
+  }
+  a {
+    @include transition(none);
+  }
+  &::before {
+    @include transition(right, 1s);
+    content: ' ';
+    background: $_clr-base-4;
+    height: 22px;
+    position: absolute; top: -5px; left: -4px;
+    right: 105%;
+    z-index: 1;
+  }
+  &.st-selected,
+  &:hover {
+    &::before { right: 0%; }
+  }
+  &.st-selected,
+  &.st-in-progress {
+    #{$_weight} & {
+      a {
+        @extend %floating-text-1;
+        color: $_clr-light-1;
+        border-bottom: 0;
+      }
+      [class^="icon-"] { visibility: hidden; }
+    }
+  }
+}
+//
+// Header annotations.
+sup {
+  // Reset.
+  font-size: 100%;
+  vertical-align: baseline;
+  top: 0;
+  #{$_weight} & { text-shadow: none; } // Reset.
+  .hdr & {
+    @extend %meta-text-5;
+  }
+  .h-main & {
+    #menu & { @extend %meta-text-4; }
+  }
+}
+//
+// Main.
+.copy {
+  small { @extend %meta-type-2; }
+  a { line-height: 1em; }
+  dt {
+    small { line-height: 24px; } // Align.
+    em { @extend %font-3; }
+  }
+  dd a, li a, .prose a {
+    line-height: inherit;
+  } // Reset.
+}
+//
+// Slideshow.
+.st-slideshow {
+  .flex-viewport {
+    @extend %paper-1;
+    background: $_clr-shade-1;
+  }
+  .caption {
+    @extend %font-3;
+    @extend %meta-type-1;
+  }
+  .meta {
+    @extend %paper-1;
+    .title { @extend %base-type-1; }
+    font-size: 1em; // Reset.
+  }
+  .st-autoplay-status [class^="icon-"] {
+    color: $_clr-base-2;
+    opacity: 0.2;
+  }
+}
+//
+// Font-Awesome integration.
+#{$_weight} p.st-nav a {
+  border-bottom: 0;
+}
+%fade-in-on-hover {
+  [class^="icon-"] {
+    @include transition(opacity);
+  }
+  &:hover {
+    [class^="icon-"] { opacity: 1; }
+  }
+}
+a:not(.js-fold-trigger),
+.mn-v li:not(.js-fold-head),
+.mn-linked li:not(.js-fold-head) { @extend %fade-in-on-hover; }
+// Main.
+[class^="icon-"] {
+  .mn-v li:not(.js-fold-head) &,
+  .mn-linked li:not(.js-fold-head) & {
+    color: $_clr-base-3;
+    opacity: 0.2;
+  }
+  a:not(.js-fold-trigger) & {
+    color: $_clr-base-2;
+    opacity: 0.5;
+  }
+  %font-2 & {
+    font-size: 14px;
+    &.icon-envelope-alt {
+      font-size: 12px;
+    }
+    display: inline-block; width: 14px; text-align: center;
+  }
+  .copy & {
+    vertical-align: middle;
+  }
+  p.st-nav & {
+    $gutter: 0.5em;
+    font-size: inherit;
+    margin-top: -1px;
+    &.icon-arrow-down,
+    &.icon-arrow-left { padding-right: $gutter; }
+    &.icon-arrow-right { padding-left: $gutter - 0.2em; }
+  }
+  .mn-v li:not(.js-fold-head) &,
+  .mn-linked li:not(.js-fold-head) & {
+    float: right;
+    margin-top: -1px;
+  }
+  .js-fold-head & {
+    font-size: 13px;
+    width: inherit; height: inherit;
+    vertical-align: middle; line-height: 24px;
+  }
+}
+
+// App
+// ===
+
+//
+// Typography
+// ----------
+.copyright-symbol {
+  @extend %font-1;
+  font-size: 12px; vertical-align: middle;
+}
+
+// Colors
+// ------
+// Text and box colors and effects.
+#menu {
+  // - Folds.
+  .js-fold-trigger {
+    @extend %button-1-default;
+    &:not(.js-fold-disabled):hover { @extend %button-1-toggled; }
+    &.js-fold-disabled { cursor: default; }
+    #{$_weight} & {
+      & { @extend %meta-text-1; }
+      &:not(.js-fold-disabled) { @extend %meta-link-text-2; }
+    } // Reset.
+  }
+  .js-foldables a:not(.js-fold-trigger):hover { @extend %toggled-menu-item-1; }
+  // - Menus.
+  .mn-v {
+    @extend %paper-3;
+    a {
+      @extend %engraved-text-1;
+      @include transition(background-color border-color, 0.2s);
+      border-left-color: transparent;
+    }
+    li.active a { @extend %accented-menu-item-1; }
+    .lt-ie8 & li a {
+      background-color: $_clr-light-3;
+      :hover { border-left-color: $_clr-light-1; }
+    }
+  }
+  // - Other.
+  #hd .in { @extend %paper-1; }
+  #ft .in { @extend %paper-2; }
+}
+
+#content {
+  // - Feed.
+  .st-feed {
+    a { @extend %accented-menu-item-2; }
+  }
+  // - Box.
+  .box {
+    h3 { @extend %floating-text-1; }
+    .in {
+      @extend %paper-1;
+      .delim { @extend %meta-text-5; }
+    }
+    .box::before {
+      border: {
+        top: 1px solid $_clr-light-1;
+        bottom: 1px solid $_clr-light-1;
+      }
+      background: $_clr-light-4;
+    }
+  }
+  // - Text.
+  .abbr { @extend %underlined-text-1; }
+  p {
+    @extend %paper-1;
+    html.boxshadow & {
+      &.scroll-item, &.embed {
+        border: 0;
+        padding: 0;
+      }
+    } // Reset.
+    &.embed { background-color: transparent; } // Reset.
+  }
+  header .label,
+  li.label {
+    @extend %ribbon-text-1;
+    @extend %floating-text-1;
+    @extend %base-type-3;
+    em { @extend %font-3; }
+  }
+  dt {
+    @extend %ribbon-text-1;
+    em { @extend %base-type-4; }
+  }
+  .as {
+    @extend %font-2;
+    @extend %base-type-1;
+    text-shadow: none;
+  } // Reset.
+}
+
+#intro {
+  line-height: 20px;
+}
+
+#colophon {
+  @extend %meta-type-1;
+  text-transform: lowercase;
+  em { @extend %font-3; }
+}
+
+// Images
+// ------
+// Sprites, other very custom, one-off stuff.
+#logo {
+  $height: 48px;
+  padding: 17px 0 0 3px;
+  line-height: 0;
+  a {
+    @extend .inline-block;
+    @extend .sprite;
+    background: { color: $_clr-light-1; image: url(#{$_img}banners_logo_ro.jpg); }
+    height: $height;
+    width: 225px;
+    &:hover { background-position: 0 (-$height + 1px); }
+  }
+
+}
+#ou-intro {
+  $width-with-gutter: 240px;
+  .in {
+    @include min-height(300px);
+    @extend .sprite;
+    background: { color: $_clr-light-1; image: url(#{$_img}banner_about.png); position: bottom right; }
+  }
+  #intro {
+    padding: { top: 0.8em; bottom: 1em; }
+  }
+  #intro, #tagline { padding-right: $width-with-gutter; }
+}
+body {
+  background: $_clr-light-5 url(#{$_img}bg_space_tile.jpg) 0 0 repeat-x fixed;
+}
+#menu,
+#content {
+  background: transparent url(#{$_img}banners/env1_1.jpg) 0 0 repeat-x fixed;
+}
+
+/** hlf-tip */
+
+.js-tip {
+  $fill: $_clr-base-2;
+  $text: $_clr-light-1;
+  @include tip-layout(12px, 20, 0.5, 2);
+  @include tip-skin($fill, $text);
+  // Typography.
+  font: italic 9px/14px Georgia, serif;
+  text: {
+    align: left;
+    transform: lowercase;
+  }
+}
+
+/* hlf tip **/
+///** START IE */
+
+html.lt-ie7 {
+
+  // Indexhibit protected.
+  img.png {
+    background-image: expression(
+      this.runtimeStyle.backgroundImage = "none",
+      this.runtimeStyle.filter =
+      "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.src +
+      "', sizingMethod='image')",
+      this.src = "/path/to/transparent.gif"
+    );
+  }
+  #menu {
+    position: absolute;
+  }
+  .thumb-it {
+    top: 50%;
+  }
+
+  // Give has-layout.
+  .has-as { zoom: 1; }
+
+  // Debugging.
+  .dev { border: 1px solid red; }
+
+}
+
+html.lt-ie8 {
+
+  // Give has-layout.
+  #content .rows { zoom: 1; }
+
+  // Fix inline-block.
+  #logo a { display: inline; display: block; }
+
+}
+
+///* END    IE **/

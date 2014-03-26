@@ -1,0 +1,6 @@
+theme.pengxwang.common:
+  view:
+    coffee:
+      - jquery.hlf.tip
+    js:
+      - froogaloop

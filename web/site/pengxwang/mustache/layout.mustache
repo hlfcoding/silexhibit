@@ -1,0 +1,32 @@
+<div id="menu">
+  <div class="container">
+    <div id="hd" class="box">
+      <div class="in">
+        <h1 id="logo"><a href="{{app.url}}" class="replaced" title="Home">{{app.name}}</a></h1>
+        {{pre_nav_text}}
+      </div>
+    </div>
+    <div id="navigation" class="box">
+      <nav class="mn-v">
+      {{#index}}
+        {{>navigation}}
+      {{/index}}
+      </nav>
+    </div>
+    <div id="ft" class="box copy">
+      <div class="in">
+      {{#app}}
+        <p>{{>copyright}}</p>
+        <p id="colophon">{{>colophon}}</p>
+      {{/app}}
+      </div>
+    </div>
+  </div>
+</div><!-- /menu -->
+<div id="content" role="main">
+  <div class="container">
+    <div id="bd" class="copy">
+      {{{exhibit_html}}}
+    </div>
+  </div>
+</div><!-- /content -->
