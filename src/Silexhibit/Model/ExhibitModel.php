@@ -40,7 +40,9 @@ class ExhibitModel extends Model
   {
     parent::register($app);
     $this->exhibits_path = $app['path']('web/site/exhibit');
-    $this->config = $app['app.opts']['exhibit'];
+    if (isset($app['app.opts'])) {
+      $this->config = $app['app.opts']['exhibit'];
+    }
   }
 
   # Fetch Exhibit
