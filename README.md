@@ -19,6 +19,13 @@ Where to put your files for:
 - A custom frontend library, update: `bower.json`.
 - A custom grunt task or plugin, update: `package.json`, `Gruntfile.coffee`
 
+To test:
+
+```bash
+grunt exec:setup-tests # in another tab.
+grunt test
+```
+
 ## Differences from Indexhibit ~ 0.7
 
 - Deprecated exhibit settings:
