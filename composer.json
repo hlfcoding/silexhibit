@@ -1,6 +1,47 @@
 {
+  "name": "hlfcoding/silexhibit",
+  "description": "Silexhibit is a renovated Indexhibit using Silex and the best of open-source web libraries as a foundation.",
+  "version": "0.0.1",
+  "type": "project",
+  "keywords": [],
+  "homepage": "",
+  "time": "2014-01-01",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Peng Wang",
+      "email": "peng@pengxwang.com",
+      "homepage": "http://pengxwang.com",
+      "role": "Developer"
+    }
+  ],
   "require": {
-    "silex/silex": "1.0.*@dev",
-    "mustache/mustache": "2.0.*"
+    "silex/silex": "~1.0",
+    "doctrine/dbal": "~2.0",
+    "guzzle/guzzle": "~3.0",
+    "guzzle/silex-provider": "~1.0",
+    "igorw/config-service-provider": "~1.0", "symfony/yaml": "~2.0",
+    "kriswallsmith/assetic": "dev-master",
+    "monolog/monolog": "~1.0", "symfony/monolog-bridge": "~2.0",
+    "mustache/silex-provider": "~1.0",
+    "swiftmailer/swiftmailer": "~4.0",
+    "symfony/security": "~2.0",
+    "symfony/validator": "~2.0", "symfony/config": "~2.0"
+  },
+  "require-dev": {
+    "behat/behat": "~2.0",
+    "behat/mink": "~1.0",
+    "behat/mink-extension": "*",
+    "behat/mink-goutte-driver": "*",
+    "behat/mink-selenium2-driver": "*"
+  },
+  "autoload": {
+    "psr-0": {
+      "Silexhibit": "src/",
+      "Silexhibit\\Plugins": "user/"
+    }
+  },
+  "config": {
+    "bin-dir": "bin/"
   }
 }
