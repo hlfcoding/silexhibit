@@ -1,0 +1,30 @@
+<div class="main-nav">
+  <nav class="section-nav">
+  {{#sections}}
+    <a href="/st-studio/{{slug}}" class="{{#selected}}selected{{/selected}}">{{title}}</a>
+  {{/sections}}
+  </nav>
+  <nav class="user-nav">
+    <a href="/">View Your Site</a>
+    <a href="/st-studio/settings">User Settings</a>
+    <a href="/st-studio/logout">Log Out</a>
+  </nav>
+</div>
+<nav class="content-nav">
+  <div class="primary-nav">
+    <a href="/st-studio/{{current_section.slug}}">
+      {{current_section.title}} Home
+    </a>
+  </div>
+  <div class="secondary-nav">
+    <a href="/st-studio/{{current_section.slug}}/settings">
+      Settings
+    </a>
+    <nav class="new-actions">
+    {{#app_objects}}
+      <button class="new-{{name}}">New {{title}}</button>
+    {{/app_objects}}
+    </nav>
+  </div>
+</nav>
+<h2 class="app-location"></h2>
