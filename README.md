@@ -1,5 +1,14 @@
 # Silexhibit
 
+## Setup
+
+1. Install Composer.
+2. In your terminal and project root:
+
+```bash
+bash ./bin/setup.sh
+```
+
 ## Differences from Indexhibit ~ 0.7
 
 - Deprecated exhibit settings:
