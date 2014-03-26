@@ -1,0 +1,33 @@
+{{{html}}}
+<div class="st-slideshow cloaked">
+  <p class="st-nav">
+    <span class="icon-arrow-down"></span> Gallery
+    <span class="st-slide-counter"></span>/{{card_count}}
+    <a href="#" class="st-btn-prev"><span class="icon-arrow-left"></span> Prev</a>
+    | {{! TODO: Use r-t-l or something. }}
+    <a href="#" class="st-btn-next">Next <span class="icon-arrow-right"></span></a>
+    <span class="st-autoplay-status">
+      <span class="icon-pause"></span>
+      <span class="icon-play"></span>
+    </span>
+  </p>
+  <ol class="st-slides">
+  {{#cards}}
+    <li class="st-slide">
+      <img src="{{media_url}}" alt="TODO" />
+    </li>
+  {{/cards}}
+  </ol>
+  <ol class="st-metas">
+  {{#cards}}
+    <li class="meta">
+      {{#media_title}}
+        <span class="title">{{media_title}}</span>
+      {{/media_title}}
+      {{#media_caption}}
+        <span class="caption">{{media_caption}}</span>
+      {{/media_caption}}
+    </li>
+  {{/cards}}
+  </ol>
+</div>
