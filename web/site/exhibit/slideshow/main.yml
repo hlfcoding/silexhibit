@@ -1,0 +1,4 @@
+exhibit.slideshow:
+  view:
+    js:
+      - jquery.flexslider
