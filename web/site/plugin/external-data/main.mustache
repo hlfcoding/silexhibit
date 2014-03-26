@@ -1,0 +1,20 @@
+<div class="st-feed-container box hidden"
+  {{#options.navigable}}
+     data-navigable
+  {{/options.navigable}}
+     >
+  <div class="hd">
+    <h3 class="st-feed-title">Activity</h3>
+  </div>
+  <div class="bd">
+    <ul class="st-feed mn-v"></ul>
+  </div>
+</div>
+<div class="js_templates">
+{{#js_templates}}
+  <script type="text/x-mustache" data-template-id="{{id}}"
+          data-type="{{type}}">
+    {{{template}}}
+  </script>
+{{/js_templates}}
+</div>
