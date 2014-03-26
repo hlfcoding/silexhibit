@@ -1,0 +1,11 @@
+default:
+  context:
+    parameters:
+  extensions:
+    Behat\MinkExtension\Extension:
+      base_url: http://pengxwang.local # Application-specific.
+      default_session: goutte
+      javascript_session: selenium2
+      goutte: ~
+      selenium2:
+        browser: chrome
