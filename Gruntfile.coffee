@@ -13,6 +13,7 @@ module.exports = (grunt) ->
         'README.md'
       ]
   PATHS =
+    ASSETIC_BUILD: 'web/dist'
     ASSETIC_CACHE: 'tmp/cache/assetic'
     MONOLOG_LOGS: 'logs'
   URLS =
@@ -34,6 +35,7 @@ module.exports = (grunt) ->
       options:
         'no-write': no
       assetic: [
+        "#{PATHS.ASSETIC_BUILD}/*"
         "#{PATHS.ASSETIC_CACHE}/*"
         "!#{PATHS.ASSETIC_CACHE}/.gitignore"
       ]
