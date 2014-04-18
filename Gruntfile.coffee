@@ -8,8 +8,8 @@ module.exports = (grunt) ->
         'config/*.yml'
         '!config/prod.yml'
         'src/**/*.php'
-        'web/site/**/*.{js,coffee,mustache}'
-        'web/cms/**/*.{js,coffee,mustache}'
+        'web/site/**/*.{js,coffee}'
+        'web/cms/**/*.{js,coffee}'
         'README.md'
       ]
   PATHS =
