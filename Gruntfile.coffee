@@ -70,13 +70,14 @@ module.exports = (grunt) ->
           java -jar ./bin/selenium.jar
           """
     groc:
-      private: SOURCES.DOCS.PRIVATE
+      private:
+        src: SOURCES.DOCS.PRIVATE
       options:
         out: 'web/docs'
     watch:
       docs:
         files: SOURCES.DOCS.PRIVATE
-        tasks: ['groc:private']
+        tasks: ['newer:groc:private']
         options:
           spawn: no
 
