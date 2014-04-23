@@ -63,7 +63,7 @@ $.fn.editable = do ->
         @$el.on 'blur', @sels.input, (e) => @toggleEditing off
       @$el.on 'change', @sels.input, @handleValueChange
 
-    handleCommand: (sender, command) ->
+    handleCommand: (command, sender) ->
       @trigger 'before-command', { command }
       switch command.type
         when 'update' then @renderText command.userInfo.text
