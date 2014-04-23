@@ -59,7 +59,7 @@ $.fn.selectable = do ->
           .trigger 'click'
       @$el.on 'change', @sels.options, @handleValueChange
 
-    handleCommand: (sender, command) ->
+    handleCommand: (command, sender) ->
       @trigger 'before-command', { command }
       switch command.type
         when 'update' then @selectOption command.userInfo.option
