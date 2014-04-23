@@ -8,6 +8,8 @@ module.exports = (grunt) ->
         'config/*.yml'
         '!config/prod.yml'
         'src/**/*.php'
+        'web/lib/coffee/**/*'
+        '!web/lib/coffee/**/*.hlf.*'
         'web/site/**/*.{js,coffee}'
         'web/cms/**/*.{js,coffee}'
         'README.md'
