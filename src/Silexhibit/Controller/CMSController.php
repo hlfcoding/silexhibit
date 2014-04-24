@@ -28,14 +28,15 @@ class CMSController extends Controller
 {
   use ExhibitTransformerTrait;
 
-  public $app_name = 'cms';
-
   protected $app_view;
   protected $exhibit_model;
 
   public function __construct(Application $app)
   {
+    $this->app_name = 'cms';
+    
     parent::__construct($app);
+
     $app->register(new SessionServiceProvider());
     $app->register(new ValidatorServiceProvider());
     // TODO: Requires additional setup.
