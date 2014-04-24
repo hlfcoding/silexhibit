@@ -18,13 +18,12 @@ use Silexhibit\Controller,
 
 class SiteController extends Controller
 {
-  public $app_name = 'site';
-
   protected $exhibit_model;
   protected $exhibit_view;
 
   public function __construct(Application $app)
   {
+    $this->app_name = 'site';
     $this->templater = true;
     $this->component_names = array('exhibit', 'plugin');
 
