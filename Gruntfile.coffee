@@ -7,9 +7,9 @@ module.exports = (grunt) ->
       PRIVATE: [
         'config/*.yml'
         '!config/prod.yml'
-        'src/**/*.php'
-        'web/lib/coffee/**/*'
-        '!web/lib/coffee/**/*.hlf.*'
+        'src/{,**/}*.php'
+        'web/lib/coffee/**/*.coffee'
+        '!web/lib/coffee/**/*.hlf.*.coffee'
         'web/site/**/*.{js,coffee}'
         'web/cms/**/*.{js,coffee}'
         'README.md'
@@ -17,6 +17,7 @@ module.exports = (grunt) ->
   PATHS =
     ASSETIC_BUILD: 'web/dist'
     ASSETIC_CACHE: 'tmp/cache/assetic'
+    GROC_BUILD: 'web/docs'
     MONOLOG_LOGS: 'logs'
   URLS =
     SELENIUM: 'http://selenium.googlecode.com/files/selenium-server-standalone-2.39.0.jar'
@@ -40,6 +41,10 @@ module.exports = (grunt) ->
         "#{PATHS.ASSETIC_BUILD}/*"
         "#{PATHS.ASSETIC_CACHE}/*"
         "!#{PATHS.ASSETIC_CACHE}/.gitignore"
+      ]
+      groc: [
+        "#{PATHS.GROC_BUILD}/*"
+        "!#{PATHS.GROC_BUILD}/.gitignore"
       ]
       monolog: [
         "#{PATHS.MONOLOG_LOGS}/*"
