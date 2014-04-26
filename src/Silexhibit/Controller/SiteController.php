@@ -32,20 +32,16 @@ class SiteController extends Controller
     $this->exhibit_model = new ExhibitModel($this);
     $app->register($this->exhibit_model);
 
+    // Override default dedicated `templater`.
     $this->templater = $this->registerTemplater(
       $app, 'templater', array(
         'template_path' => "{$this->paths['app_web']}/mustache",
         'partial_path' => "{$this->paths['theme_web']}/mustache",
       ));
-    $this->registerComponentTemplaters($app);
 
     $this->exhibit_view = $this->registerView(new ExhibitView($this), $app);
 
-    $this->component_factories = array();
-    foreach ($this->component_names as $component) {
-      $this->component_factories[$component] = isset($app["$component.factory"]) ? $app["$component.factory"] : null;
-    }
-
+    $this->registerComponentFactories($app);
   }
 
   protected function registerPaths(Application $app)
