@@ -10,9 +10,7 @@ use Silexhibit\ViewServiceProvider,
     Silexhibit\Helper\Security,
     Silexhibit\Plugin\PluggableViewInterface,
     Silexhibit\Plugin\PluggableViewTrait,
-    Silexhibit\PluginFactoryServiceProvider,
-    Silexhibit\Traits\ExhibitTransformerTrait,
-    Silexhibit\WidgetFactory\ExhibitWidgetFactory;
+    Silexhibit\Traits\ExhibitTransformerTrait;
 
 class ExhibitView extends ViewServiceProvider implements PluggableViewInterface
 {
@@ -20,6 +18,8 @@ class ExhibitView extends ViewServiceProvider implements PluggableViewInterface
   use PluggableViewTrait;
 
   protected $service_name = 'exhibit.view';
+
+  protected $widgets;
 
   public function __construct($controller=null)
   {
@@ -29,12 +29,8 @@ class ExhibitView extends ViewServiceProvider implements PluggableViewInterface
   public function register(Application $app)
   {
     parent::register($app);
-
-    $this->widgets = new ExhibitWidgetFactory($app);
-    $app->register($this->widgets);
-
-    $this->plugins = new PluginFactoryServiceProvider($app);
-    $app->register($this->plugins);
+    $this->widgets = $app['exhibit.factory'];
+    $this->plugins = $app['plugin.factory'];
   }
 
   protected function getIndex($data=null)
