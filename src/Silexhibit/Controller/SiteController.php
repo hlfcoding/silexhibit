@@ -13,8 +13,10 @@ use Assetic\Asset\FileAsset,
 use Silexhibit\Controller,
     Silexhibit\Model\ExhibitModel,
     Silexhibit\ModelServiceProvider,
+    Silexhibit\PluginFactoryServiceProvider,
     Silexhibit\View\ExhibitView,
-    Silexhibit\ViewServiceProvider;
+    Silexhibit\ViewServiceProvider,
+    Silexhibit\WidgetFactory\ExhibitWidgetFactory;
 
 class SiteController extends Controller
 {
@@ -39,9 +41,11 @@ class SiteController extends Controller
         'partial_path' => "{$this->paths['theme_web']}/mustache",
       ));
 
-    $this->exhibit_view = $this->registerView(new ExhibitView($this), $app);
-
+    $app->register(new ExhibitWidgetFactory());
+    $app->register(new PluginFactoryServiceProvider());
     $this->registerComponentFactories($app);
+
+    $this->exhibit_view = $this->registerView(new ExhibitView($this), $app);
   }
 
   protected function registerPaths(Application $app)
