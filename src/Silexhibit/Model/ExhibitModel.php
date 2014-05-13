@@ -36,6 +36,8 @@ class ExhibitModel extends Model
   protected $service_name = 'exhibit.model';
   protected $config;
 
+  protected $validation_constraint;
+
   public function register(Application $app)
   {
     parent::register($app);
