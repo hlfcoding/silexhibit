@@ -45,7 +45,7 @@ class CMSController extends Controller
 
     $this->app_view = $this->registerView(new AppView($this), $app);
 
-    $this->exhibit_model = new ExhibitModel($this, $app['validator']);
+    $this->exhibit_model = new ExhibitModel($this);
     $this->exhibit_model->is_public = false;
     $app->register($this->exhibit_model);
   }
