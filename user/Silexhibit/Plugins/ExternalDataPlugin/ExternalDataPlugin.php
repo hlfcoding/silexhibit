@@ -58,7 +58,6 @@ class ExternalDataPlugin extends Plugin implements RevalidationInterface
         $this->cache_path = $app['path.cache']($this->name);
       }
     }
-    $this->context = $context;
   }
   public function run($opts, $context=null)
   {
@@ -154,7 +153,7 @@ class ExternalDataPlugin extends Plugin implements RevalidationInterface
       "Silexhibit.ExternalData.FEED_UNITS = $units;\n".
       "jQuery.extend(Silexhibit.ExternalData.options, $options);"
     );
-    return null;
+    return array();
   }
 
   public function revalidate(RequestInterface $request, GuzzleResponse $response)
