@@ -108,8 +108,8 @@ abstract class Controller
   // `Mustache_Engine`-based services.
   public $component_templaters;
   // `component_factories` stores by component name instances of classes
-  // implementing `FactoryInterface`. Conventionally, the factories should be
-  // created and managed by the componentized view.
+  // implementing `FactoryInterface`. Conventionally, the factories are created
+  // and managed by the controller and used by its view.
   public $component_factories;
   // `component_names` stores the component names and must be set before calling
   // the constructor if component support is desired. Registering a component
@@ -289,7 +289,9 @@ abstract class Controller
   // `component_names` is set. The templaters based off of the default ones from
   // `registerTemplater` with the exception of no partials support, since
   // component markup is expected to be simple and not heavily layered. Web
-  // paths for the component are expected to be in `paths`.
+  // paths for the component are expected to be in `paths`. Note that this
+  // method doesn't actually register the templater as a service provider, but
+  // only for use by the controller.
   protected function registerComponentTemplaters(Application $app)
   {
     foreach ($this->component_names as $component) {
@@ -305,7 +307,9 @@ abstract class Controller
   }
 
   // `registerComponentFactories` should be called after registering any
-  // component factory service providers.
+  // component factory service providers. Note that this method doesn't actually
+  // register the component factory as a service provider, but only for use by
+  // the controller.
   protected function registerComponentFactories(Application $app)
   {
       foreach ($this->component_names as $component) {
