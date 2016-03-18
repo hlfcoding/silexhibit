@@ -1,3 +1,5 @@
 config/prod.yml
-Gruntfile.js
 !web/lib/scss/silex-*.scss
+
+Gruntfile.js
+node_modules
