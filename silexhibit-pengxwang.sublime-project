@@ -1,0 +1,25 @@
+{
+	"folders":
+	[
+		{
+			"path": ".",
+      "file_exclude_patterns": [
+        "*.sublime-workspace",
+        "*.gif", "*.jpg", "*.png"
+      ],
+      "folder_exclude_patterns": [
+        "node_modules",
+        "tmp",
+        "web/dist",
+        "web/docs"
+      ]
+		},
+		{
+			"path": "~/Sites/self/hlf-main-ndxz",
+      "file_exclude_patterns": [
+        "*.gif", "*.jpg", "*.png"
+      ],
+      "folder_exclude_patterns": []
+		}
+	]
+}
