@@ -1,0 +1,33 @@
+{
+  "name": "hlfcoding/silexhibit",
+  "description": "Silexhibit is a renovated Indexhibit using Silex.",
+  "version": "0.0.0",
+  "type": "project",
+  "keywords": [],
+  "homepage": "http://pengxwang.com/open-source/silexhibit",
+  "time": "2014-01-01",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Peng Wang",
+      "email": "peng@pengxwang.com",
+      "homepage": "http://pengxwang.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "silex/silex": "~2.0",
+    "doctrine/dbal": "~2.0",
+    "mustache/silex-provider": "~2.0"
+  },
+  "require-dev": {
+  },
+  "autoload": {
+    "psr-0": {
+      "Silexhibit": "src/"
+    }
+  },
+  "config": {
+    "bin-dir": "bin/"
+  }
+}
