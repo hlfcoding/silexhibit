@@ -5,28 +5,24 @@ require_once __DIR__.'/../vendor/autoload.php';
 $app = new Silex\Application();
 
 $app['env'] = getenv('APP_ENV') ?: 'dev';
-$app['config'] = require __DIR__.'/../config/'.$app['env'].'.php';
+$app['root'] = __DIR__.'/../';
+$app['config'] = require $app['root'].'config/'.$app['env'].'.php';
 $app['debug'] = $app['env'] === 'dev';
 
-$app->register(new Mustache\Silex\Provider\MustacheServiceProvider(), array(
-  'mustache.path' => __DIR__.'/../web/site/mustache',
-  'mustache.options' => array(
-      'cache' => __DIR__.'/../tmp/cache/mustache',
-  ),
-)); // 'mustache'
+$app->register(new Silex\Provider\DoctrineServiceProvider(), array(
+  'db.options' => array(
+    'charset' => 'utf8',
+    'dbname' => $app['config']['db']['name'],
+    'driver' => 'pdo_mysql',
+    'host' => $app['config']['db']['host'],
+    'password' => $app['config']['db']['password'],
+    'user' => $app['config']['db']['user'],
+  )
+)); // 'db'
 
-$app->get('/', function() use($app) {
-  return 'Hi';
-});
+$app->register(new Silexhibit\DataAdapterServiceProvider());
+$app->register(new Silexhibit\DataBaseServiceProvider());
 
-$app->after(function ($request, $response, $app) {
-  return $response->setContent(
-    $app['mustache']->render('layout', array(
-      'body' => $response->getContent(),
-      'title' => 'Test',
-      'debug_info' => json_encode($app['config']),
-    ))
-  );
-});
+$app->mount('/', new Silexhibit\SiteControllerProvider());
 
 return $app;
