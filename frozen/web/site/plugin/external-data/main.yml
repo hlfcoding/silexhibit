@@ -65,10 +65,10 @@ plugin.external-data:
         contributor_details: 'false'
         trim_user: 'false'
       oauth:
-        consumer_key:
-        consumer_secret:
-        token:
-        token_secret:
+        consumer_key:     jj6ZNcvIIug63OLRydw
+        consumer_secret:  e6GDHcoMGdUCHLbwkr2huNiNLAROmnX6w1KAIWK1B0
+        token:            14652946-viVRZq9elFfObWQbyPdW6jHgrO1s1Nn5G7qb7UUc
+        token_secret:     6QZddpGrDTDU9LXlortBaiVWSkWjhtuQq52MYqw3in8
       order:
         by: created_at
         sort: descending
