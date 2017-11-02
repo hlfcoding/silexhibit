@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+root_dir=$(pwd)
+lib_dir="$root_dir/web/lib"
+
+set -e
+
+echo -e "\nInstalling libs from NPM...\n"
+
+cd "$root_dir/tmp/setup"
+[[ -s package.json ]] && rm package.json
+npm init --yes
+# npm install hlf-dom-extensions --save
+npm install 'git://github.com/hlfcoding/hlf-dom-extensions.git' --save
+cd node_modules
+cp hlf-dom-extensions/dist/hlf-dom-extensions.css "$lib_dir/"
+cp hlf-dom-extensions/dist/hlf-dom-extensions.js "$lib_dir/"
+
+echo -e "\nInstalled libs from NPM!\n"
+
+cd "$root_dir"
