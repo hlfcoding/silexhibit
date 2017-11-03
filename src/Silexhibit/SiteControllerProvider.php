@@ -36,7 +36,7 @@ class SiteControllerProvider implements ControllerProviderInterface {
 
   protected function registerServiceProviders($app) {
     $app->register(new MustacheServiceProvider(), array(
-      'mustache.path' => $app['root'].'web/site/mustache',
+      'mustache.path' => $app['root'].'src/mustache',
       'mustache.options' => array(
         'cache' => $app['root'].'tmp/cache/mustache',
       ),
@@ -50,7 +50,7 @@ class SiteControllerProvider implements ControllerProviderInterface {
 
   protected function wrapContent($response, $app) {
     return $response->setContent(
-      $app['mustache']->render('layout', array(
+      $app['mustache']->render('site-layout', array(
         'body' => $response->getContent(),
         'title' => 'Test',
         'debug_info' => json_encode($app['config'], JSON_PRETTY_PRINT),
