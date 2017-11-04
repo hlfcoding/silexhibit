@@ -23,9 +23,9 @@ class DataAdapterServiceProvider implements ServiceProviderInterface {
       'thumbs' => 'thumbnail_size',
       'pdate' => 'posted_at',
       'udate' => 'updated_at',
-      'obj_itop' => 'pre_nav_text',
-      'obj_ibot' => 'post_nav_text',
-      'obj_org' => 'index_type',
+      'itop' => 'pre_nav_text',
+      'ibot' => 'post_nav_text',
+      'org' => 'index_type',
     );
     if ($options['reverse']) {
       $rename = array_flip($rename);
@@ -36,7 +36,7 @@ class DataAdapterServiceProvider implements ServiceProviderInterface {
       'current' => 'is_current',
       'hidden' => 'is_hidden',
       'tiling' => 'should_tile_background',
-      'obj_mode' => 'is_advanced_mode',
+      'mode' => 'is_advanced_mode',
     );
     if ($options['reverse']) {
       $rename_and_convert = array_flip($rename_and_convert);
