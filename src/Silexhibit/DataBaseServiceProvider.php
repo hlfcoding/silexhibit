@@ -34,6 +34,30 @@ class DataBaseServiceProvider implements ServiceProviderInterface {
     return $this->dbal->fetchAll($query, array($id));
   }
 
+  const INDEX_CHRONOLOGICAL = 1;
+  const INDEX_SECTIONAL = 2;
+
+  public function selectIndex($type = self::INDEX_CHRONOLOGICAL, $public = false) {
+    $query = "SELECT id, title, content, url,
+      section, sec_desc, sec_disp, year, secid
+      FROM {$this->tbl}objects as o, {$this->tbl}sections as s
+      WHERE o.section_id = s.secid";
+    if ($public) {
+      $query .= " AND o.status = '1' AND o.hidden != '1'";
+    }
+    switch ($type) {
+      case self::INDEX_CHRONOLOGICAL:
+        $query .= " ORDER BY s.sec_ord ASC, o.year DESC, o.ord ASC";
+        break;
+      case self::INDEX_SECTIONAL:
+        $query .= " ORDER BY s.sec_ord ASC, o.ord ASC";
+        break;
+      default: break;
+    }
+    $index = $this->dbal->fetchAll($query);
+    return $index;
+  }
+
   public function selectPost($column, $value, $public = false) {
     $query = "SELECT *
       FROM {$this->tbl}objects AS o,

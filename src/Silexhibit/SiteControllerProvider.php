@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 class SiteControllerProvider implements ControllerProviderInterface {
 
+  protected $config;
+
   public function connect(Application $app) {
     $controllers = $app['controllers_factory'];
     $controllers->before(function($request, $app) {
@@ -45,13 +47,21 @@ class SiteControllerProvider implements ControllerProviderInterface {
 
   protected function renderExhibit($exhibit, $app) {
     $exhibit = $app['adapter']->conventionalExhibit($exhibit);
+    $this->config = $exhibit['site'];
     return json_encode($exhibit, JSON_PRETTY_PRINT);
   }
 
+  protected function renderIndex($index, $app) {
+    $index = $app['adapter']->conventionalExhibitIndex($index);
+    return json_encode($index, JSON_PRETTY_PRINT);
+  }
+
   protected function wrapContent($response, $app) {
+    $index = $app['database']->selectIndex($this->config['index_type'], true);
     return $response->setContent(
       $app['mustache']->render('site-layout', array(
         'body' => $response->getContent(),
+        'index' => $this->renderIndex($index, $app),
         'title' => 'Test',
         'debug_info' => json_encode($app['config'], JSON_PRETTY_PRINT),
       ))

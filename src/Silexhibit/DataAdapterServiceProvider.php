@@ -83,6 +83,18 @@ class DataAdapterServiceProvider implements ServiceProviderInterface {
     return $output;
   }
 
+  public function conventionalExhibitIndex($input) {
+    $map = array(
+      'section' => array('section_name', 'section.folder_name'),
+      'secid' => 'section.id',
+      'sec_desc' => 'section.name',
+      'sec_disp' => 'should_display_name',
+    );
+    return array_map(function ($item) use ($map) {
+      return $this->rename($item, $map);
+    }, $input);
+  }
+
   protected function conventionalExhibitMedia($input, &$output = array()) {
     $prefix = 'media_';
     $rename = array(
@@ -104,6 +116,32 @@ class DataAdapterServiceProvider implements ServiceProviderInterface {
         $new_key = $map[$new_key];
       }
       $output[$new_key] = $new_value;
+    }
+    ksort($output);
+    return $output;
+  }
+
+  protected function rename($input, $map, $options = array()) {
+    $output = array();
+    foreach ($input as $key => $value) {
+      if (!isset($map[$key])) {
+        $output[$key] = $value;
+        continue;
+      }
+      $new_keys = $map[$key];
+      if (!is_array($new_keys)) { $new_keys = array($new_keys); }
+      foreach ($new_keys as $new_key) {
+        $parts = explode('.', $new_key);
+        $data = &$output;
+        while (count($parts) > 1) {
+          $child = array_shift($parts);
+          if (!isset($data[$child])) { $data[$child] = array(); }
+          $data = &$data[$child];
+        }
+        $new_key = $parts[0];
+        $data[$new_key] = $value;
+        if ($data !== $output) { ksort($data); }
+      }
     }
     ksort($output);
     return $output;
