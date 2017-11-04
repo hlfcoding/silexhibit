@@ -11,7 +11,7 @@ class DataAdapterServiceProvider implements ServiceProviderInterface {
     $app['adapter'] = $this;
   }
 
-  public function conventionalExhibit($input, $options = array(), &$output = array()) {
+  public function conventionalExhibit($input, $options = array()) {
     $options = array_merge(array(
       'reverse' => false, 'omit_skipped' => true, 'omit_extra_keys' => true
     ), $options);
@@ -52,6 +52,18 @@ class DataAdapterServiceProvider implements ServiceProviderInterface {
       // System.
       'page_cache', 'process', 'report',
     );
+    $media_map = array(
+      'kb' => 'file_kb',
+      'mime' => 'file_mime',
+      'obj_type' => 'object',
+      'ref_id' => 'object_id',
+      'udate' => 'updated_at',
+      'uploaded' => 'uploaded_at',
+      'x' => 'width',
+      'y' => 'height',
+    );
+    $media_prefix = 'media_';
+    $output = array();
     if (!$options['reverse']) {
       $output['site'] = array();
     }
@@ -69,8 +81,8 @@ class DataAdapterServiceProvider implements ServiceProviderInterface {
         break;
       }
       if ($new_key === 'exhibit') {
-        $new_value = array_map(function($media) {
-          return $this->conventionalExhibitMedia($media);
+        $new_value = array_map(function($media) use ($media_map, $media_prefix) {
+          return $this->rename($media, $media_map, array('prefix' => $media_prefix));
         }, $new_value);
       }
       if ($is_site_key) {
@@ -95,35 +107,15 @@ class DataAdapterServiceProvider implements ServiceProviderInterface {
     }, $input);
   }
 
-  protected function conventionalExhibitMedia($input, &$output = array()) {
-    $prefix = 'media_';
-    $rename = array(
-      'kb' => 'file_kb',
-      'mime' => 'file_mime',
-      'obj_type' => 'object',
-      'ref_id' => 'object_id',
-      'udate' => 'updated_at',
-      'uploaded' => 'uploaded_at',
-      'x' => 'width',
-      'y' => 'height',
-    );
-    $rename = array($rename, array_keys($rename));
-    foreach ($input as $key => $value) {
-      $new_key = (strpos($key, $prefix) === 0) ? substr($key, strlen($prefix)) : $key;
-      $new_value = $value;
-      list($map, $map_keys) = $rename;
-      if (in_array($new_key, $map_keys)) {
-        $new_key = $map[$new_key];
-      }
-      $output[$new_key] = $new_value;
-    }
-    ksort($output);
-    return $output;
-  }
-
   protected function rename($input, $map, $options = array()) {
     $output = array();
     foreach ($input as $key => $value) {
+      if (isset($options['prefix'])) {
+        $prefix = $options['prefix'];
+        if (strpos($key, $prefix) === 0) {
+          $key = substr($key, strlen($prefix));
+        }
+      }
       if (!isset($map[$key])) {
         $output[$key] = $value;
         continue;
