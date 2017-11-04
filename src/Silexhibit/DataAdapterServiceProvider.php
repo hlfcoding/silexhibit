@@ -12,46 +12,7 @@ class DataAdapterServiceProvider implements ServiceProviderInterface {
   }
 
   public function conventionalExhibit($input, $options = array()) {
-    $options = array_merge(array(
-      'reverse' => false, 'omit_skipped' => true, 'omit_extra_keys' => true
-    ), $options);
-    $site_prefix = 'obj_';
-    $rename = array(
-      'bgimg' => 'background_image',
-      'header' => 'header_html',
-      'images' => 'max_image_size',
-      'thumbs' => 'thumbnail_size',
-      'pdate' => 'posted_at',
-      'udate' => 'updated_at',
-      'itop' => 'pre_nav_text',
-      'ibot' => 'post_nav_text',
-      'org' => 'index_type',
-    );
-    if ($options['reverse']) {
-      $rename = array_flip($rename);
-    }
-    $rename = array($rename, array_keys($rename));
-    $rename_and_convert = array(
-      'break' => 'should_break',
-      'current' => 'is_current',
-      'hidden' => 'is_hidden',
-      'tiling' => 'should_tile_background',
-      'mode' => 'is_advanced_mode',
-    );
-    if ($options['reverse']) {
-      $rename_and_convert = array_flip($rename_and_convert);
-    }
-    $rename_and_convert = array($rename_and_convert, array_keys($rename_and_convert));
-    $skip = $options['reverse'] ? array(
-      'section', 'section_name', 'site',
-    ) : array(
-      // Deprecated.
-      'color', 'creator',
-      // Redundant.
-      'ord',
-      // System.
-      'page_cache', 'process', 'report',
-    );
+    $output = array();
     $media_map = array(
       'kb' => 'file_kb',
       'mime' => 'file_mime',
@@ -62,35 +23,49 @@ class DataAdapterServiceProvider implements ServiceProviderInterface {
       'x' => 'width',
       'y' => 'height',
     );
-    $media_prefix = 'media_';
-    $output = array();
-    if (!$options['reverse']) {
-      $output['site'] = array();
-    }
-    foreach ($input as $key => $value) {
-      if ($options['omit_skipped'] && in_array($key, $skip)) { continue; }
-      $is_site_key = !$options['reverse'] && strpos($key, $site_prefix) === 0;
-      $new_key = $is_site_key ? substr($key, strlen($site_prefix)) : $key;
-      $new_value = $value;
-      foreach (array($rename, $rename_and_convert) as list($map, $map_keys)) {
-        if (!in_array($new_key, $map_keys)) { continue; }
-        $new_key = $map[$new_key];
-        if ($map === $rename_and_convert[0]) {
-          $new_value = $options['reverse'] ? (int)$new_value : !!$new_value;
-        }
-        break;
-      }
-      if ($new_key === 'exhibit') {
-        $new_value = array_map(function($media) use ($media_map, $media_prefix) {
-          return $this->rename($media, $media_map, array('prefix' => $media_prefix));
-        }, $new_value);
-      }
-      if ($is_site_key) {
-        $output['site'][$new_key] = $new_value;
-      } else {
-        $output[$new_key] = $new_value;
-      }
-    }
+    $media_options = array('prefix_to_remove' => 'media_');
+    $output['exhibit'] = array_map(function($media) use ($media_map, $media_options) {
+      return $this->rename($media, $media_map, $media_options);
+    }, $input['exhibit']);
+    unset($input['exhibit']);
+
+    $site_map = array(
+      'ibot' => 'post_nav_text',
+      'itop' => 'pre_nav_text',
+      'mode' => 'is_advanced_mode',
+      'org' => 'index_type',
+    );
+    $site_options = array(
+      'flag_keys' => array('is_advanced_mode'),
+      'prefix_to_remove' => 'obj_',
+    );
+    $site_data = array_filter($input, function($key) use ($site_options) {
+      return strpos($key, $site_options['prefix_to_remove']) === 0;
+    }, ARRAY_FILTER_USE_KEY);
+    $output['site'] = $this->rename($site_data, $site_map, $site_options);
+    foreach (array_keys($site_data) as $key) { unset($input[$key]); }
+
+    $map = array(
+      'bgimg' => 'background_image',
+      'break' => 'should_break',
+      'current' => 'is_current',
+      'header' => 'header_html',
+      'hidden' => 'is_hidden',
+      'images' => 'max_image_size',
+      'pdate' => 'posted_at',
+      'thumbs' => 'thumbnail_size',
+      'tiling' => 'should_tile_background',
+      'udate' => 'updated_at',
+    );
+    $options['flag_keys'] = array(
+      'is_current', 'is_hidden', 'should_break', 'should_tile_background',
+    );
+    $options['skip_keys'] = array(
+      /* Deprecated: */ 'color', 'creator',
+      /* Redundant: */ 'ord',
+      /* System: */ 'page_cache', 'process', 'report',
+    );
+    $output = array_merge($output, $this->rename($input, $map, $options));
     ksort($output);
     return $output;
   }
@@ -108,15 +83,22 @@ class DataAdapterServiceProvider implements ServiceProviderInterface {
   }
 
   protected function rename($input, $map, $options = array()) {
+    /* TODO
+    if ($options['reverse']) { $map = array_flip($map); }
+    $skip = $options['reverse'] ? array('section', 'section_name', 'site') : $options['skip_keys'];
+    $value = $options['reverse'] ? (int)$value : !!$value;
+    */
     $output = array();
     foreach ($input as $key => $value) {
-      if (isset($options['prefix'])) {
-        $prefix = $options['prefix'];
+      if (isset($options['prefix_to_remove'])) {
+        $prefix = $options['prefix_to_remove'];
         if (strpos($key, $prefix) === 0) {
           $key = substr($key, strlen($prefix));
         }
       }
-      if (!isset($map[$key])) {
+      if (!isset($map[$key]) || (
+        isset($options['skip_keys']) && in_array($key, $options['skip_keys'])
+      )) {
         $output[$key] = $value;
         continue;
       }
@@ -131,6 +113,9 @@ class DataAdapterServiceProvider implements ServiceProviderInterface {
           $data = &$data[$child];
         }
         $new_key = $parts[0];
+        if (isset($options['flag_keys']) && in_array($new_key, $options['flag_keys'])) {
+          $value = !!$value;
+        }
         $data[$new_key] = $value;
         if ($data !== $output) { ksort($data); }
       }
