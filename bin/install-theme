@@ -17,21 +17,32 @@ theme_dir="$theme_dir/$name"
 
 echo -e "\nInstalling theme '$name'..."
 
+if [[ -x "$theme_dir/bin/setup" ]]; then
+  cd "$root_dir"
+  "$theme_dir/bin/setup"
+fi
+
 cd "$theme_dir"
 cp -f 'src/ThemeServiceProvider.php' "$src_dir/Silexhibit/"
 echo -e "\nInstalled theme PHP!"
 
 rm -rf "$src_dir/mustache/theme/"*.mustache
 cp -rf src/mustache/*.mustache "$src_dir/mustache/theme/"
-echo -e "\nInstalled theme templates!"
+echo -e "Installed theme templates!"
 
-rm -rf "$web_dir/theme/"*.{css,js}
-for f in web/*.{css,js}; do
-  if [ -f "$f" ]; then
-    cp -f "$f" "$web_dir/theme/"
-  fi
-done
-echo -e "\nInstalled theme assets!"
+function cp_assets {
+  local from_dir=$1
+  local to_dir=$2
+  rm -rf "$to_dir"*.{css,js}
+  for f in "$from_dir"*.{css,js}; do
+    if [[ -f "$f" ]]; then
+      cp -f "$f" "$to_dir"
+    fi
+  done
+}
+cp_assets web/ "$web_dir/theme/"
+[[ -d web/lib ]] && cp_assets web/lib/ "$web_dir/lib/theme/"
+echo -e "Installed theme assets!"
 
 echo -e "\nInstalled theme '$name'!\n"
 

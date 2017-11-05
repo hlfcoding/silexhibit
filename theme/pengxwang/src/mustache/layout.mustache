@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<!--
+Thanks for looking at my source code. It's hand-coded and auto-formatted.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{{title}} {pengxwang}</title>
+    <link rel="stylesheet" href="/lib/theme/hlf-dom-extensions.css">
+    <link rel="stylesheet" href="/theme/style.css">
+  </head>
+  <body>
+    <div id="menu">
+      <header></header>
+      <nav id="navigation">
+        <pre>{{index}}</pre>
+      </nav>
+      <footer></footer>
+    </div><!-- /menu -->
+    <div id="content" role="main">
+      <div class="container">
+        <div id="bd" class="copy">
+          <pre>{{body}}</pre>
+        </div>
+      </div>
+    </div><!-- /content -->
+  {{#debug_info}}
+    <script>Silexhibit.debugInfo = {{{debug_info}}};</script>
+  {{/debug_info}}
+    <script src="/lib/theme/hlf-dom-extensions.js"></script>
+    <script src="/theme/extend.js"></script>
+  </body>
+</html>

@@ -1,22 +1,24 @@
 #!/usr/bin/env bash
 
 root_dir=$(pwd)
-lib_dir="$root_dir/web/lib"
+temp_dir="$root_dir/tmp/theme/pengxwang/setup"
+theme_dir="$root_dir/theme/pengxwang"
+lib_dir="$theme_dir/web/lib"
 
 set -euo pipefail
 trap 'echo -e "\nFailed to setup theme!\n"' ERR
 
 echo -e "\nInstalling libs from NPM...\n"
 
-cd "$root_dir/tmp/setup"
+[[ -d "$temp_dir" ]] || mkdir -p "$temp_dir"
+cd "$temp_dir"
 [[ -s package.json ]] && rm package.json
-npm init --yes
+npm init --yes > /dev/null
 # npm install hlf-dom-extensions --save
 npm install 'git://github.com/hlfcoding/hlf-dom-extensions.git' --save
 cd node_modules
-cp hlf-dom-extensions/dist/hlf-dom-extensions.css "$lib_dir/"
-cp hlf-dom-extensions/dist/hlf-dom-extensions.js "$lib_dir/"
+cp hlf-dom-extensions/dist/hlf-dom-extensions.{css,js} "$lib_dir/"
 
-echo -e "\nInstalled libs from NPM!\n"
+echo -e "\nInstalled libs from NPM!"
 
 cd "$root_dir"
