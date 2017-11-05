@@ -5,15 +5,17 @@ src_dir="$root_dir/src"
 theme_dir="$root_dir/theme"
 web_dir="$root_dir/web"
 
-set -e
+set -euo pipefail
+trap 'echo -e "\nFailed to install theme!\n"' ERR
 
 cd "$theme_dir"
-ls -d ./*/
-echo -e "\nTheme name?\n"
-read -r name
+echo -e "\nTheme name? Available themes:\n"
+# shellcheck disable=SC2012
+ls -d ./*/ | cut -d '/' -f 2
+echo; read -p 'name: ' -r name
 theme_dir="$theme_dir/$name"
 
-echo -e "\nInstalling theme '$name'...\n"
+echo -e "\nInstalling theme '$name'..."
 
 cd "$theme_dir"
 cp -f 'src/ThemeServiceProvider.php' "$src_dir/Silexhibit/"

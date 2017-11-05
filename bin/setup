@@ -3,7 +3,8 @@
 root_dir=$(pwd)
 lib_dir="$root_dir/web/lib"
 
-set -e
+set -euo pipefail
+trap 'echo -e "\nFailed to setup theme!\n"' ERR
 
 echo -e "\nInstalling libs from NPM...\n"
 
