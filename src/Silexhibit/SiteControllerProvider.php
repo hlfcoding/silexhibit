@@ -48,23 +48,22 @@ class SiteControllerProvider implements ControllerProviderInterface {
   protected function renderExhibit($exhibit, $app) {
     $exhibit = $app['adapter']->conventionalExhibit($exhibit);
     $this->config = $exhibit['site'];
-    return json_encode($exhibit, JSON_PRETTY_PRINT);
+    return $app['theme']->renderExhibit($exhibit, $app);
   }
 
   protected function renderIndex($index, $type, $app) {
     $index = $app['adapter']->conventionalExhibitIndex($index, array('type' => $type));
-    return json_encode($index, JSON_PRETTY_PRINT);
+    return $app['theme']->renderIndex($index, $type, $app);
   }
 
   protected function wrapContent($response, $app) {
     $index = $app['database']->selectIndex($this->config['index_type'], true);
+    $content = $app['theme']->wrapContent(array(
+      'body' => $response->getContent(),
+      'index' => $this->renderIndex($index, $this->config['index_type'], $app),
+    ), $app);
     return $response->setContent(
-      $app['mustache']->render('site-layout', array(
-        'body' => $response->getContent(),
-        'index' => $this->renderIndex($index, $this->config['index_type'], $app),
-        'title' => 'Test',
-        'debug_info' => json_encode($app['config'], JSON_PRETTY_PRINT),
-      ))
+      $app['mustache']->render('theme/layout', $content)
     );
   }
 

@@ -24,6 +24,8 @@ $app->register(new Silexhibit\DataBaseServiceProvider());
 
 $app->register(new Silexhibit\DataAdapterServiceProvider());
 
+$app->register(new Silexhibit\ThemeServiceProvider());
+
 $app->mount('/', new Silexhibit\SiteControllerProvider());
 
 return $app;

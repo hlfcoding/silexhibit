@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+root_dir=$(pwd)
+src_dir="$root_dir/src"
+theme_dir="$root_dir/theme"
+
+set -e
+
+cd "$theme_dir"
+ls -d ./*/
+echo -e "\nTheme name?\n"
+read -r name
+theme_dir="$theme_dir/$name"
+
+echo -e "\nInstalling theme $name...\n"
+
+cd "$theme_dir"
+cp 'src/ThemeServiceProvider.php' "$src_dir/Silexhibit/"
+rm -rf "$src_dir/mustache/theme/"*.mustache
+cp -rf src/mustache/*.mustache "$src_dir/mustache/theme/"
+
+echo -e "\nInstalled theme $name!\n"
+
+cd "$root_dir"
