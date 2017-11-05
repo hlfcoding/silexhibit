@@ -4,6 +4,7 @@ namespace Silexhibit;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Silex\Provider\DoctrineServiceProvider;
 
 const INDEX_CHRONOLOGICAL = 1;
 const INDEX_SECTIONAL = 2;
@@ -14,6 +15,17 @@ class DataBaseServiceProvider implements ServiceProviderInterface {
   protected $tbl;
 
   public function register(Container $app) {
+    $app->register(new DoctrineServiceProvider(), array(
+      'db.options' => array(
+        'charset' => 'utf8',
+        'dbname' => $app['config']['db']['name'],
+        'driver' => 'pdo_mysql',
+        'host' => $app['config']['db']['host'],
+        'password' => $app['config']['db']['password'],
+        'user' => $app['config']['db']['user'],
+      )
+    )); // 'db'
+
     $this->tbl = $app['config']['db']['table_prefix'];
     $this->dbal = $app['db'];
     $app['database'] = $this;
