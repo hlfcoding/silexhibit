@@ -5,6 +5,9 @@ namespace Silexhibit;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
+use const Silexhibit\INDEX_CHRONOLOGICAL;
+use const Silexhibit\INDEX_SECTIONAL;
+
 class DataAdapterServiceProvider implements ServiceProviderInterface {
 
   public function register(Container $app) {
@@ -70,16 +73,47 @@ class DataAdapterServiceProvider implements ServiceProviderInterface {
     return $output;
   }
 
-  public function conventionalExhibitIndex($input) {
+  static $index_type_names = array(
+    INDEX_CHRONOLOGICAL => 'chronological',
+    INDEX_SECTIONAL => 'sectional',
+  );
+
+  public function conventionalExhibitIndex($input, $options = array()) {
     $map = array(
       'section' => array('section_name', 'section.folder_name'),
       'secid' => 'section.id',
       'sec_desc' => 'section.name',
       'sec_disp' => 'should_display_name',
     );
-    return array_map(function ($item) use ($map) {
-      return $this->rename($item, $map);
+    $output = array_map(function($post) use ($map) {
+      return $this->rename($post, $map);
     }, $input);
+    $ordered = array();
+    $index_key;
+    switch ($options['type']) {
+      case INDEX_CHRONOLOGICAL: break;
+      case INDEX_SECTIONAL:
+        $index_key = 'sections';
+        foreach ($output as $post) {
+          $key = $post['section']['folder_name'];
+          if (!isset($ordered[$key])) {
+            $ordered[$key] = $post['section'];
+            $ordered[$key]['posts'] = array();
+          }
+          unset($post['section']);
+          $ordered[$key]['posts'][] = $post;
+        }
+        break;
+      default: break;
+    }
+    foreach ($ordered as &$group) {
+      $group['post_count'] = count($group['posts']);
+    }
+    $output = array(
+      'type' => self::$index_type_names[$options['type']],
+      $index_key => array_values($ordered), // Only lists are allowed.
+    );
+    return $output;
   }
 
   protected function rename($input, $map, $options = array()) {

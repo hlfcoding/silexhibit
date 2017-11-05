@@ -51,8 +51,8 @@ class SiteControllerProvider implements ControllerProviderInterface {
     return json_encode($exhibit, JSON_PRETTY_PRINT);
   }
 
-  protected function renderIndex($index, $app) {
-    $index = $app['adapter']->conventionalExhibitIndex($index);
+  protected function renderIndex($index, $type, $app) {
+    $index = $app['adapter']->conventionalExhibitIndex($index, array('type' => $type));
     return json_encode($index, JSON_PRETTY_PRINT);
   }
 
@@ -61,7 +61,7 @@ class SiteControllerProvider implements ControllerProviderInterface {
     return $response->setContent(
       $app['mustache']->render('site-layout', array(
         'body' => $response->getContent(),
-        'index' => $this->renderIndex($index, $app),
+        'index' => $this->renderIndex($index, $this->config['index_type'], $app),
         'title' => 'Test',
         'debug_info' => json_encode($app['config'], JSON_PRETTY_PRINT),
       ))

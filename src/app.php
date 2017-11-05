@@ -20,8 +20,9 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
   )
 )); // 'db'
 
-$app->register(new Silexhibit\DataAdapterServiceProvider());
 $app->register(new Silexhibit\DataBaseServiceProvider());
+
+$app->register(new Silexhibit\DataAdapterServiceProvider());
 
 $app->mount('/', new Silexhibit\SiteControllerProvider());
 
