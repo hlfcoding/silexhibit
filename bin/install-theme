@@ -12,13 +12,13 @@ echo -e "\nTheme name?\n"
 read -r name
 theme_dir="$theme_dir/$name"
 
-echo -e "\nInstalling theme $name...\n"
+echo -e "\nInstalling theme '$name'...\n"
 
 cd "$theme_dir"
 cp 'src/ThemeServiceProvider.php' "$src_dir/Silexhibit/"
 rm -rf "$src_dir/mustache/theme/"*.mustache
 cp -rf src/mustache/*.mustache "$src_dir/mustache/theme/"
 
-echo -e "\nInstalled theme $name!\n"
+echo -e "\nInstalled theme '$name'!\n"
 
 cd "$root_dir"
