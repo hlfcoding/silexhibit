@@ -14,7 +14,7 @@ class DataAdapterServiceProvider implements ServiceProviderInterface {
     $app['adapter'] = $this;
   }
 
-  public function conventionalExhibit($input, $options = array()) {
+  public function conventionalExhibit(array $input, array $options = array()) {
     $output = array();
     $media_map = array(
       'kb' => 'file_kb',
@@ -78,7 +78,7 @@ class DataAdapterServiceProvider implements ServiceProviderInterface {
     INDEX_SECTIONAL => 'sectional',
   );
 
-  public function conventionalExhibitIndex($input, $options = array()) {
+  public function conventionalExhibitIndex(array $input, array $options = array()) {
     $map = array(
       'section' => array('section_name', 'section.folder_name'),
       'secid' => 'section.id',
@@ -116,7 +116,7 @@ class DataAdapterServiceProvider implements ServiceProviderInterface {
     return $output;
   }
 
-  protected function rename($input, $map, $options = array()) {
+  protected function rename(array $input, array $map, array $options = array()) {
     /* TODO
     if ($options['reverse']) { $map = array_flip($map); }
     $skip = $options['reverse'] ? array('section', 'section_name', 'site') : $options['skip_keys'];
