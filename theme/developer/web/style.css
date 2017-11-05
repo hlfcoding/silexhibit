@@ -1,0 +1,26 @@
+:root {
+  --light-gray: #eeedec;
+  --paper-white: #fffefd;
+}
+body {
+  background: var(--paper-white);
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  margin: 0;
+  padding: 2rem;
+}
+figure {
+  border-top: 1px solid var(--light-gray);
+  margin: 0;
+  margin-bottom: 1rem;
+  padding-top: 1rem;
+}
+nav h1 {
+  font-size: inherit;
+}
+pre {
+  background: var(--light-gray);
+  border-radius: 3px;
+  max-height: 20em;
+  padding: 1rem;
+  overflow: auto;
+}

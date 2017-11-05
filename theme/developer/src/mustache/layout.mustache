@@ -2,13 +2,26 @@
 <html class="no-js" lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>{{title}} {pengxwang}</title>
+    <title>{{title}} {silexhibit:developer}</title>
+    <link rel="stylesheet" href="/theme/style.css">
   </head>
   <body>
-    <pre>{{body}}</pre>
-    <pre>{{index}}</pre>
+    <nav>
+      <h1>{{title}} {silexhibit:developer}</h1>
+    </nav>
+    <figure>
+      <figcaption>Content</figcaption>
+      <pre>{{body}}</pre>
+    </figure>
+    <figure>
+      <figcaption>Index</figcaption>
+      <pre>{{index}}</pre>
+    </figure>
   {{#debug_info}}
-    <pre>{{{.}}}</pre>
+    <figure>
+      <figcaption>Debug Info</figcaption>
+      <pre>{{{.}}}</pre>
+    </figure>
   {{/debug_info}}
   </body>
 </html>
