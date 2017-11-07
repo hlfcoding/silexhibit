@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 class SiteControllerProvider implements ControllerProviderInterface {
 
   protected $config;
+  protected $title;
 
   public function connect(Application $app) {
     $controllers = $app['controllers_factory'];
@@ -59,6 +60,7 @@ class SiteControllerProvider implements ControllerProviderInterface {
   protected function renderExhibit(array $exhibit, Application $app) {
     $exhibit = $app['adapter']->conventionalExhibit($exhibit);
     $this->config = $exhibit['site'];
+    $this->title = $exhibit['title'];
     return $app['theme']->renderExhibit($exhibit, $app);
   }
 
@@ -72,6 +74,7 @@ class SiteControllerProvider implements ControllerProviderInterface {
     $content = $app['theme']->wrapContent(array(
       'body' => $response->getContent(),
       'index' => $this->renderIndex($index, $this->config['index_type'], $app),
+      'title' => $this->title,
     ), $app);
     return $response->setContent(
       $app['mustache']->render('theme/layout', $content)

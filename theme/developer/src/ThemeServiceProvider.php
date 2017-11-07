@@ -21,7 +21,6 @@ class ThemeServiceProvider implements ServiceProviderInterface {
 
   public function wrapContent(array $content, Container $app) {
     return array_merge($content, array(
-      'title' => 'Test',
       'debug_info' => json_encode($app['config'], JSON_PRETTY_PRINT),
     ));
   }
