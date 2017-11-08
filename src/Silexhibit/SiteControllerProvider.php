@@ -15,35 +15,28 @@ class SiteControllerProvider implements ControllerProviderInterface {
 
   public function connect(Application $app) {
     $controllers = $app['controllers_factory'];
-    $controllers->before(function(
-      Request $request, Application $app
-    ) {
+    $controllers->before(function(Request $request, Application $app) {
       $this->registerServiceProviders($app);
     });
-    $controllers->get('/', function(
-      Application $app
-    ) {
-      $exhibit = $app['database']->selectExhibit('url', '/');
-      return $this->renderExhibit($exhibit, $app);
+    $controllers->get('/',
+    function(Application $app) {
+      $post = $app['database']->selectExhibit('url', '/');
+      return $this->renderPost($post, $app);
     });
-    $controllers->get('/{section}/{project}/', function(
-      Application $app, Request $request, string $section, string $project
-    ) {
+    $controllers->get('/{section}/{project}/',
+    function(Application $app, Request $request, string $section, string $project) {
       $exhibit = $app['database']->selectExhibit('url', $request->getPathInfo());
       if (empty($exhibit)) { return $app->redirect('/'); }
-      return $this->renderExhibit($exhibit, $app);
+      return $this->renderPost($exhibit, $app);
     });
-    $controllers->get('/{page}/', function(
-      Application $app, Request $request, string $page
-    ) {
-      $exhibit = $app['database']->selectExhibit('url', $request->getPathInfo());
-      if (empty($exhibit)) { return $app->redirect('/'); }
-      return $this->renderExhibit($exhibit, $app);
+    $controllers->get('/{page}/',
+    function(Application $app, Request $request, string $page) {
+      $page = $app['database']->selectPost('url', $request->getPathInfo());
+      if (empty($page)) { return $app->redirect('/'); }
+      return $this->renderPost($page, $app);
     });
-    $controllers->after(function(
-      Request $request, Response $response, Application $app
-    ) {
-      $this->wrapContent($response, $app);
+    $controllers->after(function(Request $request, Response $response, Application $app) {
+      $this->wrapResponseContent($response, $app);
     });
     return $controllers;
   }
@@ -57,22 +50,22 @@ class SiteControllerProvider implements ControllerProviderInterface {
     )); // 'mustache'
   }
 
-  protected function renderExhibit(array $exhibit, Application $app) {
-    $exhibit = $app['adapter']->conventionalExhibit($exhibit);
-    $this->config = $exhibit['site'];
-    $this->title = $exhibit['title'];
-    return $app['theme']->renderExhibit($exhibit, $app);
+  protected function renderPost(array $post, Application $app) {
+    $post = $app['adapter']->conventionalPost($post);
+    $this->config = $post['site'];
+    $this->title = $post['title'];
+    return $app['theme']->renderPost($post, $app);
   }
 
   protected function renderIndex(array $index, int $type, Application $app) {
-    $index = $app['adapter']->conventionalExhibitIndex($index, array('type' => $type));
+    $index = $app['adapter']->conventionalIndex($index, array('type' => $type));
     return $app['theme']->renderIndex($index, $type, $app);
   }
 
-  protected function wrapContent(Response $response, Application $app) {
+  protected function wrapResponseContent(Response $response, Application $app) {
     $index = $app['database']->selectIndex($this->config['index_type'], true);
-    $content = $app['theme']->wrapContent(array(
-      'body' => $response->getContent(),
+    $content = $app['theme']->wrapTemplateData(array(
+      'post' => $response->getContent(),
       'index' => $this->renderIndex($index, $this->config['index_type'], $app),
       'title' => $this->title,
     ), $app);

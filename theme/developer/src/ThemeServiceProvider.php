@@ -11,16 +11,16 @@ class ThemeServiceProvider implements ServiceProviderInterface {
     $app['theme'] = $this;
   }
 
-  public function renderExhibit(array $exhibit, Container $app) {
-    return json_encode($exhibit, JSON_PRETTY_PRINT);
+  public function renderPost(array $post, Container $app) {
+    return json_encode($post, JSON_PRETTY_PRINT);
   }
 
   public function renderIndex(array $index, int $type, Container $app) {
     return json_encode($index, JSON_PRETTY_PRINT);
   }
 
-  public function wrapContent(array $content, Container $app) {
-    return array_merge($content, array(
+  public function wrapTemplateData(array $data, Container $app) {
+    return array_merge($data, array(
       'debug_info' => json_encode($app['config'], JSON_PRETTY_PRINT),
     ));
   }

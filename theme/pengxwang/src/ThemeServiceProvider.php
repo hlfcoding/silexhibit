@@ -7,20 +7,20 @@ use Pimple\ServiceProviderInterface;
 
 class ThemeServiceProvider implements ServiceProviderInterface {
 
-  protected $exhibit;
+  protected $post;
 
   public function register(Container $app) {
     $app['theme'] = $this;
   }
 
-  public function renderExhibit(array $exhibit, Container $app) {
-    $this->exhibit = $exhibit;
-    return json_encode($exhibit, JSON_PRETTY_PRINT);
+  public function renderPost(array $post, Container $app) {
+    $this->post = $post;
+    return json_encode($post, JSON_PRETTY_PRINT);
   }
 
   public function renderIndex(array $index, int $type, Container $app) {
     if (isset($index['sections'])) {
-      $detail_id = $this->exhibit['id'];
+      $detail_id = $this->post['id'];
       $index['sections'] = array_map(function ($s) use ($detail_id) {
         $s['posts'] = array_map(function ($p) use ($detail_id) {
           $post = $p;
@@ -35,15 +35,15 @@ class ThemeServiceProvider implements ServiceProviderInterface {
     return json_encode($index, JSON_PRETTY_PRINT);
   }
 
-  public function wrapContent(array $content, Container $app) {
-    return array_merge($content, array(
+  public function wrapTemplateData(array $data, Container $app) {
+    return array_merge($data, array(
       'debug_info' => json_encode($app['config'], JSON_PRETTY_PRINT),
     ));
   }
 
-  protected function generatePreviewText(string $content_html, int $max_length = 240) {
+  protected function generatePreviewText(string $html, int $max_length = 240) {
     // - First strip the inline tags (not `p` or `div`).
-    $text = strip_tags($content_html, '<p><div>');
+    $text = strip_tags($html, '<p><div>');
     // - Next isolate our `text` block by finding the `end` based on end tag.
     $has_p = strpos($text, '<p>') !== false;
     $end = $has_p ? '</p>' : '</div>';

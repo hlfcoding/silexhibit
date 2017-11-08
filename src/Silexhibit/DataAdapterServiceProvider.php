@@ -14,7 +14,7 @@ class DataAdapterServiceProvider implements ServiceProviderInterface {
     $app['adapter'] = $this;
   }
 
-  public function conventionalExhibit(array $input, array $options = array()) {
+  public function conventionalPost(array $input, array $options = array()) {
     $output = array();
     $media_map = array(
       'kb' => 'file_kb',
@@ -78,7 +78,7 @@ class DataAdapterServiceProvider implements ServiceProviderInterface {
     INDEX_SECTIONAL => 'sectional',
   );
 
-  public function conventionalExhibitIndex(array $input, array $options = array()) {
+  public function conventionalIndex(array $input, array $options = array()) {
     $map = array(
       'section' => array('section_name', 'section.folder_name'),
       'secid' => 'section.id',
