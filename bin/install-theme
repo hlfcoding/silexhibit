@@ -30,18 +30,21 @@ rm -rf "$src_dir/mustache/theme/"*.mustache
 cp -rf src/mustache/*.mustache "$src_dir/mustache/theme/"
 echo -e "Installed theme templates!"
 
-function cp_assets {
+function cp_any_assets {
   local from_dir=$1
   local to_dir=$2
   rm -rf "$to_dir"*.{css,js}
+  if [[ ! -d "$from_dir" ]]; then
+    return
+  fi
   for f in "$from_dir"*.{css,js}; do
     if [[ -f "$f" ]]; then
       cp -f "$f" "$to_dir"
     fi
   done
 }
-cp_assets web/ "$web_dir/theme/"
-[[ -d web/lib ]] && cp_assets web/lib/ "$web_dir/lib/theme/"
+cp_any_assets web/ "$web_dir/theme/"
+cp_any_assets web/lib/ "$web_dir/lib/theme/"
 echo -e "Installed theme assets!"
 
 echo -e "\nInstalled theme '$name'!\n"
