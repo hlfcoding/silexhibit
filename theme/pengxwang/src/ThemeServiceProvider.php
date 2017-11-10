@@ -36,7 +36,9 @@ class ThemeServiceProvider implements ServiceProviderInterface {
   }
 
   public function wrapTemplateData(array $data, Container $app) {
-    return array_merge($data, array(
+    $config = require $app['root'].'config/theme/common.php';
+    return array_merge_recursive($data, array(
+      'config' => array('theme' => $config),
       'debug_info' => json_encode($app['config'], JSON_PRETTY_PRINT),
     ));
   }

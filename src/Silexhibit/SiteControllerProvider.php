@@ -52,7 +52,8 @@ class SiteControllerProvider implements ControllerProviderInterface {
 
   protected function renderPost(array $post, Application $app) {
     $post = $app['adapter']->conventionalPost($post);
-    $this->config = $post['site'];
+    $this->config = $app['config'];
+    $this->config['site'] = $post['site'];
     $this->title = $post['title'];
     return $app['theme']->renderPost($post, $app);
   }
@@ -63,11 +64,19 @@ class SiteControllerProvider implements ControllerProviderInterface {
   }
 
   protected function wrapResponseContent(Response $response, Application $app) {
-    $index = $app['database']->selectIndex($this->config['index_type'], true);
+    $index_type = $this->config['site']['index_type'];
+    $index = $app['database']->selectIndex($index_type, true);
     $content = $app['theme']->wrapTemplateData(array(
+      'config' => $this->config,
+      'index' => $this->renderIndex($index, $index_type, $app),
       'post' => $response->getContent(),
-      'index' => $this->renderIndex($index, $this->config['index_type'], $app),
       'title' => $this->title,
+      'urls' => array(
+        'validation' => array(
+          'html' => 'http://validator.w3.org/check?doctype=HTML5',
+          'css' => 'http://jigsaw.w3.org/css-validator/validator?profile=css3&warning=0',
+        ),
+      ),
     ), $app);
     return $response->setContent(
       $app['mustache']->render('theme/layout', $content)

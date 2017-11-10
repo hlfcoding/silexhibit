@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 root_dir=$(pwd)
+config_dir="$root_dir/config"
 src_dir="$root_dir/src"
 theme_dir="$root_dir/theme"
 web_dir="$root_dir/web"
@@ -29,6 +30,12 @@ echo -e "\nInstalled theme PHP!"
 rm -rf "$src_dir/mustache/theme/"*.mustache
 cp -rf src/mustache/*.mustache "$src_dir/mustache/theme/"
 echo -e "Installed theme templates!"
+
+rm -rf "$config_dir/theme/"*.php
+if [[ -d config ]]; then
+  cp -rf config/*.php "$config_dir/theme/"
+  echo -e "Installed theme configurations!"
+fi
 
 function cp_any_assets {
   local from_dir=$1
