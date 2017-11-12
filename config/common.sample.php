@@ -1,6 +1,7 @@
 <?php
 
 return [
+  'cdn_url' => '',
   'db' => [
     'name' => 'some_db',
     'table_prefix' => 'ndxz_',

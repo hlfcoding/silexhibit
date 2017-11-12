@@ -52,6 +52,9 @@ class SiteControllerProvider implements ControllerProviderInterface {
 
   protected function renderPost(array $post, Application $app) {
     $post = $app['adapter']->conventionalPost($post);
+    foreach ($post['exhibit'] as &$media) {
+      $media['url'] = $this->config['cdn_url'].'/media/'.$media['file'];
+    }
     $this->config = $app['config'];
     $this->config['site'] = $post['site'];
     $this->title = $post['title'];

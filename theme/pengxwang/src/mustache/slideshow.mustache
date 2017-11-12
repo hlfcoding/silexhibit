@@ -1,0 +1,35 @@
+<article>
+  {{{content}}}
+  <section class="slideshow">
+    <nav>
+      <span class="counter"></span>
+      <span class="separator"></span>
+      <span class="count">{{exhibit_count}}</span>
+      <span class="flexible-space"></span>
+      <button class="previous">
+        <span class="icon-arrow-left"></span>
+      </button>
+      <span class="separator"></span>
+      <button class="next">
+        <span class="icon-arrow-right"></span>
+      </button>
+    </nav>
+    <ol class="slides">
+    {{#exhibit}}
+      <li class="slide">
+        <figure>
+          <img src="{{url}}">
+          <figcaption>
+          {{#title}}
+            <span class="title">{{title}}</span>
+          {{/title}}
+          {{#caption}}
+            <span class="caption">{{caption}}</span>
+          {{/caption}}
+          </figcaption>
+        </figure>
+      </li>
+    {{/exhibit}}
+    </ol>
+  </section>
+ </article>

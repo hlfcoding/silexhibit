@@ -15,7 +15,8 @@ class ThemeServiceProvider implements ThemeServiceInterface {
 
   public function renderPost(array $post, Container $app) {
     $this->post = $post;
-    return json_encode($post, JSON_PRETTY_PRINT);
+    $this->post['exhibit_count'] = count($this->post['exhibit']);
+    return $app['mustache']->render($post['format'], $post);
   }
 
   public function renderIndex(array $index, int $type, Container $app) {
