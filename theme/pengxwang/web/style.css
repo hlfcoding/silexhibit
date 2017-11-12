@@ -1,2 +1,7 @@
 :root {
+  --bg-color: #dadad8;
+}
+
+body {
+  background: var(--bg-color) url(/media/theme/bg-space-tile.jpg) 0 0 repeat-x fixed;
 }

@@ -40,11 +40,11 @@ fi
 function cp_any_assets {
   local from_dir=$1
   local to_dir=$2
-  rm -rf "$to_dir"*.{css,js}
+  rm -rf "$to_dir"*.{css,js,jpg,png,ttf,woff}
   if [[ ! -d "$from_dir" ]]; then
     return
   fi
-  for f in "$from_dir"*.{css,js}; do
+  for f in "$from_dir"*.{css,js,jpg,png,ttf,woff}; do
     if [[ -f "$f" ]]; then
       cp -f "$f" "$to_dir"
     fi
@@ -52,6 +52,7 @@ function cp_any_assets {
 }
 cp_any_assets web/ "$web_dir/theme/"
 cp_any_assets web/lib/ "$web_dir/lib/theme/"
+cp_any_assets web/media/ "$web_dir/media/theme/"
 echo -e "Installed theme assets!"
 
 echo -e "\nInstalled theme '$name'!\n"
