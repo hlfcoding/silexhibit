@@ -32,7 +32,7 @@ class ThemeServiceProvider implements ServiceProviderInterface {
         return $s;
       }, $index['sections']);
     }
-    return json_encode($index, JSON_PRETTY_PRINT);
+    return $index;
   }
 
   public function wrapTemplateData(array $data, Container $app) {
@@ -58,7 +58,7 @@ class ThemeServiceProvider implements ServiceProviderInterface {
       $end = strrpos($text, '.', -2);
       $text = substr($text, 0, ($end + 1));
     }
-    return $text;
+    return trim($text);
   }
 
 }

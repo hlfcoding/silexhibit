@@ -1,0 +1,56 @@
+<header>
+  <h1 id="logo">
+  {{#config.site}}
+    <a href="/">{{name}}</a>
+    {{pre_nav_text}}
+  {{/config.site}}
+  </h1>
+</header>
+<nav>
+{{#index.sections}}
+  <ul class="section">
+  {{#should_display_name}}
+    <li class="name">
+      <span class='name'>{{name}}</span>
+      <sup>({{post_count}})</sup>
+    </li>
+  {{/should_display_name}}
+  {{#posts}}
+    <li class="{{#is_active}}active{{/is_active}}">
+      <a href="{{url}}" title="{{preview_text}}">{{title}}</a>
+    </li>
+  {{/posts}}
+  </ul>
+{{/index.sections}}
+</nav>
+<footer>
+  <p class="copyright">
+  {{#config}}
+    {{#theme.copyright}}
+    <a href="{{license_url}}" title="{{description}}" class="copyright-symbol">&copy;</a>
+    {{start_year}}&ndash;{{end_year}}
+    {{/theme.copyright}}
+    {{#meta.owner}}
+    <a href="mailto:{{email}}" title="Email me" class="email">{{name}}</a>
+    {{/meta.owner}}
+  {{/config}}
+  </p>
+  <p class="colophon">
+  {{#config.meta.framework}}
+    Curation and plumbing via
+    <a href="{{url}}" title="{{description}}">{{name}}</a>
+  {{/config.meta.framework}}
+    <br/>
+    with custom JS &amp; plugins
+    <br/>
+  {{#urls}}
+    and a custom
+    <a href="{{validation.html}}&uri={{full}}" title="W3C validation">HTML</a> &amp;
+    <a href="{{validation.css}}&uri={{full}}" title="W3C validation">CSS</a> theme
+  {{/urls}}
+    <br/>
+  {{#config.theme.hosting}}
+    Hosting via <a href="{{url}}" title="{{description}}">{{name}}</a></em>
+  {{/config.theme.hosting}}
+  </p>
+</footer>

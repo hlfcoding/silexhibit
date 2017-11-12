@@ -29,20 +29,12 @@ Thanks for looking at my source code. It's hand-coded and auto-formatted.
     <link rel="stylesheet" href="/theme/style.css">
   </head>
   <body>
-    <div id="menu">
-      <header></header>
-      <nav id="navigation">
-        <pre>{{index}}</pre>
-      </nav>
-      <footer></footer>
-    </div><!-- /menu -->
-    <div id="content" role="main">
-      <div class="container">
-        <div id="bd" class="copy">
-          <pre>{{post}}</pre>
-        </div>
-      </div>
-    </div><!-- /content -->
+    <div id="index" class="index">
+      {{>index}}
+    </div>
+    <div id="post" role="main">
+      {{>post}}
+    </div>
   {{#debug_info}}
     <script>Silexhibit.debugInfo = {{{debug_info}}};</script>
   {{/debug_info}}

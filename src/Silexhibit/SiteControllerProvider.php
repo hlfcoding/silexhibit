@@ -36,14 +36,14 @@ class SiteControllerProvider implements ControllerProviderInterface {
       return $this->renderPost($page, $app);
     });
     $controllers->after(function(Request $request, Response $response, Application $app) {
-      $this->wrapResponseContent($response, $app);
+      $this->wrapResponseContent($request, $response, $app);
     });
     return $controllers;
   }
 
   protected function registerServiceProviders(Application $app) {
     $app->register(new MustacheServiceProvider(), array(
-      'mustache.path' => $app['root'].'src/mustache',
+      'mustache.path' => $app['root'].'src/mustache/theme',
       'mustache.options' => array(
         'cache' => $app['root'].'tmp/cache/mustache',
       ),
@@ -63,7 +63,7 @@ class SiteControllerProvider implements ControllerProviderInterface {
     return $app['theme']->renderIndex($index, $type, $app);
   }
 
-  protected function wrapResponseContent(Response $response, Application $app) {
+  protected function wrapResponseContent(Request $request, Response $response, Application $app) {
     $index_type = $this->config['site']['index_type'];
     $index = $app['database']->selectIndex($index_type, true);
     $content = $app['theme']->wrapTemplateData(array(
@@ -72,6 +72,7 @@ class SiteControllerProvider implements ControllerProviderInterface {
       'post' => $response->getContent(),
       'title' => $this->title,
       'urls' => array(
+        'full' => $request->getHttpHost().$request->getRequestUri(),
         'validation' => array(
           'html' => 'http://validator.w3.org/check?doctype=HTML5',
           'css' => 'http://jigsaw.w3.org/css-validator/validator?profile=css3&warning=0',
@@ -79,7 +80,7 @@ class SiteControllerProvider implements ControllerProviderInterface {
       ),
     ), $app);
     return $response->setContent(
-      $app['mustache']->render('theme/layout', $content)
+      $app['mustache']->render('layout', $content)
     );
   }
 
