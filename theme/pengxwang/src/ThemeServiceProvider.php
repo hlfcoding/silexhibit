@@ -3,9 +3,9 @@
 namespace Silexhibit;
 
 use Pimple\Container;
-use Pimple\ServiceProviderInterface;
+use Silexhibit\ThemeServiceInterface;
 
-class ThemeServiceProvider implements ServiceProviderInterface {
+class ThemeServiceProvider implements ThemeServiceInterface {
 
   protected $post;
 
@@ -37,10 +37,10 @@ class ThemeServiceProvider implements ServiceProviderInterface {
 
   public function wrapTemplateData(array $data, Container $app) {
     $config = require $app['root'].'config/theme/common.php';
-    return array_merge_recursive($data, array(
-      'config' => array('theme' => $config),
+    return array_merge_recursive($data, [
+      'config' => ['theme' => $config],
       'debug_info' => json_encode($app['config'], JSON_PRETTY_PRINT),
-    ));
+    ]);
   }
 
   protected function generatePreviewText(string $html, int $max_length = 240) {

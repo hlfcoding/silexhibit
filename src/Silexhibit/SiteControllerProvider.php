@@ -42,12 +42,12 @@ class SiteControllerProvider implements ControllerProviderInterface {
   }
 
   protected function registerServiceProviders(Application $app) {
-    $app->register(new MustacheServiceProvider(), array(
+    $app->register(new MustacheServiceProvider(), [
       'mustache.path' => $app['root'].'src/mustache/theme',
-      'mustache.options' => array(
+      'mustache.options' => [
         'cache' => $app['root'].'tmp/cache/mustache',
-      ),
-    )); // 'mustache'
+      ],
+    ]); // 'mustache'
   }
 
   protected function renderPost(array $post, Application $app) {
@@ -59,26 +59,26 @@ class SiteControllerProvider implements ControllerProviderInterface {
   }
 
   protected function renderIndex(array $index, int $type, Application $app) {
-    $index = $app['adapter']->conventionalIndex($index, array('type' => $type));
+    $index = $app['adapter']->conventionalIndex($index, ['type' => $type]);
     return $app['theme']->renderIndex($index, $type, $app);
   }
 
   protected function wrapResponseContent(Request $request, Response $response, Application $app) {
     $index_type = $this->config['site']['index_type'];
     $index = $app['database']->selectIndex($index_type, true);
-    $content = $app['theme']->wrapTemplateData(array(
+    $content = $app['theme']->wrapTemplateData([
       'config' => $this->config,
       'index' => $this->renderIndex($index, $index_type, $app),
       'post' => $response->getContent(),
       'title' => $this->title,
-      'urls' => array(
+      'urls' => [
         'full' => $request->getHttpHost().$request->getRequestUri(),
-        'validation' => array(
+        'validation' => [
           'html' => 'http://validator.w3.org/check?doctype=HTML5',
           'css' => 'http://jigsaw.w3.org/css-validator/validator?profile=css3&warning=0',
-        ),
-      ),
-    ), $app);
+        ],
+      ],
+    ], $app);
     return $response->setContent(
       $app['mustache']->render('layout', $content)
     );

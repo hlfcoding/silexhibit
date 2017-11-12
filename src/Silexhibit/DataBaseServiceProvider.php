@@ -15,16 +15,16 @@ class DataBaseServiceProvider implements ServiceProviderInterface {
   protected $tbl;
 
   public function register(Container $app) {
-    $app->register(new DoctrineServiceProvider(), array(
-      'db.options' => array(
+    $app->register(new DoctrineServiceProvider(), [
+      'db.options' => [
         'charset' => 'utf8',
         'dbname' => $app['config']['db']['name'],
         'driver' => 'pdo_mysql',
         'host' => $app['config']['db']['host'],
         'password' => $app['config']['db']['password'],
         'user' => $app['config']['db']['user'],
-      )
-    )); // 'db'
+      ]
+    ]); // 'db'
 
     $this->tbl = $app['config']['db']['table_prefix'];
     $this->dbal = $app['db'];
@@ -46,7 +46,7 @@ class DataBaseServiceProvider implements ServiceProviderInterface {
         AND m.media_obj_type = 'exhibit'
       ORDER BY m.media_order ASC,
                m.media_id ASC";
-    return $this->dbal->fetchAll($query, array($id));
+    return $this->dbal->fetchAll($query, [$id]);
   }
 
   public function selectIndex(int $type = INDEX_CHRONOLOGICAL, bool $public = false) {
@@ -79,7 +79,7 @@ class DataBaseServiceProvider implements ServiceProviderInterface {
     if ($public) {
       $query .= " AND o.status = '1'";
     }
-    return $this->dbal->fetchAssoc($query, array($value));
+    return $this->dbal->fetchAssoc($query, [$value]);
   }
 
 }

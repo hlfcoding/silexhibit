@@ -3,9 +3,9 @@
 namespace Silexhibit;
 
 use Pimple\Container;
-use Pimple\ServiceProviderInterface;
+use Silexhibit\ThemeServiceInterface;
 
-class ThemeServiceProvider implements ServiceProviderInterface {
+class ThemeServiceProvider implements ThemeServiceInterface {
 
   public function register(Container $app) {
     $app['theme'] = $this;
@@ -20,9 +20,9 @@ class ThemeServiceProvider implements ServiceProviderInterface {
   }
 
   public function wrapTemplateData(array $data, Container $app) {
-    return array_merge($data, array(
+    return array_merge($data, [
       'debug_info' => json_encode($app['config'], JSON_PRETTY_PRINT),
-    ));
+    ]);
   }
 
 }
