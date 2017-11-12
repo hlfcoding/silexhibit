@@ -1,7 +1,114 @@
 :root {
-  --bg-color: #dadad8;
+  --shade-100: rgba(0,0,0, 1);
+  --shade-90: rgba(0,0,0, 0.9);
+  --shade-80: rgba(0,0,0, 0.8);
+  --shade-70: rgba(0,0,0, 0.7);
+  --shade-60: rgba(0,0,0, 0.6);
+  --shade-50: rgba(0,0,0, 0.5);
+  --shade-40: rgba(0,0,0, 0.4);
+  --shade-30: rgba(0,0,0, 0.3);
+  --shade-20: rgba(0,0,0, 0.2);
+  --shade-10: rgba(0,0,0, 0.1);
+
+  --grayscale-100: #fff;
+  --grayscale-95: #f4f4f4;
+  --grayscale-94: #f0f0f0;
+  --grayscale-90: #eaeaea;
+  --grayscale-85: #dadad8;
+  --grayscale-80: #ccc;
+  --grayscale-65: #aaa;
+  --grayscale-60: #999;
+  --grayscale-40: #606060;
+  --grayscale-20: #333;
+  --grayscale-0: #000;
+
+  --accent-1-50: #05c;
+  --accent-1-70: #07e;
+  --accent-2-50: #06c;
+  --accent-2-70: #06f;
+
+  --background-color: var(--grayscale-85);
+  --text-color: var(--grayscale-20);
+
+  --monospace: 'SourceCodeProRegular', 'Consolas', monospace;
+  --sans-serif: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --sans-serif-alt: Verdana, 'Century Gothic', 'Geneva', sans-serif;
+  --serif: Georgia, serif;
+
+  --xx-sm-font-size: 8px;
+  --x-sm-font-size: 10px;
+  --x-sm-line-height: 14px;
+  --sm-font-size: 11px;
+  --sm-line-height: 16px;
+  --md-font-size: 12px;
+  --md-line-height: 18px;
+  --lg-font-size: 16px;
+  --lg-line-height: 24px;
+  --x-lg-font-size: 24px;
+  --xx-lg-font-size: 30px;
+}
+
+@font-face {
+  font-family: 'SourceCodeProRegular';
+  src: url('/media/theme/SourceCodePro-Regular-webfont.woff') format('woff'),
+       url('/media/theme/SourceCodePro-Regular-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SourceCodeProSemibold';
+  src: url('/media/theme/SourceCodePro-Semibold-webfont.woff') format('woff'),
+       url('/media/theme/SourceCodePro-Semibold-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 body {
-  background: var(--bg-color) url(/media/theme/bg-space-tile.jpg) 0 0 repeat-x fixed;
+  background: url(/media/theme/bg-space-tile.jpg) 0 0 repeat-x fixed;
+  cursor: default;
+  text-align: left;
+
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: var(--sans-serif);
 }
+
+input, select, textarea { color: var(--text-color); }
+abbr, strong { color: var(--grayscale-0); }
+
+strong { font-weight: bold; }
+em { font-style: italic; }
+em, em > * { letter-spacing: normal; word-spacing: normal; }
+em strong { font-weight: normal; }
+
+h1, h2, h3 {
+  font-weight: bold;
+  letter-spacing: -.05em;
+  line-height: 1em; /* reset */
+  text-transform: lowercase;
+  word-spacing: .05em;
+
+  font-family: var(--sans-serif);
+  text-shadow: 0 1px 0 var(--shade-20);
+}
+h1 .as, h2 .as, h3 .as { letter-spacing: normal; word-spacing: normal; }
+h1 { font-size: var(--xx-lg-font-size); }
+h2 { font-size: var(--x-lg-font-size); }
+h3 { font-size: var(--lg-font-size); }
+
+a {
+  border-bottom: 1px dotted transparent;
+  text-decoration: none;
+  transition-property: color border-bottom-color;
+  transition-duration: 0.3s;
+}
+a:link, a:active, a:visited { color: var(--accent-2-50); }
+a:hover {
+  border-bottom-color: var(--grayscale-65);
+  color: var(--accent-2-70);
+}
+
+h3 a, h3 a:hover { color: var(--text-color); }
+h3 aside a { color: var(--grayscale-65); }
+h3 aside a:hover { color: var(--text-color); }
