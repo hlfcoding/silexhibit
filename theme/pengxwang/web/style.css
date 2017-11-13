@@ -1,4 +1,15 @@
 :root {
+  --light-100: rgba(255,255,255, 1);
+  --light-90: rgba(255,255,255, 0.9);
+  --light-80: rgba(255,255,255, 0.8);
+  --light-70: rgba(255,255,255, 0.7);
+  --light-60: rgba(255,255,255, 0.6);
+  --light-50: rgba(255,255,255, 0.5);
+  --light-40: rgba(255,255,255, 0.4);
+  --light-30: rgba(255,255,255, 0.3);
+  --light-20: rgba(255,255,255, 0.2);
+  --light-10: rgba(255,255,255, 0.1);
+
   --shade-100: rgba(0,0,0, 1);
   --shade-90: rgba(0,0,0, 0.9);
   --shade-80: rgba(0,0,0, 0.8);
@@ -64,15 +75,20 @@
   font-style: normal;
 }
 
+/* - */
+
 body {
   background: url(/media/theme/bg-space-tile.jpg) 0 0 repeat-x fixed;
   cursor: default;
+  margin: 0;
   text-align: left;
 
   background-color: var(--background-color);
   color: var(--text-color);
   font-family: var(--sans-serif);
 }
+
+/* - */
 
 input, select, textarea { color: var(--text-color); }
 abbr, strong { color: var(--grayscale-0); }
@@ -100,8 +116,8 @@ h3 { font-size: var(--lg-font-size); }
 a {
   border-bottom: 1px dotted transparent;
   text-decoration: none;
-  transition-property: color border-bottom-color;
   transition-duration: 0.3s;
+  transition-property: color, border-bottom-color;
 }
 a:link, a:active, a:visited { color: var(--accent-2-50); }
 a:hover {
