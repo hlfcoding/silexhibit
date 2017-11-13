@@ -79,6 +79,51 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'FontAwesomeIcoMoon';
+  src: url('/media/theme/FontAwesome-IcoMoon.ttf') format('truetype'),
+       url('/media/theme/FontAwesome-IcoMoon.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'FontAwesomeIcoMoon' !important;
+  speak: none;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  text-transform: none;
+  line-height: 1;
+}
+
+.icon-arrow-down::before { content: "\f063"; }
+.icon-arrow-left::before { content: "\f060"; }
+.icon-arrow-right::before { content: "\f061"; }
+.icon-code::before { content: "\f121"; }
+.icon-codepen::before { content: "\f1cb"; }
+.icon-deviantart::before { content: "\f1bd"; }
+.icon-envelope::before { content: "\f003"; }
+.icon-external-link::before { content: "\f08e"; }
+.icon-facebook::before { content: "\f09a"; }
+.icon-flickr::before { content: "\f16e"; }
+.icon-github::before { content: "\f09b"; }
+.icon-google-plus::before { content: "\f0d5"; }
+.icon-instagram::before { content: "\f16d"; }
+.icon-lastfm::before { content: "\f202"; }
+.icon-linkedin::before { content: "\f0e1"; }
+.icon-minus::before { content: "\f068"; }
+.icon-pause::before { content: "\f04c"; }
+.icon-pinterest::before { content: "\f231"; }
+.icon-play::before { content: "\f04b"; }
+.icon-plus::before { content: "\f067"; }
+.icon-print::before { content: "\f02f"; }
+.icon-stack-overflow::before { content: "\f16c"; }
+.icon-tumblr::before { content: "\f173"; }
+.icon-twitter::before { content: "\f099"; }
+.icon-vimeo::before { content: "\f27d"; }
+
 /* - */
 
 body {
