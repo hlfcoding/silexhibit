@@ -83,7 +83,7 @@ class DataAdapterServiceProvider implements ServiceProviderInterface {
       'section' => ['section_name', 'section.folder_name'],
       'secid' => 'section.id',
       'sec_desc' => 'section.name',
-      'sec_disp' => 'should_display_name',
+      'sec_disp' => 'section.should_display_name',
     ];
     $output = array_map(function($post) use ($map) {
       return $this->rename($post, $map);

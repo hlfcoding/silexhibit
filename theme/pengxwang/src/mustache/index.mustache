@@ -1,8 +1,8 @@
 <header>
-  <h1 id="logo">
+  <h1 class="logo">
   {{#config.site}}
     <a href="/">{{name}}</a>
-    {{pre_nav_text}}
+    <!--{{pre_nav_text}}-->
   {{/config.site}}
   </h1>
 </header>
@@ -11,8 +11,14 @@
   <ul class="section">
   {{#should_display_name}}
     <li class="name">
-      <span class='name'>{{name}}</span>
-      <sup>({{post_count}})</sup>
+      <h3>
+        <span class='name'>{{name}}</span>
+        <sup>({{post_count}})</sup>
+      </h3>
+      <button type="button" class="accordion">
+        <span class="collapsed icon-plus"></span>
+        <span class="expanded icon-minus"></span>
+      </button>
     </li>
   {{/should_display_name}}
   {{#posts}}
