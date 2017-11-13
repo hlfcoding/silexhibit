@@ -195,3 +195,61 @@ li, dd { line-height: var(--sm-line-height); }
 .logo > a:hover {
   background-position: 0 calc(1px - var(--height));
 }
+.index > nav {
+  border-style: solid;
+  border-width: 1px 1px 1px 0;
+
+  background: var(--grayscale-95);
+  border-color: var(--grayscale-95);
+  box-shadow: inset -1em 0 2em 1px var(--light-20), 0 0 3px var(--shade-20);
+}
+.index ul {
+  list-style: none;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+  padding-left: 0;
+}
+.index li {
+  border-bottom: 1px solid var(--grayscale-90);
+}
+.index li.name {
+  display: flex;
+  padding-bottom: 0.5rem;
+
+  padding-left: var(--gutter);
+}
+.index li.name > h3 {
+  flex-grow: 1;
+  margin: 0;
+}
+.index h3 > span.name {
+  border-bottom: 1px dotted var(--grayscale-65);
+}
+.index h3 > sup {
+  font-size: 100%;
+  vertical-align: baseline;
+  text-shadow: none;
+  top: 0;
+
+  color: var(--grayscale-85);
+}
+.index li > a {
+  border-left: 0.6875rem solid transparent;
+  border-bottom: 0;
+  display: block;
+  transition-duration: 0.2s;
+  transition-property: background-color, border-color;
+
+  padding: 6px 11px 2px 0.3125rem;
+  text-shadow: -1px -1px var(--light-50), 1px 1px var(--light-50),
+    0 -1px var(--light-50), 0 1px var(--light-50);
+}
+.index li > a:hover {
+  background-color: var(--grayscale-100);
+}
+.index li.active > a {
+  border-left-color: var(--accent-1-50);
+}
+.index li.active > a:hover {
+  border-left-color: var(--accent-1-70);
+}
