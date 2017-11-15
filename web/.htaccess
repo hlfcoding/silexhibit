@@ -6,7 +6,7 @@
 </IfModule>
 
 SetEnv APP_ENV dev
-#SetEnv APP_ENV prod
+# SetEnv APP_ENV prod
 
 # !MODIFIED -- H5BP
 
