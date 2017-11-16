@@ -40,11 +40,11 @@ fi
 function cp_any_assets {
   local from_dir=$1
   local to_dir=$2
-  rm -rf "$to_dir"*.{css,js,jpg,png,ttf,woff}
+  rm -rf "$to_dir"*.{css,js,ico,jpg,png,ttf,woff}
   if [[ ! -d "$from_dir" ]]; then
     return
   fi
-  for f in "$from_dir"*.{css,js,jpg,png,ttf,woff}; do
+  for f in "$from_dir"*.{css,js,ico,jpg,png,ttf,woff}; do
     if [[ -f "$f" ]]; then
       cp -f "$f" "$to_dir"
     fi
