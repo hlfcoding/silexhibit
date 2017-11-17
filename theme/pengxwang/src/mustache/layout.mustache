@@ -36,17 +36,15 @@ Thanks for looking at my source code. It's hand-coded and auto-formatted.
       {{{post}}}
     </div>
   {{#debug_info}}
-    <script>Silexhibit.debugInfo = {{{debug_info}}};</script>
+    <script>console.info({{{debug_info}}});</script>
   {{/debug_info}}
     <script src="/lib/theme/hlf-dom-extensions.js"></script>
     <script src="/theme/extend.js"></script>
     <script>
-      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-      document.write(unescape("%3Cscript src=\'" + gaJsHost + "google-analytics.com/ga.js\' type=\'text/javascript\'%3E%3C/script%3E"));
-      try {
-        var pageTracker = _gat._getTracker("{{config.google.analytics_tracker}}");
-        pageTracker._trackPageview();
-      } catch (err) {}
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', '{{config.google.analytics_tracker}}', 'auto');
+      ga('send', 'pageview');
     </script>
+    <script async src="https://www.google-analytics.com/analytics.js"></script>
   </body>
 </html>
