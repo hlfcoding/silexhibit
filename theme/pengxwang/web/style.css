@@ -198,6 +198,22 @@ li, dd { line-height: var(--sm-line-height); }
 
 /* - */
 
+.js-tips-tip {
+  --tip-fill-color: var(--grayscale-40);
+  --stem-size: calc(var(--tip-em) / 2);
+  --stem-size-wide-half: var(--stem-size);
+}
+
+.js-tips-content {
+  font-family: var(--serif);
+  font-size: var(--x-sm-font-size);
+  font-style: italic;
+  line-height: var(--x-sm-line-height);
+  text-transform: lowercase;
+}
+
+/* - */
+
 .index {
   box-sizing: border-box;
   height: 100%;

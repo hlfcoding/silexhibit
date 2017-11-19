@@ -85,6 +85,14 @@
   document.addEventListener('DOMContentLoaded', () => {
     let navElement = document.querySelector('#index > nav');
     let accordion = Accordion.extend(navElement);
+    const { Tip } = HLF;
+    let navTip = Tip.extend(navElement.querySelectorAll('[title]'), {
+      snapTo: 'y', contextElement: navElement
+    });
+    let footerElement = document.querySelector('#index > footer');
+    let tip = Tip.extend(footerElement.querySelectorAll('[title]'), {
+      snapTo: 'x', contextElement: footerElement
+    });
   });
 
 }());
