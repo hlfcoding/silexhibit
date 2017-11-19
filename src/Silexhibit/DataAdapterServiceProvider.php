@@ -16,22 +16,24 @@ class DataAdapterServiceProvider implements ServiceProviderInterface {
 
   public function conventionalPost(array $input, array $options = []) {
     $output = [];
-    $media_map = [
-      'kb' => 'file_kb',
-      'mime' => 'file_mime',
-      'obj_type' => 'object',
-      'ref_id' => 'object_id',
-      'udate' => 'updated_at',
-      'uploaded' => 'uploaded_at',
-      'x' => 'width',
-      'y' => 'height',
-    ];
-    $media_options = ['prefix_to_remove' => 'media_'];
-    $output['exhibit'] = array_map(function($media) use ($media_map, $media_options) {
-      return $this->rename($media, $media_map, $media_options);
-    }, $input['exhibit']);
-    $output['exhibit_count'] = count($output['exhibit']);
-    unset($input['exhibit']);
+    if (isset($input['exhibit'])) {
+      $media_map = [
+        'kb' => 'file_kb',
+        'mime' => 'file_mime',
+        'obj_type' => 'object',
+        'ref_id' => 'object_id',
+        'udate' => 'updated_at',
+        'uploaded' => 'uploaded_at',
+        'x' => 'width',
+        'y' => 'height',
+      ];
+      $media_options = ['prefix_to_remove' => 'media_'];
+      $output['exhibit'] = array_map(function($media) use ($media_map, $media_options) {
+        return $this->rename($media, $media_map, $media_options);
+      }, $input['exhibit']);
+      $output['exhibit_count'] = count($output['exhibit']);
+      unset($input['exhibit']);
+    }
 
     $site_map = [
       'ibot' => 'post_nav_text',
