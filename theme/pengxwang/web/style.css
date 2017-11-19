@@ -423,6 +423,7 @@ article > section > .body {
 .body.columnar > *:not(:last-child) { margin-right: calc(var(--gutter) / 2); }
 .body.columnar h4, .body.columnar ul { padding-left: calc(var(--gutter) / 4); }
 .body.columnar h4 {
+  margin-bottom: calc(var(--gutter) / 4);
   padding-bottom: calc(var(--gutter) / 3);
   padding-top: calc(var(--gutter) / 4);
 }
@@ -430,7 +431,7 @@ article > section > .body {
   align-items: baseline;
   display: flex;
 
-  margin: calc(var(--gutter) * 0.375) 0;
+  padding: calc(var(--gutter) * 0.1875) 0;
 }
 .body.columnar ul > li > *:first-child { flex-grow: 1; }
 .body.columnar ul > li > a { border-bottom: 0; }

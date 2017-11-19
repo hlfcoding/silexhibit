@@ -93,6 +93,12 @@
     let tip = Tip.extend(footerElement.querySelectorAll('[title]'), {
       snapTo: 'x', contextElement: footerElement
     });
+    let externalElement = document.querySelector('#post section.external');
+    if (externalElement !== null) {
+      let externalTip = Tip.extend(externalElement.querySelectorAll('[title]'), {
+        snapTo: 'y', contextElement: externalElement
+      });
+    }
   });
 
 }());
