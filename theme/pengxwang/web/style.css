@@ -316,6 +316,8 @@ li, dd { line-height: var(--sm-line-height); }
   border-color: var(--grayscale-100);
   color: var(--grayscale-20);
 }
+.section.js-ac-folded button.accordion > .icon-minus,
+.section:not(.js-ac-folded) button.accordion > .icon-plus { display: none; }
 .index > footer {
   background: var(--grayscale-90);
   border: 1px solid var(--grayscale-90);
