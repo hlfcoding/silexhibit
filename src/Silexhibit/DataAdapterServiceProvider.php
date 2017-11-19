@@ -30,6 +30,7 @@ class DataAdapterServiceProvider implements ServiceProviderInterface {
     $output['exhibit'] = array_map(function($media) use ($media_map, $media_options) {
       return $this->rename($media, $media_map, $media_options);
     }, $input['exhibit']);
+    $output['exhibit_count'] = count($output['exhibit']);
     unset($input['exhibit']);
 
     $site_map = [

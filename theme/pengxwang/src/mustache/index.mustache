@@ -10,14 +10,14 @@
 {{#index.sections}}
   <ul class="section">
   {{#should_display_name}}
-    <li class="name">
+    <li class="header">
       <h3>
-        <span class='name'>{{name}}</span>
-        <sup>({{post_count}})</sup>
+        <span class="name">{{name}}</span>
+        <sup class="count">({{post_count}})</sup>
       </h3>
       <button type="button" class="accordion">
-        <span class="icon-plus"></span>
-        <span class="icon-minus"></span>
+        <span class="icon-plus" title="more"></span>
+        <span class="icon-minus" title="less"></span>
       </button>
     </li>
   {{/should_display_name}}
