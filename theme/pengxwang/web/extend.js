@@ -7,8 +7,9 @@
     }
     static get defaults() {
       return {
+        autoCollapse: true,
         cursorItemClass: 'active',
-        // featureCount: 1,
+        featureCount: 1,
         itemsSelector: 'li:not(:first-child)',
         sectionSelector: 'ul',
         triggerSelector: 'button.accordion',
@@ -28,30 +29,57 @@
       Array.from(this.element.querySelectorAll(this.sectionSelector))
         .forEach(this._setUpSection);
     }
+    deinit() {
+      this._sections.forEach(this._tearDownSection);
+      this._sections = [];
+    }
+    _onTriggerClick(event) {
+      let section = this._sections.find(section => section.triggerElement === event.currentTarget);
+      this._toggleSectionFolding(section);
+    }
     _setUpSection(sectionElement) {
       let itemElements = Array.from(sectionElement.querySelectorAll(this.itemsSelector));
       let section = {
+        hasCursor: itemElements.some(el => el.classList.contains(this.cursorItemClass)),
         isFolded: false,
         itemElements,
         sectionElement,
         triggerElement: sectionElement.querySelector(this.triggerSelector),
       };
       this._sections.push(section);
-      let on = itemElements.some(el => el.classList.contains(this.cursorItemClass));
-      this._toggleSection(section, on);
+      this._toggleSectionFolding(section, !section.hasCursor);
+      this._toggleSectionEventListeners(true, section);
     }
-    _toggleSection(section, on) {
+    _tearDownSection(section) {
+      this._toggleSectionEventListeners(false, section);
+    }
+    _toggleSectionFolding(section, folded) {
+      const { hasCursor, isFolded } = section;
+      if (hasCursor && folded) { return; }
+      if (folded == null) { folded = !isFolded; }
+      else if (isFolded === folded) { return; }
+      if (this.autoCollapse && !folded) {
+        this._sections.filter(s => s !== section)
+          .forEach(s => this._toggleSectionFolding(s, true));
+      }
       let { itemElements, sectionElement } = section;
-      sectionElement.classList.toggle(this.className('folded'), !on);
-      section.isFolded = !on;
+      itemElements.slice(this.featureCount)
+        .forEach(el => el.style.display = folded ? 'none' : 'block');
+      sectionElement.classList.toggle(this.className('folded'), folded);
+      section.isFolded = folded;
+    }
+    _toggleSectionEventListeners(on, section) {
+      let { triggerElement } = section;
+      this.toggleEventListeners(on, {
+        'click': this._onTriggerClick,
+      }, triggerElement);
     }
   }
 
   HLF.buildExtension(Accordion, {
     autoBind: true,
-    // autoListen: true,
     compactOptions: true,
-    // mixinNames: ['css', 'selection'],
+    mixinNames: ['event'],
   });
 
   document.addEventListener('DOMContentLoaded', () => {
