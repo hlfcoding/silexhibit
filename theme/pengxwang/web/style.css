@@ -163,6 +163,20 @@ h1 .as, h2 .as, h3 .as { letter-spacing: normal; word-spacing: normal; }
 h1 { font-size: var(--xx-lg-font-size); }
 h2 { font-size: var(--x-lg-font-size); }
 h3 { font-size: var(--lg-font-size); }
+h4 {
+  border-style: solid;
+  border-width: 1px;
+  font-style: italic;
+  font-weight: normal;
+
+  background-color: var(--grayscale-95);
+  border-color: transparent var(--grayscale-90) var(--grayscale-85);
+  box-shadow: inset 0 -1px 4px var(--shade-10);
+  font-family: var(--serif);
+  font-size: var(--sm-font-size);
+  text-shadow: 0 1px 0 var(--shade-20);
+}
+h3, h4 { margin: 0; }
 
 a {
   border-bottom: 1px dotted transparent;
@@ -179,6 +193,11 @@ a:hover {
 h3 a, h3 a:hover { color: var(--text-color); }
 h3 aside a { color: var(--grayscale-65); }
 h3 aside a:hover { color: var(--text-color); }
+
+ol, ul {
+  list-style: none;
+  padding-left: 0;
+}
 
 ul:first-child,
 p:first-child { margin-top: 0; }
@@ -197,6 +216,14 @@ p strong, li strong, dd strong {
 }
 p { line-height: var(--md-line-height); }
 li, dd { line-height: var(--sm-line-height); }
+li > [class^="icon-"] {
+  opacity: 0.2;
+  transition: opacity 0.3s;
+
+  color: var(--grayscale-60);
+  font-size: var(--md-font-size);
+}
+li:hover > [class^="icon-"] { opacity: 1; }
 
 button {
   border-radius: 0;
@@ -289,10 +316,8 @@ button:not([disabled]):hover {
   box-shadow: inset -1em 0 2em 1px var(--light-20), 0 0 3px var(--shade-20);
 }
 .index ul.section {
-  list-style: none;
   margin-bottom: 1.2rem;
   margin-top: 1.2rem;
-  padding-left: 0;
 }
 .section > li {
   display: block;
@@ -309,7 +334,6 @@ button:not([disabled]):hover {
 }
 .section > li.header > h3 {
   flex-grow: 1;
-  margin: 0;
 }
 .section h3 > span.name {
   border-bottom: 1px dotted var(--grayscale-65);
@@ -370,6 +394,7 @@ button:not([disabled]):hover {
 
 article figcaption,
 article nav.bar,
+article > section,
 article > p {
   background: var(--grayscale-100);
   border: 1px solid var(--grayscale-100);
@@ -379,6 +404,35 @@ article > p {
 }
 article figcaption,
 article > p { padding-bottom: calc(var(--gutter) * 0.8125); /* line-height compensation */ }
+article > section > header {
+  margin-top: calc(var(--gutter) / 2);
+}
+article > section > .body {
+  margin-top: var(--gutter);
+}
+.body.columnar {
+  display: flex;
+}
+.body.columnar > * {
+  flex-basis: 0;
+  flex-grow: 1;
+  margin: 0;
+}
+.body.columnar > *:not(:last-child) { margin-right: calc(var(--gutter) / 2); }
+.body.columnar h4, .body.columnar ul { padding-left: calc(var(--gutter) / 4); }
+.body.columnar h4 {
+  padding-bottom: calc(var(--gutter) / 3);
+  padding-top: calc(var(--gutter) / 4);
+}
+.body.columnar ul > li {
+  align-items: baseline;
+  display: flex;
+
+  margin: calc(var(--gutter) * 0.375) 0;
+}
+.body.columnar ul > li > *:first-child { flex-grow: 1; }
+.body.columnar ul > li > a { border-bottom: 0; }
+.body.columnar ul > li > [class^="icon-"] { text-align: center; width: 1rem; }
 nav.bar {
   align-items: center;
   display: flex;
@@ -388,4 +442,9 @@ nav.bar > .separator { margin: 0 0.2rem; }
 nav.bar > button > span {
   display: block;
   padding: 0.2rem 0.4rem;
+}
+article figure { margin: var(--gutter) 0; }
+article figure > img {
+  display: block;
+  margin-bottom: var(--gutter);
 }
