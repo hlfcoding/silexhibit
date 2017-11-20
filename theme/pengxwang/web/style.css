@@ -92,17 +92,16 @@
 [class^="icon-"], [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'FontAwesomeIcoMoon' !important;
-  speak: none;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  text-transform: none;
   line-height: 1;
+  speak: none;
+  text-transform: none;
 }
 [class^="icon-"]::before, [class*=" icon-"]::before {
   vertical-align: middle;
 }
-
 .icon-arrow-down::before { content: "\f063"; }
 .icon-arrow-left::before { content: "\f060"; }
 .icon-arrow-right::before { content: "\f061"; }
