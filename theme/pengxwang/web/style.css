@@ -99,6 +99,9 @@
   text-transform: none;
   line-height: 1;
 }
+[class^="icon-"]::before, [class*=" icon-"]::before {
+  vertical-align: middle;
+}
 
 .icon-arrow-down::before { content: "\f063"; }
 .icon-arrow-left::before { content: "\f060"; }
@@ -159,7 +162,6 @@ h1, h2, h3 {
   font-family: var(--sans-serif);
   text-shadow: 0 1px 0 var(--shade-20);
 }
-h1 .as, h2 .as, h3 .as { letter-spacing: normal; word-spacing: normal; }
 h1 { font-size: var(--xx-lg-font-size); }
 h2 { font-size: var(--x-lg-font-size); }
 h3 { font-size: var(--lg-font-size); }
@@ -173,7 +175,7 @@ h4 {
   border-color: transparent var(--grayscale-90) var(--grayscale-85);
   box-shadow: inset 0 -1px 4px var(--shade-10);
   font-family: var(--serif);
-  font-size: var(--sm-font-size);
+  font-size: var(--md-font-size);
   text-shadow: 0 1px 0 var(--shade-20);
 }
 h3, h4 { margin: 0; }
@@ -184,6 +186,23 @@ h3 > sup.count {
   top: 0;
 
   color: var(--grayscale-85);
+}
+h4 > .meta {
+  font-style: normal;
+  letter-spacing: 1px;
+  line-height: inherit;
+  text-transform: uppercase;
+  word-spacing: 2px;
+
+  font-family: var(--sans-serif-alt);
+  font-size: var(--xx-sm-font-size);
+  margin-left: 1em;
+}
+li > h4 {
+  --pull: calc(var(--gutter) / -4);
+  margin-left: var(--pull);
+  margin-right: var(--pull);
+  padding-left: calc(var(--pull) * -1);
 }
 
 a {
@@ -207,13 +226,14 @@ ol, ul {
   padding-left: 0;
 }
 
-ul:first-child,
+h4 + p,
+dl:first-child, ol:first-child, ul:first-child,
 p:first-child { margin-top: 0; }
 
-ul:last-child,
+dl:last-child, ol:last-child, ul:last-child,
 p:last-child { margin-bottom: 0; }
 
-p, nav, li, dd {
+p, nav, li, dd, dt {
   font-family: var(--monospace);
   font-size: var(--sm-font-size);
   word-spacing: -1px;
@@ -223,7 +243,7 @@ p strong, li strong, dd strong {
   font-weight: normal;
 }
 p { line-height: var(--md-line-height); }
-li, dd { line-height: var(--sm-line-height); }
+li, dd, dt { line-height: var(--sm-line-height); }
 li > [class^="icon-"] {
   opacity: 0.2;
   transition: opacity 0.3s;
@@ -232,6 +252,20 @@ li > [class^="icon-"] {
   font-size: var(--md-font-size);
 }
 li:hover > [class^="icon-"] { opacity: 1; }
+
+dl.has-icons {
+  --dt-width: calc(1em + 1rem);
+  display: inline-flex;
+  flex-wrap: wrap;
+}
+dl.has-icons > dt {
+  color: var(--grayscale-60);
+  flex-basis: var(--dt-width);
+}
+dl.has-icons > dd {
+  margin-left: 0;
+  flex-basis: calc(100% - var(--dt-width));
+}
 
 button {
   border-radius: 0;
@@ -412,37 +446,37 @@ article > section > header {
 article > section > .body {
   margin-top: var(--gutter);
 }
-.body.columnar {
-  display: flex;
-}
-.body.columnar > * {
-  flex-basis: 0;
-  flex-grow: 1;
-  margin: 0;
-}
-.body.columnar > *:not(:last-child) { margin-right: calc(var(--gutter) / 2); }
-.body.columnar h4, .body.columnar ul { padding-left: calc(var(--gutter) / 4); }
-.body.columnar h4 {
+section > .body h4 {
   margin-bottom: calc(var(--gutter) / 4);
   padding-bottom: calc(var(--gutter) / 3);
   padding-top: calc(var(--gutter) / 4);
 }
-.body.columnar ul > li {
-  align-items: baseline;
-  display: flex;
-
-  padding: calc(var(--gutter) * 0.1875) 0;
+section > .body:not(.columnar) > li:not(:last-child) {
+  margin-bottom: calc(var(--gutter) * 0.8125);
 }
-.body.columnar ul > li > *:first-child { flex-grow: 1; }
-.body.columnar ul > li > a { border-bottom: 0; }
-.body.columnar ul > li > [class^="icon-"] { text-align: center; width: 1rem; }
+.body.columnar {
+  display: flex;
+}
+.body.columnar > li {
+  flex-basis: 0;
+  flex-grow: 1;
+  margin: 0;
+}
+.body.columnar > li:not(:last-child) { margin-right: var(--gutter); }
+.body.columnar ul > li { padding: calc(var(--gutter) * 0.1875) 0; }
+.body.columnar ul.has-icons > li { align-items: baseline; display: flex; }
+.body.columnar ul.has-icons > li > *:first-child { flex-grow: 1; }
+.body.columnar ul.has-icons > li > a { border-bottom: 0; }
+.body.columnar ul.has-icons > li > [class^="icon-"] { text-align: center; width: 1rem; }
+section > header.has-button,
 nav.bar {
   align-items: center;
   display: flex;
 }
+section > header.has-button > h3,
 nav.bar > .flexible-space { flex-grow: 1; }
 nav.bar > .separator { margin: 0 0.2rem; }
-nav.bar > button > span {
+article button > span {
   display: block;
   padding: 0.2rem 0.4rem;
 }
