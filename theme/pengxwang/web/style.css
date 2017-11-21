@@ -242,7 +242,7 @@ p strong, li strong, dd strong {
   font-weight: normal;
 }
 p { line-height: var(--md-line-height); }
-li, dd, dt { line-height: var(--sm-line-height); }
+li, li > p, dd, dt { line-height: var(--sm-line-height); }
 li > [class^="icon-"] {
   opacity: 0.2;
   transition: opacity 0.3s;
