@@ -46,19 +46,15 @@ class ThemeServiceProvider implements ThemeServiceInterface {
     ]);
   }
 
-  protected function generatePreviewText(string $html, int $max_length = 240) {
-    // - First strip the inline tags (not `p` or `div`).
-    $text = strip_tags($html, '<p><div>');
-    // - Next isolate our `text` block by finding the `end` based on end tag.
-    $has_p = strpos($text, '<p>') !== false;
-    $end = $has_p ? '</p>' : '</div>';
-    $end = strpos($text, $end) + strlen($end);
-    // - Next crop our `text` based on `end` and strip the remaining tags.
-    $text = substr($text, 0, $end);
-    $text = strip_tags($text);
-    // - Finally, if we're over `max_length` crop to the closest full sentence.
+  protected function generatePreviewText(string $html, int $max_length = 280) {
+    // Strip non-content tags, then replace content tags.
+    $html = preg_replace("/<script(.*?)>(.*?)<\\/script>/is", '', $html);
+    $html = html_entity_decode(strip_tags($html, '<p><li><h3><dd>'));
+    $text = preg_replace("/<\\/?(p|li|h3|dd)(.*?)>/is", '', $html);
+    // If needed, crop to the closest full sentence.
     while (strlen($text) > $max_length) {
-      $end = strrpos($text, '.', -2);
+      $end = strrpos($text, '. ', -2);
+      if ($end === 0 || $end === false) { break; }
       $text = substr($text, 0, ($end + 1));
     }
     return trim($text);
