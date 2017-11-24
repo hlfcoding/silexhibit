@@ -82,9 +82,81 @@
     mixinNames: ['event'],
   });
 
+  class Slideshow {
+    static get debug() {
+      return false;
+    }
+    static get defaults() {
+      return {
+        currentSlideClass: 'current',
+        selectors: {
+          nextElement: 'button.next',
+          previousElement: 'button.previous',
+          slideElements: '.slide',
+        },
+      };
+    }
+    static toPrefix(context) {
+      switch (context) {
+        case 'event': return 'hlfss';
+        case 'data': return 'hlf-ss';
+        case 'class': return 'ss';
+        case 'var': return 'ss';
+        default: return 'hlf-ss';
+      }
+    }
+    init() {
+      this.slideElements = Array.from(this.slideElements); // TODO
+      this._toggleEventListeners(true);
+      this.changeSlide(0);
+    }
+    deinit() {
+      this._toggleEventListeners(false);
+    }
+    get currentSlideElement() {
+      if (!this.slideElements) { return null; } // TODO
+      return this.slideElements[this.currentSlideIndex];
+    }
+    changeSlide(index) {
+      if (index < 0 || index >= this.slideElements.length) { return; }
+      if (this.currentSlideElement) {
+        this.currentSlideElement.classList.remove(this.currentSlideClass);
+      }
+      this.currentSlideIndex = index;
+      this.currentSlideElement.classList.add(this.currentSlideClass);
+      this.currentSlideElement.scrollIntoView({ behavior: 'smooth' });
+      // TODO: Event.
+    }
+    _onNextClick(event) {
+      this.changeSlide(this.currentSlideIndex + 1);
+    }
+    _onPreviousClick(event) {
+      this.changeSlide(this.currentSlideIndex - 1);
+    }
+    _toggleEventListeners(on) {
+      this.toggleEventListeners(on, {
+        click: this._onNextClick,
+      }, this.nextElement);
+      this.toggleEventListeners(on, {
+        click: this._onPreviousClick,
+      }, this.previousElement);
+    }
+  }
+
+  HLF.buildExtension(Slideshow, {
+    autoBind: true,
+    autoSelect: true,
+    compactOptions: true,
+    mixinNames: ['event'],
+  });
+
   document.addEventListener('DOMContentLoaded', () => {
     let navElement = document.querySelector('#index > nav');
     let accordion = Accordion.extend(navElement);
+    let slideshowElement = document.querySelector('#post .slideshow');
+    if (slideshowElement !== null) {
+      let slideshow = Slideshow.extend(slideshowElement);
+    }
     const { Tip } = HLF;
     let navTip = Tip.extend(navElement.querySelectorAll('[title]'), {
       snapTo: 'y', contextElement: navElement
@@ -93,8 +165,7 @@
     let footerTip = Tip.extend(footerElement.querySelectorAll('[title]'), {
       snapTo: 'x', contextElement: footerElement
     });
-
-    Array.from(document.querySelector('#post section')).forEach((sectionElement) => {
+    Array.from(document.querySelectorAll('#post section')).forEach((sectionElement) => {
       if (sectionElement.classList.contains('external')) {
         let externalTip = Tip.extend(sectionElement.querySelectorAll('[title]'), {
           snapTo: 'y', contextElement: sectionElement
