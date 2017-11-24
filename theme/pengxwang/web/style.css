@@ -492,6 +492,27 @@ article figure > img {
   display: block;
   margin-bottom: var(--gutter);
 }
+article figcaption > span.caption {
+  margin-left: 1em;
+  opacity: 0.33;
+}
+.slideshow > .slides {
+  display: flex;
+  overflow-x: scroll;
+}
+.slideshow > .slides::-webkit-scrollbar {
+  background: transparent;
+  width: 0;
+}
+.slideshow .slide {
+  opacity: 0.2;
+  transition: opacity 0.4s;
+
+  margin-right: var(--gutter);
+}
+.slideshow .slide.current { opacity: 1; }
+.slideshow .slide > figure { margin: 0; }
+.slide > figure > img { margin-bottom: 0; }
 
 /* - */
 

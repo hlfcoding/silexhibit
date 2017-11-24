@@ -18,15 +18,15 @@
     {{#exhibit}}
       <li class="slide">
         <figure>
-          <img src="{{url}}">
+        {{#title}}
           <figcaption>
-          {{#title}}
             <span class="title">{{title}}</span>
-          {{/title}}
           {{#caption}}
             <span class="caption">{{caption}}</span>
           {{/caption}}
           </figcaption>
+        {{/title}}
+          <img src="{{url}}">
         </figure>
       </li>
     {{/exhibit}}
