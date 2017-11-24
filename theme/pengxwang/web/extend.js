@@ -93,6 +93,7 @@
           nextElement: 'button.next',
           previousElement: 'button.previous',
           slideElements: '.slide',
+          slidesElement: '.slides',
         },
       };
     }
@@ -107,6 +108,7 @@
     }
     init() {
       this.slideElements = Array.from(this.slideElements); // TODO
+      this.slidesElement.style.position = 'relative';
       this._toggleEventListeners(true);
       this.changeSlide(0);
     }
@@ -117,21 +119,44 @@
       if (!this.slideElements) { return null; } // TODO
       return this.slideElements[this.currentSlideIndex];
     }
-    changeSlide(index) {
+    changeSlide(index, { animated } = { animated: true }) {
       if (index < 0 || index >= this.slideElements.length) { return; }
       if (this.currentSlideElement) {
         this.currentSlideElement.classList.remove(this.currentSlideClass);
       }
       this.currentSlideIndex = index;
       this.currentSlideElement.classList.add(this.currentSlideClass);
-      this.currentSlideElement.scrollIntoView({ behavior: 'smooth' });
-      // TODO: Event.
+      if (animated) {
+        this.currentSlideElement.scrollIntoView({ behavior: 'smooth' });
+      }
+      if (this.nextElement instanceof HTMLButtonElement) {
+        this.nextElement.disabled = index === (this.slideElements.length - 1);
+      }
+      if (this.previousElement instanceof HTMLButtonElement) {
+        this.previousElement.disabled = index === 0;
+      }
+      this.dispatchCustomEvent('slidechange', { element: this.currentSlideElement, index });
     }
     _onNextClick(event) {
       this.changeSlide(this.currentSlideIndex + 1);
     }
     _onPreviousClick(event) {
       this.changeSlide(this.currentSlideIndex - 1);
+    }
+    _onSlidesScroll(event) {
+      this.setTimeout('_scrollTimeout', 96, () => {
+        let nextIndex;
+        for (let i = 0, l = this.slideElements.length; i < l; i++) {
+          let slideElement = this.slideElements[i];
+          if (slideElement.offsetLeft >= this.slidesElement.scrollLeft) {
+            nextIndex = i;
+            break;
+          }
+        }
+        this.changeSlide(nextIndex, {
+          animated: !('scrollSnapType' in this.slidesElement.style),
+        });
+      });
     }
     _toggleEventListeners(on) {
       this.toggleEventListeners(on, {
@@ -140,6 +165,9 @@
       this.toggleEventListeners(on, {
         click: this._onPreviousClick,
       }, this.previousElement);
+      this.toggleEventListeners(on, {
+        scroll: this._onSlidesScroll,
+      }, this.slidesElement);
     }
   }
 
@@ -156,6 +184,11 @@
     let slideshowElement = document.querySelector('#post .slideshow');
     if (slideshowElement !== null) {
       let slideshow = Slideshow.extend(slideshowElement);
+      let counterElement = slideshowElement.querySelector('.counter');
+      slideshowElement.addEventListener('hlfssslidechange', (event) => {
+        let { element, index } = event.detail;
+        counterElement.textContent = `${index + 1}`;
+      });
     }
     const { Tip } = HLF;
     let navTip = Tip.extend(navElement.querySelectorAll('[title]'), {
