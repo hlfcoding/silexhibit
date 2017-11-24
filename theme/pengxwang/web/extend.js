@@ -89,6 +89,8 @@
     static get defaults() {
       return {
         currentSlideClass: 'current',
+        highlightClass: 'highlighted',
+        highlightDuration: 500,
         selectors: {
           nextElement: 'button.next',
           previousElement: 'button.previous',
@@ -120,7 +122,7 @@
       return this.slideElements[this.currentSlideIndex];
     }
     changeSlide(index, { animated } = { animated: true }) {
-      if (index < 0 || index >= this.slideElements.length) { return; }
+      if (index < 0 || index >= this.slideElements.length) { return false; }
       if (this.currentSlideElement) {
         this.currentSlideElement.classList.remove(this.currentSlideClass);
       }
@@ -128,6 +130,7 @@
       this.currentSlideElement.classList.add(this.currentSlideClass);
       if (animated) {
         this.currentSlideElement.scrollIntoView({ behavior: 'smooth' });
+        this._isAnimatingScroll = true;
       }
       if (this.nextElement instanceof HTMLButtonElement) {
         this.nextElement.disabled = index === (this.slideElements.length - 1);
@@ -136,6 +139,36 @@
         this.previousElement.disabled = index === 0;
       }
       this.dispatchCustomEvent('slidechange', { element: this.currentSlideElement, index });
+      return true;
+    }
+    _highlightElement(element) {
+      if (element.classList.contains(this.highlightClass)) { return; }
+      element.classList.add(this.highlightClass);
+      setTimeout(() => {
+        element.classList.remove(this.highlightClass);
+      }, this.highlightDuration);
+    }
+    _onKeyDown(event) {
+      const leftArrow = 37, rightArrow = 39;
+      switch (event.keyCode) {
+        case leftArrow:
+          this.setTimeout('_keyDownTimeout', 96, () => {
+            if (this.changeSlide(this.currentSlideIndex - 1)) {
+              this._highlightElement(this.previousElement);
+            }
+          });
+          event.preventDefault();
+          return false;
+        case rightArrow:
+          this.setTimeout('_keyDownTimeout', 96, () => {
+            if (this.changeSlide(this.currentSlideIndex + 1)) {
+              this._highlightElement(this.nextElement);
+            }
+          });
+          event.preventDefault();
+          return false;
+        default: break;
+      }
     }
     _onNextClick(event) {
       this.changeSlide(this.currentSlideIndex + 1);
@@ -143,7 +176,23 @@
     _onPreviousClick(event) {
       this.changeSlide(this.currentSlideIndex - 1);
     }
+    _onSlidesClick(event) {
+      const midX = this.slidesElement.offsetWidth / 2;
+      if (event.offsetX < midX) {
+        if (this.changeSlide(this.currentSlideIndex - 1)) {
+          this._highlightElement(this.previousElement);
+        }
+      } else {
+        if (this.changeSlide(this.currentSlideIndex + 1)) {
+          this._highlightElement(this.nextElement);
+        }
+      }
+    }
     _onSlidesScroll(event) {
+      if (this._isAnimatingScroll) {
+        this._isAnimatingScroll = false;
+        return;
+      }
       this.setTimeout('_scrollTimeout', 96, () => {
         let nextIndex;
         for (let i = 0, l = this.slideElements.length; i < l; i++) {
@@ -160,12 +209,16 @@
     }
     _toggleEventListeners(on) {
       this.toggleEventListeners(on, {
+        keydown: this._onKeyDown,
+      }, document.body);
+      this.toggleEventListeners(on, {
         click: this._onNextClick,
       }, this.nextElement);
       this.toggleEventListeners(on, {
         click: this._onPreviousClick,
       }, this.previousElement);
       this.toggleEventListeners(on, {
+        click: this._onSlidesClick,
         scroll: this._onSlidesScroll,
       }, this.slidesElement);
     }
