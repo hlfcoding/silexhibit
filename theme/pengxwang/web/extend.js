@@ -90,15 +90,21 @@
       snapTo: 'y', contextElement: navElement
     });
     let footerElement = document.querySelector('#index > footer');
-    let tip = Tip.extend(footerElement.querySelectorAll('[title]'), {
+    let footerTip = Tip.extend(footerElement.querySelectorAll('[title]'), {
       snapTo: 'x', contextElement: footerElement
     });
-    let externalElement = document.querySelector('#post section.external');
-    if (externalElement !== null) {
-      let externalTip = Tip.extend(externalElement.querySelectorAll('[title]'), {
-        snapTo: 'y', contextElement: externalElement
+
+    Array.from(document.querySelector('#post section')).forEach((sectionElement) => {
+      if (sectionElement.classList.contains('external')) {
+        let externalTip = Tip.extend(sectionElement.querySelectorAll('[title]'), {
+          snapTo: 'y', contextElement: sectionElement
+        });
+        return;
+      }
+      let footerTip = Tip.extend(sectionElement.querySelectorAll('[title]'), {
+        snapTo: 'x', contextElement: sectionElement
       });
-    }
+    });
   });
 
 }());
