@@ -280,8 +280,11 @@ button {
 }
 button:disabled { opacity: 0.4; }
 button:focus { outline: 1px solid var(--shade-10); }
+button:not([disabled]).highlighted,
 button:not([disabled]):hover {
   background-color: transparent;
+  cursor: pointer;
+
   border-color: var(--light-100);
   color: var(--shade-60);
 }
@@ -497,6 +500,7 @@ article figcaption > span.caption {
   opacity: 0.33;
 }
 .slideshow > .slides {
+  cursor: pointer;
   display: flex;
   overflow-x: scroll;
   scroll-snap-type: mandatory;
@@ -507,8 +511,8 @@ article figcaption > span.caption {
 }
 .slideshow .slide {
   opacity: 0.2;
-  transition: opacity 0.4s;
   scroll-snap-align: center;
+  transition: opacity 0.4s;
 
   margin-right: var(--gutter);
 }
