@@ -500,7 +500,6 @@ article figcaption > span.caption {
   opacity: 0.33;
 }
 .slideshow > .slides {
-  cursor: pointer;
   display: flex;
   overflow-x: scroll;
   scroll-snap-type: mandatory;
@@ -519,6 +518,7 @@ article figcaption > span.caption {
 .slideshow .slide.current { opacity: 1; }
 .slideshow .slide > figure { margin: 0; }
 .slide > figure > img { margin-bottom: 0; }
+.slide.current > figure > img { cursor: pointer; }
 
 /* - */
 

@@ -112,7 +112,8 @@
       this.slideElements = Array.from(this.slideElements); // TODO
       this.slidesElement.style.position = 'relative';
       this._toggleEventListeners(true);
-      this.changeSlide(0);
+      this.changeSlide(0, { animated: false });
+      this._slideMargin = parseFloat(getComputedStyle(this.slideElements[0]).marginRight);
     }
     deinit() {
       this._toggleEventListeners(false);
@@ -177,8 +178,8 @@
       this.changeSlide(this.currentSlideIndex - 1);
     }
     _onSlidesClick(event) {
-      const midX = this.slidesElement.offsetWidth / 2;
-      if (event.offsetX < midX) {
+      if (!this.currentSlideElement.contains(event.target)) { return; }
+      if (event.offsetX < (event.target.offsetWidth / 2)) {
         if (this.changeSlide(this.currentSlideIndex - 1)) {
           this._highlightElement(this.previousElement);
         }
@@ -189,11 +190,11 @@
       }
     }
     _onSlidesScroll(event) {
-      if (this._isAnimatingScroll) {
-        this._isAnimatingScroll = false;
-        return;
-      }
+      this.debugLog('scroll');
       this.setTimeout('_scrollTimeout', 96, () => {
+        this.debugLog('did-scroll');
+        if (this._isAnimatingScroll === true) { return; }
+        this.debugLog('change slide');
         let nextIndex;
         for (let i = 0, l = this.slideElements.length; i < l; i++) {
           let slideElement = this.slideElements[i];
@@ -202,9 +203,11 @@
             break;
           }
         }
-        this.changeSlide(nextIndex, {
+        if (this.changeSlide(nextIndex, {
           animated: !('scrollSnapType' in this.slidesElement.style),
-        });
+        })) {
+          this._isAnimatingScroll = false;
+        }
       });
     }
     _toggleEventListeners(on) {
