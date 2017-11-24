@@ -499,6 +499,7 @@ article figcaption > span.caption {
 .slideshow > .slides {
   display: flex;
   overflow-x: scroll;
+  scroll-snap-type: mandatory;
 }
 .slideshow > .slides::-webkit-scrollbar {
   background: transparent;
@@ -507,6 +508,7 @@ article figcaption > span.caption {
 .slideshow .slide {
   opacity: 0.2;
   transition: opacity 0.4s;
+  scroll-snap-align: center;
 
   margin-right: var(--gutter);
 }
