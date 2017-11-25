@@ -198,7 +198,10 @@
         let nextIndex;
         for (let i = 0, l = this.slideElements.length; i < l; i++) {
           let slideElement = this.slideElements[i];
-          if (slideElement.offsetLeft >= this.slidesElement.scrollLeft) {
+          if (/* Distance between centers is less than mid-x. */ Math.abs(
+            (slideElement.offsetLeft + slideElement.offsetWidth / 2) -
+            (this.slidesElement.scrollLeft + this.slidesElement.offsetWidth / 2)
+          ) < (slideElement.offsetWidth / 2 + this._slideMargin)) {
             nextIndex = i;
             break;
           }
