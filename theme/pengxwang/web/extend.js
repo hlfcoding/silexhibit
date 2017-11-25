@@ -112,6 +112,8 @@
       this.slideElements = Array.from(this.slideElements); // TODO
       this.slidesElement.style.position = 'relative';
       this._toggleEventListeners(true);
+      this._isAnimatingScroll = false;
+      this._isUserScroll = false;
       this.changeSlide(0, { animated: false });
       this._slideMargin = parseFloat(getComputedStyle(this.slideElements[0]).marginRight);
     }
@@ -172,9 +174,11 @@
       }
     }
     _onNextClick(event) {
+      this._isUserScroll = false;
       this.changeSlide(this.currentSlideIndex + 1);
     }
     _onPreviousClick(event) {
+      this._isUserScroll = false;
       this.changeSlide(this.currentSlideIndex - 1);
     }
     _onSlidesClick(event) {
@@ -193,7 +197,7 @@
       this.debugLog('scroll');
       this.setTimeout('_scrollTimeout', 96, () => {
         this.debugLog('did-scroll');
-        if (this._isAnimatingScroll === true) { return; }
+        if (this._isAnimatingScroll && this._isUserScroll) { return; }
         this.debugLog('change slide');
         let nextIndex;
         for (let i = 0, l = this.slideElements.length; i < l; i++) {
@@ -210,6 +214,7 @@
           animated: !('scrollSnapType' in this.slidesElement.style),
         })) {
           this._isAnimatingScroll = false;
+          this._isUserScroll = true;
         }
       });
     }

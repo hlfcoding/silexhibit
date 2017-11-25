@@ -241,7 +241,7 @@ p strong, li strong, dd strong {
   font-family: var(--monospace-bold);
   font-weight: normal;
 }
-p { line-height: var(--md-line-height); }
+p, figcaption { line-height: var(--md-line-height); }
 li, li > p, dd, dt { line-height: var(--sm-line-height); }
 li > [class^="icon-"] {
   opacity: 0.2;
@@ -447,10 +447,11 @@ article > p {
 }
 article figcaption,
 article > p { padding-bottom: calc(var(--gutter) * 0.8125); /* line-height compensation */ }
-article > p.embed {
-  border: 0;
-  line-height: 0;
-  padding: 0;
+article > p.embed { border: 0; line-height: 0; padding: 0; }
+article figure > img[src$="_clear.png"] { background: none; box-shadow: none; }
+article nav.bar > button {
+  margin-bottom: calc(var(--gutter) * -0.1875);
+  margin-top: calc(var(--gutter) * -0.1875);
 }
 article > section > header {
   margin-bottom: var(--gutter);
