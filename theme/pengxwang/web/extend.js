@@ -2,9 +2,6 @@
   'use strict';
 
   class Accordion {
-    static get debug() {
-      return false;
-    }
     static get defaults() {
       return {
         autoCollapse: true,
@@ -75,7 +72,7 @@
       }, triggerElement);
     }
   }
-
+  Accordion.debug = false;
   HLF.buildExtension(Accordion, {
     autoBind: true,
     compactOptions: true,
@@ -83,9 +80,6 @@
   });
 
   class Slideshow {
-    static get debug() {
-      return false;
-    }
     static get defaults() {
       return {
         currentSlideClass: 'current',
@@ -109,7 +103,6 @@
       }
     }
     init() {
-      this.slideElements = Array.from(this.slideElements); // TODO
       this.slidesElement.style.position = 'relative';
       this._toggleEventListeners(true);
       this._isAnimatingScroll = false;
@@ -121,7 +114,6 @@
       this._toggleEventListeners(false);
     }
     get currentSlideElement() {
-      if (!this.slideElements) { return null; } // TODO
       return this.slideElements[this.currentSlideIndex];
     }
     changeSlide(index, { animated } = { animated: true }) {
@@ -234,7 +226,7 @@
       }, this.slidesElement);
     }
   }
-
+  Slideshow.debug = false;
   HLF.buildExtension(Slideshow, {
     autoBind: true,
     autoSelect: true,

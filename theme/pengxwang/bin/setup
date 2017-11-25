@@ -17,6 +17,7 @@ npm init --yes > /dev/null
 # npm install hlf-dom-extensions --save
 npm install 'git://github.com/hlfcoding/hlf-dom-extensions.git' --save
 cd node_modules
+cp hlf-dom-extensions/dist/guard.js "$lib_dir/"
 cp hlf-dom-extensions/dist/hlf-dom-extensions.{css,js} "$lib_dir/"
 
 echo -e "\nInstalled libs from NPM!"
