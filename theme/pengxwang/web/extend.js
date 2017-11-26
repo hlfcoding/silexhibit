@@ -269,6 +269,10 @@
         snapTo: 'x', contextElement: sectionElement
       });
     });
+    let printElement = document.querySelector('button.print');
+    if (printElement !== null) {
+      printElement.addEventListener('click', () => print());
+    }
   });
 
 }());
