@@ -166,22 +166,26 @@
       }
     }
     _onNextClick(event) {
-      this._isUserScroll = false;
-      this.changeSlide(this.currentSlideIndex + 1);
+      if (this.changeSlide(this.currentSlideIndex + 1)) {
+        this._isUserScroll = false;
+      }
     }
     _onPreviousClick(event) {
-      this._isUserScroll = false;
-      this.changeSlide(this.currentSlideIndex - 1);
+      if (this.changeSlide(this.currentSlideIndex - 1)) {
+        this._isUserScroll = false;
+      }
     }
     _onSlidesClick(event) {
       if (!this.currentSlideElement.contains(event.target)) { return; }
       if (event.offsetX < (event.target.offsetWidth / 2)) {
         if (this.changeSlide(this.currentSlideIndex - 1)) {
           this._highlightElement(this.previousElement);
+          this._isUserScroll = false;
         }
       } else {
         if (this.changeSlide(this.currentSlideIndex + 1)) {
           this._highlightElement(this.nextElement);
+          this._isUserScroll = false;
         }
       }
     }
