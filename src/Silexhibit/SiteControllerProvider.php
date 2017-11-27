@@ -36,6 +36,7 @@ class SiteControllerProvider implements ControllerProviderInterface {
       return $this->renderPost($page, $app);
     });
     $controllers->after(function(Request $request, Response $response, Application $app) {
+      if ($response->isRedirect()) { return; }
       $this->wrapResponseContent($request, $response, $app);
     });
     return $controllers;
@@ -112,7 +113,7 @@ class SiteControllerProvider implements ControllerProviderInterface {
         ],
       ],
     ], $app);
-    return $response->setContent(
+    $response->setContent(
       $app['mustache']->render('layout', $content)
     );
   }
