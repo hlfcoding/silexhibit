@@ -42,7 +42,9 @@ class ThemeServiceProvider implements ThemeServiceInterface {
     $config = require $app['root'].'config/theme/common.php';
     return array_merge_recursive($data, [
       'config' => ['theme' => $config],
-      'debug_info' => $app['debug'] ? json_encode($data['config'], JSON_PRETTY_PRINT) : null,
+      'debug_info' => $app['debug'] ? json_encode(
+        array_merge($data, array('post' => $this->post)),
+      JSON_PRETTY_PRINT) : null,
     ]);
   }
 
