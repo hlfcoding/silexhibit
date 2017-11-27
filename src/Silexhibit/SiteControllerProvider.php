@@ -41,6 +41,34 @@ class SiteControllerProvider implements ControllerProviderInterface {
     return $controllers;
   }
 
+  protected function filterConfig() {
+    $filtered = $this->config;
+    unset($filtered['db']);
+    $owner = &$filtered['meta']['owner'];
+    $owner['email'] = $this->obfuscateEmail($owner['email']);
+    return $filtered;
+  }
+
+  // WordPress antispambot implementation.
+  protected function obfuscateEmail(string $input, int $hex_encoding = 0) {
+    $output = '';
+    for ($i = 0, $l = strlen($input); $i < $l; $i++) {
+      $j = rand(0, 1 + $hex_encoding);
+      switch ($j) {
+        case 0:
+          $output .= '&#'.ord($input[$i]).';';
+          break;
+        case 1:
+          $output .= substr($input, $i, 1);
+          break;
+        case 2:
+          $output .= '%'.sprintf('%02s', dechex(ord($input[$i])));
+          break;
+      }
+    }
+    return str_replace('@', '&#64;', $output);
+  }
+
   protected function registerServiceProviders(Application $app) {
     $app->register(new MustacheServiceProvider(), [
       'mustache.path' => $app['root'].'src/mustache/theme',
@@ -72,7 +100,7 @@ class SiteControllerProvider implements ControllerProviderInterface {
     $index_type = $this->config['site']['index_type'];
     $index = $app['database']->selectIndex($index_type, true);
     $content = $app['theme']->wrapTemplateData([
-      'config' => $this->config,
+      'config' => $this->filterConfig(),
       'index' => $this->renderIndex($index, $index_type, $app),
       'post' => $response->getContent(),
       'title' => $this->title,
