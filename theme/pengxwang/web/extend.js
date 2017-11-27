@@ -91,6 +91,7 @@
           slideElements: '.slide',
           slidesElement: '.slides',
         },
+        singleSlideClass: 'single-slide',
       };
     }
     static toPrefix(context) {
@@ -109,6 +110,9 @@
       this._isUserScroll = false;
       this.changeSlide(0, { animated: false });
       this._slideMargin = parseFloat(getComputedStyle(this.slideElements[0]).marginRight);
+      if (this.slideElements.length === 1) {
+        this.element.classList.add(this.singleSlideClass);
+      }
     }
     deinit() {
       this._toggleEventListeners(false);

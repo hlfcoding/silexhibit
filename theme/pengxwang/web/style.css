@@ -555,6 +555,7 @@ article figcaption > span.caption {
 .slideshow .slide > figure { margin: 0; }
 .slide > figure > img { margin-bottom: 0; }
 .slide.current > figure > img { cursor: pointer; }
+.slideshow.single-slide nav.bar { display: none; }
 @media print {
   article > p.embed,
   nav.bar { display: none; }
