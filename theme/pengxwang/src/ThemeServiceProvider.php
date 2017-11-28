@@ -45,6 +45,12 @@ class ThemeServiceProvider implements ThemeServiceInterface {
       'debug_info' => $app['debug'] ? json_encode(
         array_merge($data, array('post' => $this->post)),
       JSON_PRETTY_PRINT) : null,
+      'urls' => [
+        'validation' => [
+          'html' => 'http://validator.w3.org/check?doctype=HTML5',
+          'css' => 'http://jigsaw.w3.org/css-validator/validator?profile=css3&warning=0',
+        ],
+      ],
     ]);
   }
 

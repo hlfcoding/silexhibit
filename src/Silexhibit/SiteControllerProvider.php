@@ -110,10 +110,6 @@ class SiteControllerProvider implements ControllerProviderInterface {
       'title' => $this->title,
       'urls' => [
         'full' => $request->getHttpHost().$request->getRequestUri(),
-        'validation' => [
-          'html' => 'http://validator.w3.org/check?doctype=HTML5',
-          'css' => 'http://jigsaw.w3.org/css-validator/validator?profile=css3&warning=0',
-        ],
       ],
     ], $app);
     $response->setContent(
