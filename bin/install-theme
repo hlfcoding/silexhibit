@@ -4,6 +4,7 @@ root_dir=$(pwd)
 config_dir="$root_dir/config"
 src_dir="$root_dir/src"
 theme_dir="$root_dir/theme"
+var_dir="$root_dir/var"
 web_dir="$root_dir/web"
 
 set -euo pipefail
@@ -15,10 +16,12 @@ echo -e "\nTheme name? Available themes:\n"
 ls -d ./*/ | cut -d '/' -f 2
 echo; read -p 'name: ' -r name
 theme_dir="$theme_dir/$name"
+current_name=$(cat "$var_dir/st-theme")
 
 echo -e "\nInstalling theme '$name'..."
 
-if [[ -x "$theme_dir/bin/setup" ]]; then
+# Switch to and from another theme to re-run theme setup.
+if [[ -x "$theme_dir/bin/setup" && $name != "$current_name" ]]; then
   cd "$root_dir"
   "$theme_dir/bin/setup"
 fi
@@ -55,6 +58,7 @@ cp_any_assets web/lib/ "$web_dir/lib/theme/"
 cp_any_assets web/media/ "$web_dir/media/theme/"
 echo -e "Installed theme assets!"
 
+echo "$name" > "$var_dir/st-theme"
 echo -e "\nInstalled theme '$name'!\n"
 
 cd "$root_dir"
