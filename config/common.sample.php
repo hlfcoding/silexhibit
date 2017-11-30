@@ -2,6 +2,7 @@
 
 return [
   'cdn_url' => '',
+  'debug' => [],
   'db' => [
     'name' => 'some_db',
     'table_prefix' => 'ndxz_',

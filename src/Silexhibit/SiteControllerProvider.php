@@ -87,7 +87,7 @@ class SiteControllerProvider implements ControllerProviderInterface {
     if (isset($post['exhibit'])) {
       foreach ($post['exhibit'] as &$media) {
         $media['url'] = '/media/'.$media['file'];
-        if ($app['env'] === PROD) {
+        if ($app['env'] === PROD || in_array('cdn_url', $app['config']['debug'])) {
           $media['url'] = $this->config['cdn_url'].$media['url'];
         }
       }

@@ -9,7 +9,6 @@ const PROD = 'prod';
 $app['env'] = getenv('APP_ENV') ?: DEV;
 $app['root'] = __DIR__.'/../';
 $app['config'] = require $app['root'].'config/'.$app['env'].'.php';
-$app['debug'] = $app['env'] === DEV;
 
 $app->register(new Silexhibit\DataBaseServiceProvider());
 
