@@ -9,20 +9,24 @@ use Silex\Provider\DoctrineServiceProvider;
 const INDEX_CHRONOLOGICAL = 1;
 const INDEX_SECTIONAL = 2;
 
+const STATUS_DRAFT = 0;
+const STATUS_PUBLISHED = 1;
+
 class DataBaseServiceProvider implements ServiceProviderInterface {
 
   protected $dbal;
   protected $tbl;
 
   public function register(Container $app) {
+    $config = $app['config']['db'];
     $app->register(new DoctrineServiceProvider(), [
       'db.options' => [
         'charset' => 'utf8',
-        'dbname' => $app['config']['db']['name'],
+        'dbname' => $config['name'],
         'driver' => 'pdo_mysql',
-        'host' => $app['config']['db']['host'],
-        'password' => $app['config']['db']['password'],
-        'user' => $app['config']['db']['user'],
+        'host' => $config['host'],
+        'password' => $config['password'],
+        'user' => $config['user'],
       ]
     ]); // 'db'
 
@@ -55,7 +59,7 @@ class DataBaseServiceProvider implements ServiceProviderInterface {
       FROM {$this->tbl}objects as o, {$this->tbl}sections as s
       WHERE o.section_id = s.secid";
     if ($public) {
-      $query .= " AND o.status = '1' AND o.hidden != '1'";
+      $query .= " AND o.status = '".STATUS_PUBLISHED."' AND o.hidden != '1'";
     }
     switch ($type) {
       case INDEX_CHRONOLOGICAL:
@@ -77,7 +81,7 @@ class DataBaseServiceProvider implements ServiceProviderInterface {
       WHERE o.$column = ?
       AND o.object = op.obj_ref_type";
     if ($public) {
-      $query .= " AND o.status = '1'";
+      $query .= " AND o.status = '".STATUS_PUBLISHED."'";
     }
     return $this->dbal->fetchAssoc($query, [$value]);
   }
