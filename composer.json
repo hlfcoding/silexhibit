@@ -23,8 +23,8 @@
   "require-dev": {
   },
   "autoload": {
-    "psr-0": {
-      "Silexhibit": "src/"
+    "psr-4": {
+      "Silexhibit\\": "src/Silexhibit/"
     }
   },
   "config": {
