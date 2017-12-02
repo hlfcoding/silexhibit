@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+root_dir=$(pwd)
+web_dir="$root_dir/web"
+
+set -euo pipefail
+trap 'echo -e "\nFailed to upload media!\n"' ERR
+
+echo; read -p 's3 bucket: ' -r bucket
+
+echo -e "\nUploading media..."
+
+aws s3 sync "$web_dir/media" "s3://$bucket/media" --acl public-read --delete \
+--exclude '*' --include '*.jpg' --include '*.png' --exclude 'theme/*' \
+# --dryrun
+
+echo -e "\nUploaded media!\n"
