@@ -5,8 +5,8 @@ namespace Silexhibit;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
-use const Silexhibit\INDEX_CHRONOLOGICAL;
-use const Silexhibit\INDEX_SECTIONAL;
+use Silexhibit\INDEX_CHRONOLOGICAL;
+use Silexhibit\INDEX_SECTIONAL;
 
 class DataAdapterServiceProvider implements ServiceProviderInterface {
 
