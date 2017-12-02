@@ -21,7 +21,7 @@ class ThemeServiceProvider implements ThemeServiceInterface {
     return $app['mustache']->render($post['format'], $post);
   }
 
-  public function renderIndex(array $index, int $type, Container $app) {
+  public function renderIndex(array $index, $type, Container $app) {
     if (isset($index['sections'])) {
       $detail_id = $this->post['id'];
       $index['sections'] = array_map(function ($s) use ($detail_id) {
@@ -55,7 +55,7 @@ class ThemeServiceProvider implements ThemeServiceInterface {
     return $data;
   }
 
-  protected function generatePreviewText(string $html, int $max_length = 280) {
+  protected function generatePreviewText($html, $max_length = 280) {
     // Strip non-content tags, then replace content tags.
     $html = preg_replace("/<script(.*?)>(.*?)<\\/script>/is", '', $html);
     $html = html_entity_decode(strip_tags($html, '<p><li><h3><dd>'));

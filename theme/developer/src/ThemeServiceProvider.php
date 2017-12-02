@@ -15,7 +15,7 @@ class ThemeServiceProvider implements ThemeServiceInterface {
     return json_encode($post, JSON_PRETTY_PRINT);
   }
 
-  public function renderIndex(array $index, int $type, Container $app) {
+  public function renderIndex(array $index, $type, Container $app) {
     return json_encode($index, JSON_PRETTY_PRINT);
   }
 

@@ -24,13 +24,13 @@ class SiteControllerProvider implements ControllerProviderInterface {
       return $this->renderPost($post, $app);
     });
     $controllers->get('/{section}/{project}/',
-    function(Application $app, Request $request, string $section, string $project) {
+    function(Application $app, Request $request, $section, $project) {
       $exhibit = $app['database']->selectExhibit('url', $request->getPathInfo());
       if (empty($exhibit)) { return $app->redirect('/'); }
       return $this->renderPost($exhibit, $app);
     });
     $controllers->get('/{page}/',
-    function(Application $app, Request $request, string $page) {
+    function(Application $app, Request $request, $page) {
       $page = $app['database']->selectPost('url', $request->getPathInfo());
       if (empty($page)) { return $app->redirect('/'); }
       return $this->renderPost($page, $app);
@@ -51,7 +51,7 @@ class SiteControllerProvider implements ControllerProviderInterface {
   }
 
   // WordPress antispambot implementation.
-  protected function obfuscateEmail(string $input, int $hex_encoding = 0) {
+  protected function obfuscateEmail($input, $hex_encoding = 0) {
     $output = '';
     for ($i = 0, $l = strlen($input); $i < $l; $i++) {
       $j = rand(0, 1 + $hex_encoding);
@@ -95,7 +95,7 @@ class SiteControllerProvider implements ControllerProviderInterface {
     return $app['theme']->renderPost($post, $app);
   }
 
-  protected function renderIndex(array $index, int $type, Application $app) {
+  protected function renderIndex(array $index, $type, Application $app) {
     $index = $app['adapter']->conventionalIndex($index, ['type' => $type]);
     return $app['theme']->renderIndex($index, $type, $app);
   }

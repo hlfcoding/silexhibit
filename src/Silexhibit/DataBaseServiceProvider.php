@@ -35,7 +35,7 @@ class DataBaseServiceProvider implements ServiceProviderInterface {
     $app['database'] = $this;
   }
 
-  public function selectExhibit(string $column, string $value, bool $public = false) {
+  public function selectExhibit($column, $value, $public = false) {
     $record = $this->selectPost($column, $value, $public);
     if (!empty($record)) {
       $record['exhibit'] = $this->selectExhibitMedia($record['id']);
@@ -43,7 +43,7 @@ class DataBaseServiceProvider implements ServiceProviderInterface {
     return $record;
   }
 
-  public function selectExhibitMedia(int $id) {
+  public function selectExhibitMedia($id) {
     $query = "SELECT *
       FROM {$this->tbl}media AS m
       WHERE m.media_ref_id = ?
@@ -53,7 +53,7 @@ class DataBaseServiceProvider implements ServiceProviderInterface {
     return $this->dbal->fetchAll($query, [$id]);
   }
 
-  public function selectIndex(int $type = INDEX_CHRONOLOGICAL, bool $public = false) {
+  public function selectIndex($type = INDEX_CHRONOLOGICAL, $public = false) {
     $query = "SELECT id, title, content, url,
       section, sec_desc, sec_disp, year, secid
       FROM {$this->tbl}objects as o, {$this->tbl}sections as s
@@ -74,7 +74,7 @@ class DataBaseServiceProvider implements ServiceProviderInterface {
     return $index;
   }
 
-  public function selectPost(string $column, string $value, bool $public = false) {
+  public function selectPost($column, $value, $public = false) {
     $query = "SELECT *
       FROM {$this->tbl}objects AS o,
            {$this->tbl}objects_prefs AS op
