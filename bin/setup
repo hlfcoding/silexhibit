@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+trap 'echo -e "\nFailed to setup!\n"' ERR
+
+echo -e "\nSetting up...\n"
+
+composer install --optimize-autoloader
+
+echo -e "\nSet up!\n"
