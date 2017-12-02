@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+trap 'echo -e "\nFailed to deploy!\n"' ERR
+
+echo; read -p 'destination: ' -r destination
+
+echo -e "\nDeploying...\n"
+
+rsync -avz --force --delete \
+--exclude='/frozen/' \
+--exclude='/*.sublime-*' --exclude='.DS_Store' \
+--exclude='.gitignore' --exclude='/.git/' \
+--exclude='/bin/' --exclude='/theme/' --exclude='/var/' \
+--include='/web/media/theme/' --exclude='/web/media/*' \
+--exclude='/tmp/cache/mustache/*' --exclude='/tmp/theme/' \
+-e 'ssh -p22' ./ "$destination"
+
+echo -e "\nDeployed!\n"
