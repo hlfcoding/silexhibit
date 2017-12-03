@@ -1,64 +1,64 @@
 #!/usr/bin/env bash
 
-root_dir=$(pwd)
-config_dir="$root_dir/config"
-src_dir="$root_dir/src"
-theme_dir="$root_dir/theme"
-var_dir="$root_dir/var"
-web_dir="$root_dir/web"
-
+if [[ ! -d src/Silexhibit ]]; then echo -e "\nMust run in project root!\n"; exit 1; fi
 set -euo pipefail
-trap 'echo -e "\nFailed to install theme!\n"' ERR
-
-cd "$theme_dir"
-echo -e "\nTheme name? Available themes:\n"
-# shellcheck disable=SC2012
-ls -d ./*/ | cut -d '/' -f 2
-echo; read -p 'name: ' -r name
-theme_dir="$theme_dir/$name"
-current_name=$(cat "$var_dir/st-theme")
-
-echo -e "\nInstalling theme '$name'..."
-
-# Switch to and from another theme to re-run theme setup.
-if [[ -x "$theme_dir/bin/setup" && $name != "$current_name" ]]; then
+root_dir=$(pwd)
+function finish {
+  if [[ "$?" -gt 0 ]]; then echo -e "\n${RED}Failed to install theme!${NC}\n"; fi
   cd "$root_dir"
-  "$theme_dir/bin/setup"
-fi
+}
+trap finish EXIT
+# shellcheck disable=SC1091
+source bin/rc; echo
 
-cd "$theme_dir"
-cp -f 'src/ThemeServiceProvider.php' "$src_dir/Silexhibit/"
-echo -e "\nInstalled theme PHP!"
+theme=''; hard=false
+for i in "$@"; do case $i in
+  -h|--help) cat <<EOD
+Cleans theme/ folders and copies files from --theme (-t).
+Theme bin/setup is only run as needed or if --hard install.
+Must run in project root.
+EOD
+  echo; exit 0;;
+  --hard) hard=true; shift;;
+  -t=*|--theme=*) theme="${i#*=}"; shift;;
+  *) echo -e "${RED}Unknown option: ${i%=*}${NC}\n"; exit 1;;
+esac; done
+if [[ -z $theme ]]; then echo -e "${RED}Missing --theme!${NC}\n"; exit 1; fi
 
-rm -rf "$src_dir/mustache/theme/"*.mustache
-cp -rf src/mustache/*.mustache "$src_dir/mustache/theme/"
-echo -e "Installed theme templates!"
+echo -e "Installing theme..."
 
-rm -rf "$config_dir/theme/"*.php
+current_theme=$(cat "$root_dir/var/st-theme")
+setup="$root_dir/theme/$theme/bin/setup"
+if [[ -x "$setup" && ($theme != "$current_theme" || "$hard" == true) ]]; then "$setup"
+else echo; fi
+
+cd "$root_dir/theme/$theme"
+
+cp -f src/ThemeServiceProvider.php "$root_dir/src/Silexhibit/"
+echo -e "${GREEN}Installed theme PHP!${NC}"
+
+rm -rf "$root_dir/src/mustache/theme/"*.mustache
+cp -rf src/mustache/*.mustache "$root_dir/src/mustache/theme/"
+echo -e "${GREEN}Installed theme templates!${NC}"
+
+rm -rf "$root_dir/config/theme/"*.php
 if [[ -d config ]]; then
-  cp -rf config/*.php "$config_dir/theme/"
-  echo -e "Installed theme configurations!"
+  cp -rf config/*.php "$root_dir/config/theme/"
+  echo -e "${GREEN}Installed theme configurations!${NC}"
 fi
 
 function cp_any_assets {
-  local from_dir=$1
-  local to_dir=$2
+  local from_dir=$1; local to_dir=$2
   rm -rf "$to_dir"*.{css,js,ico,jpg,png,ttf,woff}
-  if [[ ! -d "$from_dir" ]]; then
-    return
-  fi
+  if [[ ! -d "$from_dir" ]]; then return; fi
   for f in "$from_dir"*.{css,js,ico,jpg,png,ttf,woff}; do
-    if [[ -f "$f" ]]; then
-      cp -f "$f" "$to_dir"
-    fi
+    if [[ -f "$f" ]]; then cp -f "$f" "$to_dir"; fi
   done
 }
-cp_any_assets web/ "$web_dir/theme/"
-cp_any_assets web/lib/ "$web_dir/lib/theme/"
-cp_any_assets web/media/ "$web_dir/media/theme/"
-echo -e "Installed theme assets!"
+cp_any_assets web/ "$root_dir/web/theme/"
+cp_any_assets web/lib/ "$root_dir/web/lib/theme/"
+cp_any_assets web/media/ "$root_dir/web/media/theme/"
+echo -e "${GREEN}Installed theme assets!${NC}"
 
-echo "$name" > "$var_dir/st-theme"
-echo -e "\nInstalled theme '$name'!\n"
-
-cd "$root_dir"
+echo "$theme" > "$root_dir/var/st-theme"
+echo -e "\n${GREEN}Installed theme!${NC}\n"
