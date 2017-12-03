@@ -1,13 +1,29 @@
 #!/usr/bin/env bash
 
+if [[ ! -d src/Silexhibit ]]; then echo -e "\nMust run in project root!\n"; exit 1; fi
 set -euo pipefail
-trap 'echo -e "\nFailed to deploy!\n"' ERR
+trap 'if [[ "$?" -gt 0 ]]; then echo -e "\n${RED}Failed to deploy!${NC}\n"; fi' EXIT
+# shellcheck disable=SC1091
+source bin/rc; echo
 
-echo; read -p 'destination: ' -r destination
+destination=''; dry_run='--dry-run'
+for i in "$@"; do case $i in
+  -d=*|--destination=*) destination="${i#*=}"; shift;;
+  --go) dry_run=''; shift;;
+  -h|--help) cat <<EOD
+Syncs deployment-only files to --destination (-d).
+Does a dry-run by default, use --go to really sync.
+Must run in project root. Uses rsync underneath.
+EOD
+  echo; exit 0;;
+  *) echo -e "${RED}Unknown option: ${i%=*}${NC}\n"; exit 1;;
+esac; done
+if [[ -z $destination ]]; then echo -e "${RED}Missing --destination!${NC}\n"; exit 1; fi
 
-echo -e "\nDeploying...\n"
+echo -e "Deploying...\n"
+if [[ -n $dry_run ]]; then echo -e "(dry-run)\n"; fi
 
-rsync -avz --force --delete \
+rsync -avz --force --delete $dry_run \
 --exclude='/frozen/' \
 --exclude='/*.sublime-*' --exclude='.DS_Store' \
 --exclude='.gitignore' --exclude='/.git/' \
@@ -16,4 +32,4 @@ rsync -avz --force --delete \
 --exclude='/tmp/cache/mustache/*' --exclude='/tmp/theme/' \
 -e 'ssh -p22' ./ "$destination"
 
-echo -e "\nDeployed!\n"
+echo -e "\n${GREEN}Deployed!${NC}\n"
