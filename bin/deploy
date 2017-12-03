@@ -2,7 +2,11 @@
 
 if [[ ! -d src/Silexhibit ]]; then echo -e "\nMust run in project root!\n"; exit 1; fi
 set -euo pipefail
-trap 'if [[ "$?" -gt 0 ]]; then echo -e "\n${RED}Failed to deploy!${NC}\n"; fi' EXIT
+function finish {
+  if [[ "$?" -gt 0 ]]; then echo -e "\n${RED}Failed to deploy!${NC}\n"; fi
+  if [[ -f web/.htaccess.bak ]]; then mv web/.htaccess.bak web/.htaccess; fi
+}
+trap finish EXIT
 # shellcheck disable=SC1091
 source bin/rc; echo
 
@@ -23,10 +27,13 @@ if [[ -z $destination ]]; then echo -e "${RED}Missing --destination!${NC}\n"; ex
 echo -e "Deploying...\n"
 if [[ -n $dry_run ]]; then echo -e "(dry-run)\n"; fi
 
+sed -i.bak 's/SetEnv APP_ENV dev/SetEnv APP_ENV prod/' web/.htaccess
+
 rsync -avz --force --delete $dry_run \
 --exclude='/frozen/' \
 --exclude='/*.sublime-*' --exclude='.DS_Store' \
 --exclude='.gitignore' --exclude='/.git/' \
+--exclude='*.bak' --exclude='*.sample' \
 --exclude='/bin/' --exclude='/theme/' --exclude='/var/' \
 --include='/web/media/theme/' --exclude='/web/media/*' \
 --exclude='/tmp/cache/mustache/*' --exclude='/tmp/theme/' \

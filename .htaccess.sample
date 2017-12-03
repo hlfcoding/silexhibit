@@ -1,0 +1,8 @@
+<IfModule mod_rewrite.c>
+  Options -Indexes
+  RewriteEngine On
+  RewriteBase /
+  RewriteCond %{HTTP_HOST} ^example\.com
+  RewriteCond %{REQUEST_URI} !web/
+  RewriteRule ^(.*)$ web/$1 [L]
+</IfModule>

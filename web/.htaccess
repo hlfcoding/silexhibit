@@ -6,7 +6,6 @@
 </IfModule>
 
 SetEnv APP_ENV dev
-# SetEnv APP_ENV prod
 
 # https://github.com/h5bp/html5-boilerplate/blob/9a176f5/dist/.htaccess
 
