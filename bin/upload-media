@@ -1,17 +1,30 @@
 #!/usr/bin/env bash
 
-root_dir=$(pwd)
-web_dir="$root_dir/web"
-
+if [[ ! -d src/Silexhibit ]]; then echo -e "\nMust run in project root!\n"; exit 1; fi
 set -euo pipefail
-trap 'echo -e "\nFailed to upload media!\n"' ERR
+trap 'if [[ "$?" -gt 0 ]]; then echo -e "\n${RED}Failed to upload media!${NC}\n"; fi' EXIT
+# shellcheck disable=SC1091
+source bin/rc; echo
 
-echo; read -p 's3 bucket: ' -r bucket
+bucket=''; dry_run='--dryrun'
+for i in "$@"; do case $i in
+  -b=*|--bucket=*) bucket="${i#*=}"; shift;;
+  --go) dry_run=''; shift;;
+  -h|--help) cat <<EOD
+Syncs media files to s3 --bucket (-b).
+Does a dry-run by default, use --go to really sync.
+Must run in project root. Uses awscli underneath.
+EOD
+  echo; exit 0;;
+  *) echo -e "${RED}Unknown option: ${i%=*}${NC}\n"; exit 1;;
+esac; done
+if [[ -z $bucket ]]; then echo -e "${RED}Missing --bucket!${NC}\n"; exit 1; fi
 
-echo -e "\nUploading media..."
+echo -e "Uploading media...\n"
+if [[ -n $dry_run ]]; then echo -e "(dry-run)\n"; fi
 
-aws s3 sync "$web_dir/media" "s3://$bucket/media" --acl public-read --delete \
+aws s3 sync web/media "s3://$bucket/media" --acl public-read --delete \
 --exclude '*' --include '*.jpg' --include '*.png' --exclude 'theme/*' \
-# --dryrun
+$dry_run
 
-echo -e "\nUploaded media!\n"
+echo -e "\n${GREEN}Uploaded media!${NC}\n"
