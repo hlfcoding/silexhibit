@@ -1,25 +1,31 @@
 #!/usr/bin/env bash
 
+if [[ ! -d src/Silexhibit ]]; then echo -e "\nMust run in project root!\n"; exit 1; fi
+set -euo pipefail
 root_dir=$(pwd)
+function finish {
+  if [[ "$?" -gt 0 ]]; then echo -e "\n${RED}Failed to setup theme!${NC}\n"; fi
+  cd "$root_dir"
+}
+trap finish EXIT
+# shellcheck disable=SC1091
+source bin/rc; echo
+
 temp_dir="$root_dir/tmp/theme/pengxwang/setup"
 theme_dir="$root_dir/theme/pengxwang"
-lib_dir="$theme_dir/web/lib"
 
-set -euo pipefail
-trap 'echo -e "\nFailed to setup theme!\n"' ERR
-
-echo -e "\nInstalling libs from NPM...\n"
+echo -e "Installing libs from NPM...\n"
 
 [[ -d "$temp_dir" ]] || mkdir -p "$temp_dir"
 cd "$temp_dir"
 [[ -s package.json ]] && rm package.json
 npm init --yes > /dev/null
 # npm install hlf-dom-extensions --save
-npm install 'git://github.com/hlfcoding/hlf-dom-extensions.git' --save
+npm install git://github.com/hlfcoding/hlf-dom-extensions.git --save
 cd node_modules
-cp hlf-dom-extensions/dist/guard.js "$lib_dir/"
-cp hlf-dom-extensions/dist/hlf-dom-extensions.{css,js} "$lib_dir/"
+cp hlf-dom-extensions/dist/guard.js "$theme_dir/web/lib/"
+cp hlf-dom-extensions/dist/hlf-dom-extensions.{css,js} "$theme_dir/web/lib/"
 
-echo -e "\nInstalled libs from NPM!"
+echo -e "\n${GREEN}Installed libs from NPM!${NC}"
 
 cd "$root_dir"

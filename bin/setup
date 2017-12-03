@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
-trap 'echo -e "\nFailed to setup!\n"' ERR
+trap 'echo -e "\n${RED}Failed to setup!${NC}\n"' ERR
+# shellcheck disable=SC1091
+source bin/rc; echo
 
-echo -e "\nSetting up...\n"
+echo -e "Setting up...\n"
 
 composer install --optimize-autoloader
 
-echo -e "\nSet up!\n"
+echo -e "\n${GREEN}Set up!${NC}\n"
