@@ -1,9 +1,0 @@
-debug: true
-
-db.options.prod:
-  user:     pengxwan_user
-  password: Acce$$22bronze00
-  host:     localhost
-
-monolog.options.prod:
-  monolog.logfile: "%logs_path%/prod.log"

@@ -1,6 +1,0 @@
-config/prod.yml
-!web/lib/scss/silex-*.scss
-
-*.sublime-workspace
-Gruntfile.js
-node_modules
