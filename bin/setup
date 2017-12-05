@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+if [[ ! -d src/Silexhibit ]]; then echo -e "\nMust run in project root!\n"; exit 1; fi
 set -euo pipefail
 trap 'echo -e "\n${RED}Failed to setup!${NC}\n"' ERR
 # shellcheck disable=SC1091
@@ -7,6 +8,11 @@ source bin/rc; echo
 
 echo -e "Setting up...\n"
 
-composer install --optimize-autoloader
+composer install --optimize-autoloader --prefer-dist
+
+find vendor -depth -type d \
+\( -iname doc -or -iname test -or -iname tests \) \
+-exec rm -rv {} +
+echo -e "${GREEN}Pruned vendor docs and tests!${NC}"
 
 echo -e "\n${GREEN}Set up!${NC}\n"
