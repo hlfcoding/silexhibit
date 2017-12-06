@@ -459,6 +459,12 @@ button:not([disabled]):hover {
   font-size: var(--x-sm-font-size);
   line-height: var(--x-sm-line-height);
 }
+.index .copyright-symbol {
+  vertical-align: middle;
+
+  font-family: var(--sans-serif);
+  font-size: var(--md-font-size);
+}
 
 /* - */
 
