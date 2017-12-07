@@ -553,14 +553,24 @@ article figcaption > span.caption {
 .slideshow .slide {
   opacity: 0.2;
   scroll-snap-align: center;
-  transition: opacity 0.4s;
 
+  --duration: 0.4s;
   margin-right: var(--gutter);
+  transition: opacity var(--duration);
 }
 .slideshow .slide.current { opacity: 1; }
 .slideshow .slide > figure { margin: 0; }
-.slide > figure > img { margin-bottom: 0; }
-.slide.current > figure > img { cursor: pointer; }
+.slide > figure > img {
+  -webkit-filter: grayscale(100%);
+  transition: webkit-filter;
+  margin-bottom: 0;
+
+  transition: -webkit-filter var(--duration);
+}
+.slide.current > figure > img {
+  -webkit-filter: none;
+  cursor: pointer;
+}
 .slideshow.single-slide nav.bar { display: none; }
 @media print {
   article > p.embed,
