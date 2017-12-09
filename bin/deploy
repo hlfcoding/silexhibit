@@ -5,21 +5,27 @@ set -euo pipefail
 function finish {
   if [[ "$?" -gt 0 ]]; then echo -e "\n${RED}Failed to deploy!${NC}\n"; fi
   if [[ -f web/.htaccess.bak ]]; then mv web/.htaccess.bak web/.htaccess; fi
+  rm -rf tmp/*.sql
 }
 trap finish EXIT
 # shellcheck disable=SC1091
 source bin/rc; echo
 
-destination=''; dry_run='--dry-run'
+db_name=''; db_user=''; destination=''; dry_run='--dry-run'
 for i in "$@"; do case $i in
   -d=*|--destination=*) destination="${i#*=}"; shift;;
   --go) dry_run=''; shift;;
   -h|--help) cat <<EOD
 Syncs deployment-only files to --destination (-d).
+If --db-name (-n) and --db-user (-u) are provided,
+the local db version syncs to the remote version.
 Does a dry-run by default, use --go to really sync.
-Must run in project root. Uses rsync underneath.
+Uses mysqldump, rsync, and ssh underneath.
+Must run in project root.
 EOD
   echo; exit 0;;
+  -n=*|--db-name=*) db_name="${i#*=}"; shift;;
+  -u=*|--db-user=*) db_user="${i#*=}"; shift;;
   *) echo -e "${RED}Unknown option: ${i%=*}${NC}\n"; exit 1;;
 esac; done
 if [[ -z $destination ]]; then echo -e "${RED}Missing --destination!${NC}\n"; exit 1; fi
@@ -29,6 +35,12 @@ if [[ -n $dry_run ]]; then echo -e "(dry-run)\n"; fi
 
 sed -i.bak 's/SetEnv APP_ENV dev/SetEnv APP_ENV prod/' web/.htaccess
 
+if [[ -n $db_name && -n $db_user ]]; then
+  echo -e "Dumping local DB...\n"
+  mysqldump -u root $db_name > tmp/$db_name.sql
+fi
+
+echo -e "Transferring..."
 rsync -avz --force --delete $dry_run \
 --exclude='/frozen/' \
 --exclude='/*.sublime-*' --exclude='.DS_Store' \
@@ -38,5 +50,12 @@ rsync -avz --force --delete $dry_run \
 --include='/web/media/theme/' --exclude='/web/media/*' \
 --exclude='/tmp/cache/mustache/*' --exclude='/tmp/theme/' \
 -e 'ssh -p22' ./ "$destination"
+
+if [[ -n $db_name && -n $db_user && -z $dry_run ]]; then
+  echo -e "\nUpdating remote DB..."
+  s=${destination%:*}; p=${destination#*:}
+  n=$db_name; u=$db_user
+  ssh "$s" \ "mysql --defaults-file=.my.cnf -u $u $n < $p/tmp/$n.sql && rm $p/tmp/$n.sql"
+fi
 
 echo -e "\n${GREEN}Deployed!${NC}\n"
