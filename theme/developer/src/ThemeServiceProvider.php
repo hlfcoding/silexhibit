@@ -20,9 +20,7 @@ class ThemeServiceProvider implements ThemeServiceInterface {
   }
 
   public function wrapTemplateData(array $data, Container $app) {
-    return array_merge($data, [
-      'debug_info' => json_encode($app['config'], JSON_PRETTY_PRINT),
-    ]);
+    return $data;
   }
 
 }

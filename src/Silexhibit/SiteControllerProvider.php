@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 class SiteControllerProvider implements ControllerProviderInterface {
 
   protected $config;
+  protected $post;
   protected $title;
 
   public function connect(Application $app) {
@@ -80,19 +81,19 @@ class SiteControllerProvider implements ControllerProviderInterface {
   }
 
   protected function renderPost(array $post, Application $app) {
-    $post = $app['adapter']->conventionalPost($post);
+    $this->post = $app['adapter']->conventionalPost($post);
     $this->config = $app['config'];
-    $this->config['site'] = $post['site'];
-    $this->title = $post['title'];
-    if (isset($post['exhibit'])) {
-      foreach ($post['exhibit'] as &$media) {
+    $this->config['site'] = $this->post['site'];
+    $this->title = $this->post['title'];
+    if (isset($this->post['exhibit'])) {
+      foreach ($this->post['exhibit'] as &$media) {
         $media['url'] = '/media/'.$media['file'];
         if ($app['env'] === PROD || in_array('cdn_url', $app['config']['debug'])) {
           $media['url'] = $this->config['cdn_url'].$media['url'];
         }
       }
     }
-    return $app['theme']->renderPost($post, $app);
+    return $app['theme']->renderPost($this->post, $app);
   }
 
   protected function renderIndex(array $index, $type, Application $app) {
@@ -112,6 +113,9 @@ class SiteControllerProvider implements ControllerProviderInterface {
         'full' => $request->getHttpHost().$request->getRequestUri(),
       ],
     ], $app);
+    $content['debug_info'] = in_array('template_data', $this->config['debug']) ? json_encode(
+      array_merge($content, array('post' => $this->post)),
+    JSON_PRETTY_PRINT) : null;
     $response->setContent(
       $app['mustache']->render('layout', $content)
     );

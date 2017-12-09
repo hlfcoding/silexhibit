@@ -40,7 +40,7 @@ class ThemeServiceProvider implements ThemeServiceInterface {
 
   public function wrapTemplateData(array $data, Container $app) {
     $config = require $app['root'].'config/theme/common.php';
-    $data = array_merge_recursive($data, [
+    return array_merge_recursive($data, [
       'config' => ['theme' => $config],
       'urls' => [
         'validation' => [
@@ -49,10 +49,6 @@ class ThemeServiceProvider implements ThemeServiceInterface {
         ],
       ],
     ]);
-    $data['debug_info'] = in_array('template_data', $app['config']['debug']) ? json_encode(
-      array_merge($data, array('post' => $this->post)),
-    JSON_PRETTY_PRINT) : null;
-    return $data;
   }
 
   protected function generatePreviewText($html, $max_length = 280) {
