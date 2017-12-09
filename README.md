@@ -21,7 +21,7 @@ Familiarity with web technologies and coding is required. PHP 5.6.x is required.
 4. Run `bin/install-theme -t=developer`.
 5. Create your theme and run `bin/install-theme` for it. See `theme/pengxwang`.
 6. Create your `config/prod.php` off of `config/dev.php`.
-7. When you're ready to deploy, run `bin/deploy -d=<ssh>:<path> -n=<db_name> -u=<db_user> --go` and if needed `bin/upload-media b=<bucket> --go`.
+7. When you're ready to deploy, run `bin/deploy -b=<bucket> -d=<ssh>:<path> -n=<db_name> -u=<db_user> --go`.
 
 ## License
 
