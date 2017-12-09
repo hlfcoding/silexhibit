@@ -29,30 +29,37 @@ echo -e "Installing theme..."
 
 current_theme=$(cat "$root_dir/var/st-theme")
 setup="$root_dir/theme/$theme/bin/setup"
-if [[ -x "$setup" && ($theme != "$current_theme" || "$hard" == true) ]]; then "$setup"
+if [[ $theme != "$current_theme" ]]; then hard=true; fi
+if [[ -x "$setup" && "$hard" == true ]]; then "$setup"
 else echo; fi
 
 cd "$root_dir/theme/$theme"
 
-cp -f src/ThemeServiceProvider.php "$root_dir/src/Silexhibit/"
+cp -af src/ThemeServiceProvider.php "$root_dir/src/Silexhibit/"
 echo -e "${GREEN}Installed theme PHP!${NC}"
 
-rm -rf "$root_dir/src/mustache/theme/"*.mustache
-cp -rf src/mustache/*.mustache "$root_dir/src/mustache/theme/"
+if [[ "$hard" == true ]]; then
+  rm -rf "$root_dir/src/mustache/theme/"*.mustache
+fi
+cp -af src/mustache/*.mustache "$root_dir/src/mustache/theme/"
 echo -e "${GREEN}Installed theme templates!${NC}"
 
-rm -rf "$root_dir/config/theme/"*.php
+if [[ "$hard" == true ]]; then
+  rm -rf "$root_dir/config/theme/"*.php
+fi
 if [[ -d config ]]; then
-  cp -rf config/*.php "$root_dir/config/theme/"
+  cp -af config/*.php "$root_dir/config/theme/"
   echo -e "${GREEN}Installed theme configurations!${NC}"
 fi
 
 function cp_any_assets {
   local from_dir=$1; local to_dir=$2
-  rm -rf "$to_dir"*.{css,js,ico,jpg,png,ttf,woff}
+  if [[ "$hard" == true ]]; then
+    rm -rf "$to_dir"*.{css,js,ico,jpg,png,ttf,woff}
+  fi
   if [[ ! -d "$from_dir" ]]; then return; fi
   for f in "$from_dir"*.{css,js,ico,jpg,png,ttf,woff}; do
-    if [[ -f "$f" ]]; then cp -f "$f" "$to_dir"; fi
+    if [[ -f "$f" ]]; then cp -af "$f" "$to_dir"; fi
   done
 }
 cp_any_assets web/ "$root_dir/web/theme/"
