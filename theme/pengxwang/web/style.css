@@ -339,6 +339,7 @@ button:not([disabled]):hover {
 .index {
   box-sizing: border-box;
   height: 100%;
+  overflow-y: auto;
   padding-bottom: var(--gutter);
   padding-right: var(--gutter);
   position: fixed;
