@@ -31,12 +31,14 @@ Thanks for looking at my source code. It's hand-coded and auto-formatted.
     <link rel="stylesheet" href="/theme/style.css">
   </head>
   <body>
-    <div id="index" class="index">
-      {{>index}}
+    <div class="layout">
+      <div id="index" class="index">
+        {{>index}}
+      </div>
+      <main id="post" role="main" class="post">
+        {{{post}}}
+      </main>
     </div>
-    <main id="post" role="main" class="post">
-      {{{post}}}
-    </main>
   {{#debug_info}}
     <script>console.info({{{debug_info}}});</script>
   {{/debug_info}}
