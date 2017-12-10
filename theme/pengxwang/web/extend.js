@@ -243,9 +243,13 @@
   });
 
   document.addEventListener('DOMContentLoaded', () => {
-    let navElement = document.querySelector('#index > nav');
+
+    let indexElement = document.querySelector('#index');
+    let navElement = indexElement.querySelector('nav');
     let accordion = Accordion.extend(navElement);
-    let slideshowElement = document.querySelector('#post .slideshow');
+
+    let postElement = document.querySelector('#post');
+    let slideshowElement = postElement.querySelector('.slideshow');
     if (slideshowElement !== null) {
       let slideshow = Slideshow.extend(slideshowElement);
       let counterElement = slideshowElement.querySelector('.counter');
@@ -254,6 +258,11 @@
         counterElement.textContent = `${index + 1}`;
       });
     }
+    let printElement = postElement.querySelector('button.print');
+    if (printElement !== null) {
+      printElement.addEventListener('click', () => print());
+    }
+
     const { Tip } = HLF;
     let navTip = Tip.extend(navElement.querySelectorAll('[title]'), {
       snapTo: 'y', contextElement: navElement
@@ -269,14 +278,11 @@
         });
         return;
       }
-      let footerTip = Tip.extend(sectionElement.querySelectorAll('[title]'), {
+      let tip = Tip.extend(sectionElement.querySelectorAll('[title]'), {
         snapTo: 'x', contextElement: sectionElement
       });
     });
-    let printElement = document.querySelector('button.print');
-    if (printElement !== null) {
-      printElement.addEventListener('click', () => print());
-    }
+
   });
 
 }());
