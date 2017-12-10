@@ -249,6 +249,7 @@
     let accordion = Accordion.extend(navElement);
 
     let postElement = document.querySelector('#post');
+    let articleElement = postElement.querySelector('article');
     let slideshowElement = postElement.querySelector('.slideshow');
     if (slideshowElement !== null) {
       let slideshow = Slideshow.extend(slideshowElement);
@@ -265,21 +266,21 @@
 
     const { Tip } = HLF;
     let navTip = Tip.extend(navElement.querySelectorAll('[title]'), {
-      snapTo: 'y', contextElement: navElement
+      snapTo: 'y', contextElement: navElement, viewportElement: indexElement
     });
     let footerElement = document.querySelector('#index > footer');
     let footerTip = Tip.extend(footerElement.querySelectorAll('[title]'), {
-      snapTo: 'x', contextElement: footerElement
+      snapTo: 'x', contextElement: footerElement, viewportElement: indexElement
     });
-    Array.from(document.querySelectorAll('#post section')).forEach((sectionElement) => {
+    Array.from(articleElement.children).forEach((sectionElement) => {
       if (sectionElement.classList.contains('external')) {
         let externalTip = Tip.extend(sectionElement.querySelectorAll('[title]'), {
-          snapTo: 'y', contextElement: sectionElement
+          snapTo: 'y', contextElement: sectionElement, viewportElement: postElement
         });
         return;
       }
       let tip = Tip.extend(sectionElement.querySelectorAll('[title]'), {
-        snapTo: 'x', contextElement: sectionElement
+        snapTo: 'x', contextElement: sectionElement, viewportElement: postElement
       });
     });
 
