@@ -336,6 +336,7 @@ button:not([disabled]):hover {
 
 /* - */
 
+body { overflow: hidden; }
 .layout {
   align-items: flex-start;
   display: flex;
@@ -357,6 +358,27 @@ button:not([disabled]):hover {
 }
 .post {
   width: var(--post-width);
+}
+@media (max-width: 600px) { /* --post-width */
+  .layout {
+    display: block;
+    height: 100%;
+    width: 100%;
+  }
+  .layout > * {
+    position: absolute;
+    top: 0;
+
+    margin-left: var(--gutter);
+    width: calc(100vw - var(--gutter) * 2);
+  }
+  .index {
+    height: auto;
+    z-index: 1;
+  }
+  .index > *:not(header) {
+    display: none;
+  }
 }
 @media print {
   .layout { position: static; }
@@ -583,6 +605,11 @@ article figcaption > span.caption {
   margin-bottom: 0;
 
   transition: -webkit-filter var(--duration);
+}
+@media (max-width: 600px) { /* --post-width */
+  .slide > figure > img {
+    width: calc(100vw - var(--gutter) * 2);
+  }
 }
 .slide.current > figure > img {
   -webkit-filter: none;
