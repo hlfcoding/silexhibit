@@ -528,6 +528,13 @@ article > p {
 article figcaption,
 article > p { padding-bottom: calc(var(--gutter) * 0.8125); /* line-height compensation */ }
 article > p.embed { border: 0; line-height: 0; padding: 0; }
+@media (max-width: 600px) { /* --post-width */
+  article > p.embed > iframe {
+    --width: calc(100vw - var(--gutter) * 2);
+    width: var(--width);
+  }
+  article > p.embed > iframe[data-aspect-ratio="4:3"] { height: calc(var(--width) / (4 / 3)); }
+}
 article figure > img[src$="_clear.png"] { background: none; box-shadow: none; }
 article nav.bar > button {
   margin-bottom: calc(var(--gutter) * -0.1875);
