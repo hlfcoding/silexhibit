@@ -62,6 +62,8 @@
 
   --gutter: 1rem;
   --index-width: 240px;
+  --logo-image-height: 48px;
+  --logo-height: 64px;
   --post-width: 600px;
 }
 @media print {
@@ -366,6 +368,7 @@ body { overflow: hidden; }
     width: 100%;
   }
   .layout > * {
+    height: auto;
     position: absolute;
     top: 0;
 
@@ -373,11 +376,20 @@ body { overflow: hidden; }
     width: calc(100vw - var(--gutter) * 2);
   }
   .index {
-    height: auto;
     z-index: 1;
   }
   .index > *:not(header) {
     display: none;
+  }
+  .index.expanded {
+    bottom: 0;
+  }
+  .index.expanded > *:not(header) {
+    display: block;
+  }
+  .post {
+    bottom: 0;
+    top: calc(var(--logo-height) + var(--gutter) + 2px);
   }
 }
 @media print {
@@ -398,7 +410,7 @@ body { overflow: hidden; }
 .index .logo {
   margin: 0;
   padding-left: 3px;
-  padding-top: 17px;
+  padding-top: calc(var(--logo-height) - var(--logo-image-height));
   position: relative;
 }
 .logo > a {
@@ -413,13 +425,12 @@ body { overflow: hidden; }
 }
 .logo > div.highlighted,
 .logo > a {
-  --height: 48px;
   background-image: url(/media/theme/logo-sprite.jpg);
-  height: var(--height);
+  height: var(--logo-image-height);
   width: 225px;
 }
 .logo > div.highlighted {
-  background-position: 0 calc(1px - var(--height));
+  background-position: 0 calc(1px - var(--logo-image-height));
 }
 .logo > a:hover { opacity: 0; }
 .index > nav {
