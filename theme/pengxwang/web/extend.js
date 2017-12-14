@@ -247,6 +247,14 @@
     let indexElement = document.querySelector('#index');
     let navElement = indexElement.querySelector('nav');
     let accordion = Accordion.extend(navElement);
+    if (getComputedStyle(navElement).display === 'none') {
+      const expandedClass = 'js-expanded';
+      let logoAnchorElement = indexElement.querySelector('.logo > a');
+      logoAnchorElement.addEventListener('click', (event) => {
+        indexElement.classList.toggle(expandedClass);
+        event.preventDefault();
+      });
+    }
 
     let postElement = document.querySelector('#post');
     let articleElement = postElement.querySelector('article');

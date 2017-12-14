@@ -378,13 +378,14 @@ body { overflow: hidden; }
   .index {
     z-index: 1;
   }
+  .index.js-expanded + .post,
   .index > *:not(header) {
     display: none;
   }
-  .index.expanded {
+  .index.js-expanded {
     bottom: 0;
   }
-  .index.expanded > *:not(header) {
+  .index.js-expanded > *:not(header) {
     display: block;
   }
   .post {
