@@ -171,6 +171,8 @@ body {
 
 /* - */
 
+* { -webkit-tap-highlight-color: var(--light-10); }
+
 input, select, textarea { color: var(--text-color); }
 abbr, strong { color: var(--grayscale-0); }
 
