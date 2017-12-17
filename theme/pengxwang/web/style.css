@@ -615,6 +615,7 @@ article > section > header {
   margin-bottom: var(--gutter);
   margin-top: calc(var(--gutter) / 2);
 }
+section .body.columnar h4,
 section > .body h4 {
   margin-bottom: calc(var(--gutter) / 4);
   padding-bottom: calc(var(--gutter) / 3);
@@ -637,6 +638,18 @@ section > .body:not(.columnar) > li:not(:last-child) {
 .body.columnar ul.has-icons > li > *:first-child { flex-grow: 1; }
 .body.columnar ul.has-icons > li > a { border-bottom: 0; }
 .body.columnar ul.has-icons > li > [class^="icon-"] { text-align: center; width: 1rem; }
+@media (max-width: 600px) { /* --post-width */
+  section > .body-wrap {
+    overflow-x: auto;
+
+    --scrollbar-pull: calc(var(--gutter) * 0.5);
+    margin-bottom: calc(var(--scrollbar-pull) * -1);
+  }
+  .body-wrap > .body.columnar {
+    min-width: calc(var(--column-count) * 50%);
+    margin-bottom: var(--scrollbar-pull);
+  }
+}
 section > header.has-button,
 nav.bar {
   align-items: center;
