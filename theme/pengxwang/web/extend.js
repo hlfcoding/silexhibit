@@ -83,6 +83,7 @@
     static get defaults() {
       return {
         currentSlideClass: 'current',
+        fullScreenSlideClass: 'full-screen',
         highlightClass: 'highlighted',
         highlightDuration: 500,
         selectors: {
@@ -181,6 +182,27 @@
     }
     _onSlidesClick(event) {
       if (!this.currentSlideElement.contains(event.target)) { return; }
+      if (this.currentSlideElement.classList.contains(this.fullScreenSlideClass)) {
+        return this.currentSlideElement.classList.remove(this.fullScreenSlideClass);
+      }
+      const maxDelay = 300;
+      if (!this._startClickTime) {
+        this._startClickTime = Date.now();
+        this.setTimeout('_endClickTimeout', maxDelay, () => {
+          this._onSlidesClick(event);
+        });
+        this.debugLog('click:start');
+        return;
+      } else {
+        const delta = Date.now() - this._startClickTime;
+        this._startClickTime = null;
+        this.setTimeout('_endClickTimeout', null);
+        if (delta < maxDelay) {
+          this.debugLog('click:end');
+          return this.currentSlideElement.classList.add(this.fullScreenSlideClass);
+        }
+        this.debugLog('click:fail');
+      }
       if (event.offsetX < (event.target.offsetWidth / 2)) {
         if (this.changeSlide(this.currentSlideIndex - 1)) {
           this._highlightElement(this.previousElement);
@@ -194,6 +216,7 @@
       }
     }
     _onSlidesScroll(event) {
+      if (this.currentSlideElement.classList.contains(this.fullScreenSlideClass)) { return; }
       this.debugLog('scroll');
       this.setTimeout('_scrollTimeout', 96, () => {
         this.debugLog('did-scroll');
