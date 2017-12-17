@@ -721,11 +721,12 @@ h3.haiku {
 }
 
 article > section.intro {
-  min-height: 300px;
-
   background-image: url(/media/theme/portrait.png);
   background-position: bottom right;
   background-repeat: no-repeat;
+
+  --image-height: 300px;
+  min-height: var(--image-height);
 }
 article > section.intro > * {
   margin-right: 230px;
@@ -733,4 +734,17 @@ article > section.intro > * {
   --centering-margin: calc(var(--gutter) * 1.75);
   margin-bottom: var(--centering-margin);
   margin-top: var(--centering-margin);
+}
+@media (max-width: 600px) { /* --post-width */
+  article > section.intro {
+    background-position: bottom center;
+
+    padding-bottom: var(--image-height);
+  }
+  article > section.intro > * {
+    margin-right: 0;
+
+    margin-bottom: var(--gutter);
+    margin-top: var(--gutter);
+  }
 }
