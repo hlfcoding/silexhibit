@@ -65,6 +65,8 @@
   --logo-image-height: 48px;
   --logo-height: 64px;
   --post-width: 600px;
+
+  --collapsed-index-height: calc(var(--logo-height) + var(--gutter) + 2px);
 }
 @media print {
   :root {
@@ -159,11 +161,12 @@
 /* - */
 
 body {
-  background: url(/media/theme/bg-space-tile.jpg) 0 0 repeat-x fixed;
   cursor: default;
   margin: 0;
   text-align: left;
 
+  --background: url(/media/theme/bg-space-tile.jpg) 0 0 repeat-x fixed;
+  background: var(--background);
   background-color: var(--background-color);
   color: var(--text-color);
   font-family: var(--sans-serif);
@@ -378,7 +381,7 @@ body { overflow: hidden; }
     width: calc(100vw - var(--gutter) * 2);
   }
   .index {
-    z-index: 1;
+    z-index: 2;
   }
   .index.js-expanded + .post,
   .index > *:not(header) {
@@ -392,7 +395,7 @@ body { overflow: hidden; }
   }
   .post {
     bottom: 0;
-    top: calc(var(--logo-height) + var(--gutter) + 2px);
+    padding-top: var(--collapsed-index-height);
   }
 }
 @media print {
@@ -436,6 +439,60 @@ body { overflow: hidden; }
   background-position: 0 calc(1px - var(--logo-image-height));
 }
 .logo > a:hover { opacity: 0; }
+@media (max-width: 600px) { /* --post-width */
+  .index:not(.js-expanded) > header { background: transparent; border: 0; box-shadow: none; }
+  .index .logo {
+    padding-left: 0;
+
+    height: var(--logo-image-height);
+  }
+  .logo > a:hover { opacity: initial; }
+  .logo > div.highlighted { display: none; }
+  .index.js-expanded .logo > a {
+    left: 1px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+  }
+  .index:not(.js-expanded) .logo > a {
+    background-image: none;
+    left: 50%;
+    line-height: 2;
+    transform: translateX(-50%);
+
+    --size: 24px;
+    height: var(--size);
+    top: calc((var(--collapsed-index-height) - var(--size)) / 2);
+    width: var(--size);
+  }
+  .index:not(.js-expanded) .logo > a::after,
+  .index:not(.js-expanded) .logo > a::before {
+    content: '';
+    display: block;
+    left: 1px;
+    position: absolute;
+
+    background: var(--accent-1-50);
+    height: calc(var(--size) / 3);
+    top: calc(var(--size) / 3);
+    width: calc(var(--size) - 1px);
+  }
+  .index:not(.js-expanded) .logo > a::after { transform: rotate(-45deg); }
+  .index:not(.js-expanded) .logo > a::before { transform: rotate(45deg); }
+  .index:not(.js-expanded) + .post::before {
+    content: '';
+    display: block;
+    left: 0;
+    opacity: 0.7;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+
+    background: var(--background);
+    height: calc(var(--collapsed-index-height) - 1px);
+  }
+}
 .index > nav {
   border-style: solid;
   border-width: 1px 1px 1px 0;
