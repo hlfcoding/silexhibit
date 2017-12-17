@@ -684,10 +684,19 @@ article figcaption > span.caption {
 
   transition: -webkit-filter var(--duration);
 }
+.slide .caption > .compact { display: none; }
 @media (max-width: 600px) { /* --post-width */
+  article figcaption > span.caption { margin-left: 0.3em; }
   .slide > figure > img {
-    width: calc(100vw - var(--gutter) * 2);
+    --figcaption-height: calc(var(--md-line-height) + var(--gutter) * 1.8125);
+    max-height: calc(
+      100vh - var(--collapsed-index-height) - 1px
+      - var(--gutter) * 2 - var(--figcaption-height)
+    );
+    max-width: calc(100vw - var(--gutter) * 2);
   }
+  .slide .caption > :not(.compact) { display: none; }
+  .slide .caption > .compact { display: initial; }
 }
 .slide.current > figure > img {
   -webkit-filter: none;
