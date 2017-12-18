@@ -272,9 +272,17 @@
     let accordion = Accordion.extend(navElement);
     if (getComputedStyle(navElement).display === 'none') {
       const expandedClass = 'js-expanded';
+      const visibleClass = 'js-expanded-visible';
       let logoAnchorElement = indexElement.querySelector('.logo > a');
       logoAnchorElement.addEventListener('click', (event) => {
-        indexElement.classList.toggle(expandedClass);
+        if (indexElement.classList.contains(expandedClass)) {
+          indexElement.classList.remove(visibleClass);
+          setTimeout(() => { indexElement.classList.remove(expandedClass); }, 1000 *
+            parseFloat(getComputedStyle(indexElement).getPropertyValue('--expand-duration')));
+        } else {
+          indexElement.classList.add(expandedClass);
+          setTimeout(() => { indexElement.classList.add(visibleClass); }, 0);
+        }
         event.preventDefault();
       });
     }

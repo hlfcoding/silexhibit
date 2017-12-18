@@ -382,11 +382,17 @@ body { overflow: hidden; }
   }
   .index {
     z-index: 2;
+    --expand-duration: 0.4s;
   }
-  .index.js-expanded + .post,
+  .index.js-expanded-visible + .post,
   .index > footer,
   .index > nav {
     display: none;
+  }
+  .index > footer,
+  .index > nav {
+    opacity: 0;
+    transition: opacity var(--expand-duration);
   }
   .post,
   .index.js-expanded {
@@ -395,6 +401,10 @@ body { overflow: hidden; }
   .index.js-expanded > footer,
   .index.js-expanded > nav {
     display: block;
+  }
+  .index.js-expanded-visible > footer,
+  .index.js-expanded-visible > nav {
+    opacity: 1;
   }
   .post {
     padding-top: var(--collapsed-index-height);
@@ -442,7 +452,8 @@ body { overflow: hidden; }
 }
 .logo > a:hover { opacity: 0; }
 @media (max-width: 600px) { /* --post-width */
-  .index:not(.js-expanded) > header { background: transparent; border-color: transparent; box-shadow: none; }
+  .index > header { transition: background var(--expand-duration); }
+  .index:not(.js-expanded-visible) > header { background: transparent; border-color: transparent; box-shadow: none; }
   .index .logo {
     padding-left: 0;
 
@@ -450,13 +461,13 @@ body { overflow: hidden; }
   }
   .logo > a:hover { opacity: initial; }
   .logo > div.highlighted { display: none; }
-  .index.js-expanded .logo > a {
+  .index.js-expanded-visible .logo > a {
     left: 1px;
     margin-left: auto;
     margin-right: auto;
     position: relative;
   }
-  .index:not(.js-expanded) .logo > a {
+  .index:not(.js-expanded-visible) .logo > a {
     background-image: none;
     left: calc(50% + 1.5px);
     line-height: 2;
@@ -467,8 +478,8 @@ body { overflow: hidden; }
     top: calc((var(--collapsed-index-height) - var(--size)) / 2 + 1px);
     width: var(--size);
   }
-  .index:not(.js-expanded) .logo > a::after,
-  .index:not(.js-expanded) .logo > a::before {
+  .index:not(.js-expanded-visible) .logo > a::after,
+  .index:not(.js-expanded-visible) .logo > a::before {
     content: '';
     display: block;
     left: 0;
@@ -479,9 +490,9 @@ body { overflow: hidden; }
     top: calc(var(--size) / 3);
     width: calc(var(--size) - 1px);
   }
-  .index:not(.js-expanded) .logo > a::after { transform: rotate(-45deg); }
-  .index:not(.js-expanded) .logo > a::before { transform: rotate(45deg); }
-  .index:not(.js-expanded) + .post::before {
+  .index:not(.js-expanded-visible) .logo > a::after { transform: rotate(-45deg); }
+  .index:not(.js-expanded-visible) .logo > a::before { transform: rotate(45deg); }
+  .index:not(.js-expanded-visible) + .post::before {
     content: '';
     display: block;
     left: 0;
