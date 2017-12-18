@@ -442,7 +442,7 @@ body { overflow: hidden; }
 }
 .logo > a:hover { opacity: 0; }
 @media (max-width: 600px) { /* --post-width */
-  .index:not(.js-expanded) > header { background: transparent; border: 0; box-shadow: none; }
+  .index:not(.js-expanded) > header { background: transparent; border-color: transparent; box-shadow: none; }
   .index .logo {
     padding-left: 0;
 
@@ -458,24 +458,24 @@ body { overflow: hidden; }
   }
   .index:not(.js-expanded) .logo > a {
     background-image: none;
-    left: 50%;
+    left: calc(50% + 1.5px);
     line-height: 2;
     transform: translateX(-50%);
 
     --size: 24px;
     height: var(--size);
-    top: calc((var(--collapsed-index-height) - var(--size)) / 2);
+    top: calc((var(--collapsed-index-height) - var(--size)) / 2 + 1px);
     width: var(--size);
   }
   .index:not(.js-expanded) .logo > a::after,
   .index:not(.js-expanded) .logo > a::before {
     content: '';
     display: block;
-    left: 1px;
+    left: 0;
     position: absolute;
 
     background: var(--accent-1-50);
-    height: calc(var(--size) / 3);
+    height: calc(var(--size) / 4);
     top: calc(var(--size) / 3);
     width: calc(var(--size) - 1px);
   }
