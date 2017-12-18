@@ -382,6 +382,7 @@ body { overflow: hidden; }
   }
   .index {
     z-index: 2;
+    --expand-delay: 0.1s;
     --expand-duration: 0.4s;
   }
   .index.js-expanded-visible + .post,
@@ -393,6 +394,10 @@ body { overflow: hidden; }
   .index > nav {
     opacity: 0;
     transition: opacity var(--expand-duration);
+  }
+  .index.js-expanded-visible > footer,
+  .index:not(.js-expanded-visible) > nav {
+    transition-delay: var(--expand-delay);
   }
   .post,
   .index.js-expanded {
