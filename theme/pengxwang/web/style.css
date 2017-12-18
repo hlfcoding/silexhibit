@@ -384,17 +384,19 @@ body { overflow: hidden; }
     z-index: 2;
   }
   .index.js-expanded + .post,
-  .index > *:not(header) {
+  .index > footer,
+  .index > nav {
     display: none;
   }
+  .post,
   .index.js-expanded {
     bottom: 0;
   }
-  .index.js-expanded > *:not(header) {
+  .index.js-expanded > footer,
+  .index.js-expanded > nav {
     display: block;
   }
   .post {
-    bottom: 0;
     padding-top: var(--collapsed-index-height);
   }
 }
