@@ -9,7 +9,7 @@
 
 > [Indexhibit](https://indexhibit.org) is a pioneering CMS web application founded in 2006 which is used to create websites in the established index + exhibit format.
 
-I once built my [site](http://pengxwang.com) on it and customized it to suit my needs, years later leading me to fully rebuild it with Silex and more common conventions, as well as with backwards compatibility for the database schema. Through the process (and one failed rewrite), I have revised the original design to suit my simple needs. Themes now have full responsibility over presentation and must use Mustache. Most workflow tasks are handled by small shell executables. Only the Site and not the (forthcoming) CMS is deployed, and assets are expected to deploy to S3. Plugin and statistics support are removed. I'm open to revisiting these strict decisions if a community with different needs arise.
+I once built my [site](http://pengxwang.com) on it and customized it to suit my needs, years later leading me to fully rebuild it with Silex and more common conventions, as well as with backwards compatibility for the database schema. Through the process (and one failed rewrite), I have revised the original design to suit my simple needs. Themes now have full responsibility over presentation and must use Mustache. Most workflow tasks are handled by small shell executables. Only the Site and not the (forthcoming) CMS is deployed, and assets are expected to deploy to S3. Plugin and statistics support are removed. I'm open to revisiting these strict decisions if a community with different needs arises.
 
 ## Usage
 
