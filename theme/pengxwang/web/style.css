@@ -377,7 +377,7 @@ body { overflow: hidden; }
     position: absolute;
     top: 0;
 
-    margin-left: var(--gutter);
+    padding-left: var(--gutter);
     width: calc(100vw - var(--gutter) * 2);
   }
   .index {
