@@ -717,7 +717,6 @@ article figcaption > span.caption {
 }
 .slide .caption > .compact { display: none; }
 .slideshow .slide.full-screen > figure {
-  box-sizing: border-box;
   height: 100%;
   left: 0;
   overflow: auto;
@@ -727,14 +726,16 @@ article figcaption > span.caption {
   z-index: 3;
 
   background: var(--shade-90);
-  border: var(--gutter) solid transparent;
 }
 .slide.full-screen > figure > figcaption { display: none; }
 .slide.full-screen > figure > img {
+  background: transparent;
   bottom: 0; left: 0; right: 0; top: 0;
   display: block;
   margin: auto;
   position: absolute;
+
+  border: var(--gutter) solid transparent;
 }
 @media (max-width: 600px) { /* --post-width */
   article figcaption > span.caption { margin-left: 0.3em; }
