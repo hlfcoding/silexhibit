@@ -185,6 +185,7 @@
       if (this.currentSlideElement.classList.contains(this.fullScreenSlideClass)) {
         return this.currentSlideElement.classList.remove(this.fullScreenSlideClass);
       }
+      if (event.target.tagName.toLowerCase() !== 'img') { return; }
       const maxDelay = 300;
       if (!this._startClickTime) {
         this._startClickTime = Date.now();
