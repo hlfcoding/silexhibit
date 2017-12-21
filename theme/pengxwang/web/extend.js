@@ -269,24 +269,35 @@
   document.addEventListener('DOMContentLoaded', () => {
 
     let indexElement = document.querySelector('#index');
+    let layoutElement = indexElement.parentElement;
     let navElement = indexElement.querySelector('nav');
     let accordion = Accordion.extend(navElement);
-    if (getComputedStyle(navElement).display === 'none') {
-      const expandedClass = 'js-expanded';
-      const visibleClass = 'js-expanded-visible';
-      const expandDelay = 1000 * parseFloat(getComputedStyle(indexElement).getPropertyValue('--expand-delay'));
-      const expandDuration = 1000 * parseFloat(getComputedStyle(indexElement).getPropertyValue('--expand-duration'));
-      let logoAnchorElement = indexElement.querySelector('.logo > a');
-      logoAnchorElement.addEventListener('click', (event) => {
-        if (indexElement.classList.contains(expandedClass)) {
-          indexElement.classList.remove(visibleClass);
-          setTimeout(() => { indexElement.classList.remove(expandedClass); }, expandDuration + expandDelay);
-        } else {
-          indexElement.classList.add(expandedClass);
-          setTimeout(() => { indexElement.classList.add(visibleClass); }, 0);
-        }
-        event.preventDefault();
-      });
+
+    if (document.body.clientWidth < layoutElement.offsetWidth) {
+      if (getComputedStyle(navElement).display === 'none') {
+        const expandedClass = 'js-expanded';
+        const visibleClass = 'js-expanded-visible';
+        const expandDelay = 1000 * parseFloat(getComputedStyle(indexElement).getPropertyValue('--expand-delay'));
+        const expandDuration = 1000 * parseFloat(getComputedStyle(indexElement).getPropertyValue('--expand-duration'));
+        let logoAnchorElement = indexElement.querySelector('.logo > a');
+        logoAnchorElement.addEventListener('click', (event) => {
+          if (indexElement.classList.contains(expandedClass)) {
+            indexElement.classList.remove(visibleClass);
+            setTimeout(() => { indexElement.classList.remove(expandedClass); }, expandDuration + expandDelay);
+          } else {
+            indexElement.classList.add(expandedClass);
+            setTimeout(() => { indexElement.classList.add(visibleClass); }, 0);
+          }
+          event.preventDefault();
+        });
+      } else {
+        const closedClass = 'js-drawer-closed';
+        layoutElement.addEventListener('click', (event) => {
+          if (event.target !== indexElement && event.target !== layoutElement) { return; }
+          indexElement.classList.toggle(closedClass);
+        });
+        indexElement.classList.add(closedClass);
+      }
     }
 
     let postElement = document.querySelector('#post');
