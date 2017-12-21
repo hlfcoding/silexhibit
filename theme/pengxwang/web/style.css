@@ -366,6 +366,24 @@ body { overflow: hidden; }
 .post {
   width: var(--post-width);
 }
+@media (max-width: 871px) and (min-width: 601px) { /* --full-width */
+  .index {
+    flex-basis: var(--index-width);
+    transition-duration: 0.2s;
+    transition-property: flex-basis, margin-right, padding-right;
+    transition-timing-function: linear;
+  }
+  .index > footer,
+  .index > nav {
+    box-sizing: border-box;
+    width: var(--index-width);
+  }
+  .index.js-drawer-closed {
+    flex-basis: 0;
+    margin-right: calc((100vw - var(--post-width)) / 2);
+    padding-right: 0;
+  }
+}
 @media (max-width: 600px) { /* --post-width */
   .layout {
     display: block;
