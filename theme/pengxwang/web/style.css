@@ -346,9 +346,9 @@ body { overflow: hidden; }
 .layout {
   align-items: flex-start;
   display: flex;
-  position: absolute;
   height: 100%;
   overflow-y: auto;
+  position: absolute;
 }
 .layout::-webkit-scrollbar { display: none; }
 .layout > * {
@@ -364,7 +364,7 @@ body { overflow: hidden; }
 .post {
   width: var(--post-width);
 }
-@media (max-width: 871px) and (min-width: 601px) { /* --full-width */
+@media (max-width: 871px) and (min-width: 601px) { /* --full-layout-width */
   .index {
     flex-basis: var(--index-width);
     transition-duration: 0.2s;
