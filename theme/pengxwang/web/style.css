@@ -353,7 +353,6 @@ body { overflow: hidden; }
 }
 .layout::-webkit-scrollbar { display: none; }
 .layout > * {
-  flex: 0 0 auto;
   height: 100%;
   margin-right: calc(var(--gutter) * 0.1875);
   overflow-y: auto;
