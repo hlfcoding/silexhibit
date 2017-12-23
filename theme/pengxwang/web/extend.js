@@ -273,7 +273,7 @@
     let navElement = indexElement.querySelector('nav');
     let accordion = Accordion.extend(navElement);
 
-    if (document.body.clientWidth < layoutElement.offsetWidth) {
+    if (layoutElement.offsetWidth < parseFloat(getComputedStyle(layoutElement).maxWidth)) {
       if (getComputedStyle(navElement).display === 'none') {
         const expandedClass = 'js-expanded';
         const visibleClass = 'js-expanded-visible';

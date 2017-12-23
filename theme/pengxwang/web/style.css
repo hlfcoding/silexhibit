@@ -67,6 +67,7 @@
   --post-width: 600px;
 
   --collapsed-index-height: calc(var(--logo-height) + var(--gutter) + 2px);
+  --full-layout-width: calc(var(--index-width) + var(--gutter) + var(--post-width) + var(--gutter));
 }
 @media print {
   :root {
@@ -349,6 +350,8 @@ body { overflow: hidden; }
   height: 100%;
   overflow-y: auto;
   position: absolute;
+
+  max-width: var(--full-layout-width);
 }
 .layout::-webkit-scrollbar { display: none; }
 .layout > * {
