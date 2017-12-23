@@ -707,6 +707,7 @@ article figcaption > span.caption {
   opacity: 0.33;
 }
 .slideshow > .slides {
+  -webkit-overflow-scrolling: touch;
   display: flex;
   overflow-x: scroll;
   scroll-snap-type: mandatory;
