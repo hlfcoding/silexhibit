@@ -165,9 +165,8 @@ body {
   margin: 0;
   text-align: left;
 
-  --background: url(/media/theme/bg-space-tile.jpg) 0 0 repeat-x fixed;
+  --background: var(--background-color) url(/media/theme/bg-space-tile.jpg) 0 0 repeat-x fixed;
   background: var(--background);
-  background-color: var(--background-color);
   color: var(--text-color);
   font-family: var(--sans-serif);
 }
@@ -384,8 +383,15 @@ body { overflow: hidden; }
   }
 }
 @media (max-width: 600px) { /* --post-width */
+  body {
+    background: none;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
   .layout {
-    display: block;
+    background: var(--background);
     height: 100%;
     width: 100%;
   }
