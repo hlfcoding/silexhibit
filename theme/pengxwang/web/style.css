@@ -771,6 +771,8 @@ article figcaption > span.caption {
 @media (max-width: 600px) { /* --post-width */
   article figcaption > span.caption { margin-left: 0.3em; }
   .slide:not(.full-screen) > figure > img {
+    margin: 0 auto;
+
     --figcaption-height: calc(var(--md-line-height) + var(--gutter) * 1.8125);
     max-height: calc(
       100vh - var(--collapsed-index-height) - 1px
@@ -780,6 +782,11 @@ article figcaption > span.caption {
   }
   .slide .caption > :not(.compact) { display: none; }
   .slide .caption > .compact { display: initial; }
+  .slide figcaption {
+    font-size: var(--x-sm-font-size);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
 }
 .slide.current > figure > img {
   -webkit-filter: none;
