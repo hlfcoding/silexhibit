@@ -270,6 +270,8 @@
 
     let indexElement = document.querySelector('#index');
     let layoutElement = indexElement.parentElement;
+    let postElement = document.querySelector('#post');
+
     let navElement = indexElement.querySelector('nav');
     let accordion = Accordion.extend(navElement);
 
@@ -300,7 +302,6 @@
       }
     }
 
-    let postElement = document.querySelector('#post');
     let articleElement = postElement.querySelector('article');
     let slideshowElement = postElement.querySelector('.slideshow');
     if (slideshowElement !== null) {
