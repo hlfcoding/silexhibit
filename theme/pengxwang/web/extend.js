@@ -281,7 +281,12 @@
         const visibleClass = 'js-expanded-visible';
         const expandDelay = 1000 * parseFloat(getComputedStyle(indexElement).getPropertyValue('--expand-delay'));
         const expandDuration = 1000 * parseFloat(getComputedStyle(indexElement).getPropertyValue('--expand-duration'));
-        let logoAnchorElement = indexElement.querySelector('.logo > a');
+        let logoElement = indexElement.querySelector('.logo');
+        let logoAnchorElement = logoElement.querySelector('a');
+        logoElement.addEventListener('click', (event) => {
+          if (event.target !== logoElement) { return; }
+          postElement.scrollTop = 0;
+        });
         logoAnchorElement.addEventListener('click', (event) => {
           if (indexElement.classList.contains(expandedClass)) {
             indexElement.classList.remove(visibleClass);
