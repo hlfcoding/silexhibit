@@ -773,12 +773,8 @@ article figcaption > span.caption {
   .slide:not(.full-screen) > figure > img {
     margin-left: auto;
     margin-right: auto;
+    max-height: 61vh; /* nicolas-hoizey.com/2015/02/viewport-height-is-taller-than-the-visible-part-of-the-document-in-some-mobile-browsers.html */
 
-    --figcaption-height: calc(var(--md-line-height) + var(--gutter) * 1.8125);
-    max-height: calc(
-      100vh - var(--collapsed-index-height) - 1px
-      - var(--gutter) * 2 - var(--figcaption-height)
-    );
     margin-bottom: var(--gutter);
     max-width: calc(100vw - var(--gutter) * 2);
   }
