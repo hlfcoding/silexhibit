@@ -183,6 +183,7 @@
     _onSlidesClick(event) {
       if (!this.currentSlideElement.contains(event.target)) { return; }
       if (this.currentSlideElement.classList.contains(this.fullScreenSlideClass)) {
+        this.slidesElement.classList.remove(this.fullScreenSlideClass);
         return this.currentSlideElement.classList.remove(this.fullScreenSlideClass);
       }
       if (event.target.tagName.toLowerCase() !== 'img') { return; }
@@ -200,6 +201,7 @@
         this.setTimeout('_endClickTimeout', null);
         if (delta < maxDelay) {
           this.debugLog('click:end');
+          this.slidesElement.classList.add(this.fullScreenSlideClass);
           return this.currentSlideElement.classList.add(this.fullScreenSlideClass);
         }
         this.debugLog('click:fail');
