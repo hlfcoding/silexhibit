@@ -771,13 +771,15 @@ article figcaption > span.caption {
 @media (max-width: 600px) { /* --post-width */
   article figcaption > span.caption { margin-left: 0.3em; }
   .slide:not(.full-screen) > figure > img {
-    margin: 0 auto;
+    margin-left: auto;
+    margin-right: auto;
 
     --figcaption-height: calc(var(--md-line-height) + var(--gutter) * 1.8125);
     max-height: calc(
       100vh - var(--collapsed-index-height) - 1px
       - var(--gutter) * 2 - var(--figcaption-height)
     );
+    margin-bottom: var(--gutter);
     max-width: calc(100vw - var(--gutter) * 2);
   }
   .slide .caption > :not(.compact) { display: none; }
