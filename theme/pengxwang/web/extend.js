@@ -269,6 +269,38 @@
   });
 
   let setup = {};
+  setup.adaptivity = {
+    indexDrawer({ indexElement, layoutElement }) {
+      const closedClass = 'js-drawer-closed';
+      layoutElement.addEventListener('click', (event) => {
+        if (event.target !== indexElement && event.target !== layoutElement) { return; }
+        indexElement.classList.toggle(closedClass);
+      });
+      indexElement.classList.add(closedClass);
+    },
+    indexExpansion({ indexElement, postElement }) {
+      const expandedClass = 'js-expanded';
+      const visibleClass = 'js-expanded-visible';
+      const expandDelay = 1000 * parseFloat(getComputedStyle(indexElement).getPropertyValue('--expand-delay'));
+      const expandDuration = 1000 * parseFloat(getComputedStyle(indexElement).getPropertyValue('--expand-duration'));
+      let logoElement = indexElement.querySelector('.logo');
+      let logoAnchorElement = logoElement.querySelector('a');
+      logoElement.addEventListener('click', (event) => {
+        if (event.target !== logoElement) { return; }
+        postElement.scrollTop = 0;
+      });
+      logoAnchorElement.addEventListener('click', (event) => {
+        if (indexElement.classList.contains(expandedClass)) {
+          indexElement.classList.remove(visibleClass);
+          setTimeout(() => { indexElement.classList.remove(expandedClass); }, expandDuration + expandDelay);
+        } else {
+          indexElement.classList.add(expandedClass);
+          setTimeout(() => { indexElement.classList.add(visibleClass); }, 0);
+        }
+        event.preventDefault();
+      });
+    },
+  };
   setup.extension = {
     accordion({ navElement }) {
       Accordion.extend(navElement);
@@ -316,36 +348,11 @@
 
     if (document.body.clientWidth < parseFloat(getComputedStyle(layoutElement).maxWidth)) {
       if (getComputedStyle(navElement).display === 'none') {
-        const expandedClass = 'js-expanded';
-        const visibleClass = 'js-expanded-visible';
-        const expandDelay = 1000 * parseFloat(getComputedStyle(indexElement).getPropertyValue('--expand-delay'));
-        const expandDuration = 1000 * parseFloat(getComputedStyle(indexElement).getPropertyValue('--expand-duration'));
-        let logoElement = indexElement.querySelector('.logo');
-        let logoAnchorElement = logoElement.querySelector('a');
-        logoElement.addEventListener('click', (event) => {
-          if (event.target !== logoElement) { return; }
-          postElement.scrollTop = 0;
-        });
-        logoAnchorElement.addEventListener('click', (event) => {
-          if (indexElement.classList.contains(expandedClass)) {
-            indexElement.classList.remove(visibleClass);
-            setTimeout(() => { indexElement.classList.remove(expandedClass); }, expandDuration + expandDelay);
-          } else {
-            indexElement.classList.add(expandedClass);
-            setTimeout(() => { indexElement.classList.add(visibleClass); }, 0);
-          }
-          event.preventDefault();
-        });
+        setup.adaptivity.indexExpansion({ indexElement, postElement });
       } else {
-        const closedClass = 'js-drawer-closed';
-        layoutElement.addEventListener('click', (event) => {
-          if (event.target !== indexElement && event.target !== layoutElement) { return; }
-          indexElement.classList.toggle(closedClass);
-        });
-        indexElement.classList.add(closedClass);
+        setup.adaptivity.indexDrawer({ indexElement, layoutElement });
       }
     }
-
     setup.extension.accordion({ navElement });
     setup.extension.slideshow({ slideshowElement });
     setup.extension.tips({ indexElement, navElement, footerElement, postElement, articleElement });
