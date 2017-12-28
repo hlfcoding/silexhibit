@@ -484,8 +484,14 @@ body { overflow: hidden; }
 .logo > div.highlighted,
 .logo > a {
   background-image: url(/media/theme/logo-sprite.jpg);
+
+  --image-width: 225px;
+  background-size: var(--image-width) auto;
   height: var(--logo-image-height);
-  width: 225px;
+  width: var(--image-width);
+}
+@media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) {
+  .logo > div.highlighted, .logo > a { background-image: url(/media/theme/logo-sprite@2x.jpg); }
 }
 .logo > div.highlighted {
   background-position: 0 calc(1px - var(--logo-image-height));
@@ -530,8 +536,8 @@ body { overflow: hidden; }
     position: absolute;
 
     background: var(--accent-1-50);
-    height: calc(var(--size) / 4);
-    top: calc(var(--size) / 3);
+    height: calc(var(--size) * 0.2911);
+    top: calc(var(--size) * 0.2911);
     width: calc(var(--size) - 1px);
   }
   .index:not(.js-expanded-visible) .logo > a::after { transform: rotate(-45deg); }
