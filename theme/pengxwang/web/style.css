@@ -844,7 +844,11 @@ article > section.intro {
   background-repeat: no-repeat;
 
   --image-height: 300px;
+  background-size: auto var(--image-height);
   min-height: var(--image-height);
+}
+@media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) {
+  article > section.intro { background-image: url(/media/theme/portrait@2x.png); }
 }
 article > section.intro > * {
   margin-right: 230px;
