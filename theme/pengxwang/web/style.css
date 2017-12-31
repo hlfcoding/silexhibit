@@ -607,12 +607,12 @@ body { overflow: hidden; }
 .section > li.active > a:hover {
   border-left-color: var(--accent-1-70);
 }
-.section button.accordion > span {
+.section button.accordion-trigger > span {
   display: block;
   padding: 0.4rem 0.5rem;
 }
-.section.js-ac-folded button.accordion > .icon-minus,
-.section:not(.js-ac-folded) button.accordion > .icon-plus { display: none; }
+.section.js-ac-folded button.accordion-trigger > .icon-minus,
+.section:not(.js-ac-folded) button.accordion-trigger > .icon-plus { display: none; }
 .index > footer {
   border-style: solid;
   border-width: 1px 1px 1px 0;
