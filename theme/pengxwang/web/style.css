@@ -100,6 +100,8 @@
     --shade-20: transparent;
     --shade-10: transparent;
     --shade-5: transparent;
+
+    --paper-drop-shadow: none;
   }
 }
 
@@ -350,33 +352,35 @@ button:not([disabled]):hover {
 
 /* - */
 
-body { overflow: hidden; }
-.layout {
-  align-items: flex-start;
-  display: flex;
-  height: 100%;
-  overflow-y: auto;
-  position: absolute;
+@media screen {
+  body { overflow: hidden; }
+  .layout {
+    align-items: flex-start;
+    display: flex;
+    height: 100%;
+    overflow-y: auto;
+    position: absolute;
 
-  max-width: var(--full-layout-width);
+    max-width: var(--full-layout-width);
+  }
+  .layout::-webkit-scrollbar { display: none; }
+  .layout > * {
+    height: 100%;
+    overflow-y: auto;
+    padding-right: calc(var(--gutter) * 0.8125);
+    scroll-behavior: smooth;
+  }
+  .index {
+    margin-right: calc(var(--gutter) * 0.1825 - var(--paper-drop-shadow-size));
+    width: var(--index-width);
+  }
+  .post {
+    padding-left: var(--paper-drop-shadow-size);
+    margin-right: calc(var(--gutter) * 0.1825);
+    width: var(--post-width);
+  }
 }
-.layout::-webkit-scrollbar { display: none; }
-.layout > * {
-  height: 100%;
-  overflow-y: auto;
-  padding-right: calc(var(--gutter) * 0.8125);
-  scroll-behavior: smooth;
-}
-.index {
-  margin-right: calc(var(--gutter) * 0.1825 - var(--paper-drop-shadow-size));
-  width: var(--index-width);
-}
-.post {
-  padding-left: var(--paper-drop-shadow-size);
-  margin-right: calc(var(--gutter) * 0.1825);
-  width: var(--post-width);
-}
-@media (max-width: 871px) and (min-width: 601px) { /* --full-layout-width */
+@media screen and (max-width: 871px) and (min-width: 601px) { /* --full-layout-width */
   .index {
     flex-basis: var(--index-width);
     transition-duration: 0.2s;
@@ -394,7 +398,7 @@ body { overflow: hidden; }
     padding-right: 0;
   }
 }
-@media (max-width: 600px) { /* --post-width */
+@media screen and (max-width: 600px) { /* --post-width */
   body {
     background: none;
     height: 100%;
@@ -451,7 +455,6 @@ body { overflow: hidden; }
   }
 }
 @media print {
-  .layout { position: static; }
   .index { display: none; }
 }
 
@@ -497,7 +500,7 @@ body { overflow: hidden; }
   background-position: 0 calc(1px - var(--logo-image-height));
 }
 .logo > a:hover { opacity: 0; }
-@media (max-width: 600px) { /* --post-width */
+@media screen and (max-width: 600px) { /* --post-width */
   .index > header {
     box-shadow: var(--paper-drop-shadow);
     transition: background var(--expand-duration);
@@ -652,19 +655,21 @@ article > p {
   box-shadow: var(--paper-shadows);
   margin-bottom: var(--gutter);
 }
-article figcaption,
-article nav.bar,
-article > section,
-article > p {
-  box-sizing: border-box;
+@media screen {
+  article figcaption,
+  article nav.bar,
+  article > section,
+  article > p {
+    box-sizing: border-box;
 
-  border: var(--paper-border);
-  padding: var(--gutter);
+    border: var(--paper-border);
+    padding: var(--gutter);
+  }
 }
 article figcaption,
 article > p { padding-bottom: calc(var(--gutter) * 0.8125); /* line-height compensation */ }
 article > p.embed { border: 0; line-height: 0; padding: 0; }
-@media (max-width: 600px) { /* --post-width */
+@media screen and (max-width: 600px) { /* --post-width */
   article > p.embed > iframe {
     --width: calc(100vw - var(--gutter) * 2);
     width: var(--width);
@@ -703,7 +708,7 @@ section > .body:not(.columnar) > li:not(:last-child) {
 .body.columnar ul.has-icons > li > *:first-child { flex-grow: 1; }
 .body.columnar ul.has-icons > li > a { border-bottom: 0; }
 .body.columnar ul.has-icons > li > [class^="icon-"] { text-align: center; width: 1rem; }
-@media (max-width: 600px) { /* --post-width */
+@media screen and (max-width: 600px) { /* --post-width */
   section > .body-wrap {
     overflow-x: auto;
 
@@ -770,7 +775,7 @@ article figcaption > span.caption {
 }
 .slide.current > figure > img { -webkit-filter: none; }
 .slide .caption > .compact { display: none; }
-@media (max-width: 600px) { /* --post-width */
+@media screen and (max-width: 600px) { /* --post-width */
   article figcaption > span.caption { margin-left: 0.3em; }
   .slides.full-screen { overflow: visible; }
   .slide.full-screen > figure > img {
@@ -824,7 +829,7 @@ article > section.intro > * {
   margin-bottom: var(--centering-margin);
   margin-top: var(--centering-margin);
 }
-@media (max-width: 600px) { /* --post-width */
+@media screen and (max-width: 600px) { /* --post-width */
   article > section.intro {
     background-position: bottom center;
 
