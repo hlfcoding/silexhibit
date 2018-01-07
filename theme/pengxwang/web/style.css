@@ -455,6 +455,7 @@ button:not([disabled]):hover {
   }
 }
 @media print {
+  @page { margin: 2cm 1cm; }
   .index { display: none; }
 }
 
