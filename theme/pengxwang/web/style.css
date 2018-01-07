@@ -1,3 +1,16 @@
+/*
+  1. Custom Properties
+  2. Body
+  3. Elements
+  4. JS Extensions
+  5. Layout
+  6. Index
+  7. Post
+  8. Custom Content
+*/
+
+/* 1. Custom Properties */
+
 :root {
   --light-100: rgba(255,255,255, 1);
   --light-90: rgba(255,255,255, 0.9);
@@ -168,7 +181,7 @@
 .icon-twitter::before { content: "\f099"; }
 .icon-vimeo::before { content: "\f27d"; }
 
-/* - */
+/* 2. Body */
 
 body {
   cursor: default;
@@ -181,7 +194,7 @@ body {
   font-family: var(--sans-serif);
 }
 
-/* - */
+/* 3. Elements */
 
 * { -webkit-tap-highlight-color: var(--light-10); }
 
@@ -334,7 +347,7 @@ button:not([disabled]):hover {
   color: var(--shade-60);
 }
 
-/* - */
+/* 4. JS Extensions */
 
 .js-tips-tip {
   --tip-fill-color: var(--grayscale-40);
@@ -350,7 +363,7 @@ button:not([disabled]):hover {
   text-transform: lowercase;
 }
 
-/* - */
+/* 5. Layout */
 
 @media screen {
   body { overflow: hidden; }
@@ -459,7 +472,7 @@ button:not([disabled]):hover {
   .index { display: none; }
 }
 
-/* - */
+/* 6. Index */
 
 .index > * {
   margin-bottom: var(--gutter);
@@ -645,7 +658,7 @@ button:not([disabled]):hover {
   font-size: var(--md-font-size);
 }
 
-/* - */
+/* 7. Post */
 
 article figure > img,
 article figcaption,
@@ -805,7 +818,7 @@ article figcaption > span.caption {
   .slideshow .slide { opacity: 1; }
 }
 
-/* - */
+/* 8. Custom Content */
 
 h3.haiku {
   line-height: 20px;
