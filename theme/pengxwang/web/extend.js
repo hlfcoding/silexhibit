@@ -69,7 +69,6 @@
       });
     },
   };
-
   document.addEventListener('DOMContentLoaded', () => {
     let indexElement = document.querySelector('#index');
     let layoutElement = indexElement.parentElement;
@@ -96,5 +95,4 @@
       printElement.addEventListener('click', () => print());
     }
   });
-
 }());
