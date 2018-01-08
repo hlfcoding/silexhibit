@@ -23,6 +23,8 @@ Familiarity with web technologies and coding is required. PHP 5.6.x is required.
 6. Create your `config/prod.php` off of `config/dev.php`.
 7. When you're ready to deploy, run `bin/deploy -b=<bucket> -d=<ssh>:<path> -n=<db_name> -u=<db_user> --go`.
 
+Note: for `bin` scripts that take options, the `--help` (`-h`) argument prints out usage info.
+
 ## License
 
 The MIT License (MIT)
