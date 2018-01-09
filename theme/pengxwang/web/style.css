@@ -769,7 +769,7 @@ article figcaption > span.caption {
   padding-bottom: 0;
   top: calc(var(--paper-drop-shadow-size) * -1);
 }
-.slideshow .slide.current:last-child {
+.slideshow .slide.js-ss-current:last-child {
   padding-right: var(--paper-drop-shadow-size);
 }
 .slideshow > .slides::-webkit-scrollbar {
@@ -782,20 +782,20 @@ article figcaption > span.caption {
   --duration: 0.4s;
   transition: opacity var(--duration);
 }
-.slideshow .slide.current { opacity: 1; }
+.slideshow .slide.js-ss-current { opacity: 1; }
 .slide > figure > img {
   -webkit-filter: grayscale(100%);
   transition: -webkit-filter var(--duration);
 }
-.slide.current > figure > img { -webkit-filter: none; }
+.slide.js-ss-current > figure > img { -webkit-filter: none; }
 .slide .caption > .compact { display: none; }
 @media screen and (max-width: 600px) { /* --post-width */
   article figcaption > span.caption { margin-left: 0.3em; }
-  .slides.full-screen { overflow: visible; }
-  .slide.full-screen > figure > img {
+  .slides.js-ss-full-screen { overflow: visible; }
+  .slide.js-ss-full-screen > figure > img {
     max-height: 80vh; /* nicolas-hoizey.com/2015/02/viewport-height-is-taller-than-the-visible-part-of-the-document-in-some-mobile-browsers.html */
   }
-  .slide:not(.full-screen) > figure > img {
+  .slide:not(.js-ss-full-screen) > figure > img {
     margin-left: auto;
     margin-right: auto;
     max-height: 61vh; /* nicolas-hoizey.com/2015/02/viewport-height-is-taller-than-the-visible-part-of-the-document-in-some-mobile-browsers.html */
@@ -811,7 +811,7 @@ article figcaption > span.caption {
     white-space: nowrap;
   }
 }
-.slideshow.single-slide nav.bar { display: none; }
+.slideshow.js-ss-single-slide nav.bar { display: none; }
 @media print {
   article > p.embed,
   nav.bar { display: none; }
